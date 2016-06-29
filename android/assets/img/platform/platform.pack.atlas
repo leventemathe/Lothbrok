@@ -1,0 +1,62 @@
+
+platform.pack.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cliff
+  rotate: false
+  xy: 0, 1080
+  size: 540, 540
+  orig: 540, 540
+  offset: 0, 0
+  index: -1
+lonely
+  rotate: false
+  xy: 0, 540
+  size: 540, 540
+  orig: 540, 540
+  offset: 0, 0
+  index: -1
+lonely_edge
+  rotate: false
+  xy: 540, 1080
+  size: 540, 540
+  orig: 540, 540
+  offset: 0, 0
+  index: -1
+mid
+  rotate: false
+  xy: 0, 0
+  size: 540, 540
+  orig: 540, 540
+  offset: 0, 0
+  index: -1
+slide
+  rotate: false
+  xy: 540, 540
+  size: 540, 540
+  orig: 540, 540
+  offset: 0, 0
+  index: -1
+slide_connector
+  rotate: false
+  xy: 1080, 1080
+  size: 540, 540
+  orig: 540, 540
+  offset: 0, 0
+  index: -1
+top_edge
+  rotate: false
+  xy: 540, 0
+  size: 540, 540
+  orig: 540, 540
+  offset: 0, 0
+  index: -1
+top_mid
+  rotate: false
+  xy: 1080, 540
+  size: 540, 540
+  orig: 540, 540
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,2 @@
+include ':trixt0r'
+include 'desktop', 'android', 'core'

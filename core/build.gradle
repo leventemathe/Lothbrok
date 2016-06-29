@@ -1,0 +1,28 @@
+apply plugin: "java"
+sourceCompatibility = 1.6
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+sourceSets.main.java.srcDirs = ["src/"]
+eclipse.project {
+    name = appName + "-core"
+}
+dependencies {
+    compile project(':trixt0r')
+}
+
+import com.badlogic.gdx.tools.texturepacker.TexturePacker
+
+project.ext.platform = ["core/assets_raw/img/platform", "android/assets/img/platform", "platform.pack"]
+project.ext.settings = new com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings();
+
+task packPlatform << {
+    if (project.ext.has('platform')) {
+        logger.info "Calling TexturePacker: "+ platform
+        settings.maxWidth = 2048
+        settings.maxHeight = 2048
+        settings.paddingX = 0
+        settings.paddingY = 0
+        TexturePacker.process(settings, platform[0], platform[1], platform[2])
+    }
+}
+
+
