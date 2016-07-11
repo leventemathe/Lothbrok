@@ -30,10 +30,7 @@ public class Animation implements Disposable {
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
 
-    public Animation(SpriteBatch batch, ShapeRenderer shapeRenderer) {
-        this.batch = batch;
-        this.shapeRenderer = shapeRenderer;
-
+    public Animation() {
         this.players = new HashMap<String, Player>();
     }
 
@@ -50,8 +47,6 @@ public class Animation implements Disposable {
         //prepare for drawing
         this.batch = new SpriteBatch();
         this.shapeRenderer = new ShapeRenderer();
-
-        this.drawer = new LibGdxDrawer(loader, batch, shapeRenderer);
     }
 
     public void addEntity(String entity) {
@@ -59,7 +54,8 @@ public class Animation implements Disposable {
         this.players.put(entity, new Player((data.getEntity(0))));
     }
 
-    public void playEntity(String entity) {
+    public void playEntity(SpriteBatch batch, ShapeRenderer shapeRenderer, String entity) {
+        this.drawer = new LibGdxDrawer(loader, batch, shapeRenderer);
         Player playMe = players.get(entity);
         playMe.update();
         //batch.begin();

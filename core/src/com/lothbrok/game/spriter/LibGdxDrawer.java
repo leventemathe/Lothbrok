@@ -9,26 +9,26 @@ import com.brashmonkey.spriter.Timeline;
 import com.brashmonkey.spriter.Timeline.Key.Object;
 
 public class LibGdxDrawer extends Drawer<Sprite> {
-	
+
 	SpriteBatch batch;
 	ShapeRenderer renderer;
-	
+
 	public LibGdxDrawer(Loader<Sprite> loader, SpriteBatch batch, ShapeRenderer renderer){
 		super(loader);
 		this.batch = batch;
 		this.renderer = renderer;
 	}
-	
+
 	@Override
 	public void setColor(float r, float g, float b, float a) {
 		renderer.setColor(r, g, b, a);
 	}
-	
+
 	@Override
 	public void rectangle(float x, float y, float width, float height) {
 		renderer.rect(x, y, width, height);
 	}
-	
+
 	@Override
 	public void line(float x1, float y1, float x2, float y2) {
 		renderer.line(x1, y1, x2, y2);
@@ -53,8 +53,6 @@ public class LibGdxDrawer extends Drawer<Sprite> {
 		sprite.setOrigin(newPivotX, newPivotY);
 		sprite.setRotation(object.angle);
 
-		sprite.setColor(1f, 1f, 1f, object.alpha);
-		sprite.setScale(object.scale.x, object.scale.y);
 		sprite.draw(batch);
 	}
 }

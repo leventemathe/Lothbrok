@@ -3,8 +3,10 @@ package com.lothbrok.game.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.assets.Constants;
 import com.lothbrok.game.assets.entities.Player;
@@ -23,12 +25,13 @@ public class GameScreen extends AbstractScreen {
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        SpriteBatch batch =  Assets.instance.getSpriteBatch();
+        SpriteBatch spriteBatch = new SpriteBatch();
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
         Player player = Assets.instance.getPlayer();
 
-        batch.begin();
-        player.getAnimation().playEntity(Constants.PLAYER_WALKING_ANIMATION);
-        batch.end();
+        spriteBatch.begin();
+        player.playWalkingAnimation(spriteBatch, shapeRenderer);
+        spriteBatch.end();
     }
 
     @Override
