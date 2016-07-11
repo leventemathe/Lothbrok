@@ -4,21 +4,21 @@
         <file id="0" name="circle.png" width="100" height="100" pivot_x="0" pivot_y="1"/>
     </folder>
     <entity id="0" name="entity_000">
-        <animation id="0" name="NewAnimation" length="1000" interval="100">
+        <animation id="0" name="walking" length="1000" interval="100">
             <mainline>
                 <key id="0">
                     <object_ref id="0" timeline="0" key="0" z_index="0"/>
                 </key>
-                <key id="1" time="500">
+                <key id="1" time="498">
                     <object_ref id="0" timeline="0" key="1" z_index="0"/>
                 </key>
             </mainline>
             <timeline id="0" name="circle">
                 <key id="0" spin="0">
-                    <object folder="0" file="0" x="-53" y="56"/>
+                    <object folder="0" file="0" x="6" y="102" angle="0"/>
                 </key>
-                <key id="1" time="500" spin="0">
-                    <object folder="0" file="0" x="-53" y="197"/>
+                <key id="1" time="498" spin="0">
+                    <object folder="0" file="0" x="9" y="202" angle="0"/>
                 </key>
             </timeline>
         </animation>

@@ -2,6 +2,9 @@ package com.lothbrok.game.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+
+import com.lothbrok.game.assets.Assets;
 
 public abstract class AbstractScreen implements Screen {
     protected Game game;
@@ -17,10 +20,10 @@ public abstract class AbstractScreen implements Screen {
     public abstract void pause();
 
     public void resume() {
-        //Assets.instance.init(new AssetManager());
+        Assets.instance.init(new AssetManager());
     }
 
     public void dispose() {
-        //Assets.instance.dispose();
+        Assets.instance.dispose();
     }
 }
