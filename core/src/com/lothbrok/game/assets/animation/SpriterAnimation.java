@@ -1,10 +1,10 @@
-package com.lothbrok.game.assets;
+package com.lothbrok.game.assets.animation;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.Disposable;
 import com.brashmonkey.spriter.Data;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.Loader;
@@ -16,25 +16,22 @@ import com.lothbrok.game.spriter.LibGdxLoader;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Animation implements Disposable {
+public class SpriterAnimation extends AbstractAnimation {
     //TODO add error handling
-    //TODO dispose
     private SCMLReader reader;
     private Data data;
 
     private Map<String, Player> players;
 
-    private Loader loader;
+    private Loader<Sprite> loader;
     private Drawer drawer;
 
-    private SpriteBatch batch;
-    private ShapeRenderer shapeRenderer;
-
-    public Animation() {
+    public SpriterAnimation(String path) {
         this.players = new HashMap<String, Player>();
+        load(path);
     }
 
-    public void load(String path) {
+    private void load(String path) {
         //laod scml
         FileHandle handle = Gdx.files.internal(path);
         this.reader = new SCMLReader(handle.read());
@@ -44,27 +41,26 @@ public class Animation implements Disposable {
         this.loader = new LibGdxLoader(data);
         this.loader.load(handle.file());
 
-        //prepare for drawing
-        this.batch = new SpriteBatch();
-        this.shapeRenderer = new ShapeRenderer();
+        this.drawer = new LibGdxDrawer(loader);
     }
 
+    @Override
     public void addEntity(String entity) {
-        //TODO add error handling
-        this.players.put(entity, new Player((data.getEntity(0))));
+        this.players.put(entity, new Player((data.getEntity(entity))));
     }
 
-    public void playEntity(SpriteBatch batch, ShapeRenderer shapeRenderer, String entity) {
-        this.drawer = new LibGdxDrawer(loader, batch, shapeRenderer);
+    @Override
+    public void play(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, String entity, String animation) {
+        ((LibGdxDrawer)drawer).setSpriteBatch(spriteBatch);
+        ((LibGdxDrawer)drawer).setShapeRenderer(shapeRenderer);
         Player playMe = players.get(entity);
+        playMe.setAnimation(animation);
         playMe.update();
-        //batch.begin();
         drawer.draw(playMe);
-        //batch.end();
     }
 
     @Override
     public void dispose() {
-
+        loader.dispose();
     }
 }
