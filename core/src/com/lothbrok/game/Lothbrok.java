@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.lothbrok.game.screens.GameScreen;
 
 import com.lothbrok.game.assets.Assets;
+import com.lothbrok.game.screens.LoadingScreen;
 
 public class Lothbrok extends Game {
 
@@ -14,7 +15,7 @@ public class Lothbrok extends Game {
 	public void create () {
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		Assets.instance.init(new AssetManager());
-		setScreen(new GameScreen(this));
+		setScreen(new LoadingScreen(this));
 	}
 
 }

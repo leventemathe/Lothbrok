@@ -1,4 +1,4 @@
-package com.lothbrok.game.spriter;
+package com.lothbrok.game.assets.animation.spriter;
 
 import java.io.File;
 import java.util.HashMap;

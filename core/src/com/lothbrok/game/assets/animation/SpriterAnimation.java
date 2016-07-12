@@ -10,14 +10,16 @@ import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.Loader;
 import com.brashmonkey.spriter.Player;
 import com.brashmonkey.spriter.SCMLReader;
-import com.lothbrok.game.spriter.LibGdxDrawer;
-import com.lothbrok.game.spriter.LibGdxLoader;
+import com.lothbrok.game.assets.animation.spriter.LibGdxDrawer;
+import com.lothbrok.game.assets.animation.spriter.LibGdxLoader;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SpriterAnimation extends AbstractAnimation {
     //TODO add error handling
+    private FileHandle handle;
+
     private SCMLReader reader;
     private Data data;
 
@@ -28,20 +30,20 @@ public class SpriterAnimation extends AbstractAnimation {
 
     public SpriterAnimation(String path) {
         this.players = new HashMap<String, Player>();
+        this.handle = Gdx.files.internal(path);
         load(path);
     }
 
     private void load(String path) {
         //laod scml
-        FileHandle handle = Gdx.files.internal(path);
         this.reader = new SCMLReader(handle.read());
         this.data = reader.getData();
 
         //laod images
-        this.loader = new LibGdxLoader(data);
-        this.loader.load(handle.file());
+        //this.loader = new LibGdxLoader(data);
+        //this.loader.load(handle.file());
 
-        this.drawer = new LibGdxDrawer(loader);
+        //this.drawer = new LibGdxDrawer(loader);
     }
 
     @Override
@@ -62,5 +64,29 @@ public class SpriterAnimation extends AbstractAnimation {
     @Override
     public void dispose() {
         loader.dispose();
+    }
+
+    public Data getData() {
+        return data;
+    }
+
+    public Loader<Sprite> getLoader() {
+        return loader;
+    }
+
+    public void setLoader(Loader<Sprite> loader) {
+        this.loader = loader;
+    }
+
+    public Drawer getDrawer() {
+        return drawer;
+    }
+
+    public void setDrawer(Drawer drawer) {
+        this.drawer = drawer;
+    }
+
+    public FileHandle getHandle() {
+        return handle;
     }
 }
