@@ -15,10 +15,9 @@ public class LoadingScreen extends AbstractScreen {
     @Override
     public void render(float deltaTime) {
         if(Assets.instance.assetManager.update()) {
-            Gdx.app.log(TAG, "yay");
-            Assets.instance.getAnimation().addEntity("player");
             game.setScreen(new GameScreen(game));
         }
+        //TODO draw loading screen
     }
 
     @Override
@@ -28,7 +27,7 @@ public class LoadingScreen extends AbstractScreen {
 
     @Override
     public void show() {
-        Assets.instance.loadAnimation();
+        Assets.instance.loadPlayerAssets();
     }
 
     @Override

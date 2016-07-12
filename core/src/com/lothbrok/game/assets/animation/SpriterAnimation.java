@@ -11,7 +11,6 @@ import com.brashmonkey.spriter.Loader;
 import com.brashmonkey.spriter.Player;
 import com.brashmonkey.spriter.SCMLReader;
 import com.lothbrok.game.assets.animation.spriter.LibGdxDrawer;
-import com.lothbrok.game.assets.animation.spriter.LibGdxLoader;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,12 +37,6 @@ public class SpriterAnimation extends AbstractAnimation {
         //laod scml
         this.reader = new SCMLReader(handle.read());
         this.data = reader.getData();
-
-        //laod images
-        //this.loader = new LibGdxLoader(data);
-        //this.loader.load(handle.file());
-
-        //this.drawer = new LibGdxDrawer(loader);
     }
 
     @Override
@@ -76,10 +69,6 @@ public class SpriterAnimation extends AbstractAnimation {
 
     public void setLoader(Loader<Sprite> loader) {
         this.loader = loader;
-    }
-
-    public Drawer getDrawer() {
-        return drawer;
     }
 
     public void setDrawer(Drawer drawer) {

@@ -53,17 +53,10 @@ public class LibGdxDrawer extends Drawer<Sprite> {
 		sprite.draw(spriteBatch);
 	}
 
-	public SpriteBatch getSpriteBatch() {
-		return spriteBatch;
-	}
-
 	public void setSpriteBatch(SpriteBatch spriteBatch) {
 		this.spriteBatch = spriteBatch;
 	}
 
-	public ShapeRenderer getShapeRenderer() {
-		return shapeRenderer;
-	}
 
 	public void setShapeRenderer(ShapeRenderer shapeRenderer) {
 		this.shapeRenderer = shapeRenderer;

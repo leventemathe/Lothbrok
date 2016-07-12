@@ -6,14 +6,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.brashmonkey.spriter.Player;
-import com.brashmonkey.spriter.SCMLReader;
-import com.brashmonkey.spriter.Spriter;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.assets.AssetsConstants;
-import com.lothbrok.game.assets.animation.SpriterAnimation;
-import com.lothbrok.game.assets.animation.spriter.LibGdxDrawer;
-import com.lothbrok.game.assets.animation.spriter.LibGdxLoader;
 import com.lothbrok.game.assets.entities.PlayerAssets;
 
 import java.io.FileInputStream;
@@ -38,10 +32,10 @@ public class GameScreen extends AbstractScreen {
         SpriteBatch spriteBatch = new SpriteBatch();
         ShapeRenderer shapeRenderer = new ShapeRenderer();
 
-        SpriterAnimation anim = Assets.instance.getAnimation();
+        PlayerAssets player = Assets.instance.getPlayerAssets();
 
         spriteBatch.begin();
-        anim.play(spriteBatch, shapeRenderer, AssetsConstants.PLAYER_ANIMATION_ENTITY, AssetsConstants.PLAYER_ANIMATION_WALKING);
+        player.getAnimation().play(spriteBatch, shapeRenderer, AssetsConstants.PLAYER_ANIMATION_ENTITY, AssetsConstants.PLAYER_ANIMATION_WALKING);
         spriteBatch.end();
     }
 

@@ -19,11 +19,12 @@ public abstract class AbstractScreen implements Screen {
     public abstract void hide();
     public abstract void pause();
 
+    //TODO where do i init and dispose assets?
     public void resume() {
-        //Assets.instance.init(new AssetManager());
+        Assets.instance.init(new AssetManager());
     }
 
     public void dispose() {
-        //Assets.instance.dispose();
+        Assets.instance.dispose();
     }
 }
