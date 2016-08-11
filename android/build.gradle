@@ -1,6 +1,6 @@
 android {
-    buildToolsVersion "23.0.1"
-    compileSdkVersion 23
+    buildToolsVersion "24"
+    compileSdkVersion 24
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -16,8 +16,8 @@ android {
     }
     defaultConfig {
         applicationId "com.lothbrok.game"
-        minSdkVersion 8
-        targetSdkVersion 23
+        minSdkVersion 15
+        targetSdkVersion 24
     }
 }
 // called every time gradle gets executed, takes the native dependencies of
@@ -78,8 +78,8 @@ eclipse {
     }
 
     jdt {
-        sourceCompatibility = 1.6
-        targetCompatibility = 1.6
+        sourceCompatibility = 1.7
+        targetCompatibility = 1.7
     }
 
     classpath {
@@ -120,6 +120,10 @@ idea {
     }
 }
 dependencies {
+    //support earlier versions of Android
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
+
     compile project(':core')
     compile project(':trixt0r')
 }

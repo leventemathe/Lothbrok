@@ -1,5 +1,6 @@
 apply plugin: "java"
-sourceCompatibility = 1.6
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 sourceSets.main.java.srcDirs = ["src/"]
 eclipse.project {
@@ -9,20 +10,50 @@ dependencies {
     compile project(':trixt0r')
 }
 
+
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.tools.texturepacker.TexturePacker
 
 project.ext.platform = ["core/assets_raw/img/platform", "android/assets/img/platform", "platform.pack"]
+project.ext.menuL = ["core/assets_raw/img/menu/1080", "android/assets/l/img/menu", "menu.pack"]
+project.ext.menuXL = ["core/assets_raw/img/menu/4k", "android/assets/xl/img/menu", "menu.pack"]
 project.ext.settings = new com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings();
+project.ext.settings.maxWidth = 8192
+project.ext.settings.maxHeight = 8192
+project.ext.settings.paddingX = 14
+project.ext.settings.paddingY = 14
+project.ext.settings.filterMin = Texture.TextureFilter.MipMapLinearNearest;
+project.ext.settings.filterMag = Texture.TextureFilter.MipMapLinearNearest;
 
+//TODO clean up the pack tasks
 task packPlatform << {
     if (project.ext.has('platform')) {
         logger.info "Calling TexturePacker: "+ platform
-        settings.maxWidth = 2048
-        settings.maxHeight = 2048
-        settings.paddingX = 0
-        settings.paddingY = 0
         TexturePacker.process(settings, platform[0], platform[1], platform[2])
     }
 }
 
+//TODO safe  max atalas size?
+task packMenu << {
+    if (project.ext.has('menuL') && project.ext.has('menuXL')) {
+        logger.info "Calling TexturePacker: "+ platform
+        TexturePacker.process(settings, menuL[0], menuL[1], menuL[2])
+        TexturePacker.process(settings, menuXL[0], menuXL[1], menuXL[2])
+    }
+}
 
+project.ext.menuM = ["core/assets_raw/img/menu/540", "android/assets/m/img/menu", "menu.pack"]
+project.ext.settingsM = new com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings();
+project.ext.settingsM.maxWidth = 2048
+project.ext.settingsM.maxHeight = 2048
+project.ext.settingsM.paddingX = 10
+project.ext.settingsM.paddingY = 10
+project.ext.settingsM.filterMin = Texture.TextureFilter.MipMapLinearNearest;
+project.ext.settingsM.filterMag = Texture.TextureFilter.MipMapLinearNearest;
+
+task packMenuM << {
+    if (project.ext.has('menuM')) {
+        logger.info "Calling TexturePacker: "+ platform
+        TexturePacker.process(settingsM, menuM[0], menuM[1], menuM[2])
+    }
+}

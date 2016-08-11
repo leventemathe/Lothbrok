@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SpriterAnimation extends AbstractAnimation {
-    //TODO add error handling
+    //TODO add error handling? if its necessary, maybe assets error handliong is enough
     private FileHandle handle;
 
     private SCMLReader reader;
@@ -28,7 +28,7 @@ public class SpriterAnimation extends AbstractAnimation {
     private Drawer drawer;
 
     public SpriterAnimation(String path) {
-        this.players = new HashMap<String, Player>();
+        this.players = new HashMap<>();
         this.handle = Gdx.files.internal(path);
         load(path);
     }

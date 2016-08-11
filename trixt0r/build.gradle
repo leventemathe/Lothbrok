@@ -1,5 +1,9 @@
 apply plugin: 'java'
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    //support earlier versions of Android
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
+
+compile fileTree(dir: 'libs', include: ['*.jar'])
 }

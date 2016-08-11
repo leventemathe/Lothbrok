@@ -5,17 +5,14 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.lothbrok.game.assets.Assets;
 
-public class LoadingScreen extends AbstractScreen {
-    public static final String TAG = LoadingScreen.class.toString();
-
-    public LoadingScreen(Game game) {
-        super(game);
-    }
+public class GameLoadingScreen extends AbstractScreen {
+    public static final String TAG = GameLoadingScreen.class.getSimpleName();
 
     @Override
     public void render(float deltaTime) {
-        if(Assets.instance.assetManager.update()) {
-            game.setScreen(new GameScreen(game));
+        Gdx.app.debug(TAG, "loading: " + Assets.instance.getProgess());
+        if(Assets.instance.isDoneLoading()) {
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
         }
         //TODO draw loading screen
     }
@@ -28,6 +25,7 @@ public class LoadingScreen extends AbstractScreen {
     @Override
     public void show() {
         Assets.instance.loadPlayerAssets();
+        Assets.instance.loadMap(1);
     }
 
     @Override
