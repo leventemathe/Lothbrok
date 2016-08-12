@@ -10,7 +10,7 @@ public class AssetsConstants {
     public static final String MAP_PREFIX = "xl/maps/map";
     public static final String MAP_POSTFIX = ".tmx";
 
-    public static final String MENU_ATLAS_PATH = "m/img/menu/menu.pack.atlas";
+    public static final String MENU_ATLAS_PATH = "l/img/menu/menu.pack.atlas";
     public static final String MENU_SKIN_PATH = "l/img/menu/menuskin.json";
-    public static final String MENU_FONT_PATH = "fonts/pr_viking_32.fnt";
+    public static final String MENU_FONT_PATH = "fonts/pr_viking.ttf";
 }

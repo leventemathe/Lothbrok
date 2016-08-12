@@ -12,6 +12,8 @@ public class MainMenuLoadingScreen extends AbstractScreen {
     public void show() {
         Gdx.app.log(TAG, "show");
         Assets.instance.loadMainMenuAssets();
+        Assets.instance.loadPlayerAssets();
+        Assets.instance.loadMap(1);
     }
 
     @Override

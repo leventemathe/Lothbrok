@@ -140,8 +140,9 @@ public class MainMenuScreen extends AbstractScreen {
 
     private Table buildButtonLayer() {
         Table layer = new Table();
-        //TODO remove font from folder, set it dynamically
         TextButton.TextButtonStyle style = skin.get("default", TextButton.TextButtonStyle.class);
+        style.font = Assets.instance.getMainMenuAssets().getFont48();
+        style.fontColor = skin.get("white", Color.class);
 
         //TODO move ALL strings to constants class
         btnStart = new TextButton("PLAY", style);
@@ -162,14 +163,15 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     private void onPlayClicked() {
-        ((Game)Gdx.app.getApplicationListener()).setScreen(new GameLoadingScreen());
+        ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
     }
 
+    //TODO create a viewport fort this for proper resizing + move it to a superclass to make it available in all screens
     private void renderFpsCounter (SpriteBatch batch) {
         float x = 10;
         float y = 100;
         int fps = Gdx.graphics.getFramesPerSecond();
-        BitmapFont fpsFont = Assets.instance.getMainMenuAssets().getFont();
+        BitmapFont fpsFont = Assets.instance.getMainMenuAssets().getFont48();
         if (fps >= 45) {
             // 45 or more FPS show up in green
             fpsFont.setColor(0, 1, 0, 1);

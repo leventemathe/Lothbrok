@@ -6,9 +6,14 @@ import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.StringBuilder;
@@ -41,6 +46,7 @@ public class Assets implements Disposable {
         assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         assetManager.setLoader(Skin.class, new SkinLoader(new InternalFileHandleResolver()));
         assetManager.setLoader(BitmapFont.class, new BitmapFontLoader(new InternalFileHandleResolver()));
+        assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(new InternalFileHandleResolver()));
     }
 
     public boolean isDoneLoading() {
@@ -65,23 +71,36 @@ public class Assets implements Disposable {
 
     public void loadMainMenuAssets() {
         assetManager.load(AssetsConstants.MENU_SKIN_PATH, Skin.class, new SkinLoader.SkinParameter(AssetsConstants.MENU_ATLAS_PATH));
-        assetManager.load(AssetsConstants.MENU_FONT_PATH, BitmapFont.class);
+        //assetManager.load(AssetsConstants.MENU_FONT_PATH, BitmapFont.class);
+        assetManager.load(AssetsConstants.MENU_FONT_PATH, FreeTypeFontGenerator.class);
     }
 
     public MainMenuAssets getMainMenuAssets() {
         if(mainMenuAssets == null) {
             Skin skin = assetManager.get(AssetsConstants.MENU_SKIN_PATH);
-            BitmapFont font = assetManager.get(AssetsConstants.MENU_FONT_PATH);
+
+            FreeTypeFontGenerator fontGenerator = assetManager.get(AssetsConstants.MENU_FONT_PATH);
+
+            FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+            parameter.size = 48;
+            BitmapFont font48 = fontGenerator.generateFont(parameter);
+
             mainMenuAssets = new MainMenuAssets();
             mainMenuAssets.setSkin(skin);
-            mainMenuAssets.setFont(font);
+            mainMenuAssets.setFontGenerator(fontGenerator);
+            mainMenuAssets.setFont48(font48);
         }
         //TODO load filtering from settings
         //TODO set filtering for other images too (animation, map)
         Texture.TextureFilter filter = Texture.TextureFilter.MipMapLinearLinear;
+        Texture.TextureFilter fontFilter = Texture.TextureFilter.Linear;
         ObjectSet<Texture> textures = mainMenuAssets.getSkin().getAtlas().getTextures();
+        Array<TextureRegion> fontTextures = mainMenuAssets.getFont48().getRegions();
         for(Texture texture : textures) {
             texture.setFilter(filter, filter);
+        }
+        for(TextureRegion texture : fontTextures) {
+            texture.getTexture().setFilter(fontFilter, fontFilter);
         }
         return mainMenuAssets;
     }
