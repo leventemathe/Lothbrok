@@ -33,21 +33,31 @@ public class GameRenderer implements Disposable, InputProcessor {
     public GameRenderer() {
         Gdx.input.setInputProcessor(this);
 
+        setupViewPort();
+        setupEntities();
+        setupRendering();
+    }
+
+    private void setupViewPort() {
         camera = new OrthographicCamera();
-        //viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
         //TODO custom viewport, now it sets it to the size of the desktop launcher/android screen size
-        float aspect = (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight();
+        float aspect = (float) Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight();
         float height = 8f;
         float width = height * aspect;
         viewport = new FitViewport(width, height, camera);
         viewport.apply();
         camera.update();
+    }
 
+    //TODO move to logic?
+    private void setupEntities() {
         map = Assets.instance.getMap(1);
         player = Assets.instance.getPlayerAssets();
         //TODO get scale from m l xl etc
         player.getAnimation().scale(1/270f); //l
+    }
 
+    private void setupRendering() {
         spriteBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         //TODO get scale from m l xl etc
@@ -64,7 +74,12 @@ public class GameRenderer implements Disposable, InputProcessor {
     public void render(float deltaTime) {
         camera.update();
 
-        //background color
+        renderSky();
+        renderMap();
+        renderAnimation(deltaTime);
+    }
+
+    private void renderSky() {
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         //TODO get sky color from somewhere (also change in menu?)
@@ -74,13 +89,14 @@ public class GameRenderer implements Disposable, InputProcessor {
                            camera.viewportWidth,
                            camera.viewportHeight);
         shapeRenderer.end();
+    }
 
-
-        //map
+    private void renderMap() {
         mapRenderer.setView(camera);
         mapRenderer.render();
+    }
 
-        //animation
+    private void renderAnimation(float deltaTime) {
         spriteBatch.begin();
         spriteBatch.setProjectionMatrix(camera.combined);
 
