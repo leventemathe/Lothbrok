@@ -1,17 +1,17 @@
 package com.lothbrok.game.assets.entities;
 
 import com.badlogic.gdx.utils.Disposable;
-import com.lothbrok.game.assets.animation.AbstractAnimation;
 import com.lothbrok.game.assets.AssetsConstants;
+import com.lothbrok.game.assets.animation.SpriterAnimation;
 
 public class PlayerAssets implements Disposable {
-    private AbstractAnimation animation;
+    private SpriterAnimation animation;
 
-    public PlayerAssets(AbstractAnimation animation) {
+    public PlayerAssets(SpriterAnimation animation) {
         init(animation);
     }
 
-    private void init(AbstractAnimation animation) {
+    private void init(SpriterAnimation animation) {
         this.animation = animation;
         this.animation.addEntity(AssetsConstants.PLAYER_ANIMATION_ENTITY);
     }
@@ -21,7 +21,7 @@ public class PlayerAssets implements Disposable {
         animation.dispose();
     }
 
-    public AbstractAnimation getAnimation() {
+    public SpriterAnimation getAnimation() {
         return animation;
     }
 }

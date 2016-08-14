@@ -1,10 +1,5 @@
 package com.lothbrok.game.assets.animation.spriter;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.Map.Entry;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -20,6 +15,12 @@ import com.brashmonkey.spriter.Data;
 import com.brashmonkey.spriter.FileReference;
 import com.brashmonkey.spriter.Loader;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
+
+//TODO written by trixt0r, should I comment it?
 public class LibGdxLoader extends Loader<Sprite> implements Disposable{
 
 	public static int standardAtlasWidth = 2048, standardAtlasHeight = 2048;
@@ -65,6 +66,7 @@ public class LibGdxLoader extends Loader<Sprite> implements Disposable{
 		
 		if(!f.exists()) throw new GdxRuntimeException("Could not find file handle "+ path + "! Please check your paths.");
 		if(this.packer == null && this.pack)
+            //TODO set padding according to the size (m, l, xl etc.)
 			this.packer = new PixmapPacker(this.atlasWidth, this.atlasHeight, Pixmap.Format.RGBA8888, 2, true);
 		final Pixmap pix = new Pixmap(f);
 		this.pixmaps.put(ref, pix);
@@ -76,7 +78,8 @@ public class LibGdxLoader extends Loader<Sprite> implements Disposable{
 	 */
 	protected void generatePackedSprites(){
 		if(this.packer == null) return;
-		TextureAtlas tex = this.packer.generateTextureAtlas(TextureFilter.Linear, TextureFilter.Linear, false);
+        //TODO set filtering from options
+		TextureAtlas tex = this.packer.generateTextureAtlas(TextureFilter.Linear, TextureFilter.Linear, true);
 		Set<FileReference> keys = this.resources.keySet();
 		this.disposeNonPackedTextures();
 		for(FileReference ref: keys){

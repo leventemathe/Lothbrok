@@ -1,16 +1,14 @@
 package com.lothbrok.game.assets.animation.spriter;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.Loader;
-import com.brashmonkey.spriter.Timeline.Key.Object;
+import com.brashmonkey.spriter.Player;
+import com.brashmonkey.spriter.Timeline;
 
-public class LibGdxDrawer extends Drawer<Sprite> {
+import java.util.Iterator;
 
-	SpriteBatch spriteBatch;
-	ShapeRenderer shapeRenderer;
+//TODO this was written by trixt0r, but I wrote ScalingDrawer, and I changed some of it, should I comment it here?
+public class LibGdxDrawer extends ScalingDrawer<Sprite> {
 
 	public LibGdxDrawer(Loader<Sprite> loader){
 		super(loader);
@@ -37,7 +35,7 @@ public class LibGdxDrawer extends Drawer<Sprite> {
 	}
 
 	@Override
-	public void draw(Object object) {
+	public void draw(Timeline.Key.Object object) {
 		Sprite sprite = loader.get(object.ref);
 		float newPivotX = (sprite.getWidth() * object.pivot.x);
 		float newX = object.position.x - newPivotX;
@@ -50,15 +48,14 @@ public class LibGdxDrawer extends Drawer<Sprite> {
 		sprite.setOrigin(newPivotX, newPivotY);
 		sprite.setRotation(object.angle);
 
-		sprite.draw(spriteBatch);
+		sprite.draw(spriteBatch);;
 	}
 
-	public void setSpriteBatch(SpriteBatch spriteBatch) {
-		this.spriteBatch = spriteBatch;
-	}
-
-
-	public void setShapeRenderer(ShapeRenderer shapeRenderer) {
-		this.shapeRenderer = shapeRenderer;
+    @Override
+	public void scale(Player player, float scale) {
+        Iterator<Timeline.Key.Object> it = player.objectIterator();
+        while(it.hasNext()) {
+            loader.get(it.next().ref).setScale(scale);
+        }
 	}
 }

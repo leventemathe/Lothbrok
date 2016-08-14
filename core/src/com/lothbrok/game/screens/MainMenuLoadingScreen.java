@@ -20,7 +20,7 @@ public class MainMenuLoadingScreen extends AbstractScreen {
     public void render(float deltaTime) {
         Gdx.app.debug(TAG, "loading: " + Assets.instance.getProgess());
         if(Assets.instance.isDoneLoading()) {
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
         }
     }
 
