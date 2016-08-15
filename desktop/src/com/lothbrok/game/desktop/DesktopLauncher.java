@@ -12,8 +12,8 @@ public class DesktopLauncher {
         //TODO enable vsync, or maybe add a setting
         config.vSyncEnabled = false;
         //TODO unlimied fps (0) -> animation doesnt play, fix it
-        config.foregroundFPS = 60; // Setting to 0 disables foreground fps throttling
-        config.backgroundFPS = 60; // Setting to 0 disables background fps throttling
+        config.foregroundFPS = 120; // Setting to 0 disables foreground fps throttling
+        config.backgroundFPS = 120; // Setting to 0 disables background fps throttling
 		new LwjglApplication(new Lothbrok(), config);
 	}
 }

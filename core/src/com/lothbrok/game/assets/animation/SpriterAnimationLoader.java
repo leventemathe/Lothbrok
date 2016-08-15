@@ -8,8 +8,6 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
-import com.lothbrok.game.assets.animation.spriter.LibGdxDrawer;
-import com.lothbrok.game.assets.animation.spriter.LibGdxLoader;
 
 public class SpriterAnimationLoader extends AsynchronousAssetLoader<SpriterAnimation, SpriterAnimationLoader.SpriterAnimationParameter> {
     public  SpriterAnimationLoader() {
@@ -25,18 +23,16 @@ public class SpriterAnimationLoader extends AsynchronousAssetLoader<SpriterAnima
     @Override
     public void loadAsync(AssetManager manager, String fileName, FileHandle file, SpriterAnimationParameter parameter) {
         animation = null;
-        animation = new SpriterAnimation(fileName);
+        animation = new SpriterAnimation();
+
+        animation.loadScml(fileName);
     }
 
     @Override
     //TODO move the pixmap loading parts of LibGdxLoader to loadAsync, load only Texture(Region) here
     public SpriterAnimation loadSync(AssetManager manager, String fileName, FileHandle file, SpriterAnimationParameter parameter) {
         //TODO move pixmap parts of loader to async, call texture parts here
-        LibGdxLoader loader = new LibGdxLoader(animation.getData());
-        loader.load(animation.getHandle().file());
-        LibGdxDrawer drawer = new LibGdxDrawer(loader);
-        this.animation.setLoader(loader);
-        this.animation.setDrawer(drawer);
+        this.animation.loadImages();
 
         SpriterAnimation animation = this.animation;
         this.animation = null;

@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lothbrok.game.assets.Assets;
+import com.lothbrok.game.screens.utils.ColorRectangleActor;
 
 public class MainMenuScreen extends AbstractScreen {
 
@@ -29,11 +30,11 @@ public class MainMenuScreen extends AbstractScreen {
 
     private Image logo;
 
-    private ColorRectangleActor sky;
+    private com.lothbrok.game.screens.utils.ColorRectangleActor sky;
     private Image greenHills;
     private Image blueHills;
     private Image clouds;
-    private float cloudsSpeed = ScreensConstants.SPEED_MENU_CLOUDS;
+    private float cloudsSpeed = com.lothbrok.game.screens.utils.ScreensConstants.SPEED_MENU_CLOUDS;
 
     private TextButton btnStart;
     private TextButton btnOptions;
@@ -45,7 +46,7 @@ public class MainMenuScreen extends AbstractScreen {
     public void show() {
         Gdx.app.log(TAG, "show");
         //TODO make a proper viewport
-        stage = new Stage(new FitViewport(ScreensConstants.VIEWPORT_MENU_WIDTH, ScreensConstants.VIEWPORT_MENU_HEIGHT));
+        stage = new Stage(new FitViewport(com.lothbrok.game.screens.utils.ScreensConstants.VIEWPORT_MENU_WIDTH, com.lothbrok.game.screens.utils.ScreensConstants.VIEWPORT_MENU_HEIGHT));
         skin = Assets.instance.getMainMenuAssets().getSkin();
         batch = new SpriteBatch();
         Gdx.input.setInputProcessor(stage);
@@ -58,9 +59,9 @@ public class MainMenuScreen extends AbstractScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if(clouds.getX() >= 0.0f) {
-            cloudsSpeed = -1 * ScreensConstants.SPEED_MENU_CLOUDS;
+            cloudsSpeed = -1 * com.lothbrok.game.screens.utils.ScreensConstants.SPEED_MENU_CLOUDS;
         } else if(clouds.getX() + clouds.getPrefWidth() <= stage.getViewport().getWorldWidth()) {
-            cloudsSpeed = ScreensConstants.SPEED_MENU_CLOUDS;
+            cloudsSpeed = com.lothbrok.game.screens.utils.ScreensConstants.SPEED_MENU_CLOUDS;
         }
         clouds.setPosition(clouds.getX() + cloudsSpeed * delta, clouds.getY());
 
@@ -120,7 +121,7 @@ public class MainMenuScreen extends AbstractScreen {
         greenHills.setSize(greenHills.getPrefWidth(), greenHills.getPrefHeight());
 
         clouds = skin.get("clouds", Image.class);
-        clouds.setPosition(0.0f,  ScreensConstants.POSITION_MENU_CLOUDS);
+        clouds.setPosition(0.0f,  com.lothbrok.game.screens.utils.ScreensConstants.POSITION_MENU_CLOUDS);
         clouds.setSize(clouds.getPrefWidth(), clouds.getPrefHeight());
 
         layer.addActor(sky);

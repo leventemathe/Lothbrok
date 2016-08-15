@@ -1,8 +1,10 @@
-package com.lothbrok.game.screens;
+package com.lothbrok.game.screens.loadingscreens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.lothbrok.game.assets.Assets;
+import com.lothbrok.game.screens.AbstractScreen;
+import com.lothbrok.game.screens.GameScreen;
 
 public class MainMenuLoadingScreen extends AbstractScreen {
 

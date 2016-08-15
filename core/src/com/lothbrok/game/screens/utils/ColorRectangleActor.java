@@ -1,4 +1,4 @@
-package com.lothbrok.game.screens;
+package com.lothbrok.game.screens.utils;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;

@@ -1,7 +1,7 @@
 package com.lothbrok.game.assets.entities;
 
 import com.badlogic.gdx.utils.Disposable;
-import com.lothbrok.game.assets.AssetsConstants;
+import com.lothbrok.game.assets.utils.AssetsConstants;
 import com.lothbrok.game.assets.animation.SpriterAnimation;
 
 public class PlayerAssets implements Disposable {
@@ -14,6 +14,7 @@ public class PlayerAssets implements Disposable {
     private void init(SpriterAnimation animation) {
         this.animation = animation;
         this.animation.addEntity(AssetsConstants.PLAYER_ANIMATION_ENTITY);
+        this.animation.setIdle(AssetsConstants.PLAYER_ANIMATION_ENTITY, AssetsConstants.PLAYER_ANIMATION_IDLE);
     }
 
     @Override

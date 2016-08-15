@@ -1,4 +1,4 @@
-package com.lothbrok.game.screens;
+package com.lothbrok.game.screens.utils;
 
 public class ScreensConstants {
 

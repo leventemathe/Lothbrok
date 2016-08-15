@@ -1,21 +1,20 @@
-package com.lothbrok.game.screens;
+package com.lothbrok.game.screens.renderers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lothbrok.game.assets.Assets;
-import com.lothbrok.game.assets.AssetsConstants;
 import com.lothbrok.game.assets.animation.SpriterAnimation;
 import com.lothbrok.game.assets.entities.PlayerAssets;
+import com.lothbrok.game.assets.utils.AssetsConstants;
 
 public class GameRenderer implements Disposable, InputProcessor {
 
@@ -40,13 +39,11 @@ public class GameRenderer implements Disposable, InputProcessor {
 
     private void setupViewPort() {
         camera = new OrthographicCamera();
-        //TODO custom viewport, now it sets it to the size of the desktop launcher/android screen size
+        //TODO custom viewport (or maybe extended), now it sets it to the size of the desktop launcher/android screen size
         float aspect = (float) Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight();
-        float height = 8f;
+        float height = 4f;
         float width = height * aspect;
-        viewport = new FitViewport(width, height, camera);
-        viewport.apply();
-        camera.update();
+        viewport = new ExtendViewport(width, height, camera);
     }
 
     //TODO move to logic?
@@ -72,8 +69,7 @@ public class GameRenderer implements Disposable, InputProcessor {
     }
 
     public void render(float deltaTime) {
-        camera.update();
-
+        viewport.apply();
         renderSky();
         renderMap();
         renderAnimation(deltaTime);
@@ -97,14 +93,12 @@ public class GameRenderer implements Disposable, InputProcessor {
     }
 
     private void renderAnimation(float deltaTime) {
-        spriteBatch.begin();
         spriteBatch.setProjectionMatrix(camera.combined);
+        spriteBatch.begin();
 
         SpriterAnimation animation = (SpriterAnimation)player.getAnimation();
-        animation.play(deltaTime, spriteBatch, shapeRenderer, AssetsConstants.PLAYER_ANIMATION_ENTITY, AssetsConstants
-                .PLAYER_ANIMATION_ATTACKING);
-
-        renderFpsCounter(spriteBatch);
+        animation.update(deltaTime);
+        animation.draw(spriteBatch, shapeRenderer);
 
         spriteBatch.end();
     }
@@ -115,6 +109,7 @@ public class GameRenderer implements Disposable, InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        //camera
         if(keycode == Input.Keys.LEFT) {
             camera.translate(-0.2f, 0f);
         }
@@ -126,6 +121,23 @@ public class GameRenderer implements Disposable, InputProcessor {
         }
         if(keycode == Input.Keys.DOWN) {
             camera.translate(0f, -0.2f);
+        }
+
+        //player
+        if(keycode == Input.Keys.W) {
+            player.getAnimation().translatePosition(0f, 0.2f);
+        }
+        if(keycode == Input.Keys.S) {
+            player.getAnimation().translatePosition(0f, -0.2f);
+        }
+        if(keycode == Input.Keys.A) {
+            player.getAnimation().translatePosition(-0.2f, 0f);
+        }
+        if(keycode == Input.Keys.D) {
+            player.getAnimation().translatePosition(0.2f, 0f);
+        }
+        if(keycode == Input.Keys.SPACE) {
+            player.getAnimation().playOnce(AssetsConstants.PLAYER_ANIMATION_ENTITY, AssetsConstants.PLAYER_ANIMATION_ATTACKING);
         }
 
         return true;
@@ -164,25 +176,5 @@ public class GameRenderer implements Disposable, InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
-    }
-
-    //TODO move this from here to a common place
-    private void renderFpsCounter (SpriteBatch batch) {
-        float x = 0;
-        float y = 0;
-        int fps = Gdx.graphics.getFramesPerSecond();
-        BitmapFont fpsFont = Assets.instance.getMainMenuAssets().getFont48();
-        if (fps >= 45) {
-            // 45 or more FPS show up in green
-            fpsFont.setColor(0, 1, 0, 1);
-        } else if (fps >= 30) {
-            // 30 or more FPS show up in yellow
-            fpsFont.setColor(1, 1, 0, 1);
-        } else {
-            // less than 30 FPS show up in red
-            fpsFont.setColor(1, 0, 0, 1);
-        }
-        fpsFont.draw(batch, "FPS: " + fps, x, y);
-        fpsFont.setColor(1, 1, 1, 1); // white
     }
 }

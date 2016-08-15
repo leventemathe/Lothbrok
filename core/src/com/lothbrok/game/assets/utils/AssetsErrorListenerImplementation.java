@@ -1,11 +1,9 @@
-package com.lothbrok.game.assets;
+package com.lothbrok.game.assets.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 
 public class AssetsErrorListenerImplementation implements AssetErrorListener {
     public static final String TAG = AssetsErrorListenerImplementation.class.getName();

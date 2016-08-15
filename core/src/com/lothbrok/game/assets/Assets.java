@@ -21,6 +21,9 @@ import com.lothbrok.game.assets.animation.SpriterAnimation;
 import com.lothbrok.game.assets.animation.SpriterAnimationLoader;
 import com.lothbrok.game.assets.entities.MainMenuAssets;
 import com.lothbrok.game.assets.entities.PlayerAssets;
+import com.lothbrok.game.assets.entities.RalewayLightFont;
+import com.lothbrok.game.assets.utils.AssetsConstants;
+import com.lothbrok.game.assets.utils.AssetsErrorListenerImplementation;
 
 public class Assets implements Disposable {
 
@@ -34,6 +37,7 @@ public class Assets implements Disposable {
 
     private Assets() {}
 
+    private RalewayLightFont ralewayLightFont;
     private PlayerAssets playerAssets;
     private MainMenuAssets mainMenuAssets;
 
@@ -57,29 +61,51 @@ public class Assets implements Disposable {
         return assetManager.getProgress();
     }
 
+    public void loadRalewayLightFont() {
+        assetManager.load(com.lothbrok.game.assets.utils.AssetsConstants.RALEWAY_LIGHT_FONT_PATH, FreeTypeFontGenerator.class);
+    }
+
+    //TODO move the generation to loading somehow, same for menu
+    public RalewayLightFont getRalewayLightFont() {
+        if(ralewayLightFont == null) {
+            FreeTypeFontGenerator fontGenerator = assetManager.get(AssetsConstants.RALEWAY_LIGHT_FONT_PATH);
+
+            FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+            parameter.size = 32;
+            BitmapFont font32 = fontGenerator.generateFont(parameter);
+            parameter.size = 48;
+            BitmapFont font48 = fontGenerator.generateFont(parameter);
+
+            ralewayLightFont = new RalewayLightFont();
+            ralewayLightFont.setFont32(font32);
+            ralewayLightFont.setFont48(font48);
+        }
+        return ralewayLightFont;
+    }
+
     public void loadPlayerAssets() {
-        assetManager.load(AssetsConstants.PLAYER_ANIMATION_PATH, SpriterAnimation.class);
+        assetManager.load(com.lothbrok.game.assets.utils.AssetsConstants.PLAYER_ANIMATION_PATH, SpriterAnimation.class);
     }
 
     public PlayerAssets getPlayerAssets() {
         if(playerAssets == null) {
-            SpriterAnimation animation = assetManager.get(AssetsConstants.PLAYER_ANIMATION_PATH);
+            SpriterAnimation animation = assetManager.get(com.lothbrok.game.assets.utils.AssetsConstants.PLAYER_ANIMATION_PATH);
             playerAssets = new PlayerAssets(animation);
         }
         return playerAssets;
     }
 
     public void loadMainMenuAssets() {
-        assetManager.load(AssetsConstants.MENU_SKIN_PATH, Skin.class, new SkinLoader.SkinParameter(AssetsConstants.MENU_ATLAS_PATH));
+        assetManager.load(com.lothbrok.game.assets.utils.AssetsConstants.MENU_SKIN_PATH, Skin.class, new SkinLoader.SkinParameter(com.lothbrok.game.assets.utils.AssetsConstants.MENU_ATLAS_PATH));
         //assetManager.load(AssetsConstants.MENU_FONT_PATH, BitmapFont.class);
-        assetManager.load(AssetsConstants.MENU_FONT_PATH, FreeTypeFontGenerator.class);
+        assetManager.load(com.lothbrok.game.assets.utils.AssetsConstants.MENU_FONT_PATH, FreeTypeFontGenerator.class);
     }
 
     public MainMenuAssets getMainMenuAssets() {
         if(mainMenuAssets == null) {
-            Skin skin = assetManager.get(AssetsConstants.MENU_SKIN_PATH);
+            Skin skin = assetManager.get(com.lothbrok.game.assets.utils.AssetsConstants.MENU_SKIN_PATH);
 
-            FreeTypeFontGenerator fontGenerator = assetManager.get(AssetsConstants.MENU_FONT_PATH);
+            FreeTypeFontGenerator fontGenerator = assetManager.get(com.lothbrok.game.assets.utils.AssetsConstants.MENU_FONT_PATH);
 
             FreeTypeFontParameter parameter = new FreeTypeFontParameter();
             parameter.size = 48;
@@ -106,9 +132,9 @@ public class Assets implements Disposable {
     }
 
     public String buildMapFilePath(int index) {
-        StringBuilder path = new StringBuilder(AssetsConstants.MAP_PREFIX);
+        StringBuilder path = new StringBuilder(com.lothbrok.game.assets.utils.AssetsConstants.MAP_PREFIX);
         path.append(String.valueOf(index));
-        path.append(AssetsConstants.MAP_POSTFIX);
+        path.append(com.lothbrok.game.assets.utils.AssetsConstants.MAP_POSTFIX);
         return  path.toString();
     }
 
