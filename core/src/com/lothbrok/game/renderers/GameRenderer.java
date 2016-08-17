@@ -1,8 +1,6 @@
-package com.lothbrok.game.screens.renderers;
+package com.lothbrok.game.renderers;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -15,8 +13,12 @@ import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.assets.animation.SpriterAnimation;
 import com.lothbrok.game.assets.entities.PlayerAssets;
 import com.lothbrok.game.assets.utils.AssetsConstants;
+import com.lothbrok.game.model.GameModel;
+import com.lothbrok.game.model.entities.AbstractMovingEntity;
 
-public class GameRenderer implements Disposable, InputProcessor {
+public class GameRenderer implements Disposable {
+
+    private GameModel gameModel;
 
     private OrthographicCamera camera;
     private Viewport viewport;
@@ -29,8 +31,8 @@ public class GameRenderer implements Disposable, InputProcessor {
     private TiledMap map;
     private PlayerAssets player;
 
-    public GameRenderer() {
-        Gdx.input.setInputProcessor(this);
+    public GameRenderer(GameModel gameModel) {
+        this.gameModel = gameModel;
 
         setupViewPort();
         setupEntities();
@@ -96,7 +98,18 @@ public class GameRenderer implements Disposable, InputProcessor {
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
 
-        SpriterAnimation animation = (SpriterAnimation)player.getAnimation();
+        SpriterAnimation animation = player.getAnimation();
+        AbstractMovingEntity.State state = gameModel.getPlayer().getState();
+        if(state == AbstractMovingEntity.State.JUMPING) {
+            animation.playOnce(AssetsConstants.PLAYER_ANIMATION_ENTITY, AssetsConstants.PLAYER_ANIMATION_JUMPING);
+        } else if(state == AbstractMovingEntity.State.WALKINGRIGHT) {
+            animation.setIdle(AssetsConstants.PLAYER_ANIMATION_ENTITY, AssetsConstants.PLAYER_ANIMATION_WALKING);
+        } else if (state == AbstractMovingEntity.State.WALKINGLEFT) {
+            animation.setIdle(AssetsConstants.PLAYER_ANIMATION_ENTITY, AssetsConstants.PLAYER_ANIMATION_WALKING);
+        } else {
+            animation.setIdle(AssetsConstants.PLAYER_ANIMATION_ENTITY, AssetsConstants.PLAYER_ANIMATION_IDLE);
+        }
+        animation.setPosition(gameModel.getPlayer().getPosition().x, gameModel.getPlayer().getPosition().y);
         animation.update(deltaTime);
         animation.draw(spriteBatch, shapeRenderer);
 
@@ -105,76 +118,5 @@ public class GameRenderer implements Disposable, InputProcessor {
 
     public void resize(int width, int height) {
         viewport.update(width, height);
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        //camera
-        if(keycode == Input.Keys.LEFT) {
-            camera.translate(-0.2f, 0f);
-        }
-        if(keycode == Input.Keys.RIGHT) {
-            camera.translate(0.2f, 0f);
-        }
-        if(keycode == Input.Keys.UP) {
-            camera.translate(0f, 0.2f);
-        }
-        if(keycode == Input.Keys.DOWN) {
-            camera.translate(0f, -0.2f);
-        }
-
-        //player
-        if(keycode == Input.Keys.W) {
-            player.getAnimation().translatePosition(0f, 0.2f);
-        }
-        if(keycode == Input.Keys.S) {
-            player.getAnimation().translatePosition(0f, -0.2f);
-        }
-        if(keycode == Input.Keys.A) {
-            player.getAnimation().translatePosition(-0.2f, 0f);
-        }
-        if(keycode == Input.Keys.D) {
-            player.getAnimation().translatePosition(0.2f, 0f);
-        }
-        if(keycode == Input.Keys.SPACE) {
-            player.getAnimation().playOnce(AssetsConstants.PLAYER_ANIMATION_ENTITY, AssetsConstants.PLAYER_ANIMATION_ATTACKING);
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
     }
 }

@@ -20,6 +20,7 @@ import com.lothbrok.game.assets.animation.spriter.ScalingDrawer;
 import java.util.HashMap;
 import java.util.Map;
 
+//TODO refactor this ASAP + tweener
 public class SpriterAnimation implements Disposable {
 
     private static final String TAG = SpriterAnimation.class.getSimpleName();
@@ -36,6 +37,10 @@ public class SpriterAnimation implements Disposable {
 
     private Loader<Sprite> loader;
     private ScalingDrawer drawer;
+
+    private float x = 0.0f;
+    private float y = 0.0f;
+    private float scale = 1.0f;
 
     public SpriterAnimation() {
         this.players = new HashMap<>();
@@ -59,34 +64,61 @@ public class SpriterAnimation implements Disposable {
 
     //TODO maybe move this to constructor, like unitscale in tiled
     public void scale(float scale) {
+        this.scale = scale;
         for(Map.Entry<String, Player> entry : players.entrySet()) {
             Player player = entry.getValue();
             player.scale(scale);
             drawer.scale(player, scale);
         }
+        if(idle != null) {
+           // idle.scale(scale);
+           // drawer.scale(idle, scale);
+        }
+        if(playMe != null) {
+            playMe.scale(scale);
+            drawer.scale(playMe, scale);
+        }
     }
 
     public void setPosition(float x, float y) {
+        this.x = x;
+        this.y = y;
         for(Map.Entry<String, Player> entry : players.entrySet()) {
             Player player = entry.getValue();
             player.setPosition(x, y);
         }
+        //if(idle != null)
+            //idle.setPosition(x, y);
+        if(playMe != null)
+            playMe.setPosition(x, y);
     }
 
     public  void translatePosition(float x, float y) {
+        this.x += x;
+        this.y += y;
         for(Map.Entry<String, Player> entry : players.entrySet()) {
             Player player = entry.getValue();
             player.translatePosition(x, y);
         }
+        //if(idle != null)
+            //idle.translatePosition(x, y);
+        if(playMe != null)
+            playMe.translatePosition(x, y);
     }
 
     public void setIdle(String entity, String animation) {
         idle = players.get(entity);
+        //idle.setPosition(this.x, this.y);
+        //idle.scale(scale);
+        drawer.scale(idle, scale);
         idle.setAnimation(animation);
     }
 
     public void playOnce(String entity, String animation) {
-        playMe = players.get(entity);
+        playMe = new Player(data.getEntity(entity));
+        playMe.setPosition(this.x, this.y);
+        playMe.scale(this.scale);
+        drawer.scale(playMe, scale);
         playMe.setAnimation(animation);
         playMe.addListener(new SpriterAnimationListener());
     }
@@ -128,7 +160,7 @@ public class SpriterAnimation implements Disposable {
         public void animationFinished(Animation animation) {
             playMe = null;
             //TODO remove this ASAP and fix scaling, positioning etc -> store values so they can be applied to new players
-            idle.setAnimation("idle");
+            //idle.setAnimation("idle");
         }
 
         @Override

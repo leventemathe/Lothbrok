@@ -9,7 +9,7 @@ public class AssetsConstants {
     public static final String PLAYER_ANIMATION_ENTITY = "player";
     public static final String PLAYER_ANIMATION_IDLE = "idle";
     public static final String PLAYER_ANIMATION_WALKING = "walking";
-    public static final String PLAYER_ANIMATION_ATTACKING = "attacking";
+    public static final String PLAYER_ANIMATION_JUMPING = "jumping";
 
     public static final String MAP_PREFIX = "xl/maps/map";
     public static final String MAP_POSTFIX = ".tmx";

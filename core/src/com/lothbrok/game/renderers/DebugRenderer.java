@@ -1,4 +1,4 @@
-package com.lothbrok.game.screens.renderers;
+package com.lothbrok.game.renderers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
