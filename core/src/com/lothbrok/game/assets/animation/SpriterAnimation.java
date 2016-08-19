@@ -12,6 +12,7 @@ import com.brashmonkey.spriter.Loader;
 import com.brashmonkey.spriter.Mainline;
 import com.brashmonkey.spriter.Player;
 import com.brashmonkey.spriter.Player.PlayerListener;
+import com.brashmonkey.spriter.PlayerTweener;
 import com.brashmonkey.spriter.SCMLReader;
 import com.lothbrok.game.assets.animation.spriter.LibGdxDrawer;
 import com.lothbrok.game.assets.animation.spriter.LibGdxLoader;
@@ -31,9 +32,11 @@ public class SpriterAnimation implements Disposable {
     private SCMLReader reader;
     private Data data;
 
+    //Map<EntitiyName, ArrayList<EntityAnimation>
     private Map<String, Player> players;
-    private Player playMe;
-    private Player idle;
+    private Player playOnce;
+    private Player current;
+    private PlayerTweener tweener;
 
     private Loader<Sprite> loader;
     private ScalingDrawer drawer;
@@ -70,13 +73,13 @@ public class SpriterAnimation implements Disposable {
             player.scale(scale);
             drawer.scale(player, scale);
         }
-        if(idle != null) {
-           // idle.scale(scale);
-           // drawer.scale(idle, scale);
+        if(current != null) {
+           // current.scale(scale);
+           // drawer.scale(current, scale);
         }
-        if(playMe != null) {
-            playMe.scale(scale);
-            drawer.scale(playMe, scale);
+        if(playOnce != null) {
+            playOnce.scale(scale);
+            drawer.scale(playOnce, scale);
         }
     }
 
@@ -87,10 +90,10 @@ public class SpriterAnimation implements Disposable {
             Player player = entry.getValue();
             player.setPosition(x, y);
         }
-        //if(idle != null)
-            //idle.setPosition(x, y);
-        if(playMe != null)
-            playMe.setPosition(x, y);
+        //if(current != null)
+            //current.setPosition(x, y);
+        if(playOnce != null)
+            playOnce.setPosition(x, y);
     }
 
     public  void translatePosition(float x, float y) {
@@ -100,39 +103,55 @@ public class SpriterAnimation implements Disposable {
             Player player = entry.getValue();
             player.translatePosition(x, y);
         }
-        //if(idle != null)
-            //idle.translatePosition(x, y);
-        if(playMe != null)
-            playMe.translatePosition(x, y);
+        //if(current != null)
+            //current.translatePosition(x, y);
+        if(playOnce != null)
+            playOnce.translatePosition(x, y);
     }
 
     public void setIdle(String entity, String animation) {
-        idle = players.get(entity);
-        //idle.setPosition(this.x, this.y);
-        //idle.scale(scale);
-        drawer.scale(idle, scale);
-        idle.setAnimation(animation);
+        current = players.get(entity);
+        //current.setPosition(this.x, this.y);
+        //drawer.scale(current, scale);
+        current.setAnimation(animation);
     }
 
     public void playOnce(String entity, String animation) {
-        playMe = new Player(data.getEntity(entity));
-        playMe.setPosition(this.x, this.y);
-        playMe.scale(this.scale);
-        drawer.scale(playMe, scale);
-        playMe.setAnimation(animation);
-        playMe.addListener(new SpriterAnimationListener());
+        //TODO this is very inefficient (GC) -> cache
+        playOnce = new Player(data.getEntity(entity));
+        playOnce.setPosition(this.x, this.y);
+        playOnce.scale(this.scale);
+        drawer.scale(playOnce, scale);
+        playOnce.setAnimation(animation);
+        playOnce.addListener(new SpriterAnimationListener());
+
+        //tweener = new PlayerTweener(current, playOnce);
+        //tweener = new MyScalablePlayerTweener(data.getEntity(entity));
+        //tweener.setPlayers(current, playOnce);
+        //tweener.updatePlayers = false;
+
+        //tweener.setBaseAnimation(current.getAnimation());
+        //tweener.baseBoneName = "asd";
+        tweener = new PlayerTweener(current, playOnce);
+        tweener.setWeight(0.5f);
     }
 
     public void update(float deltaTime) {
         int framesToPlayPerSecond = 15 * 60; // default is 15 in trixt0r, 60fps is assumed as default -> 15*60
         //TODO >4000 fps esetén ez 1 és nem mozog az animáció, ez baj? úgyis limitálni kéne az fps-t...
         int speed = Math.round(framesToPlayPerSecond * deltaTime);
-        if(playMe != null) {
-            playMe.speed = speed;
-            playMe.update();
-        } else if(idle != null){
-            idle.speed = speed;
-            idle.update();
+        if(tweener != null) {
+            //tweener.speed = speed;
+            //TODO a playerben és playertweenerben is csinálni egy deltaTime-os update-et?
+            tweener.getFirstPlayer().speed = speed;
+            tweener.getSecondPlayer().speed = speed;
+            tweener.update();
+        } else if(playOnce != null) {
+            playOnce.speed = speed;
+            playOnce.update();
+        } else if(current != null){
+            current.speed = speed;
+            current.update();
         }
     }
 
@@ -140,10 +159,18 @@ public class SpriterAnimation implements Disposable {
         drawer.setSpriteBatch(spriteBatch);
         drawer.setShapeRenderer(shapeRenderer);
 
-        if(playMe != null) {
-            drawer.draw(playMe);
-        } else if(idle != null) {
-            drawer.draw(idle);
+        if(tweener != null) {
+            Player tweenerPlayer = new Player(tweener.getEntity());
+            tweenerPlayer.scale(scale);
+            tweenerPlayer.setPosition(x, y);
+            tweenerPlayer.setAnimation(tweener.getAnimation());
+            drawer.draw(tweenerPlayer);
+            //drawer.draw(tweener.getFirstPlayer());
+            //drawer.draw(tweener.getSecondPlayer());
+        } else if(playOnce != null) {
+            drawer.draw(playOnce);
+        } else if(current != null) {
+            drawer.draw(current);
         }
     }
 
@@ -158,9 +185,8 @@ public class SpriterAnimation implements Disposable {
 
         @Override
         public void animationFinished(Animation animation) {
-            playMe = null;
-            //TODO remove this ASAP and fix scaling, positioning etc -> store values so they can be applied to new players
-            //idle.setAnimation("idle");
+            playOnce = null;
+            tweener = null;
         }
 
         @Override

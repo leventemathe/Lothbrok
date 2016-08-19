@@ -43,7 +43,7 @@ public class GameRenderer implements Disposable {
         camera = new OrthographicCamera();
         //TODO custom viewport (or maybe extended), now it sets it to the size of the desktop launcher/android screen size
         float aspect = (float) Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight();
-        float height = 4f;
+        float height = 4;
         float width = height * aspect;
         viewport = new ExtendViewport(width, height, camera);
     }
