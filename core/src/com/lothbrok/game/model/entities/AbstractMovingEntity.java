@@ -9,15 +9,19 @@ public abstract class AbstractMovingEntity implements MovingEntity {
     protected float maxJumpHeight;
     protected float jumpSpeed;
 
-    public enum State {
+    public enum ActionState {
         STANDING,
         FALLING,
-        JUMPING,
+        JUMPING
+    }
+
+    public enum MovingState {
         WALKINGLEFT,
         WALKINGRIGHT
     }
 
-    protected State state;
+    protected ActionState actionState;
+    protected MovingState movingState;
 
     public abstract void update(float deltaTime);
 
@@ -25,7 +29,11 @@ public abstract class AbstractMovingEntity implements MovingEntity {
         return position;
     }
 
-    public State getState() {
-        return state;
+    public ActionState getActionState() {
+        return actionState;
+    }
+
+    public MovingState getMovingState() {
+        return movingState;
     }
 }

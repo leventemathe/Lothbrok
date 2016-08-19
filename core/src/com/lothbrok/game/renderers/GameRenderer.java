@@ -99,13 +99,18 @@ public class GameRenderer implements Disposable {
         spriteBatch.begin();
 
         SpriterAnimation animation = player.getAnimation();
-        AbstractMovingEntity.State state = gameModel.getPlayer().getState();
-        if(state == AbstractMovingEntity.State.JUMPING) {
+        AbstractMovingEntity.ActionState actionState = gameModel.getPlayer().getActionState();
+        AbstractMovingEntity.MovingState movingState = gameModel.getPlayer().getMovingState();
+
+        if(actionState == AbstractMovingEntity.ActionState.JUMPING) {
             animation.playOnce(AssetsConstants.PLAYER_ANIMATION_ENTITY, AssetsConstants.PLAYER_ANIMATION_JUMPING);
-        } else if(state == AbstractMovingEntity.State.WALKINGRIGHT) {
+        }
+
+        if(movingState == AbstractMovingEntity.MovingState.WALKINGRIGHT) {
             animation.setIdle(AssetsConstants.PLAYER_ANIMATION_ENTITY, AssetsConstants.PLAYER_ANIMATION_WALKING);
-        } else if (state == AbstractMovingEntity.State.WALKINGLEFT) {
+        } else if (movingState == AbstractMovingEntity.MovingState.WALKINGLEFT) {
             animation.setIdle(AssetsConstants.PLAYER_ANIMATION_ENTITY, AssetsConstants.PLAYER_ANIMATION_WALKING);
+            //TODO flip?
         } else {
             animation.setIdle(AssetsConstants.PLAYER_ANIMATION_ENTITY, AssetsConstants.PLAYER_ANIMATION_IDLE);
         }

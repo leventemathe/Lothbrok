@@ -125,15 +125,8 @@ public class SpriterAnimation implements Disposable {
         playOnce.setAnimation(animation);
         playOnce.addListener(new SpriterAnimationListener());
 
-        //tweener = new PlayerTweener(current, playOnce);
-        //tweener = new MyScalablePlayerTweener(data.getEntity(entity));
-        //tweener.setPlayers(current, playOnce);
-        //tweener.updatePlayers = false;
-
-        //tweener.setBaseAnimation(current.getAnimation());
-        //tweener.baseBoneName = "asd";
         tweener = new PlayerTweener(current, playOnce);
-        tweener.setWeight(0.5f);
+        tweener.setWeight(0.7f);
     }
 
     public void update(float deltaTime) {
@@ -141,7 +134,6 @@ public class SpriterAnimation implements Disposable {
         //TODO >4000 fps esetén ez 1 és nem mozog az animáció, ez baj? úgyis limitálni kéne az fps-t...
         int speed = Math.round(framesToPlayPerSecond * deltaTime);
         if(tweener != null) {
-            //tweener.speed = speed;
             //TODO a playerben és playertweenerben is csinálni egy deltaTime-os update-et?
             tweener.getFirstPlayer().speed = speed;
             tweener.getSecondPlayer().speed = speed;
@@ -165,8 +157,6 @@ public class SpriterAnimation implements Disposable {
             tweenerPlayer.setPosition(x, y);
             tweenerPlayer.setAnimation(tweener.getAnimation());
             drawer.draw(tweenerPlayer);
-            //drawer.draw(tweener.getFirstPlayer());
-            //drawer.draw(tweener.getSecondPlayer());
         } else if(playOnce != null) {
             drawer.draw(playOnce);
         } else if(current != null) {
