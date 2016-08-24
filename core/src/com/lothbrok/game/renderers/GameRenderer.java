@@ -10,8 +10,8 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lothbrok.game.assets.Assets;
-import com.lothbrok.game.assets.animation.SpriterAnimation;
-import com.lothbrok.game.assets.entities.PlayerAssets;
+import com.lothbrok.game.assets.animation.spriter.SpriterAnimation;
+import com.lothbrok.game.assets.entities.PlayerAnimation;
 import com.lothbrok.game.assets.utils.AssetsConstants;
 import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.model.entities.AbstractMovingEntity;
@@ -28,8 +28,8 @@ public class GameRenderer implements Disposable {
     private OrthogonalTiledMapRenderer mapRenderer;
 
     //TODO move to logic?
-    private TiledMap map;
-    private PlayerAssets player;
+    private TiledMap tiledMap;
+    private PlayerAnimation playerAnimation;
 
     public GameRenderer(GameModel gameModel) {
         this.gameModel = gameModel;
@@ -50,24 +50,17 @@ public class GameRenderer implements Disposable {
 
     //TODO move to logic?
     private void setupEntities() {
-        map = Assets.instance.getMap(1);
-        player = Assets.instance.getPlayerAssets();
+        tiledMap = Assets.instance.getMap(1);
+        playerAnimation = Assets.instance.getPlayerAnimation();
         //TODO get scale from m l xl etc
-        player.getAnimation().scale(1/270f); //l
+        playerAnimation.getAnimation().setScale(1/270f); //l
     }
 
     private void setupRendering() {
         spriteBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         //TODO get scale from m l xl etc
-        mapRenderer = new OrthogonalTiledMapRenderer(map, 1/540f); //xl
-    }
-
-    @Override
-    public void dispose() {
-        spriteBatch.dispose();
-        shapeRenderer.dispose();
-        mapRenderer.dispose();
+        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/540f); //xl
     }
 
     public void render(float deltaTime) {
@@ -98,30 +91,37 @@ public class GameRenderer implements Disposable {
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
 
-        SpriterAnimation animation = player.getAnimation();
+        SpriterAnimation animation = playerAnimation.getAnimation();
         AbstractMovingEntity.ActionState actionState = gameModel.getPlayer().getActionState();
         AbstractMovingEntity.MovingState movingState = gameModel.getPlayer().getMovingState();
 
         if(actionState == AbstractMovingEntity.ActionState.JUMPING) {
-            animation.playOnce(AssetsConstants.PLAYER_ANIMATION_ENTITY, AssetsConstants.PLAYER_ANIMATION_JUMPING);
+            animation.setPlayOnce(AssetsConstants.PLAYER_ANIMATION_JUMPING);
         }
 
         if(movingState == AbstractMovingEntity.MovingState.WALKINGRIGHT) {
-            animation.setIdle(AssetsConstants.PLAYER_ANIMATION_ENTITY, AssetsConstants.PLAYER_ANIMATION_WALKING);
+            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
         } else if (movingState == AbstractMovingEntity.MovingState.WALKINGLEFT) {
-            animation.setIdle(AssetsConstants.PLAYER_ANIMATION_ENTITY, AssetsConstants.PLAYER_ANIMATION_WALKING);
+            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
             //TODO flip?
         } else {
-            animation.setIdle(AssetsConstants.PLAYER_ANIMATION_ENTITY, AssetsConstants.PLAYER_ANIMATION_IDLE);
+            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_IDLE);
         }
         animation.setPosition(gameModel.getPlayer().getPosition().x, gameModel.getPlayer().getPosition().y);
         animation.update(deltaTime);
-        animation.draw(spriteBatch, shapeRenderer);
+        animation.render(spriteBatch, shapeRenderer);
 
         spriteBatch.end();
     }
 
     public void resize(int width, int height) {
         viewport.update(width, height);
+    }
+
+    @Override
+    public void dispose() {
+        spriteBatch.dispose();
+        shapeRenderer.dispose();
+        mapRenderer.dispose();
     }
 }

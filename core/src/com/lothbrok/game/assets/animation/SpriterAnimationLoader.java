@@ -8,6 +8,7 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
+import com.lothbrok.game.assets.animation.spriter.SpriterAnimation;
 
 public class SpriterAnimationLoader extends AsynchronousAssetLoader<SpriterAnimation, SpriterAnimationLoader.SpriterAnimationParameter> {
     public  SpriterAnimationLoader() {

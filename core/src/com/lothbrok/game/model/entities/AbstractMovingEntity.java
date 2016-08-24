@@ -17,7 +17,8 @@ public abstract class AbstractMovingEntity implements MovingEntity {
 
     public enum MovingState {
         WALKINGLEFT,
-        WALKINGRIGHT
+        WALKINGRIGHT,
+        NONE
     }
 
     protected ActionState actionState;

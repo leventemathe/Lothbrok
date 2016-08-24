@@ -17,10 +17,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.StringBuilder;
-import com.lothbrok.game.assets.animation.SpriterAnimation;
 import com.lothbrok.game.assets.animation.SpriterAnimationLoader;
+import com.lothbrok.game.assets.animation.spriter.SpriterAnimation;
 import com.lothbrok.game.assets.entities.MainMenuAssets;
-import com.lothbrok.game.assets.entities.PlayerAssets;
+import com.lothbrok.game.assets.entities.PlayerAnimation;
 import com.lothbrok.game.assets.entities.RalewayLightFont;
 import com.lothbrok.game.assets.utils.AssetsConstants;
 import com.lothbrok.game.assets.utils.AssetsErrorListenerImplementation;
@@ -38,7 +38,7 @@ public class Assets implements Disposable {
     private Assets() {}
 
     private RalewayLightFont ralewayLightFont;
-    private PlayerAssets playerAssets;
+    private PlayerAnimation playerAnimation;
     private MainMenuAssets mainMenuAssets;
 
     public void init(AssetManager assetManager) {
@@ -84,15 +84,15 @@ public class Assets implements Disposable {
     }
 
     public void loadPlayerAssets() {
-        assetManager.load(com.lothbrok.game.assets.utils.AssetsConstants.PLAYER_ANIMATION_PATH, SpriterAnimation.class);
+        assetManager.load(AssetsConstants.PLAYER_ANIMATION_PATH, SpriterAnimation.class);
     }
 
-    public PlayerAssets getPlayerAssets() {
-        if(playerAssets == null) {
+    public PlayerAnimation getPlayerAnimation() {
+        if(playerAnimation == null) {
             SpriterAnimation animation = assetManager.get(com.lothbrok.game.assets.utils.AssetsConstants.PLAYER_ANIMATION_PATH);
-            playerAssets = new PlayerAssets(animation);
+            playerAnimation = new PlayerAnimation(animation);
         }
-        return playerAssets;
+        return playerAnimation;
     }
 
     public void loadMainMenuAssets() {

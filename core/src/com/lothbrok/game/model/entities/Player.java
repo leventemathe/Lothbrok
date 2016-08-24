@@ -19,6 +19,7 @@ public class Player extends AbstractMovingEntity {
     public void update(float deltaTime) {
         //TODO change this to falling + collision detection
         actionState = ActionState.STANDING;
+        movingState = MovingState.NONE;
         position.y = 0.0f;
     }
 

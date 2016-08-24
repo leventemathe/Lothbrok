@@ -6,16 +6,20 @@ import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.Loader;
 import com.brashmonkey.spriter.Player;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class ScalingDrawer<R> extends Drawer<R> {
 
-    SpriteBatch spriteBatch;
-    ShapeRenderer shapeRenderer;
+    protected SpriteBatch spriteBatch;
+    protected ShapeRenderer shapeRenderer;
+
+    protected Map<Player, Float> scales;
 
     public ScalingDrawer(Loader loader) {
         super(loader);
+        this.scales = new HashMap<>();
     }
-
-    public abstract void scale(Player player, float scale);
 
     public void setSpriteBatch(SpriteBatch spriteBatch) {
         this.spriteBatch = spriteBatch;
@@ -24,4 +28,15 @@ public abstract class ScalingDrawer<R> extends Drawer<R> {
     public void setShapeRenderer(ShapeRenderer shapeRenderer) {
         this.shapeRenderer = shapeRenderer;
     }
+
+    public void setScale(Player player, float scale) {
+        if(scales.containsKey(player)) {
+            scales.put(player, scale);
+        } else {
+            scales.put(player, 1f);
+        }
+        scale(player, scale);
+    }
+
+    protected abstract void scale(Player player, float scale);
 }

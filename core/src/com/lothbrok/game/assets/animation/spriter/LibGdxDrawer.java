@@ -51,11 +51,11 @@ public class LibGdxDrawer extends ScalingDrawer<Sprite> {
 		sprite.draw(spriteBatch);;
 	}
 
-    @Override
-	public void scale(Player player, float scale) {
-        Iterator<Timeline.Key.Object> it = player.objectIterator();
-        while(it.hasNext()) {
-            loader.get(it.next().ref).setScale(scale);
-        }
+	@Override
+	protected void scale(Player player, float scale) {
+		Iterator<Timeline.Key.Object> it = player.objectIterator();
+		while(it.hasNext()) {
+			loader.get(it.next().ref).setScale(scale);
+		}
 	}
 }
