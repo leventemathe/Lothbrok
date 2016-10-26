@@ -4,6 +4,7 @@ It's my BSc thesis, and is very much a work in progress.
 I'm using libGDX, a cross-platform Java framework for 2D game development.
 (https://libgdx.badlogicgames.com/)
 ![menu](https://github.com/leviouss/Lothbrok/blob/master/doc/img/menu.png "Main menu")
+![game](https://github.com/leviouss/Lothbrok/blob/master/doc/img/wip_game.png "Game WIP")
 ## Current
 Currently I'm working on loading animations, maps, and basic game logic. I would like to make the textures and the game scalable to all the different resolutions ASAP.
 ## Animation
