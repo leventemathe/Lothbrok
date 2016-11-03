@@ -1,26 +1,25 @@
 package com.lothbrok.game.controllers;
 
 import com.lothbrok.game.controllers.commands.Command;
-import com.lothbrok.game.model.entities.MovingEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovingEntityController {
+public class AbstractController<EntityType, CommandType extends Command> {
 
-    protected MovingEntity entity;
-    protected List<Command> commands;
+    protected EntityType entity;
+    protected List<CommandType> commands;
 
-    public MovingEntityController(MovingEntity entity) {
+    public AbstractController(EntityType entity) {
         this.entity = entity;
         commands = new ArrayList<>();
     }
 
-    public void controlEntity(MovingEntity entity) {
+    public void controlEntity(EntityType entity) {
         this.entity = entity;
     }
 
-    public void addCommand(Command command) {
+    public void addCommand(CommandType command) {
         commands.add(command);
     }
 

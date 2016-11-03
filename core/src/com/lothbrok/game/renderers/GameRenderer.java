@@ -14,7 +14,7 @@ import com.lothbrok.game.assets.animation.spriter.SpriterAnimation;
 import com.lothbrok.game.assets.entities.PlayerAnimation;
 import com.lothbrok.game.assets.utils.AssetsConstants;
 import com.lothbrok.game.model.GameModel;
-import com.lothbrok.game.model.entities.AbstractMovingEntity;
+import com.lothbrok.game.model.entities.MovingEntity;
 
 public class GameRenderer implements Disposable {
 
@@ -92,16 +92,16 @@ public class GameRenderer implements Disposable {
         spriteBatch.begin();
 
         SpriterAnimation animation = playerAnimation.getAnimation();
-        AbstractMovingEntity.ActionState actionState = gameModel.getPlayer().getActionState();
-        AbstractMovingEntity.MovingState movingState = gameModel.getPlayer().getMovingState();
+        MovingEntity.ActionState actionState = gameModel.getPlayer().getActionState();
+        MovingEntity.MovingState movingState = gameModel.getPlayer().getMovingState();
 
-        if(actionState == AbstractMovingEntity.ActionState.JUMPING) {
+        if(actionState == MovingEntity.ActionState.JUMPING) {
             animation.setPlayOnce(AssetsConstants.PLAYER_ANIMATION_JUMPING);
         }
 
-        if(movingState == AbstractMovingEntity.MovingState.WALKINGRIGHT) {
+        if(movingState == MovingEntity.MovingState.WALKINGRIGHT) {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
-        } else if (movingState == AbstractMovingEntity.MovingState.WALKINGLEFT) {
+        } else if (movingState == MovingEntity.MovingState.WALKINGLEFT) {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
             //TODO flip?
         } else {

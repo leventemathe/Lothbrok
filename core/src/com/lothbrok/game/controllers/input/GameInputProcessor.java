@@ -1,19 +1,26 @@
-package com.lothbrok.game.controllers;
+package com.lothbrok.game.controllers.input;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.lothbrok.game.controllers.AbstractController;
 import com.lothbrok.game.controllers.commands.Command;
+import com.lothbrok.game.controllers.commands.movingentity.Jump;
+import com.lothbrok.game.controllers.commands.movingentity.MoveLeft;
+import com.lothbrok.game.controllers.commands.movingentity.MoveRight;
+import com.lothbrok.game.model.entities.MovingEntity;
+import com.lothbrok.game.model.entities.Player;
 
 import java.util.EnumMap;
 import java.util.Map;
 
 public class GameInputProcessor implements InputProcessor {
 
-    private MovingEntityController playerController;
+    private AbstractController<Player, Command<MovingEntity>> playerController;
 
     private enum Keys {
         MOVELEFT,
-        MOVERIGHT;
+        MOVERIGHT,
+        JUMP;
 
         public static int getSize() {
             return values().length;
@@ -22,19 +29,24 @@ public class GameInputProcessor implements InputProcessor {
 
     private Map<Keys, Boolean> keyBools;
 
-    public GameInputProcessor(MovingEntityController playerController) {
+    public GameInputProcessor(AbstractController<Player, Command<MovingEntity>> playerController) {
         this.playerController = playerController;
-        this.keyBools = new EnumMap<Keys, Boolean>(Keys.class);
+        this.keyBools = new EnumMap<>(Keys.class);
         keyBools.put(Keys.MOVELEFT, false);
         keyBools.put(Keys.MOVERIGHT, false);
+        keyBools.put(Keys.JUMP, false);
     }
 
     public void handleInput() {
         if(keyBools.get(Keys.MOVELEFT)) {
-            playerController.addCommand(new Command.MoveLeft());
+            playerController.addCommand(new MoveLeft());
         }
         if(keyBools.get(Keys.MOVERIGHT)) {
-            playerController.addCommand(new Command.MoveRight());
+            playerController.addCommand(new MoveRight());
+        }
+        if(keyBools.get(Keys.JUMP)) {
+            playerController.addCommand(new Jump());
+            keyBools.put(Keys.JUMP, false);
         }
     }
 
@@ -42,8 +54,7 @@ public class GameInputProcessor implements InputProcessor {
     public boolean keyDown(int keycode) {
         //TODO mappable keyBools
         if(keycode == Input.Keys.W) {
-            //TODO change jump to keyBools too
-            playerController.addCommand(new Command.Jump());
+            keyBools.put(Keys.JUMP, true);
         }
         if(keycode == Input.Keys.A) {
             keyBools.put(Keys.MOVELEFT, true);

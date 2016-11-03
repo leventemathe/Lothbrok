@@ -17,11 +17,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lothbrok.game.assets.Assets;
+import com.lothbrok.game.renderers.DebugRenderer;
 import com.lothbrok.game.screens.utils.ColorRectangleActor;
+import com.lothbrok.game.screens.utils.ScreensConstants;
 
 public class MainMenuScreen extends AbstractScreen {
 
     public static final String TAG = MainMenuScreen.class.getSimpleName();
+
+    private DebugRenderer debugRenderer;
 
     private Stage stage;
     private Skin skin;
@@ -46,9 +50,10 @@ public class MainMenuScreen extends AbstractScreen {
     public void show() {
         Gdx.app.log(TAG, "show");
         //TODO make a proper viewport
-        stage = new Stage(new FitViewport(com.lothbrok.game.screens.utils.ScreensConstants.VIEWPORT_MENU_WIDTH, com.lothbrok.game.screens.utils.ScreensConstants.VIEWPORT_MENU_HEIGHT));
+        stage = new Stage(new FitViewport(ScreensConstants.VIEWPORT_MENU_WIDTH, ScreensConstants.VIEWPORT_MENU_HEIGHT));
         skin = Assets.instance.getMainMenuAssets().getSkin();
         batch = new SpriteBatch();
+        debugRenderer = new DebugRenderer();
         Gdx.input.setInputProcessor(stage);
         rebuildStage();
     }
@@ -58,23 +63,17 @@ public class MainMenuScreen extends AbstractScreen {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if(clouds.getX() >= 0.0f) {
-            cloudsSpeed = -1 * com.lothbrok.game.screens.utils.ScreensConstants.SPEED_MENU_CLOUDS;
-        } else if(clouds.getX() + clouds.getPrefWidth() <= stage.getViewport().getWorldWidth()) {
-            cloudsSpeed = com.lothbrok.game.screens.utils.ScreensConstants.SPEED_MENU_CLOUDS;
-        }
-        clouds.setPosition(clouds.getX() + cloudsSpeed * delta, clouds.getY());
+        cloudLogic(delta);
 
         stage.act(delta);
         stage.draw();
-        batch.begin();
-        renderFpsCounter(batch);
-        batch.end();
+        debugRenderer.render(delta);
     }
 
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        debugRenderer.resize(width, height);
     }
 
     @Override
@@ -85,6 +84,15 @@ public class MainMenuScreen extends AbstractScreen {
     @Override
     public void hide() {
         stage.dispose();
+    }
+
+    private void cloudLogic(float delta) {
+        if(clouds.getX() >= 0.0f) {
+            cloudsSpeed = -1 * com.lothbrok.game.screens.utils.ScreensConstants.SPEED_MENU_CLOUDS;
+        } else if(clouds.getX() + clouds.getPrefWidth() <= stage.getViewport().getWorldWidth()) {
+            cloudsSpeed = com.lothbrok.game.screens.utils.ScreensConstants.SPEED_MENU_CLOUDS;
+        }
+        clouds.setPosition(clouds.getX() + cloudsSpeed * delta, clouds.getY());
     }
 
     private void rebuildStage() {
@@ -98,7 +106,6 @@ public class MainMenuScreen extends AbstractScreen {
         stage.addActor(stack);
 
         stack.add(backgroundLayer);
-        //stack.add(logoLayer);
 
         Table ui = new Table();
         stack.add(ui);
@@ -121,7 +128,7 @@ public class MainMenuScreen extends AbstractScreen {
         greenHills.setSize(greenHills.getPrefWidth(), greenHills.getPrefHeight());
 
         clouds = skin.get("clouds", Image.class);
-        clouds.setPosition(0.0f,  com.lothbrok.game.screens.utils.ScreensConstants.POSITION_MENU_CLOUDS);
+        clouds.setPosition(0.0f,  ScreensConstants.POSITION_MENU_CLOUDS);
         clouds.setSize(clouds.getPrefWidth(), clouds.getPrefHeight());
 
         layer.addActor(sky);
@@ -165,25 +172,5 @@ public class MainMenuScreen extends AbstractScreen {
 
     private void onPlayClicked() {
         ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
-    }
-
-    //TODO create a viewport fort this for proper resizing + move it to a superclass to make it available in all screens
-    private void renderFpsCounter (SpriteBatch batch) {
-        float x = 10;
-        float y = 100;
-        int fps = Gdx.graphics.getFramesPerSecond();
-        BitmapFont fpsFont = Assets.instance.getMainMenuAssets().getFont48();
-        if (fps >= 45) {
-            // 45 or more FPS show up in green
-            fpsFont.setColor(0, 1, 0, 1);
-        } else if (fps >= 30) {
-            // 30 or more FPS show up in yellow
-            fpsFont.setColor(1, 1, 0, 1);
-        } else {
-            // less than 30 FPS show up in red
-            fpsFont.setColor(1, 0, 0, 1);
-        }
-        fpsFont.draw(batch, "FPS: " + fps, x, y);
-        fpsFont.setColor(1, 1, 1, 1); // white
     }
 }
