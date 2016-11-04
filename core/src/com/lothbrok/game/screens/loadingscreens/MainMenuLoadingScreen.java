@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.screens.AbstractScreen;
-import com.lothbrok.game.screens.GameScreen;
+import com.lothbrok.game.screens.MainMenuScreen;
 
 public class MainMenuLoadingScreen extends AbstractScreen {
 
@@ -22,7 +22,7 @@ public class MainMenuLoadingScreen extends AbstractScreen {
     public void render(float deltaTime) {
         Gdx.app.debug(TAG, "loading: " + Assets.instance.getProgess());
         if(Assets.instance.isDoneLoading()) {
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
         }
     }
 

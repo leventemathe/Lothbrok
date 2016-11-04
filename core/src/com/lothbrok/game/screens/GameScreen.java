@@ -8,7 +8,6 @@ import com.lothbrok.game.controllers.input.GameInputProcessor;
 import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.model.entities.MovingEntity;
 import com.lothbrok.game.model.entities.Player;
-import com.lothbrok.game.renderers.DebugRenderer;
 import com.lothbrok.game.renderers.GameRenderer;
 
 public class GameScreen extends AbstractScreen {
@@ -20,7 +19,6 @@ public class GameScreen extends AbstractScreen {
 
     //V
     private GameRenderer gameRenderer;
-    private DebugRenderer debugRenderer;
 
     //C
     private AbstractController<Player, Command<MovingEntity>> playerController;
@@ -28,10 +26,10 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void show() {
+        super.show();
         gameModel = new GameModel(new Player());
 
         gameRenderer = new GameRenderer(gameModel);
-        debugRenderer = new DebugRenderer();
         playerController = new AbstractController<>(gameModel.getPlayer());
         gameInputProcessor = new GameInputProcessor(playerController);
         Gdx.input.setInputProcessor(gameInputProcessor);
@@ -44,7 +42,7 @@ public class GameScreen extends AbstractScreen {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         gameRenderer.render(deltaTime);
-        debugRenderer.render(deltaTime);
+        super.render(deltaTime);
     }
 
     public void update(float deltaTime) {
@@ -55,29 +53,13 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void resize(int width, int height) {
+        super.resize(width, height);
         gameRenderer.resize(width, height);
-        debugRenderer.resize(width, height);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
     }
 
     @Override
     public void dispose() {
         gameRenderer.dispose();
-        debugRenderer.dispose();
         super.dispose();
     }
 }

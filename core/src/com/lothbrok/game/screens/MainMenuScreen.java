@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -17,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lothbrok.game.assets.Assets;
-import com.lothbrok.game.renderers.DebugRenderer;
 import com.lothbrok.game.screens.utils.ColorRectangleActor;
 import com.lothbrok.game.screens.utils.ScreensConstants;
 
@@ -25,16 +23,12 @@ public class MainMenuScreen extends AbstractScreen {
 
     public static final String TAG = MainMenuScreen.class.getSimpleName();
 
-    private DebugRenderer debugRenderer;
-
     private Stage stage;
     private Skin skin;
 
-    private BitmapFont fontBtn;
-
     private Image logo;
 
-    private com.lothbrok.game.screens.utils.ColorRectangleActor sky;
+    private ColorRectangleActor sky;
     private Image greenHills;
     private Image blueHills;
     private Image clouds;
@@ -48,12 +42,12 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void show() {
+        super.show();
         Gdx.app.log(TAG, "show");
         //TODO make a proper viewport
         stage = new Stage(new FitViewport(ScreensConstants.VIEWPORT_MENU_WIDTH, ScreensConstants.VIEWPORT_MENU_HEIGHT));
         skin = Assets.instance.getMainMenuAssets().getSkin();
         batch = new SpriteBatch();
-        debugRenderer = new DebugRenderer();
         Gdx.input.setInputProcessor(stage);
         rebuildStage();
     }
@@ -67,22 +61,18 @@ public class MainMenuScreen extends AbstractScreen {
 
         stage.act(delta);
         stage.draw();
-        debugRenderer.render(delta);
+        super.render(delta);
     }
 
     @Override
     public void resize(int width, int height) {
+        super.resize(width, height);
         stage.getViewport().update(width, height, true);
-        debugRenderer.resize(width, height);
-    }
-
-    @Override
-    public void pause() {
-
     }
 
     @Override
     public void hide() {
+        super.hide();
         stage.dispose();
     }
 
