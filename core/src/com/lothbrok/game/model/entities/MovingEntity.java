@@ -6,18 +6,21 @@ public abstract class MovingEntity {
 
     protected Vector2 position;
     protected float speed;
+    protected float jumpHeight = 0f;
     protected float maxJumpHeight;
     protected float jumpSpeed;
+    protected float weight;
 
     public enum ActionState {
         STANDING,
         FALLING,
-        JUMPING
+        JUMPING,
+        ATTACKING
     }
 
     public enum MovingState {
-        WALKINGLEFT,
-        WALKINGRIGHT,
+        LEFT,
+        RIGHT,
         NONE
     }
 
@@ -41,4 +44,5 @@ public abstract class MovingEntity {
     public abstract void moveLeft(float delta);
     public abstract void moveRight(float delta);
     public abstract void jump(float delta);
+    public abstract void attack(float delta);
 }

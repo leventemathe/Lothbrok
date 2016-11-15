@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.lothbrok.game.controllers.AbstractController;
 import com.lothbrok.game.controllers.commands.Command;
+import com.lothbrok.game.controllers.commands.movingentity.Attack;
 import com.lothbrok.game.controllers.commands.movingentity.Jump;
 import com.lothbrok.game.controllers.commands.movingentity.MoveLeft;
 import com.lothbrok.game.controllers.commands.movingentity.MoveRight;
@@ -20,6 +21,7 @@ public class GameInputProcessor implements InputProcessor {
     private enum Keys {
         MOVELEFT,
         MOVERIGHT,
+        ATTACK,
         JUMP;
 
         public static int getSize() {
@@ -34,6 +36,7 @@ public class GameInputProcessor implements InputProcessor {
         this.keyBools = new EnumMap<>(Keys.class);
         keyBools.put(Keys.MOVELEFT, false);
         keyBools.put(Keys.MOVERIGHT, false);
+        keyBools.put(Keys.ATTACK, false);
         keyBools.put(Keys.JUMP, false);
     }
 
@@ -44,23 +47,29 @@ public class GameInputProcessor implements InputProcessor {
         if(keyBools.get(Keys.MOVERIGHT)) {
             playerController.addCommand(new MoveRight());
         }
+        if(keyBools.get(Keys.ATTACK)) {
+            playerController.addCommand(new Attack());
+            keyBools.put(Keys.ATTACK, false);
+        }
         if(keyBools.get(Keys.JUMP)) {
             playerController.addCommand(new Jump());
-            keyBools.put(Keys.JUMP, false);
         }
     }
 
     @Override
     public boolean keyDown(int keycode) {
         //TODO mappable keyBools
-        if(keycode == Input.Keys.W) {
-            keyBools.put(Keys.JUMP, true);
+        if(keycode == Input.Keys.H) {
+            keyBools.put(Keys.ATTACK, true);
         }
         if(keycode == Input.Keys.A) {
             keyBools.put(Keys.MOVELEFT, true);
         }
         if(keycode == Input.Keys.D) {
             keyBools.put(Keys.MOVERIGHT, true);
+        }
+        if(keycode == Input.Keys.W) {
+            keyBools.put(Keys.JUMP, true);
         }
 
         //camera
@@ -89,6 +98,9 @@ public class GameInputProcessor implements InputProcessor {
         }
         if(keycode == Input.Keys.D) {
             keyBools.put(Keys.MOVERIGHT, false);
+        }
+        if(keycode == Input.Keys.W) {
+            keyBools.put(Keys.JUMP, false);
         }
         return false;
     }

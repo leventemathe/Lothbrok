@@ -10,37 +10,60 @@ public class Player extends MovingEntity {
     public Player() {
         this.position = new Vector2(0f, 0f);
         this.speed = 1f;
-        maxJumpHeight = 0.8f;
-        jumpSpeed = 0.4f;
-        actionState = ActionState.STANDING;
+        this.maxJumpHeight = 1.6f;
+        this.jumpSpeed = 1f;
+        this.weight = 1f;
+        this.actionState = ActionState.STANDING;
     }
 
     @Override
     public void update(float deltaTime) {
-        //TODO change this to falling + collision detection
-        actionState = ActionState.STANDING;
+        //TODO collision detection with ground
+        if(actionState == ActionState.JUMPING || position.y <= 0f) {
+            actionState = ActionState.STANDING;
+        } else {
+            actionState = ActionState.FALLING;
+        }
+
+        if(actionState == ActionState.FALLING) {
+            position.y -= weight * deltaTime;
+        }
+
         movingState = MovingState.NONE;
-        position.y = 0.0f;
     }
 
     @Override
     public void moveLeft(float deltaTime) {
-        position.x -= speed*deltaTime;
-        movingState = MovingState.WALKINGLEFT;
+        position.x -= speed * deltaTime;
+        movingState = MovingState.LEFT;
     }
 
     @Override
     public void moveRight(float deltaTime) {
-        position.x += speed*deltaTime;
-        movingState = MovingState.WALKINGRIGHT;
+        position.x += speed * deltaTime;
+        movingState = MovingState.RIGHT;
     }
 
     @Override
-    public void jump(float deltaTime) {
-        if((actionState.equals(ActionState.STANDING) || actionState.equals(ActionState.JUMPING)) && position.y < maxJumpHeight ) {
-            position.y += jumpSpeed*deltaTime;
+    public void jump(float delta) {
+        if(actionState.equals(ActionState.STANDING) || actionState.equals(ActionState.JUMPING)) {
             actionState = ActionState.JUMPING;
+            if(jumpHeight < maxJumpHeight) {
+                position.y += jumpSpeed * delta;
+                jumpHeight += jumpSpeed * delta;
+            } else {
+                jumpHeight = 0f;
+                actionState = ActionState.FALLING;
+            }
             Gdx.app.debug(TAG, "jumping");
+        }
+    }
+
+    @Override
+    public void attack(float deltaTime) {
+        if(actionState.equals(ActionState.STANDING)) {
+            actionState = ActionState.ATTACKING;
+            Gdx.app.debug(TAG, "attacking");
         }
     }
 }

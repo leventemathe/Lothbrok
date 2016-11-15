@@ -46,9 +46,9 @@ public class GameScreen extends AbstractScreen {
     }
 
     public void update(float deltaTime) {
-        gameModel.getPlayer().update(deltaTime);
         gameInputProcessor.handleInput();
         playerController.executeCommands(deltaTime);
+        gameModel.getPlayer().update(deltaTime);
     }
 
     @Override
