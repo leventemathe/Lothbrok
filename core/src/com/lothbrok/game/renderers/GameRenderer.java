@@ -95,12 +95,15 @@ public class GameRenderer implements Disposable {
         MovingEntity.ActionState actionState = gameModel.getPlayer().getActionState();
         MovingEntity.MovingState movingState = gameModel.getPlayer().getMovingState();
 
-        if(actionState == MovingEntity.ActionState.JUMPING) {
+        if(actionState == MovingEntity.ActionState.JUMPING && movingState == MovingEntity.MovingState.NONE) {
             animation.setPlayOnce(AssetsConstants.PLAYER_ANIMATION_JUMPING);
+        }
+        if(actionState == MovingEntity.ActionState.JUMPING && movingState != MovingEntity.MovingState.NONE){
+            playerAnimation.attackWhileMoving();
         }
 
         if(movingState == MovingEntity.MovingState.WALKINGRIGHT) {
-            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
+            animation.setPlayAlwaysWithTweener(AssetsConstants.PLAYER_ANIMATION_WALKING);
         } else if (movingState == MovingEntity.MovingState.WALKINGLEFT) {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
             //TODO flip?

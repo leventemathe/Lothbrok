@@ -12,6 +12,7 @@ import com.brashmonkey.spriter.Entity;
 import com.brashmonkey.spriter.Loader;
 import com.brashmonkey.spriter.Mainline;
 import com.brashmonkey.spriter.Player;
+import com.brashmonkey.spriter.PlayerTweener;
 import com.brashmonkey.spriter.SCMLReader;
 
 import java.util.HashMap;
@@ -37,6 +38,7 @@ public class SpriterAnimation implements Disposable {
     private Entity currentEntity;
     private Player playOnce;
     private Player playAlways;
+    private PlayerTweener playerTweener;
 
     //TODO lots of iterators are created for maps -> could cause GC stutter
     private Map<Entity, Map<String, Player>> cachedPlayers;
@@ -61,28 +63,6 @@ public class SpriterAnimation implements Disposable {
     }
 
     //Metrics
-    public void setX(float x) {
-        this.x = x;
-
-        for(Map.Entry<Entity, Map<String, Player>> entityEntry : cachedPlayers.entrySet()) {
-            for(Map.Entry<String, Player> playerEntry : entityEntry.getValue().entrySet()) {
-                Player player = playerEntry.getValue();
-                player.setPosition(x, player.getY());
-            }
-        }
-    }
-
-    public void setY(float y) {
-        this.y = y;
-
-        for(Map.Entry<Entity, Map<String, Player>> entityEntry : cachedPlayers.entrySet()) {
-            for(Map.Entry<String, Player> playerEntry : entityEntry.getValue().entrySet()) {
-                Player player = playerEntry.getValue();
-                player.setPosition(player.getX(), y);
-            }
-        }
-    }
-
     public void setPosition(float x, float y) {
         this.x = x;
         this.y = y;
@@ -147,8 +127,27 @@ public class SpriterAnimation implements Disposable {
         playAlways = cacheAndSetPlayer(animation);
     }
 
+    // Tween animation with playOnce to play always
+    // Can't generalize: make specific methods
     public void setPlayAlwaysWithTweener(String animation, float weight) {
-        //TODO if weight > 1 || weight < 0 -> error
+        if(weight > 1f || weight < 0f) {
+            Gdx.app.error(TAG, "Bad params: tween weight");
+            return;
+        }
+        if(playOnce == null) {
+            playAlways = cacheAndSetPlayer(animation);
+            //Gdx.app.debug(TAG, "Play once is null: can't tween");
+            return;
+        }
+
+        Player playMe = cacheAndSetPlayer(animation);
+        PlayerTweener tweener = new PlayerTweener(playOnce, playMe);
+        tweener.setWeight(weight);
+        playAlways = tweener;
+    }
+
+    public void setPlayAlwaysWithTweener(String animation) {
+        setPlayAlwaysWithTweener(animation, 0.5f);
     }
 
     public void setPlayOnce(String animation) {
@@ -156,8 +155,47 @@ public class SpriterAnimation implements Disposable {
         playOnce.addListener(cachedFinishListener);
     }
 
+    // Tween animation with playAlways to play once
+    // Can't generalize: make specific methods
     public void setPlayOnceWithTweener(String animation, float weight) {
-        //TODO if weight > 1 || weight < 0 -> error
+        if(weight > 1f || weight < 0f) {
+            Gdx.app.error(TAG, "Bad params: tween weight");
+            return;
+        }
+        if(playAlways == null) {
+            Gdx.app.error(TAG, "Play always is null: can't tween");
+            return;
+        }
+
+        Player playMe = cacheAndSetPlayer(animation);
+        PlayerTweener tweener = new PlayerTweener(playAlways, playMe);
+        tweener.setWeight(weight);
+        playOnce = tweener;
+        playOnce.addListener(cachedFinishListener);
+    }
+
+    public void setPlayOnceWithTweener(String animation) {
+        setPlayOnceWithTweener(animation, 0.5f);
+    }
+
+    public void setPlayerTweener(String animation1, String animation2, String baseBone) {
+        Player player1 = cacheAndSetPlayer(animation1);
+        Player player2 = cacheAndSetPlayer(animation2);
+
+        playerTweener = new PlayerTweener(currentEntity);
+
+        playerTweener.setScale(scale);
+        playerTweener.setPlayers(player1, player2);
+        playerTweener.setPosition(x, y);
+        spriteDrawer.setScale(playerTweener, scale);
+
+        playerTweener.setBaseAnimation(animation1);
+        playerTweener.getSecondPlayer().setAnimation(animation1);
+        playerTweener.getFirstPlayer().setAnimation(animation2);
+        playerTweener.baseBoneName = "swordarmbone";
+        playerTweener.setWeight(0f);
+
+        //playerTweener.getSecondPlayer().addListener(cachedFinishListener);
     }
 
     public void update(float deltaTime) {
@@ -166,7 +204,10 @@ public class SpriterAnimation implements Disposable {
         //TODO >4000 fps esetén ez 1 és nem mozog az animáció, ez baj? úgyis limitálni kéne az fps-t...
         int speed = Math.round(framesToPlayPerSecond * deltaTime);
 
-        if(playOnce != null) {
+        if(playerTweener != null) {
+            playerTweener.speed = speed;
+            playerTweener.update();
+        } else if(playOnce != null) {
             playOnce.speed = speed;
             playOnce.update();
         } else if(playAlways != null) {
@@ -179,7 +220,9 @@ public class SpriterAnimation implements Disposable {
         spriteDrawer.setSpriteBatch(spriteBatch);
         spriteDrawer.setShapeRenderer(shapeRenderer);
 
-        if(playOnce != null) {
+        if(playerTweener != null) {
+            spriteDrawer.draw(playerTweener);
+        } else if(playOnce != null) {
             spriteDrawer.draw(playOnce);
         } else if(playAlways != null) {
             spriteDrawer.draw(playAlways);
@@ -196,6 +239,7 @@ public class SpriterAnimation implements Disposable {
         @Override
         public void animationFinished(Animation animation) {
             playOnce = null;
+            //playerTweener = null;
         }
 
         @Override

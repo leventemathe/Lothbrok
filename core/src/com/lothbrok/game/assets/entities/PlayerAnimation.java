@@ -19,6 +19,10 @@ public class PlayerAnimation implements Disposable {
         this.animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_IDLE);
     }
 
+    public void attackWhileMoving() {
+        animation.setPlayerTweener(AssetsConstants.PLAYER_ANIMATION_WALKING, AssetsConstants.PLAYER_ANIMATION_JUMPING, AssetsConstants.PLAYER_ANIMATION_BASE_BONE);
+    }
+
     public SpriterAnimation getAnimation() {
         return animation;
     }
