@@ -42,11 +42,13 @@ public class SpriterAnimation implements Disposable {
 
     //TODO lots of iterators are created for maps -> could cause GC stutter
     private Map<Entity, Map<String, Player>> cachedPlayers;
-    private FinishListener cachedFinishListener;
+    private PlayerFinishedListener cachedPlayerFinishedListener;
+    private PlayerTweenerFinishedListener cachedPlayerTweenerFinishedListener;
 
     public SpriterAnimation() {
         this.cachedPlayers = new HashMap<>();
-        this.cachedFinishListener = new FinishListener();
+        this.cachedPlayerFinishedListener = new PlayerFinishedListener();
+        this.cachedPlayerTweenerFinishedListener = new PlayerTweenerFinishedListener();
     }
 
     //Loaders
@@ -73,6 +75,9 @@ public class SpriterAnimation implements Disposable {
                 player.setPosition(x, y);
             }
         }
+        if(playerTweener != null) {
+            playerTweener.setPosition(x, y);
+        }
     }
 
     public void setScale(float scale) {
@@ -84,6 +89,9 @@ public class SpriterAnimation implements Disposable {
                 player.setScale(scale);
                 spriteDrawer.setScale(player, scale);
             }
+        }
+        if(playerTweener != null) {
+            playerTweener.setScale(scale);
         }
     }
 
@@ -127,75 +135,28 @@ public class SpriterAnimation implements Disposable {
         playAlways = cacheAndSetPlayer(animation);
     }
 
-    // Tween animation with playOnce to play always
-    // Can't generalize: make specific methods
-    public void setPlayAlwaysWithTweener(String animation, float weight) {
-        if(weight > 1f || weight < 0f) {
-            Gdx.app.error(TAG, "Bad params: tween weight");
-            return;
-        }
-        if(playOnce == null) {
-            playAlways = cacheAndSetPlayer(animation);
-            //Gdx.app.debug(TAG, "Play once is null: can't tween");
-            return;
-        }
-
-        Player playMe = cacheAndSetPlayer(animation);
-        PlayerTweener tweener = new PlayerTweener(playOnce, playMe);
-        tweener.setWeight(weight);
-        playAlways = tweener;
-    }
-
-    public void setPlayAlwaysWithTweener(String animation) {
-        setPlayAlwaysWithTweener(animation, 0.5f);
-    }
-
     public void setPlayOnce(String animation) {
         playOnce = cacheAndSetPlayer(animation);
-        playOnce.addListener(cachedFinishListener);
+        playOnce.addListener(cachedPlayerFinishedListener);
     }
 
-    // Tween animation with playAlways to play once
-    // Can't generalize: make specific methods
-    public void setPlayOnceWithTweener(String animation, float weight) {
-        if(weight > 1f || weight < 0f) {
-            Gdx.app.error(TAG, "Bad params: tween weight");
-            return;
+    public void setPlayerTweener(String doThis, String whileDoingThis, String baseBone) {
+        Player doPlayer = cacheAndSetPlayer(doThis);
+        Player whilePlayer = cacheAndSetPlayer(whileDoingThis);
+
+        if(playerTweener == null) {
+            playerTweener = new PlayerTweener(currentEntity);
+            playerTweener.setScale(scale);
+            playerTweener.setPosition(x, y);
+            spriteDrawer.setScale(playerTweener, scale);
         }
-        if(playAlways == null) {
-            Gdx.app.error(TAG, "Play always is null: can't tween");
-            return;
-        }
+        playerTweener.setPlayers(doPlayer, whilePlayer);
 
-        Player playMe = cacheAndSetPlayer(animation);
-        PlayerTweener tweener = new PlayerTweener(playAlways, playMe);
-        tweener.setWeight(weight);
-        playOnce = tweener;
-        playOnce.addListener(cachedFinishListener);
-    }
-
-    public void setPlayOnceWithTweener(String animation) {
-        setPlayOnceWithTweener(animation, 0.5f);
-    }
-
-    public void setPlayerTweener(String animation1, String animation2, String baseBone) {
-        Player player1 = cacheAndSetPlayer(animation1);
-        Player player2 = cacheAndSetPlayer(animation2);
-
-        playerTweener = new PlayerTweener(currentEntity);
-
-        playerTweener.setScale(scale);
-        playerTweener.setPlayers(player1, player2);
-        playerTweener.setPosition(x, y);
-        spriteDrawer.setScale(playerTweener, scale);
-
-        playerTweener.setBaseAnimation(animation1);
-        playerTweener.getSecondPlayer().setAnimation(animation1);
-        playerTweener.getFirstPlayer().setAnimation(animation2);
-        playerTweener.baseBoneName = "swordarmbone";
+        playerTweener.setBaseAnimation(whileDoingThis);
+        playerTweener.baseBoneName = baseBone;
         playerTweener.setWeight(0f);
 
-        //playerTweener.getSecondPlayer().addListener(cachedFinishListener);
+        doPlayer.addListener(cachedPlayerTweenerFinishedListener);
     }
 
     public void update(float deltaTime) {
@@ -205,7 +166,8 @@ public class SpriterAnimation implements Disposable {
         int speed = Math.round(framesToPlayPerSecond * deltaTime);
 
         if(playerTweener != null) {
-            playerTweener.speed = speed;
+            playerTweener.getFirstPlayer().speed = speed;
+            playerTweener.getSecondPlayer().speed = speed;
             playerTweener.update();
         } else if(playOnce != null) {
             playOnce.speed = speed;
@@ -234,12 +196,39 @@ public class SpriterAnimation implements Disposable {
         spriteLoader.dispose();
     }
 
-    private class FinishListener implements Player.PlayerListener {
+    private class PlayerFinishedListener implements Player.PlayerListener {
 
         @Override
         public void animationFinished(Animation animation) {
             playOnce = null;
-            //playerTweener = null;
+        }
+
+        @Override
+        public void animationChanged(Animation oldAnim, Animation newAnim) {
+
+        }
+
+        @Override
+        public void preProcess(Player player) {
+
+        }
+
+        @Override
+        public void postProcess(Player player) {
+
+        }
+
+        @Override
+        public void mainlineKeyChanged(Mainline.Key prevKey, Mainline.Key newKey) {
+
+        }
+    }
+
+    private class PlayerTweenerFinishedListener implements Player.PlayerListener {
+
+        @Override
+        public void animationFinished(Animation animation) {
+            playerTweener = null;
         }
 
         @Override

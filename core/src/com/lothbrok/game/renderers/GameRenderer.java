@@ -103,7 +103,7 @@ public class GameRenderer implements Disposable {
         }
 
         if(movingState == MovingEntity.MovingState.WALKINGRIGHT) {
-            animation.setPlayAlwaysWithTweener(AssetsConstants.PLAYER_ANIMATION_WALKING);
+            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
         } else if (movingState == MovingEntity.MovingState.WALKINGLEFT) {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
             //TODO flip?
