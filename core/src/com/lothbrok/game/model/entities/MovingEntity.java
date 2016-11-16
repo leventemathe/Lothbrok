@@ -5,11 +5,23 @@ import com.badlogic.gdx.math.Vector2;
 public abstract class MovingEntity {
 
     protected Vector2 position;
+
     protected float speed;
+    protected float acceleration;
+    protected float maxSpeed;
+    protected float baseSpeed;
+
     protected float jumpHeight = 0f;
     protected float maxJumpHeight;
     protected float jumpSpeed;
+    protected float jumpDeceleration;
+    protected float minJumpSpeed;
+    protected float baseJumpSpeed;
+
     protected float weight;
+    protected float gravity;
+    protected float maxWeight;
+    protected float baseWeight;
 
     public enum ActionState {
         STANDING,
@@ -20,9 +32,10 @@ public abstract class MovingEntity {
     }
 
     public enum MovingState {
+        STANDING,
         LEFT,
         RIGHT,
-        NONE
+        MIDMOVING
     }
 
     protected ActionState actionState;

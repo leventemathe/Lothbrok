@@ -97,7 +97,7 @@ public class GameRenderer implements Disposable {
 
         //TODO move all animationchanging to playerAnimation from animation
         if(actionState == MovingEntity.ActionState.ATTACKING) {
-            if(movingState == MovingEntity.MovingState.NONE) {
+            if(movingState == MovingEntity.MovingState.STANDING) {
                 animation.setPlayOnce(AssetsConstants.PLAYER_ANIMATION_ATTACKING);
             }
             else {
