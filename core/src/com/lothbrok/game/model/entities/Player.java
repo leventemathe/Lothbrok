@@ -11,15 +11,17 @@ public class Player extends MovingEntity {
         this.position = new Vector2(0f, 0f);
         this.speed = 1f;
         this.maxJumpHeight = 1.6f;
-        this.jumpSpeed = 1f;
-        this.weight = 1f;
+        this.jumpSpeed = 2f;
+        this.weight = 1.5f;
         this.actionState = ActionState.STANDING;
     }
 
     @Override
     public void update(float deltaTime) {
         //TODO collision detection with ground
-        if(actionState == ActionState.JUMPING || position.y <= 0f) {
+        if(actionState == ActionState.JUMPING) {
+            actionState = ActionState.MIDJUMP;
+        } else if(position.y <= 0f) {
             actionState = ActionState.STANDING;
         } else {
             actionState = ActionState.FALLING;
@@ -46,7 +48,7 @@ public class Player extends MovingEntity {
 
     @Override
     public void jump(float delta) {
-        if(actionState.equals(ActionState.STANDING) || actionState.equals(ActionState.JUMPING)) {
+        if(actionState.equals(ActionState.STANDING) || actionState.equals(ActionState.JUMPING) || actionState == ActionState.MIDJUMP) {
             actionState = ActionState.JUMPING;
             if(jumpHeight < maxJumpHeight) {
                 position.y += jumpSpeed * delta;
@@ -55,7 +57,7 @@ public class Player extends MovingEntity {
                 jumpHeight = 0f;
                 actionState = ActionState.FALLING;
             }
-            Gdx.app.debug(TAG, "jumping");
+            //Gdx.app.debug(TAG, "jumping");
         }
     }
 

@@ -15,6 +15,7 @@ public abstract class MovingEntity {
         STANDING,
         FALLING,
         JUMPING,
+        MIDJUMP,
         ATTACKING
     }
 

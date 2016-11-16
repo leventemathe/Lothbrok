@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.assets.animation.spriter.SpriterAnimation;
 import com.lothbrok.game.assets.entities.PlayerAnimation;
+import com.lothbrok.game.assets.utils.AssetsConstants;
 import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.model.entities.MovingEntity;
 
@@ -94,21 +95,27 @@ public class GameRenderer implements Disposable {
         MovingEntity.ActionState actionState = gameModel.getPlayer().getActionState();
         MovingEntity.MovingState movingState = gameModel.getPlayer().getMovingState();
 
-//        if(actionState == MovingEntity.ActionState.JUMPING && movingState == MovingEntity.MovingState.NONE) {
-//            animation.setPlayOnce(AssetsConstants.PLAYER_ANIMATION_JUMPING);
-//        }
-//        if(actionState == MovingEntity.ActionState.JUMPING && movingState != MovingEntity.MovingState.NONE){
-//            playerAnimation.attackWhileMoving();
-//        }
-//
-//        if(movingState == MovingEntity.MovingState.RIGHT) {
-//            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
-//        } else if (movingState == MovingEntity.MovingState.LEFT) {
-//            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
-//            //TODO flip?
-//        } else {
-//            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_IDLE);
-//        }
+        //TODO move all animationchanging to playerAnimation from animation
+        if(actionState == MovingEntity.ActionState.ATTACKING) {
+            if(movingState == MovingEntity.MovingState.NONE) {
+                animation.setPlayOnce(AssetsConstants.PLAYER_ANIMATION_ATTACKING);
+            }
+            else {
+                playerAnimation.attackWhileMoving();
+            }
+        } else if(actionState == MovingEntity.ActionState.FALLING) {
+            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_FALLING);
+        } else if(actionState == MovingEntity.ActionState.JUMPING) {
+            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_JUMPING);
+        } else if(movingState == MovingEntity.MovingState.RIGHT) {
+            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
+        } else if (movingState == MovingEntity.MovingState.LEFT) {
+            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
+            //TODO flip?
+        } else {
+            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_IDLE);
+        }
+
         animation.setPosition(gameModel.getPlayer().getPosition().x, gameModel.getPlayer().getPosition().y);
         animation.update(deltaTime);
         animation.render(spriteBatch, shapeRenderer);
