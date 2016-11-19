@@ -54,7 +54,9 @@ public class Player extends MovingEntity {
         if(actionState == ActionState.JUMPING) {
             actionState = ActionState.MIDJUMP;
         } else if(position.y <= 0f) {
-            actionState = ActionState.STANDING;
+            if(actionState != ActionState.ATTACKING) {
+                actionState = ActionState.STANDING;
+            }
         } else {
             actionState = ActionState.FALLING;
         }
@@ -128,10 +130,18 @@ public class Player extends MovingEntity {
     }
 
     @Override
-    public void attack(float deltaTime) {
+    public void startAttacking(float deltaTime) {
         if(actionState.equals(ActionState.STANDING)) {
             actionState = ActionState.ATTACKING;
-            Gdx.app.debug(TAG, "attacking");
+            Gdx.app.debug(TAG, "started attacking");
+        }
+    }
+
+    @Override
+    public void stopAttacking(float delta) {
+        if(actionState.equals(ActionState.ATTACKING)) {
+            actionState = ActionState.STANDING;
+            Gdx.app.debug(TAG, "stopped attacking");
         }
     }
 }

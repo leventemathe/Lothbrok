@@ -58,5 +58,6 @@ public abstract class MovingEntity {
     public abstract void moveLeft(float delta);
     public abstract void moveRight(float delta);
     public abstract void jump(float delta);
-    public abstract void attack(float delta);
+    public abstract void startAttacking(float delta);
+    public abstract void stopAttacking(float delta);
 }

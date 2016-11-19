@@ -2,9 +2,9 @@ package com.lothbrok.game.controllers.input;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.lothbrok.game.controllers.AbstractController;
+import com.lothbrok.game.controllers.Controller;
 import com.lothbrok.game.controllers.commands.Command;
-import com.lothbrok.game.controllers.commands.movingentity.Attack;
+import com.lothbrok.game.controllers.commands.movingentity.StartAttacking;
 import com.lothbrok.game.controllers.commands.movingentity.Jump;
 import com.lothbrok.game.controllers.commands.movingentity.MoveLeft;
 import com.lothbrok.game.controllers.commands.movingentity.MoveRight;
@@ -14,9 +14,10 @@ import com.lothbrok.game.model.entities.Player;
 import java.util.EnumMap;
 import java.util.Map;
 
+//TODO cache commands
 public class GameInputProcessor implements InputProcessor {
 
-    private AbstractController<Player, Command<MovingEntity>> playerController;
+    private Controller<MovingEntity, Command<MovingEntity>> playerController;
 
     private enum Keys {
         MOVELEFT,
@@ -31,7 +32,7 @@ public class GameInputProcessor implements InputProcessor {
 
     private Map<Keys, Boolean> keyBools;
 
-    public GameInputProcessor(AbstractController<Player, Command<MovingEntity>> playerController) {
+    public GameInputProcessor(Controller<MovingEntity, Command<MovingEntity>> playerController) {
         this.playerController = playerController;
         this.keyBools = new EnumMap<>(Keys.class);
         keyBools.put(Keys.MOVELEFT, false);
@@ -48,7 +49,7 @@ public class GameInputProcessor implements InputProcessor {
             playerController.addCommand(new MoveRight());
         }
         if(keyBools.get(Keys.ATTACK)) {
-            playerController.addCommand(new Attack());
+            playerController.addCommand(new StartAttacking());
             keyBools.put(Keys.ATTACK, false);
         }
         if(keyBools.get(Keys.JUMP)) {

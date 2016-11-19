@@ -5,12 +5,12 @@ import com.lothbrok.game.controllers.commands.Command;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AbstractController<EntityType, CommandType extends Command> {
+public class Controller<EntityType, CommandType extends Command> {
 
     protected EntityType entity;
     protected List<CommandType> commands;
 
-    public AbstractController(EntityType entity) {
+    public <T extends EntityType> Controller(T entity) {
         this.entity = entity;
         commands = new ArrayList<>();
     }

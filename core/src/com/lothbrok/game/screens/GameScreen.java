@@ -2,7 +2,7 @@ package com.lothbrok.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.lothbrok.game.controllers.AbstractController;
+import com.lothbrok.game.controllers.Controller;
 import com.lothbrok.game.controllers.commands.Command;
 import com.lothbrok.game.controllers.input.GameInputProcessor;
 import com.lothbrok.game.model.GameModel;
@@ -21,7 +21,7 @@ public class GameScreen extends AbstractScreen {
     private GameRenderer gameRenderer;
 
     //C
-    private AbstractController<Player, Command<MovingEntity>> playerController;
+    private Controller<MovingEntity, Command<MovingEntity>> playerController;
     private GameInputProcessor gameInputProcessor;
 
     @Override
@@ -29,9 +29,9 @@ public class GameScreen extends AbstractScreen {
         super.show();
         gameModel = new GameModel(new Player());
 
-        gameRenderer = new GameRenderer(gameModel);
-        playerController = new AbstractController<>(gameModel.getPlayer());
+        playerController = new Controller<>(gameModel.getPlayer());
         gameInputProcessor = new GameInputProcessor(playerController);
+        gameRenderer = new GameRenderer(gameModel, playerController);
         Gdx.input.setInputProcessor(gameInputProcessor);
     }
 

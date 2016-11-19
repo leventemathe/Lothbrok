@@ -13,8 +13,12 @@ import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.assets.animation.spriter.SpriterAnimation;
 import com.lothbrok.game.assets.entities.PlayerAnimation;
 import com.lothbrok.game.assets.utils.AssetsConstants;
+import com.lothbrok.game.controllers.Controller;
+import com.lothbrok.game.controllers.commands.Command;
+import com.lothbrok.game.controllers.commands.movingentity.StopAttacking;
 import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.model.entities.MovingEntity;
+import com.lothbrok.game.model.entities.Player;
 
 public class GameRenderer implements Disposable {
 
@@ -31,11 +35,12 @@ public class GameRenderer implements Disposable {
     private TiledMap tiledMap;
     private PlayerAnimation playerAnimation;
 
-    public GameRenderer(GameModel gameModel) {
+    //TODO don't pass controller
+    public GameRenderer(GameModel gameModel, Controller<MovingEntity, Command<MovingEntity>> controller) {
         this.gameModel = gameModel;
 
         setupViewPort();
-        setupEntities();
+        setupEntities(controller);
         setupRendering();
     }
 
@@ -49,9 +54,13 @@ public class GameRenderer implements Disposable {
     }
 
     //TODO move to logic?
-    private void setupEntities() {
+    private void setupEntities(Controller<MovingEntity, Command<MovingEntity>> controller) {
         tiledMap = Assets.instance.getMap(1);
         playerAnimation = Assets.instance.getPlayerAnimation();
+        //TODO definitly move this to screen
+        playerAnimation.getAnimation().setController(controller);
+        playerAnimation.getAnimation().addCommand(AssetsConstants.PLAYER_ANIMATION_ATTACKING,
+                new StopAttacking());
         //TODO get scale from m l xl etc
         playerAnimation.getAnimation().setScale(1/270f); //l
     }
