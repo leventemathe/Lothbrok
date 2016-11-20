@@ -8,6 +8,7 @@ import com.lothbrok.game.controllers.input.GameInputProcessor;
 import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.model.entities.MovingEntity;
 import com.lothbrok.game.model.entities.Player;
+import com.lothbrok.game.renderers.ExtendedCamera;
 import com.lothbrok.game.renderers.GameRenderer;
 
 public class GameScreen extends AbstractScreen {
@@ -22,6 +23,7 @@ public class GameScreen extends AbstractScreen {
 
     //C
     private Controller<MovingEntity, Command<MovingEntity>> playerController;
+    private Controller<ExtendedCamera, Command<ExtendedCamera>> cameraController;
     private GameInputProcessor gameInputProcessor;
 
     @Override
@@ -30,8 +32,9 @@ public class GameScreen extends AbstractScreen {
         gameModel = new GameModel(new Player());
 
         playerController = new Controller<>(gameModel.getPlayer());
-        gameInputProcessor = new GameInputProcessor(playerController);
         gameRenderer = new GameRenderer(gameModel, playerController);
+        cameraController = new Controller<>(gameRenderer.getExtendedCamera());
+        gameInputProcessor = new GameInputProcessor(playerController, cameraController);
         Gdx.input.setInputProcessor(gameInputProcessor);
     }
 
@@ -49,6 +52,7 @@ public class GameScreen extends AbstractScreen {
         gameModel.getPlayer().update(deltaTime);
         gameInputProcessor.handleInput();
         playerController.executeCommands(deltaTime);
+        cameraController.executeCommands(deltaTime);
     }
 
     @Override

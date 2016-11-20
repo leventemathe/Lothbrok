@@ -1,6 +1,7 @@
 package com.lothbrok.game.renderers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -18,13 +19,12 @@ import com.lothbrok.game.controllers.commands.Command;
 import com.lothbrok.game.controllers.commands.movingentity.StopAttacking;
 import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.model.entities.MovingEntity;
-import com.lothbrok.game.model.entities.Player;
 
 public class GameRenderer implements Disposable {
 
     private GameModel gameModel;
 
-    private OrthographicCamera camera;
+    private ExtendedCamera extendedCamera;
     private Viewport viewport;
 
     private SpriteBatch spriteBatch;
@@ -45,12 +45,12 @@ public class GameRenderer implements Disposable {
     }
 
     private void setupViewPort() {
-        camera = new OrthographicCamera();
+        extendedCamera = new ExtendedCamera(new OrthographicCamera());
         //TODO custom viewport (or maybe extended), now it sets it to the size of the desktop launcher/android screen size
         float aspect = (float) Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight();
         float height = 4;
         float width = height * aspect;
-        viewport = new ExtendViewport(width, height, camera);
+        viewport = new ExtendViewport(width, height, extendedCamera.getCamera());
     }
 
     //TODO move to logic?
@@ -80,6 +80,7 @@ public class GameRenderer implements Disposable {
     }
 
     private void renderSky() {
+        Camera camera = this.extendedCamera.getCamera();
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         //TODO get sky color from somewhere (also change in menu?)
@@ -92,12 +93,12 @@ public class GameRenderer implements Disposable {
     }
 
     private void renderMap() {
-        mapRenderer.setView(camera);
+        mapRenderer.setView((OrthographicCamera) extendedCamera.getCamera());
         mapRenderer.render();
     }
 
     private void renderAnimation(float deltaTime) {
-        spriteBatch.setProjectionMatrix(camera.combined);
+        spriteBatch.setProjectionMatrix(extendedCamera.getCamera().combined);
         spriteBatch.begin();
 
         SpriterAnimation animation = playerAnimation.getAnimation();
@@ -151,5 +152,9 @@ public class GameRenderer implements Disposable {
         spriteBatch.dispose();
         shapeRenderer.dispose();
         mapRenderer.dispose();
+    }
+
+    public ExtendedCamera getExtendedCamera() {
+        return extendedCamera;
     }
 }
