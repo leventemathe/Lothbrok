@@ -32,7 +32,7 @@ public class SpriterAnimation implements Disposable {
     private Data scmlData;
 
     private Loader<Sprite> spriteLoader;
-    private ScalingDrawer spriteDrawer;
+    private LibGdxDrawer spriteDrawer;
 
     private float x = 0.0f;
     private float y = 0.0f;
@@ -95,7 +95,6 @@ public class SpriterAnimation implements Disposable {
             for(Map.Entry<String, Player> playerEntry : entityEntry.getValue().entrySet()) {
                 Player player = playerEntry.getValue();
                 player.setScale(scale);
-                spriteDrawer.setScale(player, scale);
             }
         }
         if(playerTweener != null) {
@@ -134,7 +133,6 @@ public class SpriterAnimation implements Disposable {
         setMe.setAnimation(animation);
         setMe.setPosition(this.x, this.y);
         setMe.setScale(this.scale);
-        spriteDrawer.setScale(setMe, scale);
 
         return setMe;
     }
@@ -156,7 +154,6 @@ public class SpriterAnimation implements Disposable {
             playerTweener = new PlayerTweener(currentEntity);
             playerTweener.setScale(scale);
             playerTweener.setPosition(x, y);
-            spriteDrawer.setScale(playerTweener, scale);
         }
         playerTweener.setPlayers(doPlayer, whilePlayer);
 
@@ -167,6 +164,39 @@ public class SpriterAnimation implements Disposable {
         doPlayer.addListener(cachedPlayerTweenerFinishedListener);
     }
 
+    public void flip() {
+        for(Map.Entry<Entity, Map<String, Player>> entityEntry : cachedPlayers.entrySet()) {
+            for(Map.Entry<String, Player> playerEntry : entityEntry.getValue().entrySet()) {
+                Player player = playerEntry.getValue();
+                if(player.flippedX() == 1) {
+                    player.flipX();
+                }
+            }
+        }
+        if(playerTweener != null) {
+            if(playerTweener.flippedX() == 1) {
+                playerTweener.flipX();
+            };
+        }
+    }
+
+    public void unflip() {
+        for(Map.Entry<Entity, Map<String, Player>> entityEntry : cachedPlayers.entrySet()) {
+            for(Map.Entry<String, Player> playerEntry : entityEntry.getValue().entrySet()) {
+                Player player = playerEntry.getValue();
+                if(player.flippedX() == -1) {
+                    player.flipX();
+                }
+            }
+        }
+        if(playerTweener != null) {
+            if(playerTweener.flippedX() == -1) {
+                playerTweener.flipX();
+            }
+        }
+    }
+
+    //Update & render
     public void update(float deltaTime) {
         //TODO default is 15 in trixt0r, 60fps is assumed as default -> 15*60
         int framesToPlayPerSecond = 15 * 60;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="8" height="8" tilewidth="540" tileheight="540" nextobjectid="1">
  <tileset firstgid="1" name="platform.pack" tilewidth="540" tileheight="540" tilecount="9" columns="3">
-  <image source="platform.pack.png" width="2048" height="2048"/>
+  <image source="./img/platform.pack.png" width="2048" height="2048"/>
  </tileset>
  <layer name="Tile Layer 1" width="8" height="8">
   <data encoding="base64" compression="zlib">

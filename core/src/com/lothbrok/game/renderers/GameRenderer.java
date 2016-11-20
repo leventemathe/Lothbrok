@@ -104,23 +104,33 @@ public class GameRenderer implements Disposable {
         MovingEntity.ActionState actionState = gameModel.getPlayer().getActionState();
         MovingEntity.MovingState movingState = gameModel.getPlayer().getMovingState();
 
+        animation.unflip();
         //TODO move all animationchanging to playerAnimation from animation
         if(actionState == MovingEntity.ActionState.ATTACKING) {
             if(movingState == MovingEntity.MovingState.STANDING) {
                 animation.setPlayOnce(AssetsConstants.PLAYER_ANIMATION_ATTACKING);
             }
-            else {
+            else if(movingState == MovingEntity.MovingState.LEFT){
+                animation.flip();
+                playerAnimation.attackWhileMoving();
+            } else {
                 playerAnimation.attackWhileMoving();
             }
         } else if(actionState == MovingEntity.ActionState.FALLING) {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_FALLING);
+            if(movingState == MovingEntity.MovingState.LEFT) {
+                animation.flip();
+            }
         } else if(actionState == MovingEntity.ActionState.JUMPING) {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_JUMPING);
+            if(movingState == MovingEntity.MovingState.LEFT) {
+                animation.flip();
+            }
         } else if(movingState == MovingEntity.MovingState.RIGHT) {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
         } else if (movingState == MovingEntity.MovingState.LEFT) {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
-            //TODO flip?
+            animation.flip();
         } else {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_IDLE);
         }
