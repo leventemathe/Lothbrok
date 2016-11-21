@@ -1,26 +1,23 @@
 package com.lothbrok.game.controllers.input;
 
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.lothbrok.game.controllers.Controller;
 import com.lothbrok.game.controllers.commands.Command;
 import com.lothbrok.game.controllers.commands.camera.MoveDown;
 import com.lothbrok.game.controllers.commands.camera.MoveUp;
 import com.lothbrok.game.controllers.commands.camera.ZoomIn;
 import com.lothbrok.game.controllers.commands.camera.ZoomOut;
-import com.lothbrok.game.controllers.commands.movingentity.StartAttacking;
 import com.lothbrok.game.controllers.commands.movingentity.Jump;
 import com.lothbrok.game.controllers.commands.movingentity.MoveLeft;
 import com.lothbrok.game.controllers.commands.movingentity.MoveRight;
+import com.lothbrok.game.controllers.commands.movingentity.StartAttacking;
 import com.lothbrok.game.model.entities.MovingEntity;
-import com.lothbrok.game.model.entities.Player;
 import com.lothbrok.game.renderers.ExtendedCamera;
 
 import java.util.EnumMap;
 import java.util.Map;
 
 //TODO cache commands
-public abstract class AbstractInputProcessor implements InputProcessor {
+public class InputToControllerProcessor {
 
     protected Controller<MovingEntity, Command<MovingEntity>> playerController;
     protected Controller<ExtendedCamera, Command<ExtendedCamera>> cameraController;
@@ -47,8 +44,8 @@ public abstract class AbstractInputProcessor implements InputProcessor {
 
     protected Map<Keys, Boolean> keyBools;
 
-    public AbstractInputProcessor(Controller<MovingEntity, Command<MovingEntity>> playerController,
-                                  Controller<ExtendedCamera, Command<ExtendedCamera>> cameraController) {
+    public InputToControllerProcessor(Controller<MovingEntity, Command<MovingEntity>> playerController,
+                                      Controller<ExtendedCamera, Command<ExtendedCamera>> cameraController) {
         this.playerController = playerController;
         this.cameraController = cameraController;
         this.keyBools = new EnumMap<>(Keys.class);
@@ -75,7 +72,7 @@ public abstract class AbstractInputProcessor implements InputProcessor {
         }
         if(keyBools.get(Keys.ATTACK)) {
             playerController.addCommand(new StartAttacking());
-            keyBools.put(Keys.ATTACK, false);
+            attack(false);
         }
         if(keyBools.get(Keys.JUMP)) {
             playerController.addCommand(new Jump());
@@ -103,43 +100,43 @@ public abstract class AbstractInputProcessor implements InputProcessor {
         }
     }
 
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
+    public void attack(boolean b) {
+        keyBools.put(Keys.ATTACK, b);
     }
 
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
+    public void jump(boolean b) {
+        keyBools.put(Keys.JUMP, b);
     }
 
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
+    public void moveLeft(boolean b) {
+        keyBools.put(Keys.MOVELEFT, b);
     }
 
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
+    public void moveRight(boolean b) {
+        keyBools.put(Keys.MOVERIGHT, b);
     }
 
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
+    public void cameraMoveDown(boolean b) {
+        keyBools.put(Keys.CAMERA_MOVEDOWN, b);
     }
 
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
+    public void cameraMoveUp(boolean b) {
+        keyBools.put(Keys.CAMERA_MOVEUP, b);
     }
 
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
+    public void cameraMoveLeft(boolean b) {
+        keyBools.put(Keys.CAMERA_MOVELEFT, b);
     }
 
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
+    public void cameraMoveRight(boolean b) {
+        keyBools.put(Keys.CAMERA_MOVERIGHT, b);
+    }
+
+    public void cameraZoomIn(boolean b) {
+        keyBools.put(Keys.CAMERA_ZOOM_IN, b);
+    }
+
+    public void cameraZoomOut(boolean b) {
+        keyBools.put(Keys.CAMERA_ZOOM_OUT, b);
     }
 }

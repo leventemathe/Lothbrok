@@ -7,7 +7,7 @@ public class AssetsConstants {
 
     public static final String PLAYER_ANIMATION_PATH = "l/anim/player/player.scml";
     public static final String PLAYER_ANIMATION_ENTITY_PLAYER = "player";
-    public static final String PLAYER_ANIMATION_BASE_BONE = "swordarmbone";
+    public static final String PLAYER_ANIMATION_BASE_BONE = "swordarm_bone";
     public static final String PLAYER_ANIMATION_IDLE = "idle";
     public static final String PLAYER_ANIMATION_WALKING = "walking";
     public static final String PLAYER_ANIMATION_JUMPING = "jumping";

@@ -1,12 +1,12 @@
 package com.lothbrok.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.lothbrok.game.controllers.Controller;
 import com.lothbrok.game.controllers.commands.Command;
-import com.lothbrok.game.controllers.input.AbstractInputProcessor;
-import com.lothbrok.game.controllers.input.MobileInputRenderer;
-import com.lothbrok.game.controllers.input.PCInputProcessor;
+import com.lothbrok.game.controllers.input.InputToControllerProcessor;
+import com.lothbrok.game.controllers.input.MobileInputInterface;
 import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.model.entities.MovingEntity;
 import com.lothbrok.game.model.entities.Player;
@@ -23,12 +23,13 @@ public class GameScreen extends AbstractScreen {
     //V
     private GameRenderer gameRenderer;
     //TODO polimorphism instead of if statements
-    private MobileInputRenderer mobileInputRenderer;
+    private MobileInputInterface mobileInputInterface;
 
     //C
     private Controller<MovingEntity, Command<MovingEntity>> playerController;
     private Controller<ExtendedCamera, Command<ExtendedCamera>> cameraController;
-    private AbstractInputProcessor gameInputProcessor;
+    private InputProcessor inputProcessor;
+    private InputToControllerProcessor inputToControllerProcessor;
 
     @Override
     public void show() {
@@ -38,9 +39,14 @@ public class GameScreen extends AbstractScreen {
         playerController = new Controller<>(gameModel.getPlayer());
         gameRenderer = new GameRenderer(gameModel, playerController);
         cameraController = new Controller<>(gameRenderer.getExtendedCamera());
-        gameInputProcessor = new PCInputProcessor(playerController, cameraController);
-        mobileInputRenderer = new MobileInputRenderer();
-        Gdx.input.setInputProcessor(gameInputProcessor);
+
+        inputToControllerProcessor = new InputToControllerProcessor(playerController, cameraController);
+
+        mobileInputInterface = new MobileInputInterface(inputToControllerProcessor);
+
+        //inputProcessor = new PCInput(inputToControllerProcessor);
+        inputProcessor = mobileInputInterface.getStage();
+        Gdx.input.setInputProcessor(inputProcessor);
     }
 
     @Override
@@ -50,13 +56,13 @@ public class GameScreen extends AbstractScreen {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         gameRenderer.render(deltaTime);
-        mobileInputRenderer.render(deltaTime);
+        mobileInputInterface.render(deltaTime);
         super.render(deltaTime);
     }
 
     public void update(float deltaTime) {
         gameModel.getPlayer().update(deltaTime);
-        gameInputProcessor.handleInput();
+        inputToControllerProcessor.handleInput();
         playerController.executeCommands(deltaTime);
         cameraController.executeCommands(deltaTime);
     }
@@ -65,13 +71,13 @@ public class GameScreen extends AbstractScreen {
     public void resize(int width, int height) {
         super.resize(width, height);
         gameRenderer.resize(width, height);
-        mobileInputRenderer.resize(width, height);
+        mobileInputInterface.resize(width, height);
     }
 
     @Override
     public void dispose() {
         gameRenderer.dispose();
-        mobileInputRenderer.dispose();
+        mobileInputInterface.dispose();
         super.dispose();
     }
 }
