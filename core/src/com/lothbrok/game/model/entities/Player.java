@@ -56,9 +56,11 @@ public class Player extends MovingEntity {
         } else if(position.y <= 0f) {
             if(actionState != ActionState.ATTACKING) {
                 actionState = ActionState.STANDING;
+                jumpHeight = 0f;
             }
         } else {
             actionState = ActionState.FALLING;
+            jumpHeight = 0f;
         }
 
         applyGravity();
@@ -113,9 +115,6 @@ public class Player extends MovingEntity {
                 position.y += jumpSpeed * delta;
                 jumpHeight += jumpSpeed * delta;
                 actionState = ActionState.JUMPING;
-            } else {
-                jumpHeight = 0f;
-                actionState = ActionState.FALLING;
             }
             //Gdx.app.debug(TAG, "jumping");
         }

@@ -1,0 +1,15 @@
+{
+	com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+		attack: {
+            down: attack_btn, up: attack_btn
+        },
+		jump: {
+            down: jump_btn, up: jump_btn
+        },
+	},
+	com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle: {
+		default: {
+			background: joystick, knob: joystick
+		},
+	}
+}

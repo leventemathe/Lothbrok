@@ -1,0 +1,62 @@
+
+platform.pack.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMapLinearNearest,MipMapLinearNearest
+repeat: none
+cliff
+  rotate: false
+  xy: 14, 1122
+  size: 540, 540
+  orig: 540, 540
+  offset: 0, 0
+  index: -1
+lonely
+  rotate: false
+  xy: 14, 568
+  size: 540, 540
+  orig: 540, 540
+  offset: 0, 0
+  index: -1
+lonely_edge
+  rotate: false
+  xy: 568, 1122
+  size: 540, 540
+  orig: 540, 540
+  offset: 0, 0
+  index: -1
+mid
+  rotate: false
+  xy: 14, 14
+  size: 540, 540
+  orig: 540, 540
+  offset: 0, 0
+  index: -1
+slide
+  rotate: false
+  xy: 568, 568
+  size: 540, 540
+  orig: 540, 540
+  offset: 0, 0
+  index: -1
+slide_connector
+  rotate: false
+  xy: 1122, 1122
+  size: 540, 540
+  orig: 540, 540
+  offset: 0, 0
+  index: -1
+top_edge
+  rotate: false
+  xy: 568, 14
+  size: 540, 540
+  orig: 540, 540
+  offset: 0, 0
+  index: -1
+top_mid
+  rotate: false
+  xy: 1122, 568
+  size: 540, 540
+  orig: 540, 540
+  offset: 0, 0
+  index: -1
