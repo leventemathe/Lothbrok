@@ -20,15 +20,15 @@ import java.util.EnumMap;
 import java.util.Map;
 
 //TODO cache commands
-public class GameInputProcessor implements InputProcessor {
+public abstract class AbstractInputProcessor implements InputProcessor {
 
-    private Controller<MovingEntity, Command<MovingEntity>> playerController;
-    private Controller<ExtendedCamera, Command<ExtendedCamera>> cameraController;
+    protected Controller<MovingEntity, Command<MovingEntity>> playerController;
+    protected Controller<ExtendedCamera, Command<ExtendedCamera>> cameraController;
 
     //TODO move this somewhere central
-    private boolean debugMode = true;
+    protected boolean debugMode = true;
 
-    private enum Keys {
+    protected enum Keys {
         MOVELEFT,
         MOVERIGHT,
         ATTACK,
@@ -45,10 +45,10 @@ public class GameInputProcessor implements InputProcessor {
         }
     }
 
-    private Map<Keys, Boolean> keyBools;
+    protected Map<Keys, Boolean> keyBools;
 
-    public GameInputProcessor(Controller<MovingEntity, Command<MovingEntity>> playerController,
-                              Controller<ExtendedCamera, Command<ExtendedCamera>> cameraController) {
+    public AbstractInputProcessor(Controller<MovingEntity, Command<MovingEntity>> playerController,
+                                  Controller<ExtendedCamera, Command<ExtendedCamera>> cameraController) {
         this.playerController = playerController;
         this.cameraController = cameraController;
         this.keyBools = new EnumMap<>(Keys.class);
@@ -105,77 +105,11 @@ public class GameInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        //TODO mappable keyBools
-        if(keycode == Input.Keys.H) {
-            keyBools.put(Keys.ATTACK, true);
-        }
-        if(keycode == Input.Keys.A) {
-            keyBools.put(Keys.MOVELEFT, true);
-        }
-        if(keycode == Input.Keys.D) {
-            keyBools.put(Keys.MOVERIGHT, true);
-        }
-        if(keycode == Input.Keys.W) {
-            keyBools.put(Keys.JUMP, true);
-        }
-
-        if(debugMode) {
-            if(keycode == Input.Keys.UP) {
-                keyBools.put(Keys.CAMERA_MOVEUP, true);
-            }
-            if(keycode == Input.Keys.DOWN) {
-                keyBools.put(Keys.CAMERA_MOVEDOWN, true);
-            }
-            if(keycode == Input.Keys.LEFT) {
-                keyBools.put(Keys.CAMERA_MOVELEFT, true);
-            }
-            if(keycode == Input.Keys.RIGHT) {
-                keyBools.put(Keys.CAMERA_MOVERIGHT, true);
-            }
-            if(keycode == Input.Keys.X) {
-                keyBools.put(Keys.CAMERA_ZOOM_IN, true);
-            }
-            if(keycode == Input.Keys.C) {
-                keyBools.put(Keys.CAMERA_ZOOM_OUT, true);
-            }
-        }
-
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        if(keycode == Input.Keys.A) {
-            keyBools.put(Keys.MOVELEFT, false);
-        }
-        if(keycode == Input.Keys.D) {
-            keyBools.put(Keys.MOVERIGHT, false);
-        }
-        if(keycode == Input.Keys.W) {
-            keyBools.put(Keys.JUMP, false);
-        }
-
-        if(debugMode) {
-            if(keycode == Input.Keys.UP) {
-                keyBools.put(Keys.CAMERA_MOVEUP, false);
-            }
-            if(keycode == Input.Keys.DOWN) {
-                keyBools.put(Keys.CAMERA_MOVEDOWN, false);
-            }
-            if(keycode == Input.Keys.LEFT) {
-                keyBools.put(Keys.CAMERA_MOVELEFT, false);
-            }
-            if(keycode == Input.Keys.RIGHT) {
-                keyBools.put(Keys.CAMERA_MOVERIGHT, false);
-            }
-            if(keycode == Input.Keys.X) {
-                keyBools.put(Keys.CAMERA_ZOOM_IN, false);
-            }
-            if(keycode == Input.Keys.C) {
-                keyBools.put(Keys.CAMERA_ZOOM_OUT, false);
-            }
-        }
-
         return false;
     }
 
