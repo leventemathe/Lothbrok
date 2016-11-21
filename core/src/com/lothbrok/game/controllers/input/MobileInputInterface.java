@@ -1,5 +1,6 @@
 package com.lothbrok.game.controllers.input;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lothbrok.game.assets.Assets;
@@ -58,6 +60,18 @@ public class MobileInputInterface implements Disposable{
     private void buildTouchPad() {
         Touchpad.TouchpadStyle style = skin.get("default", Touchpad.TouchpadStyle.class);
         touchPad = new Touchpad(10f, style);
+        touchPad.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                inputProcessor.moveRight(false);
+                inputProcessor.moveLeft(false);
+                if(touchPad.getKnobPercentX() > 0f) {
+                    inputProcessor.moveRight(true);
+                } else if(touchPad.getKnobPercentX() < 0f) {
+                    inputProcessor.moveLeft(true);
+                }
+            }
+        });
     }
 
     private void buildJumpButton() {
