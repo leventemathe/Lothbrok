@@ -89,23 +89,23 @@ public class Assets implements Disposable {
 
     public PlayerAnimation getPlayerAnimation() {
         if(playerAnimation == null) {
-            SpriterAnimation animation = assetManager.get(com.lothbrok.game.assets.utils.AssetsConstants.PLAYER_ANIMATION_PATH);
+            SpriterAnimation animation = assetManager.get(AssetsConstants.PLAYER_ANIMATION_PATH);
             playerAnimation = new PlayerAnimation(animation);
         }
         return playerAnimation;
     }
 
     public void loadMainMenuAssets() {
-        assetManager.load(com.lothbrok.game.assets.utils.AssetsConstants.MENU_SKIN_PATH, Skin.class, new SkinLoader.SkinParameter(com.lothbrok.game.assets.utils.AssetsConstants.MENU_ATLAS_PATH));
+        assetManager.load(AssetsConstants.MENU_SKIN_PATH, Skin.class, new SkinLoader.SkinParameter(AssetsConstants.MENU_ATLAS_PATH));
         //assetManager.load(AssetsConstants.MENU_FONT_PATH, BitmapFont.class);
-        assetManager.load(com.lothbrok.game.assets.utils.AssetsConstants.MENU_FONT_PATH, FreeTypeFontGenerator.class);
+        assetManager.load(AssetsConstants.MENU_FONT_PATH, FreeTypeFontGenerator.class);
     }
 
     public MainMenuAssets getMainMenuAssets() {
         if(mainMenuAssets == null) {
-            Skin skin = assetManager.get(com.lothbrok.game.assets.utils.AssetsConstants.MENU_SKIN_PATH);
+            Skin skin = assetManager.get(AssetsConstants.MENU_SKIN_PATH);
 
-            FreeTypeFontGenerator fontGenerator = assetManager.get(com.lothbrok.game.assets.utils.AssetsConstants.MENU_FONT_PATH);
+            FreeTypeFontGenerator fontGenerator = assetManager.get(AssetsConstants.MENU_FONT_PATH);
 
             FreeTypeFontParameter parameter = new FreeTypeFontParameter();
             parameter.size = 48;
@@ -132,7 +132,7 @@ public class Assets implements Disposable {
     }
 
     public String buildMapFilePath(int index) {
-        StringBuilder path = new StringBuilder(com.lothbrok.game.assets.utils.AssetsConstants.MAP_PREFIX);
+        StringBuilder path = new StringBuilder(AssetsConstants.MAP_PREFIX);
         path.append(String.valueOf(index));
         path.append(com.lothbrok.game.assets.utils.AssetsConstants.MAP_POSTFIX);
         return  path.toString();
@@ -144,6 +144,14 @@ public class Assets implements Disposable {
 
     public TiledMap getMap(int index) {
         return assetManager.get(buildMapFilePath(index));
+    }
+
+    public void loadMobileControlsSkin() {
+        assetManager.load(AssetsConstants.MOBILE_CONTROLS_SKIN_PATH, Skin.class, new SkinLoader.SkinParameter(AssetsConstants.MOBILE_CONTROLS_ATLAS_PATH));
+    }
+
+    public Skin getMobileControlsSkin() {
+        return assetManager.get(AssetsConstants.MOBILE_CONTROLS_SKIN_PATH);
     }
 
     //TODO add unload methods

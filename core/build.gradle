@@ -14,7 +14,7 @@ dependencies {
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.tools.texturepacker.TexturePacker
 
-project.ext.platform = ["core/assets_raw/img/platform", "android/assets/img/platform", "platform.pack"]
+project.ext.platform = ["core/assets_raw/xl/img/platform", "android/assets/xl/maps", "platform.pack"]
 project.ext.menuL = ["core/assets_raw/img/menu/1080", "android/assets/l/img/menu", "menu.pack"]
 project.ext.menuXL = ["core/assets_raw/img/menu/4k", "android/assets/xl/img/menu", "menu.pack"]
 project.ext.settings = new com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings();
@@ -55,5 +55,21 @@ task packMenuM << {
     if (project.ext.has('menuM')) {
         logger.info "Calling TexturePacker: "+ platform
         TexturePacker.process(settingsM, menuM[0], menuM[1], menuM[2])
+    }
+}
+
+project.ext.mobileControls = ["core/assets_raw/xl/img/mobile_controls", "android/assets/xl/img/mobile_controls", "mobile_controls.pack"]
+project.ext.mobileControlsSettings = new com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings();
+project.ext.mobileControlsSettings.maxWidth = 2048
+project.ext.mobileControlsSettings.maxHeight = 2048
+project.ext.mobileControlsSettings.paddingX = 10
+project.ext.mobileControlsSettings.paddingY = 10
+project.ext.mobileControlsSettings.filterMin = Texture.TextureFilter.MipMapLinearNearest;
+project.ext.mobileControlsSettings.filterMag = Texture.TextureFilter.MipMapLinearNearest;
+
+task packMobileControls << {
+    if (project.ext.has('mobileControls')) {
+        logger.info "Calling TexturePacker: "+ platform
+        TexturePacker.process(mobileControlsSettings, mobileControls[0], mobileControls[1], mobileControls[2])
     }
 }
