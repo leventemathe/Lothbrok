@@ -1,59 +1,59 @@
 
-platform.pack.png
+map.pack.png
 size: 2048,2048
 format: RGBA8888
 filter: MipMapLinearNearest,MipMapLinearNearest
 repeat: none
-cliff
+cliff_0
   rotate: false
   xy: 14, 1122
   size: 540, 540
   orig: 540, 540
   offset: 0, 0
   index: -1
-lonely
+lonely_1
   rotate: false
   xy: 14, 568
   size: 540, 540
   orig: 540, 540
   offset: 0, 0
   index: -1
-lonely_edge
+lonely_edge_2
   rotate: false
   xy: 568, 1122
   size: 540, 540
   orig: 540, 540
   offset: 0, 0
   index: -1
-mid
+mid_3
   rotate: false
   xy: 14, 14
   size: 540, 540
   orig: 540, 540
   offset: 0, 0
   index: -1
-slide
+slide_4
   rotate: false
   xy: 568, 568
   size: 540, 540
   orig: 540, 540
   offset: 0, 0
   index: -1
-slide_connector
+slide_connector_5
   rotate: false
   xy: 1122, 1122
   size: 540, 540
   orig: 540, 540
   offset: 0, 0
   index: -1
-top_edge
+top_edge_6
   rotate: false
   xy: 568, 14
   size: 540, 540
   orig: 540, 540
   offset: 0, 0
   index: -1
-top_mid
+top_mid_7
   rotate: false
   xy: 1122, 568
   size: 540, 540

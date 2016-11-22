@@ -1,0 +1,62 @@
+
+map.pack.png
+size: 2048,1024
+format: RGBA8888
+filter: MipMapLinearNearest,MipMapLinearNearest
+repeat: none
+cliff_0
+  rotate: false
+  xy: 10, 380
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: -1
+lonely_1
+  rotate: false
+  xy: 10, 10
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: -1
+lonely_edge_2
+  rotate: false
+  xy: 380, 380
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: -1
+mid_3
+  rotate: false
+  xy: 380, 10
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: -1
+slide_4
+  rotate: false
+  xy: 750, 380
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: -1
+slide_connector_5
+  rotate: false
+  xy: 750, 10
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: -1
+top_edge_6
+  rotate: false
+  xy: 1120, 380
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: -1
+top_mid_7
+  rotate: false
+  xy: 1120, 10
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: -1
