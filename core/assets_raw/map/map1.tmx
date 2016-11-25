@@ -58,7 +58,7 @@
   <object id="30" gid="12" x="10800" y="1620" width="2160" height="254"/>
   <object id="31" gid="12" x="12960" y="1620" width="2160" height="254"/>
   <object id="32" gid="12" x="15120" y="1620" width="2160" height="254"/>
-  <object id="33" x="0" y="1620" width="17280" height="1080"/>
+  <object id="33" type="cloud" x="0" y="1620" width="17280" height="1080"/>
  </objectgroup>
  <objectgroup name="background1">
   <object id="16" gid="14" x="0" y="2160" width="2160" height="178"/>
@@ -69,7 +69,7 @@
   <object id="21" gid="14" x="10800" y="2160" width="2160" height="178"/>
   <object id="22" gid="14" x="12960" y="2160" width="2160" height="178"/>
   <object id="23" gid="14" x="15120" y="2160" width="2160" height="178"/>
-  <object id="24" x="0" y="2160" width="17280" height="2160"/>
+  <object id="24" type="closeHill" x="0" y="2160" width="17280" height="2160"/>
  </objectgroup>
  <objectgroup name="decor">
   <object id="34" gid="15" x="64" y="2700" width="408" height="933.559"/>

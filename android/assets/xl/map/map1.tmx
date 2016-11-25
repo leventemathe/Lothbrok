@@ -61,7 +61,7 @@
   <object gid="12" height="254" id="30" width="2160" x="10800" y="1620" />
   <object gid="12" height="254" id="31" width="2160" x="12960" y="1620" />
   <object gid="12" height="254" id="32" width="2160" x="15120" y="1620" />
-  <object height="1080" id="33" width="17280" x="0" y="1620" />
+  <object height="1080" id="33" type="cloud" width="17280" x="0" y="1620" />
  </objectgroup>
  <objectgroup name="background1">
   <object gid="14" height="178" id="16" width="2160" x="0" y="2160" />
@@ -72,7 +72,7 @@
   <object gid="14" height="178" id="21" width="2160" x="10800" y="2160" />
   <object gid="14" height="178" id="22" width="2160" x="12960" y="2160" />
   <object gid="14" height="178" id="23" width="2160" x="15120" y="2160" />
-  <object height="2160" id="24" width="17280" x="0" y="2160" />
+  <object height="2160" id="24" type="closeHill" width="17280" x="0" y="2160" />
  </objectgroup>
  <objectgroup name="decor">
   <object gid="15" height="933.559" id="34" width="408" x="64" y="2700" />
