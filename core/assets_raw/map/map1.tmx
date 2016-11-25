@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="8" tilewidth="540" tileheight="540" nextobjectid="55">
+ <tileset firstgid="1" name="tiles" tilewidth="540" tileheight="540" tilecount="9" columns="0">
+  <tile id="0">
+   <image width="540" height="540" source="cliff_00.png"/>
+  </tile>
+  <tile id="1">
+   <image width="540" height="540" source="lonely_01.png"/>
+  </tile>
+  <tile id="2">
+   <image width="540" height="540" source="lonely_edge_02.png"/>
+  </tile>
+  <tile id="3">
+   <image width="540" height="540" source="mid_03.png"/>
+  </tile>
+  <tile id="4">
+   <image width="540" height="540" source="slide_04.png"/>
+  </tile>
+  <tile id="5">
+   <image width="540" height="540" source="slide_connector_05.png"/>
+  </tile>
+  <tile id="6">
+   <image width="540" height="540" source="top_edge_06.png"/>
+  </tile>
+  <tile id="7">
+   <image width="540" height="540" source="top_mid_07.png"/>
+  </tile>
+  <tile id="8">
+   <image width="540" height="347" source="water_08.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="10" name="bg" tilewidth="2160" tileheight="1080" tilecount="6" columns="0">
+  <tile id="0">
+   <image width="472" height="1080" source="background_pine_tree_12.png"/>
+  </tile>
+  <tile id="1">
+   <image width="600" height="1080" source="buxus_tree_10.png"/>
+  </tile>
+  <tile id="2">
+   <image width="2160" height="254" source="clouds_14.png"/>
+  </tile>
+  <tile id="3">
+   <image width="504" height="1080" source="dead_tree_11.png"/>
+  </tile>
+  <tile id="4">
+   <image width="2160" height="178" source="hills_13.png"/>
+  </tile>
+  <tile id="5">
+   <image width="472" height="1080" source="pine_tree_09.png"/>
+  </tile>
+ </tileset>
+ <objectgroup name="background2">
+  <object id="25" gid="12" x="0" y="1620" width="2160" height="254"/>
+  <object id="26" gid="12" x="2160" y="1620" width="2160" height="254"/>
+  <object id="27" gid="12" x="4320" y="1620" width="2160" height="254"/>
+  <object id="28" gid="12" x="6480" y="1620" width="2160" height="254"/>
+  <object id="29" gid="12" x="8640" y="1620" width="2160" height="254"/>
+  <object id="30" gid="12" x="10800" y="1620" width="2160" height="254"/>
+  <object id="31" gid="12" x="12960" y="1620" width="2160" height="254"/>
+  <object id="32" gid="12" x="15120" y="1620" width="2160" height="254"/>
+  <object id="33" x="0" y="1620" width="17280" height="1080"/>
+ </objectgroup>
+ <objectgroup name="background1">
+  <object id="16" gid="14" x="0" y="2160" width="2160" height="178"/>
+  <object id="17" gid="14" x="2160" y="2160" width="2160" height="178"/>
+  <object id="18" gid="14" x="4320" y="2160" width="2160" height="178"/>
+  <object id="19" gid="14" x="6480" y="2160" width="2160" height="178"/>
+  <object id="20" gid="14" x="8640" y="2160" width="2160" height="178"/>
+  <object id="21" gid="14" x="10800" y="2160" width="2160" height="178"/>
+  <object id="22" gid="14" x="12960" y="2160" width="2160" height="178"/>
+  <object id="23" gid="14" x="15120" y="2160" width="2160" height="178"/>
+  <object id="24" x="0" y="2160" width="17280" height="2160"/>
+ </objectgroup>
+ <objectgroup name="decor">
+  <object id="34" gid="15" x="64" y="2700" width="408" height="933.559"/>
+  <object id="35" gid="15" x="540" y="2700" width="472" height="1080"/>
+  <object id="36" gid="15" x="2160" y="2160" width="472" height="1080"/>
+  <object id="37" gid="15" x="2700" y="2160" width="312" height="713.898"/>
+  <object id="38" gid="15" x="5400" y="1080" width="376" height="860.339"/>
+  <object id="39" gid="15" x="9180" y="2160" width="472" height="1080"/>
+  <object id="40" gid="15" x="8100" y="2700" width="360" height="823.729"/>
+  <object id="41" gid="15" x="14040" y="3240" width="360" height="823.729"/>
+  <object id="42" gid="15" x="14580" y="3240" width="472" height="1080"/>
+  <object id="43" gid="15" x="15120" y="3240" width="353.126" height="808"/>
+  <object id="44" gid="13" x="4469.33" y="1080" width="354.667" height="760"/>
+  <object id="46" gid="13" x="10260" y="1080" width="414.4" height="888"/>
+  <object id="47" gid="13" x="15168" y="1080" width="456" height="977.143"/>
+  <object id="50" gid="11" x="16820" y="2160" width="392" height="705.6"/>
+  <object id="52" gid="11" x="6480" y="3240" width="280" height="504"/>
+  <object id="53" gid="11" x="6130.33" y="3236" width="226.667" height="408"/>
+ </objectgroup>
+ <layer name="tiles" width="32" height="8">
+  <data encoding="base64" compression="zlib">
+   eJzdUUEOgCAMKzoEf83TxcwlOGHswMkmTRbo2gaA/2Fb5BMrE1C8njNN9UJuPGfZhyNzNQK4451NzXlCv3d89Jnn1/3O/OzoPe+bWD2J5+LximqPDK3kCEPjTQP2IH+vOwtPgyPdKN/jI7wAh9MGgw==
+  </data>
+ </layer>
+</map>

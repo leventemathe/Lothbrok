@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -29,7 +28,7 @@ public class GameRenderer implements Disposable {
 
     private SpriteBatch spriteBatch;
     private ShapeRenderer shapeRenderer;
-    private OrthogonalTiledMapRenderer mapRenderer;
+    private MyOrthogonalTiledMapRenderer mapRenderer;
 
     //TODO move to logic?
     private TiledMap tiledMap;
@@ -62,14 +61,14 @@ public class GameRenderer implements Disposable {
         playerAnimation.getAnimation().addCommand(AssetsConstants.PLAYER_ANIMATION_ATTACKING,
                 new StopAttacking());
         //TODO get scale from m l xl etc
-        playerAnimation.getAnimation().setScale(1/270f); //l
+        playerAnimation.getAnimation().setScale(1f/540f); //xl
     }
 
     private void setupRendering() {
         spriteBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         //TODO get scale from m l xl etc
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/540f); //xl
+        mapRenderer = new MyOrthogonalTiledMapRenderer(tiledMap, 1f/540f); //xl
     }
 
     public void render(float deltaTime) {

@@ -1,0 +1,111 @@
+
+map.pack.png
+size: 4096,1024
+format: RGBA8888
+filter: MipMapLinearNearest,MipMapLinearNearest
+repeat: none
+background_pine_tree_12
+  rotate: false
+  xy: 2211, 194
+  size: 315, 720
+  orig: 315, 720
+  offset: 0, 0
+  index: -1
+buxus_tree_10
+  rotate: false
+  xy: 1455, 194
+  size: 400, 720
+  orig: 400, 720
+  offset: 0, 0
+  index: -1
+cliff_00
+  rotate: false
+  xy: 5, 246
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: -1
+clouds_14
+  rotate: false
+  xy: 5, 745
+  size: 1440, 169
+  orig: 1440, 169
+  offset: 0, 0
+  index: -1
+dead_tree_11
+  rotate: false
+  xy: 1865, 194
+  size: 336, 720
+  orig: 336, 720
+  offset: 0, 0
+  index: -1
+hills_13
+  rotate: false
+  xy: 5, 616
+  size: 1440, 119
+  orig: 1440, 119
+  offset: 0, 0
+  index: -1
+lonely_01
+  rotate: false
+  xy: 375, 246
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: -1
+lonely_edge_02
+  rotate: false
+  xy: 745, 246
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: -1
+mid_03
+  rotate: false
+  xy: 2861, 554
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: -1
+pine_tree_09
+  rotate: false
+  xy: 2536, 194
+  size: 315, 720
+  orig: 315, 720
+  offset: 0, 0
+  index: -1
+slide_04
+  rotate: false
+  xy: 3231, 554
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: -1
+slide_connector_05
+  rotate: false
+  xy: 3601, 554
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: -1
+top_edge_06
+  rotate: false
+  xy: 2861, 184
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: -1
+top_mid_07
+  rotate: false
+  xy: 3231, 184
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: -1
+water_08
+  rotate: false
+  xy: 5, 5
+  size: 360, 231
+  orig: 360, 231
+  offset: 0, 0
+  index: -1

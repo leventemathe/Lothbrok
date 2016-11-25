@@ -7,6 +7,7 @@ import com.lothbrok.game.controllers.Controller;
 import com.lothbrok.game.controllers.commands.Command;
 import com.lothbrok.game.controllers.input.InputToControllerProcessor;
 import com.lothbrok.game.controllers.input.MobileInputInterface;
+import com.lothbrok.game.controllers.input.PCInput;
 import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.model.entities.MovingEntity;
 import com.lothbrok.game.model.entities.Player;
@@ -44,8 +45,8 @@ public class GameScreen extends AbstractScreen {
 
         mobileInputInterface = new MobileInputInterface(inputToControllerProcessor);
 
-        //inputProcessor = new PCInput(inputToControllerProcessor);
-        inputProcessor = mobileInputInterface.getStage();
+        inputProcessor = new PCInput(inputToControllerProcessor);
+        //inputProcessor = mobileInputInterface.getStage();
         Gdx.input.setInputProcessor(inputProcessor);
     }
 
