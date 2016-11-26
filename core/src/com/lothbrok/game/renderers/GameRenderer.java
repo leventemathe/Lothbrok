@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -31,7 +30,6 @@ public class GameRenderer implements Disposable {
     private MyOrthogonalTiledMapRenderer mapRenderer;
 
     //TODO move to logic?
-    private TiledMap tiledMap;
     private PlayerAnimation playerAnimation;
 
     //TODO don't pass controller
@@ -54,7 +52,6 @@ public class GameRenderer implements Disposable {
 
     //TODO move to logic?
     private void setupEntities(Controller<MovingEntity, Command<MovingEntity>> controller) {
-        tiledMap = Assets.instance.getMap(1);
         playerAnimation = Assets.instance.getPlayerAnimation();
         //TODO definitly move this to screen
         playerAnimation.getAnimation().setController(controller);
@@ -68,7 +65,7 @@ public class GameRenderer implements Disposable {
         spriteBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         //TODO get scale from m l xl etc
-        mapRenderer = new MyOrthogonalTiledMapRenderer(tiledMap, 1f/540f); //xl
+        mapRenderer = new MyOrthogonalTiledMapRenderer(gameModel.getMap(), 1f/540f); //xl
     }
 
     public void render(float deltaTime) {

@@ -2,27 +2,51 @@
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="8" tilewidth="540" tileheight="540" nextobjectid="55">
  <tileset firstgid="1" name="tiles" tilewidth="540" tileheight="540" tilecount="9" columns="0">
   <tile id="0">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
    <image width="540" height="540" source="cliff_00.png"/>
   </tile>
   <tile id="1">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
    <image width="540" height="540" source="lonely_01.png"/>
   </tile>
   <tile id="2">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
    <image width="540" height="540" source="lonely_edge_02.png"/>
   </tile>
   <tile id="3">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
    <image width="540" height="540" source="mid_03.png"/>
   </tile>
   <tile id="4">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
    <image width="540" height="540" source="slide_04.png"/>
   </tile>
   <tile id="5">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
    <image width="540" height="540" source="slide_connector_05.png"/>
   </tile>
   <tile id="6">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
    <image width="540" height="540" source="top_edge_06.png"/>
   </tile>
   <tile id="7">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
    <image width="540" height="540" source="top_mid_07.png"/>
   </tile>
   <tile id="8">

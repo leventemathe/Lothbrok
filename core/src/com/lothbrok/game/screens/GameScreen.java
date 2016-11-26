@@ -3,6 +3,9 @@ package com.lothbrok.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.controllers.Controller;
 import com.lothbrok.game.controllers.commands.Command;
 import com.lothbrok.game.controllers.input.InputToControllerProcessor;
@@ -35,7 +38,9 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void show() {
         super.show();
-        gameModel = new GameModel(new Player());
+        TiledMap map = Assets.instance.getMap(1);
+        Player player = new Player((TiledMapTileLayer)map.getLayers().get("tiles"));
+        gameModel = new GameModel(player, map);
 
         playerController = new Controller<>(gameModel.getPlayer());
         gameRenderer = new GameRenderer(gameModel, playerController);
