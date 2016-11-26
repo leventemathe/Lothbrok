@@ -2,48 +2,49 @@ package com.lothbrok.game.controllers.input;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.lothbrok.game.controllers.Controller;
 
 public class PCInput implements InputProcessor {
 
-    private InputToControllerProcessor inputToControllerProcessor;
+    private Controller controller;
 
-    public PCInput(InputToControllerProcessor inputToControllerProcessor) {
-        this.inputToControllerProcessor = inputToControllerProcessor;
+    public PCInput(Controller controller) {
+        this.controller = controller;
     }
 
     @Override
     public boolean keyDown(int keycode) {
         //TODO mappable keyBools
         if(keycode == Input.Keys.H) {
-            inputToControllerProcessor.attack(true);
+            controller.attack(true);
         }
         if(keycode == Input.Keys.A) {
-            inputToControllerProcessor.moveLeft(true);
+            controller.moveLeft(true);
         }
         if(keycode == Input.Keys.D) {
-            inputToControllerProcessor.moveRight(true);
+            controller.moveRight(true);
         }
         if(keycode == Input.Keys.W) {
-            inputToControllerProcessor.jump(true);
+            controller.jump(true);
         }
 
         if(keycode == Input.Keys.UP) {
-            inputToControllerProcessor.cameraMoveUp(true);
+            controller.cameraMoveUp(true);
         }
         if(keycode == Input.Keys.DOWN) {
-            inputToControllerProcessor.cameraMoveDown(true);
+            controller.cameraMoveDown(true);
         }
         if(keycode == Input.Keys.LEFT) {
-            inputToControllerProcessor.cameraMoveLeft(true);
+            controller.cameraMoveLeft(true);
         }
         if(keycode == Input.Keys.RIGHT) {
-            inputToControllerProcessor.cameraMoveRight(true);
+            controller.cameraMoveRight(true);
         }
         if(keycode == Input.Keys.X) {
-            inputToControllerProcessor.cameraZoomIn(true);
+            controller.cameraZoomIn(true);
         }
         if(keycode == Input.Keys.C) {
-            inputToControllerProcessor.cameraZoomOut(true);
+            controller.cameraZoomOut(true);
         }
 
         return true;
@@ -52,32 +53,32 @@ public class PCInput implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         if(keycode == Input.Keys.A) {
-            inputToControllerProcessor.moveLeft(false);
+            controller.moveLeft(false);
         }
         if(keycode == Input.Keys.D) {
-            inputToControllerProcessor.moveRight(false);
+            controller.moveRight(false);
         }
         if(keycode == Input.Keys.W) {
-            inputToControllerProcessor.jump(false);
+            controller.jump(false);
         }
 
         if(keycode == Input.Keys.UP) {
-            inputToControllerProcessor.cameraMoveUp(false);
+            controller.cameraMoveUp(false);
         }
         if(keycode == Input.Keys.DOWN) {
-            inputToControllerProcessor.cameraMoveDown(false);
+            controller.cameraMoveDown(false);
         }
         if(keycode == Input.Keys.LEFT) {
-            inputToControllerProcessor.cameraMoveLeft(false);
+            controller.cameraMoveLeft(false);
         }
         if(keycode == Input.Keys.RIGHT) {
-            inputToControllerProcessor.cameraMoveRight(false);
+            controller.cameraMoveRight(false);
         }
         if(keycode == Input.Keys.X) {
-            inputToControllerProcessor.cameraZoomIn(false);
+            controller.cameraZoomIn(false);
         }
         if(keycode == Input.Keys.C) {
-            inputToControllerProcessor.cameraZoomOut(false);
+            controller.cameraZoomOut(false);
         }
 
         return true;

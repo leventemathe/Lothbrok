@@ -4,18 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Vector2;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.controllers.Controller;
-import com.lothbrok.game.controllers.commands.Command;
-import com.lothbrok.game.controllers.input.InputToControllerProcessor;
 import com.lothbrok.game.controllers.input.MobileInputInterface;
 import com.lothbrok.game.controllers.input.PCInput;
 import com.lothbrok.game.model.GameModel;
-import com.lothbrok.game.model.entities.MovingEntity;
-import com.lothbrok.game.model.entities.Player;
-import com.lothbrok.game.renderers.ExtendedCamera;
 import com.lothbrok.game.renderers.GameRenderer;
 
 public class GameScreen extends AbstractScreen {
@@ -31,30 +24,19 @@ public class GameScreen extends AbstractScreen {
     private MobileInputInterface mobileInputInterface;
 
     //C
-    private Controller<MovingEntity, Command<MovingEntity>> playerController;
-    private Controller<ExtendedCamera, Command<ExtendedCamera>> cameraController;
     private InputProcessor inputProcessor;
-    private InputToControllerProcessor inputToControllerProcessor;
+    private Controller controller;
 
     @Override
     public void show() {
         super.show();
         TiledMap map = Assets.instance.getMap(1);
-        float playerX = (float)map.getLayers().get("spawn").getObjects().get("playerSpawn").getProperties().get("x");
-        float playerY = (float)map.getLayers().get("spawn").getObjects().get("playerSpawn").getProperties().get("y");
-        Vector2 playerPos = new Vector2(playerX/540f, playerY/540f);
-        Player player = new Player((TiledMapTileLayer)map.getLayers().get("tiles"), playerPos);
-        gameModel = new GameModel(player, map);
+        gameModel = new GameModel(map);
+        gameRenderer = new GameRenderer(gameModel);
 
-        playerController = new Controller<>(gameModel.getPlayer());
-        gameRenderer = new GameRenderer(gameModel, playerController);
-        cameraController = new Controller<>(gameRenderer.getExtendedCamera());
-
-        inputToControllerProcessor = new InputToControllerProcessor(playerController, cameraController);
-
-        mobileInputInterface = new MobileInputInterface(inputToControllerProcessor);
-
-        inputProcessor = new PCInput(inputToControllerProcessor);
+        controller = new Controller(gameRenderer.getExtendedCamera());
+        mobileInputInterface = new MobileInputInterface(controller);
+        inputProcessor = new PCInput(controller);
         //inputProcessor = mobileInputInterface.getStage();
         Gdx.input.setInputProcessor(inputProcessor);
     }
@@ -72,9 +54,7 @@ public class GameScreen extends AbstractScreen {
 
     public void update(float deltaTime) {
         gameModel.update(deltaTime);
-        inputToControllerProcessor.handleInput();
-        playerController.executeCommands(deltaTime);
-        cameraController.executeCommands(deltaTime);
+        controller.control(deltaTime);
     }
 
     @Override

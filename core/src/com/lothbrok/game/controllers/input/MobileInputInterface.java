@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lothbrok.game.assets.Assets;
+import com.lothbrok.game.controllers.Controller;
 import com.lothbrok.game.screens.utils.ScreensConstants;
 
 public class MobileInputInterface implements Disposable{
@@ -27,13 +28,13 @@ public class MobileInputInterface implements Disposable{
     private ImageButton btnJump;
     private ImageButton btnAttack;
 
-    private InputToControllerProcessor inputProcessor;
+    private Controller controller;
 
-    public MobileInputInterface(InputToControllerProcessor inputProcessor) {
+    public MobileInputInterface(Controller controller) {
         stage = new Stage(new FitViewport(ScreensConstants.VIEWPORT_MENU_WIDTH,
                                           ScreensConstants.VIEWPORT_MENU_HEIGHT));
         skin = Assets.instance.getMobileControlsSkin();
-        this.inputProcessor = inputProcessor;
+        this.controller = controller;
         rebuildStage();
     }
 
@@ -63,12 +64,12 @@ public class MobileInputInterface implements Disposable{
         touchPad.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                inputProcessor.moveRight(false);
-                inputProcessor.moveLeft(false);
+                controller.moveRight(false);
+                controller.moveLeft(false);
                 if(touchPad.getKnobPercentX() > 0f) {
-                    inputProcessor.moveRight(true);
+                    controller.moveRight(true);
                 } else if(touchPad.getKnobPercentX() < 0f) {
-                    inputProcessor.moveLeft(true);
+                    controller.moveLeft(true);
                 }
             }
         });
@@ -80,13 +81,13 @@ public class MobileInputInterface implements Disposable{
         btnJump.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                inputProcessor.jump(true);
+                controller.jump(true);
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                inputProcessor.jump(false);
+                controller.jump(false);
             }
         });
     }
@@ -97,7 +98,7 @@ public class MobileInputInterface implements Disposable{
         btnAttack.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                inputProcessor.attack(true);
+                controller.attack(true);
                 return true;
             }
         });

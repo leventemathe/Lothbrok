@@ -14,9 +14,6 @@ import com.brashmonkey.spriter.Mainline;
 import com.brashmonkey.spriter.Player;
 import com.brashmonkey.spriter.PlayerTweener;
 import com.brashmonkey.spriter.SCMLReader;
-import com.lothbrok.game.controllers.Controller;
-import com.lothbrok.game.controllers.commands.Command;
-import com.lothbrok.game.model.entities.MovingEntity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,15 +45,10 @@ public class SpriterAnimation implements Disposable {
     private PlayerFinishedListener cachedPlayerFinishedListener;
     private PlayerTweenerFinishedListener cachedPlayerTweenerFinishedListener;
 
-    private Controller<MovingEntity, Command<MovingEntity>> controller;
-    private Map<String, Command<MovingEntity>> commands;
-
     public SpriterAnimation() {
         this.cachedPlayers = new HashMap<>();
         this.cachedPlayerFinishedListener = new PlayerFinishedListener();
         this.cachedPlayerTweenerFinishedListener = new PlayerTweenerFinishedListener();
-
-        this.commands = new HashMap<>();
     }
 
     //Loaders
@@ -228,14 +220,6 @@ public class SpriterAnimation implements Disposable {
         }
     }
 
-    public void setController(Controller<MovingEntity, Command<MovingEntity>> controller) {
-        this.controller = controller;
-    }
-
-    public void addCommand(String animation, Command<MovingEntity> command) {
-        commands.put(animation, command);
-    }
-
     @Override
     public void dispose() {
         spriteLoader.dispose();
@@ -246,16 +230,6 @@ public class SpriterAnimation implements Disposable {
         @Override
         public void animationFinished(Animation animation) {
             playOnce = null;
-            if(controller != null) {
-                Command<MovingEntity> addMe = commands.get(animation.name);
-                if(addMe != null) {
-                    controller.addCommand(addMe);
-                } else {
-                    //Gdx.app.error(TAG, "No such command found: " + animation.name);
-                }
-            } else {
-                //Gdx.app.error(TAG, "No controller set.");
-            }
         }
 
         @Override

@@ -12,12 +12,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.assets.animation.spriter.SpriterAnimation;
 import com.lothbrok.game.assets.entities.PlayerAnimation;
-import com.lothbrok.game.assets.utils.AssetsConstants;
-import com.lothbrok.game.controllers.Controller;
-import com.lothbrok.game.controllers.commands.Command;
-import com.lothbrok.game.controllers.commands.movingentity.StopAttacking;
 import com.lothbrok.game.model.GameModel;
-import com.lothbrok.game.model.entities.MovingEntity;
 
 public class GameRenderer implements Disposable {
 
@@ -32,12 +27,11 @@ public class GameRenderer implements Disposable {
     private MyOrthogonalTiledMapRenderer mapRenderer;
     private PlayerAnimation playerAnimation;
 
-    //TODO don't pass controller
-    public GameRenderer(GameModel gameModel, Controller<MovingEntity, Command<MovingEntity>> controller) {
+    public GameRenderer(GameModel gameModel) {
         this.gameModel = gameModel;
 
         setupViewPort();
-        setupEntities(controller);
+        setupAnimation();
         setupRendering();
     }
 
@@ -51,12 +45,8 @@ public class GameRenderer implements Disposable {
     }
 
     //TODO move to logic?
-    private void setupEntities(Controller<MovingEntity, Command<MovingEntity>> controller) {
+    private void setupAnimation() {
         playerAnimation = Assets.instance.getPlayerAnimation();
-        //TODO definitly move this to screen
-        playerAnimation.getAnimation().setController(controller);
-        playerAnimation.getAnimation().addCommand(AssetsConstants.PLAYER_ANIMATION_ATTACKING,
-                new StopAttacking());
         //TODO get scale from m l xl etc
         playerAnimation.getAnimation().setScale(1f/540f); //xl
     }
@@ -100,9 +90,8 @@ public class GameRenderer implements Disposable {
         spriteBatch.begin();
 
         SpriterAnimation animation = playerAnimation.getAnimation();
-        MovingEntity.ActionState actionState = gameModel.getPlayer().getActionState();
-        MovingEntity.MovingState movingState = gameModel.getPlayer().getMovingState();
 
+        /*
         animation.unflip();
         //TODO move all animationchanging to playerAnimation from animation
         if(actionState == MovingEntity.ActionState.ATTACKING) {
@@ -137,6 +126,7 @@ public class GameRenderer implements Disposable {
         animation.setPosition(gameModel.getPlayer().getPosition().x, gameModel.getPlayer().getPosition().y);
         animation.update(deltaTime);
         animation.render(spriteBatch, shapeRenderer);
+        */
 
         spriteBatch.end();
     }

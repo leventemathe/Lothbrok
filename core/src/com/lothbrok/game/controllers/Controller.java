@@ -1,33 +1,126 @@
 package com.lothbrok.game.controllers;
 
-import com.lothbrok.game.controllers.commands.Command;
+import com.lothbrok.game.renderers.ExtendedCamera;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.EnumMap;
+import java.util.Map;
 
-public class Controller<EntityType, CommandType extends Command> {
+//TODO cache commands
+public class Controller {
 
-    protected EntityType entity;
-    protected List<CommandType> commands;
+    //TODO move this somewhere central
+    private boolean debugMode = true;
 
-    public <T extends EntityType> Controller(T entity) {
-        this.entity = entity;
-        commands = new ArrayList<>();
-    }
+    private ExtendedCamera camera;
 
-    public void controlEntity(EntityType entity) {
-        this.entity = entity;
-    }
+    private enum Keys {
+        MOVELEFT,
+        MOVERIGHT,
+        ATTACK,
+        JUMP,
+        CAMERA_MOVELEFT,
+        CAMERA_MOVERIGHT,
+        CAMERA_MOVEUP,
+        CAMERA_MOVEDOWN,
+        CAMERA_ZOOM_IN,
+        CAMERA_ZOOM_OUT;
 
-    public void addCommand(CommandType command) {
-        commands.add(command);
-    }
-
-    public void executeCommands(float deltaTime) {
-        //No iterator, because of Garbage Collection
-        for(int i = 0; i < commands.size(); i++) {
-            commands.get(i).execute(entity, deltaTime);
+        public static int getSize() {
+            return values().length;
         }
-        commands.clear();
+    }
+
+    private Map<Keys, Boolean> keyBools;
+
+    public Controller(ExtendedCamera camera) {
+        this.camera = camera;
+
+        this.keyBools = new EnumMap<>(Keys.class);
+        keyBools.put(Keys.MOVELEFT, false);
+        keyBools.put(Keys.MOVERIGHT, false);
+        keyBools.put(Keys.ATTACK, false);
+        keyBools.put(Keys.JUMP, false);
+        keyBools.put(Keys.CAMERA_MOVELEFT, false);
+        keyBools.put(Keys.CAMERA_MOVERIGHT, false);
+        keyBools.put(Keys.CAMERA_MOVEUP, false);
+        keyBools.put(Keys.CAMERA_MOVEDOWN, false);
+        keyBools.put(Keys.CAMERA_ZOOM_IN, false);
+        keyBools.put(Keys.CAMERA_ZOOM_OUT, false);
+    }
+
+    public void control(float deltaTime) {
+        if(keyBools.get(Keys.MOVELEFT)) {
+
+        }
+        if(keyBools.get(Keys.MOVERIGHT)) {
+
+        }
+        if(keyBools.get(Keys.ATTACK)) {
+
+        }
+        if(keyBools.get(Keys.JUMP)) {
+
+        }
+
+        if(debugMode) {
+            if(keyBools.get(Keys.CAMERA_MOVEDOWN)) {
+                camera.moveDown(deltaTime);
+            }
+            if(keyBools.get(Keys.CAMERA_MOVEUP)) {
+                camera.moveUp(deltaTime);
+            }
+            if(keyBools.get(Keys.CAMERA_MOVELEFT)) {
+                camera.moveLeft(deltaTime);
+            }
+            if(keyBools.get(Keys.CAMERA_MOVERIGHT)) {
+                camera.moveRight(deltaTime);
+            }
+            if(keyBools.get(Keys.CAMERA_ZOOM_IN)) {
+                camera.zoomIn(deltaTime);
+            }
+            if(keyBools.get(Keys.CAMERA_ZOOM_OUT)) {
+                camera.zoomOut(deltaTime);
+            }
+        }
+    }
+
+    public void attack(boolean b) {
+        keyBools.put(Keys.ATTACK, b);
+    }
+
+    public void jump(boolean b) {
+        keyBools.put(Keys.JUMP, b);
+    }
+
+    public void moveLeft(boolean b) {
+        keyBools.put(Keys.MOVELEFT, b);
+    }
+
+    public void moveRight(boolean b) {
+        keyBools.put(Keys.MOVERIGHT, b);
+    }
+
+    public void cameraMoveDown(boolean b) {
+        keyBools.put(Keys.CAMERA_MOVEDOWN, b);
+    }
+
+    public void cameraMoveUp(boolean b) {
+        keyBools.put(Keys.CAMERA_MOVEUP, b);
+    }
+
+    public void cameraMoveLeft(boolean b) {
+        keyBools.put(Keys.CAMERA_MOVELEFT, b);
+    }
+
+    public void cameraMoveRight(boolean b) {
+        keyBools.put(Keys.CAMERA_MOVERIGHT, b);
+    }
+
+    public void cameraZoomIn(boolean b) {
+        keyBools.put(Keys.CAMERA_ZOOM_IN, b);
+    }
+
+    public void cameraZoomOut(boolean b) {
+        keyBools.put(Keys.CAMERA_ZOOM_OUT, b);
     }
 }
