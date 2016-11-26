@@ -48,6 +48,12 @@ public abstract class MovingEntity {
 
     public MovingEntity(TiledMapTileLayer tiles) {
         this.tiles = tiles;
+        this.position = new Vector2(0f, 0f);
+    }
+
+    public MovingEntity(TiledMapTileLayer tiles, Vector2 position) {
+        this.tiles = tiles;
+        this.position = position;
     }
 
     public Vector2 getPosition() {
@@ -93,6 +99,10 @@ public abstract class MovingEntity {
         } else {
             movingState = MovingState.STANDING;
         }
+    }
+
+    private boolean checkMapCollisionX(int x, int y) {
+        return tiles.getCell(x, y).getTile().getProperties().containsKey("blocked");
     }
 
     private void applyGravity() {

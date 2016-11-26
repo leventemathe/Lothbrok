@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.controllers.Controller;
 import com.lothbrok.game.controllers.commands.Command;
@@ -39,7 +40,10 @@ public class GameScreen extends AbstractScreen {
     public void show() {
         super.show();
         TiledMap map = Assets.instance.getMap(1);
-        Player player = new Player((TiledMapTileLayer)map.getLayers().get("tiles"));
+        float playerX = (float)map.getLayers().get("spawn").getObjects().get("playerSpawn").getProperties().get("x");
+        float playerY = (float)map.getLayers().get("spawn").getObjects().get("playerSpawn").getProperties().get("y");
+        Vector2 playerPos = new Vector2(playerX/540f, playerY/540f);
+        Player player = new Player((TiledMapTileLayer)map.getLayers().get("tiles"), playerPos);
         gameModel = new GameModel(player, map);
 
         playerController = new Controller<>(gameModel.getPlayer());
@@ -67,7 +71,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     public void update(float deltaTime) {
-        gameModel.getPlayer().update(deltaTime);
+        gameModel.update(deltaTime);
         inputToControllerProcessor.handleInput();
         playerController.executeCommands(deltaTime);
         cameraController.executeCommands(deltaTime);

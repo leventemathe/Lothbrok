@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="8" tilewidth="540" tileheight="540" nextobjectid="55">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="8" tilewidth="540" tileheight="540" nextobjectid="56">
  <tileset firstgid="1" name="tiles" tilewidth="540" tileheight="540" tilecount="9" columns="0">
   <tile id="0">
    <properties>
@@ -73,6 +73,9 @@
    <image width="472" height="1080" source="pine_tree_09.png"/>
   </tile>
  </tileset>
+ <objectgroup name="spawn">
+  <object id="55" name="playerSpawn" x="1080" y="2160" width="540" height="540"/>
+ </objectgroup>
  <objectgroup name="background2">
   <object id="25" gid="12" x="0" y="1620" width="2160" height="254"/>
   <object id="26" gid="12" x="2160" y="1620" width="2160" height="254"/>

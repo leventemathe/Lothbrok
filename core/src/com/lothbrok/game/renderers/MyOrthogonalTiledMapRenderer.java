@@ -1,6 +1,5 @@
 package com.lothbrok.game.renderers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -51,7 +50,6 @@ public class MyOrthogonalTiledMapRenderer extends OrthogonalTiledMapRenderer {
             final String typeString = "type";
             Object typeProperty = rectObject.getProperties().get(typeString);
             if (typeProperty == null) {
-                Gdx.app.error(TAG, "Error: No such Tiled property: " + typeString);
                 return;
             }
 

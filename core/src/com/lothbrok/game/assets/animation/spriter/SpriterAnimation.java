@@ -133,7 +133,6 @@ public class SpriterAnimation implements Disposable {
         setMe.setAnimation(animation);
         setMe.setPosition(this.x, this.y);
         setMe.setScale(this.scale);
-
         return setMe;
     }
 

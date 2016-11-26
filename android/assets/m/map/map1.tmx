@@ -1,31 +1,55 @@
 <?xml version='1.0' encoding='utf-8'?>
-<map height="8" nextobjectid="55" orientation="orthogonal" renderorder="right-down" tileheight="270" tilewidth="270" version="1.0" width="32">
+<map height="8" nextobjectid="56" orientation="orthogonal" renderorder="right-down" tileheight="270" tilewidth="270" version="1.0" width="32">
  <properties>
   <property name="atlas" value="map.pack.atlas" />
  </properties>
  <tileset columns="0" firstgid="1" name="tiles" tilecount="9" tileheight="540" tilewidth="540">
   <tile id="0">
+   <properties>
+    <property name="blocked" type="bool" value="true" />
+   </properties>
    <image height="270" source="cliff_00.png" width="270" />
   </tile>
   <tile id="1">
+   <properties>
+    <property name="blocked" type="bool" value="true" />
+   </properties>
    <image height="270" source="lonely_01.png" width="270" />
   </tile>
   <tile id="2">
+   <properties>
+    <property name="blocked" type="bool" value="true" />
+   </properties>
    <image height="270" source="lonely_edge_02.png" width="270" />
   </tile>
   <tile id="3">
+   <properties>
+    <property name="blocked" type="bool" value="true" />
+   </properties>
    <image height="270" source="mid_03.png" width="270" />
   </tile>
   <tile id="4">
+   <properties>
+    <property name="blocked" type="bool" value="true" />
+   </properties>
    <image height="270" source="slide_04.png" width="270" />
   </tile>
   <tile id="5">
+   <properties>
+    <property name="blocked" type="bool" value="true" />
+   </properties>
    <image height="270" source="slide_connector_05.png" width="270" />
   </tile>
   <tile id="6">
+   <properties>
+    <property name="blocked" type="bool" value="true" />
+   </properties>
    <image height="270" source="top_edge_06.png" width="270" />
   </tile>
   <tile id="7">
+   <properties>
+    <property name="blocked" type="bool" value="true" />
+   </properties>
    <image height="270" source="top_mid_07.png" width="270" />
   </tile>
   <tile id="8">
@@ -52,6 +76,9 @@
    <image height="270" source="pine_tree_09.png" width="270" />
   </tile>
  </tileset>
+ <objectgroup name="spawn">
+  <object height="540" id="55" name="playerSpawn" width="540" x="1080" y="2160" />
+ </objectgroup>
  <objectgroup name="background2">
   <object gid="12" height="254" id="25" width="2160" x="0" y="1620" />
   <object gid="12" height="254" id="26" width="2160" x="2160" y="1620" />

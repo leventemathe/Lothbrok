@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -24,12 +25,11 @@ public class GameRenderer implements Disposable {
 
     private ExtendedCamera extendedCamera;
     private Viewport viewport;
+    private Box2DDebugRenderer box2DDebugRenderer;
 
     private SpriteBatch spriteBatch;
     private ShapeRenderer shapeRenderer;
     private MyOrthogonalTiledMapRenderer mapRenderer;
-
-    //TODO move to logic?
     private PlayerAnimation playerAnimation;
 
     //TODO don't pass controller
@@ -66,6 +66,7 @@ public class GameRenderer implements Disposable {
         shapeRenderer = new ShapeRenderer();
         //TODO get scale from m l xl etc
         mapRenderer = new MyOrthogonalTiledMapRenderer(gameModel.getMap(), 1f/540f); //xl
+        box2DDebugRenderer = new Box2DDebugRenderer();
     }
 
     public void render(float deltaTime) {
@@ -73,6 +74,7 @@ public class GameRenderer implements Disposable {
         renderSky();
         renderMap();
         renderAnimation(deltaTime);
+        box2DDebugRenderer.render(gameModel.getWorld(), extendedCamera.getCamera().combined);
     }
 
     private void renderSky() {

@@ -9,6 +9,15 @@ public class Player extends MovingEntity {
 
     public Player(TiledMapTileLayer tiles) {
         super(tiles);
+        setup();
+    }
+
+    public Player(TiledMapTileLayer tiles, Vector2 position) {
+        super(tiles, position);
+        setup();
+    }
+
+    private void setup() {
         setupBasics();
         setupMoving();
         setupJumping();
@@ -16,7 +25,6 @@ public class Player extends MovingEntity {
     }
 
     private void setupBasics() {
-        this.position = new Vector2(0f, 0f);
         this.actionState = ActionState.STANDING;
         this.movingState = MovingState.STANDING;
     }
