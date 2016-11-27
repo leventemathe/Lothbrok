@@ -2,20 +2,37 @@ package com.lothbrok.game.model;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.lothbrok.game.model.box2d.Box2DCollisionFromTiled;
+import com.lothbrok.game.model.box2d.util.Box2DUtils;
+
+import java.util.List;
+
 
 public class GameModel {
 
-    private TiledMap map;
+    private static final String TAG = GameModel.class.getSimpleName();
+
     private World world;
+    private TiledMap map;
+    private List<Body> mapCollisons;
+    private Player player;
 
     public GameModel(TiledMap map) {
+        this.world = new World(new Vector2(0f, -0.1f), true);
+        this.world.setContactListener(new MyContactListener());
         this.map = map;
-        this.world = new World(new Vector2(0f, -9.8f), true);
+        this.mapCollisons = Box2DCollisionFromTiled.build(map, world);
+
+        float playerX = Box2DUtils.toWorld((float)map.getLayers().get("spawn").getObjects().get("playerSpawn").getProperties().get("x"));
+        float playerY = Box2DUtils.toWorld((float)map.getLayers().get("spawn").getObjects().get("playerSpawn").getProperties().get("y"));
+        this.player = new Player(world, playerX, playerY);
     }
 
     public void update(float deltaTime) {
-        world.step(deltaTime, 6, 2);
+        //TODO do the accumulator method
+        world.step(1f/60f, 6, 2);
     }
 
     public TiledMap getMap() {

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.controllers.Controller;
 import com.lothbrok.game.controllers.input.MobileInputInterface;
@@ -22,6 +23,7 @@ public class GameScreen extends AbstractScreen {
     private GameRenderer gameRenderer;
     //TODO polimorphism instead of if statements
     private MobileInputInterface mobileInputInterface;
+    private Box2DDebugRenderer box2DDebugRenderer;
 
     //C
     private InputProcessor inputProcessor;
@@ -32,7 +34,9 @@ public class GameScreen extends AbstractScreen {
         super.show();
         TiledMap map = Assets.instance.getMap(1);
         gameModel = new GameModel(map);
+
         gameRenderer = new GameRenderer(gameModel);
+        box2DDebugRenderer = new Box2DDebugRenderer();
 
         controller = new Controller(gameRenderer.getExtendedCamera());
         mobileInputInterface = new MobileInputInterface(controller);
@@ -49,6 +53,7 @@ public class GameScreen extends AbstractScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         gameRenderer.render(deltaTime);
         mobileInputInterface.render(deltaTime);
+        box2DDebugRenderer.render(gameModel.getWorld(), gameRenderer.getExtendedCamera().getCamera().combined);
         super.render(deltaTime);
     }
 
