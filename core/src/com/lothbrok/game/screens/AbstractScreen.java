@@ -8,16 +8,17 @@ import com.lothbrok.game.renderers.DebugRenderer;
 
 public abstract class AbstractScreen implements Screen {
 
+    //TODO get a common spriteBatch for evertyhing
     private DebugRenderer debugRenderer;
 
     @Override
     public void show() {
         debugRenderer = new DebugRenderer();
+        Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         debugRenderer.render(delta);
     }
