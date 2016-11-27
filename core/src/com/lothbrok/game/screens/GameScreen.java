@@ -1,21 +1,10 @@
 package com.lothbrok.game.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.lothbrok.game.assets.Assets;
-import com.lothbrok.game.controllers.Controller;
-import com.lothbrok.game.controllers.input.MobileInputInterface;
-import com.lothbrok.game.controllers.input.PCInput;
-import com.lothbrok.game.model.GameModel;
-import com.lothbrok.game.renderers.GameRenderer;
-
 public class GameScreen extends AbstractScreen {
 
     public static final String TAG = GameScreen.class.getSimpleName();
 
+    /*
     //M
     private GameModel gameModel;
 
@@ -75,4 +64,5 @@ public class GameScreen extends AbstractScreen {
         mobileInputInterface.dispose();
         super.dispose();
     }
+    */
 }
