@@ -24,6 +24,11 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void show() {
         super.show();
+        setupRendering();
+        setupEngine();
+    }
+
+    private void setupRendering() {
         batch = new SpriteBatch();
 
         camera = new OrthographicCamera();
@@ -32,11 +37,11 @@ public class GameScreen extends AbstractScreen {
         float height = 4;
         float width = height * aspect;
         viewport = new ExtendViewport(width, height, camera);
+    }
 
+    private void setupEngine() {
         engine = new Engine();
-
         engine.addEntity(EntityFactory.createMap());
-
         engine.addSystem(new MapRendererSystem());
     }
 

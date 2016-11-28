@@ -63,24 +63,7 @@ public class Controller {
         }
 
         if(debugMode) {
-            if(keyBools.get(Keys.CAMERA_MOVEDOWN)) {
-                camera.moveDown(deltaTime);
-            }
-            if(keyBools.get(Keys.CAMERA_MOVEUP)) {
-                camera.moveUp(deltaTime);
-            }
-            if(keyBools.get(Keys.CAMERA_MOVELEFT)) {
-                camera.moveLeft(deltaTime);
-            }
-            if(keyBools.get(Keys.CAMERA_MOVERIGHT)) {
-                camera.moveRight(deltaTime);
-            }
-            if(keyBools.get(Keys.CAMERA_ZOOM_IN)) {
-                camera.zoomIn(deltaTime);
-            }
-            if(keyBools.get(Keys.CAMERA_ZOOM_OUT)) {
-                camera.zoomOut(deltaTime);
-            }
+
         }
     }
 
