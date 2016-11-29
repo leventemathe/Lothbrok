@@ -11,7 +11,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.assets.animation.spriter.SpriterAnimation;
 import com.lothbrok.game.assets.entities.PlayerAnimation;
+import com.lothbrok.game.assets.utils.AssetsConstants;
 import com.lothbrok.game.model.GameModel;
+import com.lothbrok.game.model.entities.MovingEntity;
 
 public class GameRenderer implements Disposable {
 
@@ -86,8 +88,9 @@ public class GameRenderer implements Disposable {
         spriteBatch.begin();
 
         SpriterAnimation animation = playerAnimation.getAnimation();
+        MovingEntity.ActionState actionState = gameModel.getPlayer().getActionState();
+        MovingEntity.MovingState movingState = gameModel.getPlayer().getMovingState();
 
-        /*
         animation.unflip();
         //TODO move all animationchanging to playerAnimation from animation
         if(actionState == MovingEntity.ActionState.ATTACKING) {
@@ -122,7 +125,6 @@ public class GameRenderer implements Disposable {
         animation.setPosition(gameModel.getPlayer().getPosition().x, gameModel.getPlayer().getPosition().y);
         animation.update(deltaTime);
         animation.render(spriteBatch, shapeRenderer);
-        */
 
         spriteBatch.end();
     }

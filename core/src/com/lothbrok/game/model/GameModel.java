@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lothbrok.game.model.box2d.Box2DCollisionFromTiled;
 import com.lothbrok.game.model.box2d.util.Box2DUtils;
+import com.lothbrok.game.model.entities.Player;
 
 import java.util.List;
 
@@ -27,12 +28,13 @@ public class GameModel {
 
         float playerX = Box2DUtils.toWorld((float)map.getLayers().get("spawn").getObjects().get("playerSpawn").getProperties().get("x"));
         float playerY = Box2DUtils.toWorld((float)map.getLayers().get("spawn").getObjects().get("playerSpawn").getProperties().get("y"));
-        this.player = new Player(world, playerX, playerY);
+        this.player = new Player(new Vector2(playerX, playerY));
     }
 
     public void update(float deltaTime) {
         //TODO do the accumulator method
         world.step(1f/60f, 6, 2);
+        player.update(deltaTime);
     }
 
     public TiledMap getMap() {
@@ -41,5 +43,9 @@ public class GameModel {
 
     public World getWorld() {
         return world;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

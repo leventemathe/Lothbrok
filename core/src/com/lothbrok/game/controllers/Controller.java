@@ -1,5 +1,6 @@
 package com.lothbrok.game.controllers;
 
+import com.lothbrok.game.model.entities.Player;
 import com.lothbrok.game.renderers.ExtendedCamera;
 
 import java.util.EnumMap;
@@ -12,6 +13,7 @@ public class Controller {
     private boolean debugMode = true;
 
     private ExtendedCamera camera;
+    private Player player;
 
     private enum Keys {
         MOVELEFT,
@@ -32,8 +34,9 @@ public class Controller {
 
     private Map<Keys, Boolean> keyBools;
 
-    public Controller(ExtendedCamera camera) {
+    public Controller(ExtendedCamera camera, Player player) {
         this.camera = camera;
+        this.player = player;
 
         this.keyBools = new EnumMap<>(Keys.class);
         keyBools.put(Keys.MOVELEFT, false);
@@ -50,16 +53,16 @@ public class Controller {
 
     public void control(float deltaTime) {
         if(keyBools.get(Keys.MOVELEFT)) {
-
+            player.moveLeft(deltaTime);
         }
         if(keyBools.get(Keys.MOVERIGHT)) {
-
+            player.moveRight(deltaTime);
         }
         if(keyBools.get(Keys.ATTACK)) {
-
+            player.startAttacking(deltaTime);
         }
         if(keyBools.get(Keys.JUMP)) {
-
+            player.jump(deltaTime);
         }
 
         if(debugMode) {
