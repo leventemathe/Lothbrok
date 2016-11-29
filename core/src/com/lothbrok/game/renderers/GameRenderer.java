@@ -27,12 +27,12 @@ public class GameRenderer implements Disposable {
     private MyOrthogonalTiledMapRenderer mapRenderer;
     private PlayerAnimation playerAnimation;
 
-    public GameRenderer(GameModel gameModel) {
+    public GameRenderer(GameModel gameModel, SpriteBatch batch, ShapeRenderer shapeRenderer) {
         this.gameModel = gameModel;
 
         setupViewPort();
         setupAnimation();
-        setupRendering();
+        setupRendering(batch, shapeRenderer);
     }
 
     private void setupViewPort() {
@@ -51,11 +51,11 @@ public class GameRenderer implements Disposable {
         playerAnimation.getAnimation().setScale(1f/540f); //xl
     }
 
-    private void setupRendering() {
-        spriteBatch = new SpriteBatch();
-        shapeRenderer = new ShapeRenderer();
+    private void setupRendering(SpriteBatch batch, ShapeRenderer shapeRenderer) {
+        this.spriteBatch = batch;
+        this.shapeRenderer = shapeRenderer;
         //TODO get scale from m l xl etc
-        mapRenderer = new MyOrthogonalTiledMapRenderer(gameModel.getMap(), 1f/540f); //xl
+        mapRenderer = new MyOrthogonalTiledMapRenderer(gameModel.getMap(), 1f/540f, spriteBatch, shapeRenderer); //xl
     }
 
     public void render(float deltaTime) {
@@ -135,8 +135,6 @@ public class GameRenderer implements Disposable {
 
     @Override
     public void dispose() {
-        spriteBatch.dispose();
-        shapeRenderer.dispose();
         mapRenderer.dispose();
     }
 

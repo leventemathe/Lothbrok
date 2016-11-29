@@ -1,5 +1,6 @@
 package com.lothbrok.game.controllers.input;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -30,9 +31,9 @@ public class MobileInputInterface implements Disposable{
 
     private Controller controller;
 
-    public MobileInputInterface(Controller controller) {
+    public MobileInputInterface(Controller controller, SpriteBatch batch) {
         stage = new Stage(new FitViewport(ScreensConstants.VIEWPORT_MENU_WIDTH,
-                                          ScreensConstants.VIEWPORT_MENU_HEIGHT));
+                                          ScreensConstants.VIEWPORT_MENU_HEIGHT), batch);
         skin = Assets.instance.getMobileControlsSkin();
         this.controller = controller;
         rebuildStage();

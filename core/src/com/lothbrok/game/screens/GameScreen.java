@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.controllers.Controller;
 import com.lothbrok.game.controllers.input.MobileInputInterface;
+import com.lothbrok.game.controllers.input.PCInput;
 import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.renderers.GameRenderer;
 
@@ -34,13 +35,13 @@ public class GameScreen extends AbstractScreen {
         TiledMap map = Assets.instance.getMap(1);
         gameModel = new GameModel(map);
 
-        gameRenderer = new GameRenderer(gameModel);
+        gameRenderer = new GameRenderer(gameModel, spriteBatch, shapeRenderer);
         box2DDebugRenderer = new Box2DDebugRenderer();
 
         controller = new Controller(gameRenderer.getExtendedCamera(), gameModel.getPlayer());
-        mobileInputInterface = new MobileInputInterface(controller);
-        //inputProcessor = new PCInput(controller);
-        inputProcessor = mobileInputInterface.getStage();
+        mobileInputInterface = new MobileInputInterface(controller, spriteBatch);
+        inputProcessor = new PCInput(controller);
+        //inputProcessor = mobileInputInterface.getStage();
         Gdx.input.setInputProcessor(inputProcessor);
     }
 

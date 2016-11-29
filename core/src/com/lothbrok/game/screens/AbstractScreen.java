@@ -1,16 +1,23 @@
 package com.lothbrok.game.screens;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.renderers.DebugRenderer;
 
 public abstract class AbstractScreen implements Screen {
 
+    protected SpriteBatch spriteBatch;
+    protected ShapeRenderer shapeRenderer;
+
     private DebugRenderer debugRenderer;
 
     @Override
     public void show() {
-        debugRenderer = new DebugRenderer();
+        this.spriteBatch = new SpriteBatch();
+        this.shapeRenderer = new ShapeRenderer();
+        debugRenderer = new DebugRenderer(spriteBatch);
     }
 
     @Override
@@ -41,7 +48,8 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void dispose() {
-        debugRenderer.dispose();
+        spriteBatch.dispose();
+        shapeRenderer.dispose();
         Assets.instance.dispose();
     }
 }

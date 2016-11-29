@@ -18,20 +18,9 @@ public class MyOrthogonalTiledMapRenderer extends OrthogonalTiledMapRenderer {
 
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
-    public MyOrthogonalTiledMapRenderer(TiledMap map) {
-        super(map);
-    }
-
-    public MyOrthogonalTiledMapRenderer(TiledMap map, Batch batch) {
-        super(map, batch);
-    }
-
-    public MyOrthogonalTiledMapRenderer(TiledMap map, float unitScale) {
-        super(map, unitScale);
-    }
-
-    public MyOrthogonalTiledMapRenderer(TiledMap map, float unitScale, Batch batch) {
+    public MyOrthogonalTiledMapRenderer(TiledMap map, float unitScale, Batch batch, ShapeRenderer shapeRenderer) {
         super(map, unitScale, batch);
+        this.shapeRenderer = shapeRenderer;
     }
 
     @Override

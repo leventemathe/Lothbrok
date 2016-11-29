@@ -5,12 +5,11 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lothbrok.game.assets.Assets;
 
-public class DebugRenderer implements Disposable {
+public class DebugRenderer {
 
     private Camera camera;
     private Viewport viewport;
@@ -19,11 +18,11 @@ public class DebugRenderer implements Disposable {
 
     private BitmapFont font;
 
-    public DebugRenderer() {
+    public DebugRenderer(SpriteBatch batch) {
         camera = new OrthographicCamera();
         //TODO move size to constants
         viewport = new ExtendViewport(1920, 1080, camera);
-        spriteBatch = new SpriteBatch();
+        this.spriteBatch = batch;
         //TODO get size dependent font
         font = Assets.instance.getRalewayLightFont().getFont32();
     }
@@ -45,10 +44,5 @@ public class DebugRenderer implements Disposable {
 
     public void resize(int width, int height) {
         viewport.update(width, height);
-    }
-
-    @Override
-    public void dispose() {
-        spriteBatch.dispose();
     }
 }
