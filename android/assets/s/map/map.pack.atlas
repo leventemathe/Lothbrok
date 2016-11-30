@@ -32,6 +32,13 @@ clouds_14
   orig: 720, 85
   offset: 0, 0
   index: -1
+coin
+  rotate: false
+  xy: 557, 278
+  size: 22, 25
+  orig: 22, 25
+  offset: 0, 0
+  index: -1
 dead_tree_11
   rotate: false
   xy: 932, 97
