@@ -21,7 +21,7 @@ public class PlayerAnimation implements Disposable {
 
     public void attackWhileMoving() {
         animation.setPlayerTweener(AssetsConstants.PLAYER_ANIMATION_ATTACKING, AssetsConstants.PLAYER_ANIMATION_WALKING, AssetsConstants
-                .PLAYER_ANIMATION_BASE_BONE);
+                .PLAYER_ANIMATION_BONE_ATTACK);
     }
 
     public SpriterAnimation getAnimation() {

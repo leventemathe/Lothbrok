@@ -5,8 +5,10 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Disposable;
 import com.brashmonkey.spriter.Animation;
+import com.brashmonkey.spriter.Box;
 import com.brashmonkey.spriter.Data;
 import com.brashmonkey.spriter.Entity;
 import com.brashmonkey.spriter.Loader;
@@ -17,6 +19,9 @@ import com.brashmonkey.spriter.SCMLReader;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.lothbrok.game.assets.utils.AssetsConstants.PLAYER_ANIMATION_SPRITE_BODY;
+import static com.lothbrok.game.assets.utils.AssetsConstants.PLAYER_ANIMATION_SPRITE_LEG;
 
 //TODO add error handling
 public class SpriterAnimation implements Disposable {
@@ -217,7 +222,41 @@ public class SpriterAnimation implements Disposable {
             spriteDrawer.draw(playOnce);
         } else if(playAlways != null) {
             spriteDrawer.draw(playAlways);
+//            Box bodyBox = playAlways.getBox(playAlways.getObject(PLAYER_ANIMATION_SPRITE_BODY));
+//            Box legBox = playAlways.getBox(playAlways.getObject(PLAYER_ANIMATION_SPRITE_LEG));
+//            spriteDrawer.drawBox(bodyBox);
+//            spriteDrawer.drawBox(legBox);
         }
+    }
+
+    public Rectangle getBodyBoudningBox() {
+        Rectangle bodyRect = null;
+        Rectangle legRect = null;
+        if(playerTweener != null) {
+            bodyRect = createBoundingRect(playerTweener, PLAYER_ANIMATION_SPRITE_BODY);
+            legRect = createBoundingRect(playerTweener, PLAYER_ANIMATION_SPRITE_LEG);
+        } else if (playOnce != null) {
+            bodyRect = createBoundingRect(playOnce, PLAYER_ANIMATION_SPRITE_BODY);
+            legRect = createBoundingRect(playOnce, PLAYER_ANIMATION_SPRITE_LEG);
+        } else if(playAlways != null) {
+            bodyRect = createBoundingRect(playAlways, PLAYER_ANIMATION_SPRITE_BODY);
+            legRect = createBoundingRect(playAlways, PLAYER_ANIMATION_SPRITE_LEG);
+        }
+        if(bodyRect != null && legRect != null) {
+            return new Rectangle(bodyRect.x, legRect.y, bodyRect.width, bodyRect.height + legRect.height);
+        }
+        return null;
+    }
+
+    // Getting a Box or Spriter Rectangle from a Player references and recalculates the same box and rect
+    // Have to get a math Rectangle before recalculation
+    private Rectangle createBoundingRect(Player player, String object) {
+        Box box = player.getBox(player.getObject(object));
+        com.brashmonkey.spriter.Rectangle spriterRect = box.getBoundingRect();
+        return new Rectangle(spriterRect.left,
+                spriterRect.bottom,
+                spriterRect.right - spriterRect.left,
+                spriterRect.top -spriterRect.bottom);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.controllers.Controller;
@@ -52,12 +53,15 @@ public class GameScreen extends AbstractScreen {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         gameRenderer.render(deltaTime);
+        gameRenderer.renderRectangle(gameModel.getPlayer().getBoundingBox());
         mobileInputInterface.render(deltaTime);
         box2DDebugRenderer.render(gameModel.getWorld(), gameRenderer.getExtendedCamera().getCamera().combined);
         super.render(deltaTime);
     }
 
     public void update(float deltaTime) {
+        Rectangle playerRect = gameRenderer.getPlayerAnimation().getAnimation().getBodyBoudningBox();
+        gameModel.getPlayer().setBoundingBox(playerRect);
         gameModel.update(deltaTime);
         controller.control(deltaTime);
     }

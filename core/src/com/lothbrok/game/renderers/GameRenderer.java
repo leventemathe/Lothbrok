@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -129,6 +130,12 @@ public class GameRenderer implements Disposable {
         spriteBatch.end();
     }
 
+    public void renderRectangle(Rectangle rect) {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.rect(rect.x, rect.y, rect.width, rect.height);
+        shapeRenderer.end();
+    }
+
     public void resize(int width, int height) {
         viewport.update(width, height);
     }
@@ -140,5 +147,9 @@ public class GameRenderer implements Disposable {
 
     public ExtendedCamera getExtendedCamera() {
         return extendedCamera;
+    }
+
+    public PlayerAnimation getPlayerAnimation() {
+        return playerAnimation;
     }
 }

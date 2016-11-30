@@ -1,11 +1,14 @@
 package com.lothbrok.game.model.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Player extends MovingEntity {
 
     private final String TAG = Player.class.getSimpleName();
+
+    private Rectangle boundingBox;
 
     public Player(Vector2 position) {
         setupBasics(position);
@@ -142,5 +145,13 @@ public class Player extends MovingEntity {
             actionState = ActionState.STANDING;
             Gdx.app.debug(TAG, "stopped attacking");
         }
+    }
+
+    public void setBoundingBox(Rectangle boundingBox) {
+        this.boundingBox = boundingBox;
+    }
+
+    public Rectangle getBoundingBox() {
+        return boundingBox;
     }
 }

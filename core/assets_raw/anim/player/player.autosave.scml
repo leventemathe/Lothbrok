@@ -650,7 +650,7 @@
                     <object folder="0" file="4" x="396.317902" y="31.45439" angle="87.379277"/>
                 </key>
                 <key id="2" time="284" spin="-1">
-                    <object folder="0" file="4" x="396.317902" y="31.45439" angle="92.703458" scale_x="1"/>
+                    <object folder="0" file="4" x="396.317902" y="31.45439" angle="92.703458"/>
                 </key>
             </timeline>
             <timeline id="14" name="eyeball">

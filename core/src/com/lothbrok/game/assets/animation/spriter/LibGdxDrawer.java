@@ -1,15 +1,11 @@
 package com.lothbrok.game.assets.animation.spriter;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.Loader;
-import com.brashmonkey.spriter.Player;
 import com.brashmonkey.spriter.Timeline;
-
-import java.util.Iterator;
 
 //TODO this was written by trixt0r, but I wrote ScalingDrawer, and I changed some of it, should I comment it here?
 public class LibGdxDrawer extends Drawer<Sprite> {
@@ -28,17 +24,29 @@ public class LibGdxDrawer extends Drawer<Sprite> {
 
 	@Override
 	public void rectangle(float x, float y, float width, float height) {
+        spriteBatch.end();
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 		shapeRenderer.rect(x, y, width, height);
+		shapeRenderer.end();
+        spriteBatch.begin();
 	}
 
 	@Override
 	public void line(float x1, float y1, float x2, float y2) {
+        spriteBatch.end();
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 		shapeRenderer.line(x1, y1, x2, y2);
+		shapeRenderer.end();
+        spriteBatch.begin();
 	}
 
 	@Override
 	public void circle(float x, float y, float radius) {
+        spriteBatch.end();
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 		shapeRenderer.circle(x, y, radius);
+		shapeRenderer.end();
+        spriteBatch.begin();
 	}
 
 	@Override
