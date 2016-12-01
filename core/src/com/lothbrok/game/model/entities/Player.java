@@ -31,6 +31,9 @@ public class Player extends MovingEntity {
 
     private void setupBasics(Vector2 position) {
         this.position = position;
+        this.prevPosition = new Vector2();
+        this.prevPosition.x = position.x;
+        this.prevPosition.y = position.y;
         this.actionState = ActionState.STANDING;
         this.movingState = MovingState.STANDING;
         this.boundingBox = new Rectangle();
@@ -77,11 +80,11 @@ public class Player extends MovingEntity {
 
         applyGravity();
         if(actionState == ActionState.FALLING) {
-            float backupY = position.y;
+            prevPosition.y = position.y;
             position.y -= weight * deltaTime;
             if(isBottomColliding()) {
                 actionState = ActionState.STANDING;
-                position.y = backupY;
+                position.y = prevPosition.y;
             }
         }
     }
@@ -105,10 +108,10 @@ public class Player extends MovingEntity {
     @Override
     public void moveLeft(float deltaTime) {
         accelerate();
-        float backupX = position.x;
+        prevPosition.x = position.x;
         position.x -= speed * deltaTime;
         if(isLeftColliding()) {
-            position.x = backupX;
+            position.x = prevPosition.x;
         }
         movingState = MovingState.LEFT;
     }
@@ -116,10 +119,10 @@ public class Player extends MovingEntity {
     @Override
     public void moveRight(float deltaTime) {
         accelerate();
-        float backupX = position.x;
+        prevPosition.x = position.x;
         position.x += speed * deltaTime;
         if(isRightColliding()) {
-            position.x = backupX;
+            position.x = prevPosition.x;
         }
         movingState = MovingState.RIGHT;
     }
@@ -137,16 +140,16 @@ public class Player extends MovingEntity {
         if(actionState.equals(ActionState.STANDING) || actionState.equals(ActionState.JUMPING) || actionState == ActionState.MIDJUMP) {
             if(jumpHeight < maxJumpHeight) {
                 decelerateJumping();
-                float backupY = position.y;
+                prevPosition.y = position.y;
                 position.y += jumpSpeed * delta;
                 jumpHeight += jumpSpeed * delta;
                 if(isTopColliding()) {
-                    position.y = backupY;
+                    position.y = prevPosition.y;
                 } else {
                     actionState = ActionState.JUMPING;
                 }
             }
-            Gdx.app.debug(TAG, "jumping");
+            //Gdx.app.debug(TAG, "jumping");
         }
     }
 

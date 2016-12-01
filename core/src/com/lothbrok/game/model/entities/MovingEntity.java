@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 public abstract class MovingEntity {
 
     protected Vector2 position;
+    protected Vector2 prevPosition;
 
     protected float speed;
     protected float acceleration;
@@ -60,4 +61,12 @@ public abstract class MovingEntity {
     public abstract void jump(float delta);
     public abstract void startAttacking(float delta);
     public abstract void stopAttacking(float delta);
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public boolean isActuallyMoving() {
+        return !(position.x == prevPosition.x);
+    }
 }
