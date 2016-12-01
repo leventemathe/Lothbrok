@@ -1,7 +1,9 @@
 package com.lothbrok.game.renderers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class ExtendedCamera {
@@ -15,6 +17,8 @@ public class ExtendedCamera {
     private float zoomSpeed = 1.5f;
 
     private float tolerance = 0.08f;
+
+    private Rectangle border = new Rectangle(0f, 0f, 32f, 8f);
 
     public ExtendedCamera(Camera camera) {
         this.camera = camera;
@@ -49,30 +53,80 @@ public class ExtendedCamera {
     }
 
     public void snapToX(float x) {
+        if(x < border.x + camera.viewportWidth/2f) {
+            camera.position.x = border.x + camera.viewportWidth/2f;
+            return;
+        }
+        if(x > border.width - camera.viewportWidth/2f) {
+            camera.position.x = border.width - camera.viewportWidth/2f;
+            return;
+        }
         camera.position.x = x;
     }
 
     public void snapToY(float y) {
-        camera.position.x = y;
+        if(y < border.y + camera.viewportHeight/2f) {
+            camera.position.y = border.y + camera.viewportHeight/2f;
+            return;
+        }
+        if(y > border.height - camera.viewportHeight/2f) {
+            camera.position.y = border.height - camera.viewportHeight/2f;
+            return;
+        }
+        camera.position.y = y;
     }
 
     public void snapTo(Vector2 pos) {
-        camera.position.x = pos.x;
-        camera.position.y = pos.y;
+        snapToX(pos.x);
+        snapToY(pos.y);
     }
 
     public void moveTo(Vector2 targetPos, float deltaTime) {
         Vector2 cameraPos = new Vector2(camera.position.x, camera.position.y);
         float distance = cameraPos.dst(targetPos);
         Vector2 direction = (new Vector2(targetPos.x - cameraPos.x, targetPos.y - cameraPos.y)).nor();
+
+        Vector2 backupPos = new Vector2(cameraPos);
+
         if(distance < tolerance) {
             snapTo(targetPos);
-            speed = BASE_SPEED;
+            //speed = BASE_SPEED;
         } else {
-            speed *= acceleration;
+            //speed *= acceleration;
             camera.translate(direction.x * speed * deltaTime, direction.y * speed * deltaTime, 0f);
         }
+
+        if(isHorizontalMapEdgeReached()) {
+            Gdx.app.debug(TAG, "horizontal edge reached");
+            snapToX(backupPos.x);
+        }
+        if(isVerticalMapEdgeReached()) {
+            //Gdx.app.debug(TAG, "vertical edge reached");
+            //snapToY(backupPos.y);
+        }
         //Gdx.app.debug(TAG, "direction: " + direction.x + ", " + direction.y + ", distannce: " + distance);
+    }
+
+    private boolean isHorizontalMapEdgeReached() {
+        float x = camera.position.x;
+        if(x - camera.viewportWidth/2f < border.x) {
+            return true;
+        }
+        if(x + camera.viewportWidth/2f > border.width) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isVerticalMapEdgeReached() {
+        float y = camera.position.y;
+        if(y - camera.viewportHeight < border.y) {
+            return true;
+        }
+        if(y + camera.viewportHeight > border.height) {
+            return true;
+        }
+        return false;
     }
 
     public Camera getCamera() {

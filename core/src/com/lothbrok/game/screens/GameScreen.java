@@ -85,7 +85,8 @@ public class GameScreen extends AbstractScreen {
         }
         targetPos.y = player.getPosition().y;
 
-        camera.moveTo(targetPos, deltaTime);
+        camera.snapTo(targetPos);
+        //camera.moveTo(targetPos, deltaTime);
     }
 
     private void updatePlayerBoundingBox(float deltaTime) {
