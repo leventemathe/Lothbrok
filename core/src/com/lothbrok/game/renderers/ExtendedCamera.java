@@ -1,8 +1,8 @@
 package com.lothbrok.game.renderers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -18,9 +18,10 @@ public class ExtendedCamera {
 
     private float tolerance = 0.08f;
 
-    private Rectangle border = new Rectangle(0f, 0f, 32f, 8f);
+    private Rectangle border;
 
-    public ExtendedCamera(Camera camera) {
+    public ExtendedCamera(Camera camera, Map map) {
+        border = new Rectangle(0f, 0f, (int)map.getProperties().get("width"), (int)map.getProperties().get("height"));
         this.camera = camera;
     }
 
@@ -52,12 +53,40 @@ public class ExtendedCamera {
         }
     }
 
-    public void snapToX(float x) {
+    private boolean isEndOfMapLeft(float x) {
         if(x < border.x + camera.viewportWidth/2f) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isEndOfMapRight(float x) {
+        if(x > border.width - camera.viewportWidth/2f) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isEndOfMapBottom(float y) {
+        if(y < border.y + camera.viewportHeight/2f) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isEndOfMapTop(float y) {
+        if(y > border.height - camera.viewportHeight/2f) {
+            return true;
+        }
+        return false;
+    }
+
+    public void snapToX(float x) {
+        if(isEndOfMapLeft(x)) {
             camera.position.x = border.x + camera.viewportWidth/2f;
             return;
         }
-        if(x > border.width - camera.viewportWidth/2f) {
+        if(isEndOfMapRight(x)) {
             camera.position.x = border.width - camera.viewportWidth/2f;
             return;
         }
@@ -65,11 +94,11 @@ public class ExtendedCamera {
     }
 
     public void snapToY(float y) {
-        if(y < border.y + camera.viewportHeight/2f) {
+        if(isEndOfMapBottom(y)) {
             camera.position.y = border.y + camera.viewportHeight/2f;
             return;
         }
-        if(y > border.height - camera.viewportHeight/2f) {
+        if(isEndOfMapTop(y)) {
             camera.position.y = border.height - camera.viewportHeight/2f;
             return;
         }
@@ -81,52 +110,22 @@ public class ExtendedCamera {
         snapToY(pos.y);
     }
 
-    public void moveTo(Vector2 targetPos, float deltaTime) {
-        Vector2 cameraPos = new Vector2(camera.position.x, camera.position.y);
-        float distance = cameraPos.dst(targetPos);
-        Vector2 direction = (new Vector2(targetPos.x - cameraPos.x, targetPos.y - cameraPos.y)).nor();
-
-        Vector2 backupPos = new Vector2(cameraPos);
-
-        if(distance < tolerance) {
-            snapTo(targetPos);
-            //speed = BASE_SPEED;
+    public void moveToX(float x, float deltaTime) {
+        float distance = x - camera.position.x;
+        float direction = distance / Math.abs(distance);
+        if(Math.abs(distance) < tolerance) {
+            snapToX(x);
+            speed = BASE_SPEED;
         } else {
-            //speed *= acceleration;
-            camera.translate(direction.x * speed * deltaTime, direction.y * speed * deltaTime, 0f);
+            camera.position.x += direction * speed * deltaTime;
+            if(isEndOfMapLeft(camera.position.x)) {
+                camera.position.x = border.x + camera.viewportWidth/2f;
+            } else if(isEndOfMapRight(camera.position.x)) {
+                camera.position.x = border.width - camera.viewportWidth/2f;
+            } else {
+                speed *= acceleration;
+            }
         }
-
-        if(isHorizontalMapEdgeReached()) {
-            Gdx.app.debug(TAG, "horizontal edge reached");
-            snapToX(backupPos.x);
-        }
-        if(isVerticalMapEdgeReached()) {
-            //Gdx.app.debug(TAG, "vertical edge reached");
-            //snapToY(backupPos.y);
-        }
-        //Gdx.app.debug(TAG, "direction: " + direction.x + ", " + direction.y + ", distannce: " + distance);
-    }
-
-    private boolean isHorizontalMapEdgeReached() {
-        float x = camera.position.x;
-        if(x - camera.viewportWidth/2f < border.x) {
-            return true;
-        }
-        if(x + camera.viewportWidth/2f > border.width) {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean isVerticalMapEdgeReached() {
-        float y = camera.position.y;
-        if(y - camera.viewportHeight < border.y) {
-            return true;
-        }
-        if(y + camera.viewportHeight > border.height) {
-            return true;
-        }
-        return false;
     }
 
     public Camera getCamera() {
