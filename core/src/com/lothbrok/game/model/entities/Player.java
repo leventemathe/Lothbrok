@@ -97,7 +97,11 @@ public class Player extends MovingEntity {
     @Override
     public void moveLeft(float deltaTime) {
         accelerate();
+        float backupX = position.x;
         position.x -= speed * deltaTime;
+        if(isLeftColliding()) {
+            position.x = backupX;
+        }
         movingState = MovingState.LEFT;
     }
 
@@ -188,7 +192,6 @@ public class Player extends MovingEntity {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -221,8 +224,38 @@ public class Player extends MovingEntity {
                 return true;
             }
         }
+        return false;
+    }
 
+    private boolean isLeftColliding() {
+        int playerX = (int)Math.floor(boundingBox.x);
+        int playerY1 = (int)Math.floor(boundingBox.y);
+        int playerY2 = (int)Math.floor(boundingBox.y + boundingBox.height);
 
+        TiledMapTileLayer.Cell bottomCell = map.getCell(playerX, playerY1);
+        TiledMapTileLayer.Cell topCell = map.getCell(playerX, playerY2);
+        TiledMapTile bottomTile = null;
+        TiledMapTile topTile = null;
+
+        if(bottomCell != null) {
+            bottomTile = bottomCell.getTile();
+        }
+        if(topCell != null) {
+            topTile = topCell.getTile();
+        }
+
+        if(bottomTile != null) {
+            Object blocked = bottomTile.getProperties().get("blocked");
+            if(blocked != null && blocked.equals(true)) {
+                return true;
+            }
+        }
+        if(topTile != null) {
+            Object blocked = topTile.getProperties().get("blocked");
+            if(blocked != null && blocked.equals(true)) {
+                return true;
+            }
+        }
         return false;
     }
 

@@ -29,7 +29,10 @@ public class PlayerAnimation implements Disposable {
         Rectangle bodyRect = animation.getBoundingBox(AssetsConstants.PLAYER_ANIMATION_SPRITE_BODY);
         Rectangle legRect = animation.getBoundingBox(AssetsConstants.PLAYER_ANIMATION_SPRITE_LEFT_LEG);
         if(bodyRect != null && legRect != null) {
-            return new Rectangle(bodyRect.x, legRect.y + AssetsConstants.PLAYER_ANIMATION_FOOT_SENSOR_HEIGHT, bodyRect.width, bodyRect.height + legRect.height);
+            return new Rectangle(bodyRect.x,
+                    legRect.y + AssetsConstants.PLAYER_ANIMATION_BOTTOM_DELTA,
+                    bodyRect.width,
+                    bodyRect.height + legRect.height - AssetsConstants.PLAYER_ANIMATION_TOP_DELTAT);
         }
         return null;
     }
@@ -41,7 +44,7 @@ public class PlayerAnimation implements Disposable {
             return new Rectangle(leftLegRect.x,
                     leftLegRect.y,
                     righttLegRect.x + righttLegRect.width - leftLegRect.x,
-                    AssetsConstants.PLAYER_ANIMATION_FOOT_SENSOR_HEIGHT);
+                    AssetsConstants.PLAYER_ANIMATION_BOTTOM_DELTA);
         }
         return null;
     }
