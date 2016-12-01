@@ -2,15 +2,13 @@ package com.lothbrok.game.controllers;
 
 import com.lothbrok.game.model.entities.Player;
 import com.lothbrok.game.renderers.ExtendedCamera;
+import com.lothbrok.game.screens.GameScreen;
 
 import java.util.EnumMap;
 import java.util.Map;
 
 //TODO cache commands
 public class Controller {
-
-    //TODO move this somewhere central
-    private boolean debugMode = true;
 
     private ExtendedCamera camera;
     private Player player;
@@ -25,7 +23,8 @@ public class Controller {
         CAMERA_MOVEUP,
         CAMERA_MOVEDOWN,
         CAMERA_ZOOM_IN,
-        CAMERA_ZOOM_OUT;
+        CAMERA_ZOOM_OUT,
+        CAMERA_DEBUG_MODE;
 
         public static int getSize() {
             return values().length;
@@ -49,9 +48,11 @@ public class Controller {
         keyBools.put(Keys.CAMERA_MOVEDOWN, false);
         keyBools.put(Keys.CAMERA_ZOOM_IN, false);
         keyBools.put(Keys.CAMERA_ZOOM_OUT, false);
+        keyBools.put(Keys.CAMERA_DEBUG_MODE, false);
     }
 
     public void control(float deltaTime) {
+        // player
         if(keyBools.get(Keys.MOVELEFT)) {
             player.moveLeft(deltaTime);
         }
@@ -65,25 +66,28 @@ public class Controller {
             player.jump(deltaTime);
         }
 
-        if(debugMode) {
-            if(keyBools.get(Keys.CAMERA_MOVEDOWN)) {
-                camera.moveDown(deltaTime);
-            }
-            if(keyBools.get(Keys.CAMERA_MOVEUP)) {
-                camera.moveUp(deltaTime);
-            }
-            if(keyBools.get(Keys.CAMERA_MOVELEFT)) {
-                camera.moveLeft(deltaTime);
-            }
-            if(keyBools.get(Keys.CAMERA_MOVERIGHT)) {
-                camera.moveRight(deltaTime);
-            }
-            if(keyBools.get(Keys.CAMERA_ZOOM_IN)) {
-                camera.zoomIn(deltaTime);
-            }
-            if(keyBools.get(Keys.CAMERA_ZOOM_OUT)) {
-                camera.zoomOut(deltaTime);
-            }
+        // camera
+        if(keyBools.get(Keys.CAMERA_MOVEDOWN)) {
+            camera.moveDown(deltaTime);
+        }
+        if(keyBools.get(Keys.CAMERA_MOVEUP)) {
+            camera.moveUp(deltaTime);
+        }
+        if(keyBools.get(Keys.CAMERA_MOVELEFT)) {
+            camera.moveLeft(deltaTime);
+        }
+        if(keyBools.get(Keys.CAMERA_MOVERIGHT)) {
+            camera.moveRight(deltaTime);
+        }
+        if(keyBools.get(Keys.CAMERA_ZOOM_IN)) {
+            camera.zoomIn(deltaTime);
+        }
+        if(keyBools.get(Keys.CAMERA_ZOOM_OUT)) {
+            camera.zoomOut(deltaTime);
+        }
+        if(keyBools.get(Keys.CAMERA_DEBUG_MODE)) {
+            GameScreen.debugCamera = !GameScreen.debugCamera;
+            keyBools.put(Keys.CAMERA_DEBUG_MODE, false);
         }
     }
 
@@ -125,5 +129,9 @@ public class Controller {
 
     public void cameraZoomOut(boolean b) {
         keyBools.put(Keys.CAMERA_ZOOM_OUT, b);
+    }
+
+    public void cameraDebugModeOn(boolean b) {
+        keyBools.put(Keys.CAMERA_DEBUG_MODE, b);
     }
 }

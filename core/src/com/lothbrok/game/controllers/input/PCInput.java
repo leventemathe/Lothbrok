@@ -46,6 +46,9 @@ public class PCInput implements InputProcessor {
         if(keycode == Input.Keys.C) {
             controller.cameraZoomOut(true);
         }
+        if(keycode == Input.Keys.SPACE) {
+            controller.cameraDebugModeOn(true);
+        }
 
         return true;
     }
@@ -79,6 +82,9 @@ public class PCInput implements InputProcessor {
         }
         if(keycode == Input.Keys.C) {
             controller.cameraZoomOut(false);
+        }
+        if(keycode == Input.Keys.SPACE) {
+            controller.cameraDebugModeOn(false);
         }
 
         return true;

@@ -19,6 +19,7 @@ import com.lothbrok.game.renderers.GameRenderer;
 public class GameScreen extends AbstractScreen {
 
     public static final String TAG = GameScreen.class.getSimpleName();
+    public static boolean debugCamera = false;
 
     //M
     private GameModel gameModel;
@@ -68,7 +69,9 @@ public class GameScreen extends AbstractScreen {
         updatePlayerBoundingBox(deltaTime);
         gameModel.update(deltaTime);
         controller.control(deltaTime);
-        updateCamera(deltaTime);
+        if(!debugCamera) {
+            updateCamera(deltaTime);
+        }
     }
 
     private void updateCamera(float deltaTime) {

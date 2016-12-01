@@ -31,34 +31,9 @@ public class MyOrthogonalTiledMapRenderer extends OrthogonalTiledMapRenderer {
 
     @Override
     //TODO optimize, so only visible is drawn
-    //TODO move shapeRenderer begin end to outseid the for loop in renderObjectS
+    //TODO move colors and tile types to a Constants file
     public void renderObject(MapObject object) {
-        if (object instanceof RectangleMapObject) {
-            RectangleMapObject rectObject = (RectangleMapObject) object;
-
-            final String typeString = "type";
-            Object typeProperty = rectObject.getProperties().get(typeString);
-            if (typeProperty == null) {
-                return;
-            }
-
-            String type = typeProperty.toString();
-            Rectangle rectangle = rectObject.getRectangle();
-            batch.end();
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            //TODO get Color from somewhere
-            if (type.equals("closeHill")) {
-                shapeRenderer.setColor(new Color(47f/255f, 173f/255f, 33f/255f, 1f));
-                shapeRenderer.rect(rectangle.x * unitScale, rectangle.y * unitScale,
-                        rectangle.width * unitScale, rectangle.height * unitScale);
-            } else if (type.equals("cloud")) {
-                shapeRenderer.setColor(new Color(230f/255f, 244f/255f, 250f/255f, 1f));
-                shapeRenderer.rect(rectangle.x * unitScale, rectangle.y * unitScale,
-                        rectangle.width * unitScale, rectangle.height * unitScale);
-            }
-            shapeRenderer.end();
-            batch.begin();
-        } else if (object instanceof TextureMapObject) {
+        if (object instanceof TextureMapObject) {
             TextureMapObject textureObject = (TextureMapObject) object;
             float x = textureObject.getX() * unitScale;
             float y = textureObject.getY() * unitScale;
@@ -79,8 +54,37 @@ public class MyOrthogonalTiledMapRenderer extends OrthogonalTiledMapRenderer {
                     height,
                     scaleX,
                     scaleY,
-                    textureObject.getRotation()
+                    -textureObject.getRotation()
             );
+        } else if (object instanceof RectangleMapObject) {
+            RectangleMapObject rectObject = (RectangleMapObject) object;
+
+            final String typeString = "type";
+            Object typeProperty = rectObject.getProperties().get(typeString);
+            if (typeProperty == null) {
+                return;
+            }
+
+            String type = typeProperty.toString();
+            Rectangle rectangle = rectObject.getRectangle();
+            batch.end();
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            //TODO get Color from somewhere
+            if (type.equals("hill")) {
+                shapeRenderer.setColor(new Color(47f/255f, 173f/255f, 33f/255f, 1f));
+                shapeRenderer.rect(rectangle.x * unitScale, rectangle.y * unitScale,
+                        rectangle.width * unitScale, rectangle.height * unitScale);
+            } else if (type.equals("mountain")) {
+                shapeRenderer.setColor(new Color(213f/255f, 237f/255f, 247f/255f, 1f));
+                shapeRenderer.rect(rectangle.x * unitScale, rectangle.y * unitScale,
+                        rectangle.width * unitScale, rectangle.height * unitScale);
+            } else if (type.equals("cloud")) {
+                shapeRenderer.setColor(new Color(230f/255f, 244f/255f, 250f/255f, 1f));
+                shapeRenderer.rect(rectangle.x * unitScale, rectangle.y * unitScale,
+                        rectangle.width * unitScale, rectangle.height * unitScale);
+            }
+            shapeRenderer.end();
+            batch.begin();
         }
     }
 }
