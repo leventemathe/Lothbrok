@@ -9,7 +9,9 @@ public class AssetsConstants {
     public static final String PLAYER_ANIMATION_ENTITY_PLAYER = "player";
     public static final String PLAYER_ANIMATION_BONE_ATTACK = "swordarm_bone";
     public static final String PLAYER_ANIMATION_SPRITE_BODY = "body";
-    public static final String PLAYER_ANIMATION_SPRITE_LEG = "leg";
+    public static final String PLAYER_ANIMATION_SPRITE_LEFT_LEG = "left_leg";
+    public static final String PLAYER_ANIMATION_SPRITE_RIGHT_LEG = "right_leg";
+    public static final float PLAYER_ANIMATION_FOOT_SENSOR_HEIGHT = 0.04f;
     public static final String PLAYER_ANIMATION_IDLE = "idle";
     public static final String PLAYER_ANIMATION_WALKING = "walking";
     public static final String PLAYER_ANIMATION_JUMPING = "jumping";

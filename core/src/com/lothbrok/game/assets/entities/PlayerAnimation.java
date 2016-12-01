@@ -1,5 +1,6 @@
 package com.lothbrok.game.assets.entities;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Disposable;
 import com.lothbrok.game.assets.animation.spriter.SpriterAnimation;
 import com.lothbrok.game.assets.utils.AssetsConstants;
@@ -22,6 +23,27 @@ public class PlayerAnimation implements Disposable {
     public void attackWhileMoving() {
         animation.setPlayerTweener(AssetsConstants.PLAYER_ANIMATION_ATTACKING, AssetsConstants.PLAYER_ANIMATION_WALKING, AssetsConstants
                 .PLAYER_ANIMATION_BONE_ATTACK);
+    }
+
+    public Rectangle getBodyBoudningBox() {
+        Rectangle bodyRect = animation.getBoundingBox(AssetsConstants.PLAYER_ANIMATION_SPRITE_BODY);
+        Rectangle legRect = animation.getBoundingBox(AssetsConstants.PLAYER_ANIMATION_SPRITE_LEFT_LEG);
+        if(bodyRect != null && legRect != null) {
+            return new Rectangle(bodyRect.x, legRect.y + AssetsConstants.PLAYER_ANIMATION_FOOT_SENSOR_HEIGHT, bodyRect.width, bodyRect.height + legRect.height);
+        }
+        return null;
+    }
+
+    public Rectangle getFootSensor() {
+        Rectangle leftLegRect = animation.getBoundingBox(AssetsConstants.PLAYER_ANIMATION_SPRITE_LEFT_LEG);
+        Rectangle righttLegRect = animation.getBoundingBox(AssetsConstants.PLAYER_ANIMATION_SPRITE_RIGHT_LEG);
+        if(leftLegRect != null && righttLegRect != null) {
+            return new Rectangle(leftLegRect.x,
+                    leftLegRect.y,
+                    righttLegRect.x + righttLegRect.width - leftLegRect.x,
+                    AssetsConstants.PLAYER_ANIMATION_FOOT_SENSOR_HEIGHT);
+        }
+        return null;
     }
 
     public SpriterAnimation getAnimation() {

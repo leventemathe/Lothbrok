@@ -20,9 +20,6 @@ import com.brashmonkey.spriter.SCMLReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.lothbrok.game.assets.utils.AssetsConstants.PLAYER_ANIMATION_SPRITE_BODY;
-import static com.lothbrok.game.assets.utils.AssetsConstants.PLAYER_ANIMATION_SPRITE_LEG;
-
 //TODO add error handling
 public class SpriterAnimation implements Disposable {
 
@@ -229,23 +226,16 @@ public class SpriterAnimation implements Disposable {
         }
     }
 
-    public Rectangle getBodyBoudningBox() {
-        Rectangle bodyRect = null;
-        Rectangle legRect = null;
+    public Rectangle getBoundingBox(String object) {
+        Rectangle rect = null;
         if(playerTweener != null) {
-            bodyRect = createBoundingRect(playerTweener, PLAYER_ANIMATION_SPRITE_BODY);
-            legRect = createBoundingRect(playerTweener, PLAYER_ANIMATION_SPRITE_LEG);
+            rect = createBoundingRect(playerTweener, object);
         } else if (playOnce != null) {
-            bodyRect = createBoundingRect(playOnce, PLAYER_ANIMATION_SPRITE_BODY);
-            legRect = createBoundingRect(playOnce, PLAYER_ANIMATION_SPRITE_LEG);
+            rect = createBoundingRect(playOnce, object);
         } else if(playAlways != null) {
-            bodyRect = createBoundingRect(playAlways, PLAYER_ANIMATION_SPRITE_BODY);
-            legRect = createBoundingRect(playAlways, PLAYER_ANIMATION_SPRITE_LEG);
+            rect = createBoundingRect(playAlways, object);
         }
-        if(bodyRect != null && legRect != null) {
-            return new Rectangle(bodyRect.x, legRect.y, bodyRect.width, bodyRect.height + legRect.height);
-        }
-        return null;
+        return rect;
     }
 
     // Getting a Box or Spriter Rectangle from a Player references and recalculates the same box and rect

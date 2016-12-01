@@ -135,12 +135,12 @@
                     <object folder="0" file="6" x="100.163802" y="1.75897" angle="178.869309" scale_x="-1"/>
                 </key>
             </timeline>
-            <timeline id="10" name="leg_000">
+            <timeline id="10" name="left_leg">
                 <key id="0" spin="0">
                     <object folder="0" file="5" x="38.23568" y="2.394274" angle="89.370401"/>
                 </key>
             </timeline>
-            <timeline id="11" name="leg">
+            <timeline id="11" name="right_leg">
                 <key id="0" spin="0">
                     <object folder="0" file="5" x="44.175392" y="-2.465526" angle="91.181189"/>
                 </key>
@@ -426,12 +426,12 @@
                     <object folder="0" file="6" x="100.163802" y="1.75897" angle="178.869309" scale_x="-1"/>
                 </key>
             </timeline>
-            <timeline id="10" name="leg_000">
+            <timeline id="10" name="left_leg">
                 <key id="0" spin="0">
                     <object folder="0" file="5" x="38.23568" y="2.394274" angle="89.370401"/>
                 </key>
             </timeline>
-            <timeline id="11" name="leg">
+            <timeline id="11" name="right_leg">
                 <key id="0" spin="0">
                     <object folder="0" file="5" x="44.175392" y="-2.465526" angle="91.181189"/>
                 </key>
@@ -627,12 +627,12 @@
                     <object folder="0" file="6" x="100.163802" y="1.75897" angle="178.869309" scale_x="-1"/>
                 </key>
             </timeline>
-            <timeline id="10" name="leg_000">
+            <timeline id="10" name="left_leg">
                 <key id="0" spin="0">
                     <object folder="0" file="5" x="38.23568" y="2.394274" angle="89.370401"/>
                 </key>
             </timeline>
-            <timeline id="11" name="leg">
+            <timeline id="11" name="right_leg">
                 <key id="0" spin="0">
                     <object folder="0" file="5" x="44.175392" y="-2.465526" angle="91.181189"/>
                 </key>
@@ -771,12 +771,12 @@
                     <object folder="0" file="6" x="100.163802" y="1.75897" angle="178.869309" scale_x="-1"/>
                 </key>
             </timeline>
-            <timeline id="10" name="leg_000">
+            <timeline id="10" name="left_leg">
                 <key id="0" spin="0">
                     <object folder="0" file="5" x="38.23568" y="2.394274" angle="89.370401"/>
                 </key>
             </timeline>
-            <timeline id="11" name="leg">
+            <timeline id="11" name="right_leg">
                 <key id="0" spin="0">
                     <object folder="0" file="5" x="44.175392" y="-2.465526" angle="91.181189"/>
                 </key>
@@ -969,12 +969,12 @@
                     <object folder="0" file="6" x="100.163802" y="1.75897" angle="178.869309" scale_x="-1"/>
                 </key>
             </timeline>
-            <timeline id="10" name="leg_000">
+            <timeline id="10" name="left_leg">
                 <key id="0" spin="0">
                     <object folder="0" file="5" x="38.23568" y="2.394274" angle="89.370401"/>
                 </key>
             </timeline>
-            <timeline id="11" name="leg">
+            <timeline id="11" name="right_leg">
                 <key id="0" spin="0">
                     <object folder="0" file="5" x="44.175392" y="-2.465526" angle="91.181189"/>
                 </key>

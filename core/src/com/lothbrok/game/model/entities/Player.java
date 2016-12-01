@@ -13,6 +13,7 @@ public class Player extends MovingEntity {
     private TiledMapTileLayer map;
 
     private Rectangle boundingBox;
+    private Rectangle footSensor;
 
     public Player(Vector2 position, TiledMapTileLayer map) {
         this.map = map;
@@ -157,9 +158,9 @@ public class Player extends MovingEntity {
     }
 
     private boolean isBottomColliding() {
-        int playerX1 = (int)Math.floor(boundingBox.x);
-        int playerX2 = (int)Math.floor(boundingBox.x + boundingBox.width);
-        int playerY = (int)Math.floor(position.y);
+        int playerX1 = (int)Math.floor(footSensor.x);
+        int playerX2 = (int)Math.floor(footSensor.x + footSensor.width);
+        int playerY = (int)Math.floor(footSensor.y);
 
         TiledMapTileLayer.Cell leftCell = map.getCell(playerX1, playerY);
         TiledMapTileLayer.Cell rightCell = map.getCell(playerX2, playerY);
@@ -231,5 +232,13 @@ public class Player extends MovingEntity {
 
     public Rectangle getBoundingBox() {
         return boundingBox;
+    }
+
+    public Rectangle getFootSensor() {
+        return footSensor;
+    }
+
+    public void setFootSensor(Rectangle footSensor) {
+        this.footSensor = footSensor;
     }
 }

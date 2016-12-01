@@ -54,14 +54,17 @@ public class GameScreen extends AbstractScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         gameRenderer.render(deltaTime);
         gameRenderer.renderRectangle(gameModel.getPlayer().getBoundingBox());
+        gameRenderer.renderRectangle(gameModel.getPlayer().getFootSensor());
         mobileInputInterface.render(deltaTime);
         box2DDebugRenderer.render(gameModel.getWorld(), gameRenderer.getExtendedCamera().getCamera().combined);
         super.render(deltaTime);
     }
 
     public void update(float deltaTime) {
-        Rectangle playerRect = gameRenderer.getPlayerAnimation().getAnimation().getBodyBoudningBox();
-        gameModel.getPlayer().setBoundingBox(playerRect);
+        Rectangle boundingBox = gameRenderer.getPlayerAnimation().getBodyBoudningBox();
+        Rectangle footSensor = gameRenderer.getPlayerAnimation().getFootSensor();
+        gameModel.getPlayer().setBoundingBox(boundingBox);
+        gameModel.getPlayer().setFootSensor(footSensor);
         gameModel.update(deltaTime);
         controller.control(deltaTime);
     }
