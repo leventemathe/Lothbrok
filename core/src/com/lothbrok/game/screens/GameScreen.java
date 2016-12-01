@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.controllers.Controller;
@@ -64,6 +65,19 @@ public class GameScreen extends AbstractScreen {
         updatePlayerBoundingBox(deltaTime);
         gameModel.update(deltaTime);
         controller.control(deltaTime);
+        updateCamera(deltaTime);
+    }
+
+    private void updateCamera(float deltaTime) {
+        Vector2 targetPos = new Vector2();
+        float offsetX = 0.5f;
+        if(!gameRenderer.getPlayerAnimation().getAnimation().isFlipped()) {
+            targetPos.x = gameModel.getPlayer().getPosition().x + offsetX;
+        } else {
+            targetPos.x = gameModel.getPlayer().getPosition().x - offsetX;
+        }
+        targetPos.y = gameModel.getPlayer().getPosition().y;
+        gameRenderer.getExtendedCamera().moveTo(targetPos, deltaTime);
     }
 
     private void updatePlayerBoundingBox(float deltaTime) {

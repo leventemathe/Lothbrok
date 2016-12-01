@@ -11,6 +11,7 @@ public class Player extends MovingEntity {
     private final String TAG = Player.class.getSimpleName();
 
     private TiledMapTileLayer map;
+    private float standingCoordY = 0f;
 
     private Rectangle boundingBox;
     private Rectangle footSensor;
@@ -78,6 +79,7 @@ public class Player extends MovingEntity {
             if(isBottomColliding()) {
                 actionState = ActionState.STANDING;
                 position.y = backupY;
+                standingCoordY = position.y;
             }
         }
     }
@@ -251,5 +253,9 @@ public class Player extends MovingEntity {
 
     public Rectangle getFootSensor() {
         return footSensor;
+    }
+
+    public float getStandingCoordY() {
+        return standingCoordY;
     }
 }
