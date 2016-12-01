@@ -1,7 +1,6 @@
 package com.lothbrok.game.model;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
@@ -29,7 +28,7 @@ public class GameModel {
 
         float playerX = Box2DUtils.toWorld((float)map.getLayers().get("spawn").getObjects().get("playerSpawn").getProperties().get("x"));
         float playerY = Box2DUtils.toWorld((float)map.getLayers().get("spawn").getObjects().get("playerSpawn").getProperties().get("y"));
-        this.player = new Player(new Vector2(playerX, playerY), (TiledMapTileLayer)map.getLayers().get("tiles"));
+        this.player = new Player(new Vector2(playerX, playerY), map);
     }
 
     public void update(float deltaTime) {

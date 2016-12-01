@@ -1,6 +1,7 @@
 package com.lothbrok.game.model.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
@@ -11,15 +12,17 @@ public class Player extends MovingEntity {
     private final String TAG = Player.class.getSimpleName();
 
     private TiledMapTileLayer map;
-    private float standingCoordY = 0f;
+    private Rectangle mapBorder;
+
 
     private Rectangle boundingBox;
     private Rectangle footSensor;
     private final float MAX_BOUNDING_BOX_AGE = 1000f;
     private float boundingBoxAge = MAX_BOUNDING_BOX_AGE;
 
-    public Player(Vector2 position, TiledMapTileLayer map) {
-        this.map = map;
+    public Player(Vector2 position, Map map) {
+        this.map = (TiledMapTileLayer)map.getLayers().get("tiles");
+        this.mapBorder = new Rectangle(0f, 0f, (int)map.getProperties().get("width"), (int)map.getProperties().get("height"));
         setupBasics(position);
         setupMoving();
         setupJumping();
@@ -79,7 +82,6 @@ public class Player extends MovingEntity {
             if(isBottomColliding()) {
                 actionState = ActionState.STANDING;
                 position.y = backupY;
-                standingCoordY = position.y;
             }
         }
     }
@@ -199,6 +201,10 @@ public class Player extends MovingEntity {
         int playerY1 = (int)Math.floor(boundingBox.y);
         int playerY2 = (int)Math.floor(boundingBox.y + boundingBox.height);
 
+        if(boundingBox.x + boundingBox.width > mapBorder.width) {
+            return true;
+        }
+
         TiledMapTileLayer.Cell bottomCell = map.getCell(playerX, playerY1);
         TiledMapTileLayer.Cell topCell = map.getCell(playerX, playerY2);
 
@@ -209,6 +215,10 @@ public class Player extends MovingEntity {
         int playerX = (int)Math.floor(boundingBox.x);
         int playerY1 = (int)Math.floor(boundingBox.y);
         int playerY2 = (int)Math.floor(boundingBox.y + boundingBox.height);
+
+        if(boundingBox.x < mapBorder.x) {
+            return true;
+        }
 
         TiledMapTileLayer.Cell bottomCell = map.getCell(playerX, playerY1);
         TiledMapTileLayer.Cell topCell = map.getCell(playerX, playerY2);
@@ -253,9 +263,5 @@ public class Player extends MovingEntity {
 
     public Rectangle getFootSensor() {
         return footSensor;
-    }
-
-    public float getStandingCoordY() {
-        return standingCoordY;
     }
 }

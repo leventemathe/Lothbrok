@@ -18,10 +18,10 @@ public class ExtendedCamera {
 
     private float tolerance = 0.08f;
 
-    private Rectangle border;
+    private Rectangle mapBorders;
 
     public ExtendedCamera(Camera camera, Map map) {
-        border = new Rectangle(0f, 0f, (int)map.getProperties().get("width"), (int)map.getProperties().get("height"));
+        mapBorders = new Rectangle(0f, 0f, (int)map.getProperties().get("width"), (int)map.getProperties().get("height"));
         this.camera = camera;
     }
 
@@ -54,28 +54,28 @@ public class ExtendedCamera {
     }
 
     private boolean isEndOfMapLeft(float x) {
-        if(x < border.x + camera.viewportWidth/2f) {
+        if(x < mapBorders.x + camera.viewportWidth/2f) {
             return true;
         }
         return false;
     }
 
     private boolean isEndOfMapRight(float x) {
-        if(x > border.width - camera.viewportWidth/2f) {
+        if(x > mapBorders.width - camera.viewportWidth/2f) {
             return true;
         }
         return false;
     }
 
     private boolean isEndOfMapBottom(float y) {
-        if(y < border.y + camera.viewportHeight/2f) {
+        if(y < mapBorders.y + camera.viewportHeight/2f) {
             return true;
         }
         return false;
     }
 
     private boolean isEndOfMapTop(float y) {
-        if(y > border.height - camera.viewportHeight/2f) {
+        if(y > mapBorders.height - camera.viewportHeight/2f) {
             return true;
         }
         return false;
@@ -83,11 +83,11 @@ public class ExtendedCamera {
 
     public void snapToX(float x) {
         if(isEndOfMapLeft(x)) {
-            camera.position.x = border.x + camera.viewportWidth/2f;
+            camera.position.x = mapBorders.x + camera.viewportWidth/2f;
             return;
         }
         if(isEndOfMapRight(x)) {
-            camera.position.x = border.width - camera.viewportWidth/2f;
+            camera.position.x = mapBorders.width - camera.viewportWidth/2f;
             return;
         }
         camera.position.x = x;
@@ -95,11 +95,11 @@ public class ExtendedCamera {
 
     public void snapToY(float y) {
         if(isEndOfMapBottom(y)) {
-            camera.position.y = border.y + camera.viewportHeight/2f;
+            camera.position.y = mapBorders.y + camera.viewportHeight/2f;
             return;
         }
         if(isEndOfMapTop(y)) {
-            camera.position.y = border.height - camera.viewportHeight/2f;
+            camera.position.y = mapBorders.height - camera.viewportHeight/2f;
             return;
         }
         camera.position.y = y;
@@ -119,9 +119,9 @@ public class ExtendedCamera {
         } else {
             camera.position.x += direction * speed * deltaTime;
             if(isEndOfMapLeft(camera.position.x)) {
-                camera.position.x = border.x + camera.viewportWidth/2f;
+                camera.position.x = mapBorders.x + camera.viewportWidth/2f;
             } else if(isEndOfMapRight(camera.position.x)) {
-                camera.position.x = border.width - camera.viewportWidth/2f;
+                camera.position.x = mapBorders.width - camera.viewportWidth/2f;
             } else {
                 speed *= acceleration;
             }
