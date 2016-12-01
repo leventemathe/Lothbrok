@@ -36,6 +36,7 @@ public class SpriterAnimation implements Disposable {
     private float x = 0.0f;
     private float y = 0.0f;
     private float scale = 1.0f;
+    private boolean flipped = false;
 
     private Entity currentEntity;
     private Player playOnce;
@@ -171,6 +172,7 @@ public class SpriterAnimation implements Disposable {
                 playerTweener.flipX();
             };
         }
+        flipped = true;
     }
 
     public void unflip() {
@@ -187,6 +189,7 @@ public class SpriterAnimation implements Disposable {
                 playerTweener.flipX();
             }
         }
+        flipped = false;
     }
 
     //Update & render
@@ -247,6 +250,10 @@ public class SpriterAnimation implements Disposable {
                 spriterRect.bottom,
                 spriterRect.right - spriterRect.left,
                 spriterRect.top -spriterRect.bottom);
+    }
+
+    public boolean isFlipped() {
+        return flipped;
     }
 
     @Override

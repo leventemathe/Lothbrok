@@ -79,8 +79,8 @@
    <image height="270" source="pine_tree_09.png" width="270" />
   </tile>
  </tileset>
- <objectgroup name="spawn" visible="0">
-  <object height="540" id="55" name="playerSpawn" width="540" x="1080" y="1620" />
+ <objectgroup name="spawn">
+  <object height="540" id="55" name="playerSpawn" width="540" x="1080" y="1080" />
  </objectgroup>
  <objectgroup name="background2" visible="0">
   <object gid="12" height="254" id="25" width="2160" x="0" y="1620" />

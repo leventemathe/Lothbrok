@@ -14,6 +14,8 @@ public class Player extends MovingEntity {
 
     private Rectangle boundingBox;
     private Rectangle footSensor;
+    private final float MAX_BOUNDING_BOX_AGE = 1000f;
+    private float boundingBoxAge = MAX_BOUNDING_BOX_AGE;
 
     public Player(Vector2 position, TiledMapTileLayer map) {
         this.map = map;
@@ -27,6 +29,8 @@ public class Player extends MovingEntity {
         this.position = position;
         this.actionState = ActionState.STANDING;
         this.movingState = MovingState.STANDING;
+        this.boundingBox = new Rectangle();
+        this.footSensor = new Rectangle();
     }
 
     private void setupMoving() {
@@ -129,9 +133,14 @@ public class Player extends MovingEntity {
         if(actionState.equals(ActionState.STANDING) || actionState.equals(ActionState.JUMPING) || actionState == ActionState.MIDJUMP) {
             if(jumpHeight < maxJumpHeight) {
                 decelerateJumping();
+                float backupY = position.y;
                 position.y += jumpSpeed * delta;
                 jumpHeight += jumpSpeed * delta;
-                actionState = ActionState.JUMPING;
+                if(isTopColliding()) {
+                    position.y = backupY;
+                } else {
+                    actionState = ActionState.JUMPING;
+                }
             }
             Gdx.app.debug(TAG, "jumping");
         }
@@ -168,31 +177,19 @@ public class Player extends MovingEntity {
 
         TiledMapTileLayer.Cell leftCell = map.getCell(playerX1, playerY);
         TiledMapTileLayer.Cell rightCell = map.getCell(playerX2, playerY);
-        TiledMapTile leftTile = null;
-        TiledMapTile rightTile = null;
 
-        if(leftCell != null) {
-            leftTile = leftCell.getTile();
-        }
-        if(rightCell != null) {
-            rightTile = rightCell.getTile();
-        }
+        return isColliding(leftCell, rightCell);
+    }
 
-        if(leftTile != null) {
-            Object blocked = leftTile.getProperties().get("blocked");
-            if(blocked != null && blocked.equals(true)) {
-                //Gdx.app.debug(TAG, "bottom collison 1");
-                return true;
-            }
-        }
-        if(rightTile != null) {
-            Object blocked = rightTile.getProperties().get("blocked");
-            if(blocked != null && blocked.equals(true)) {
-                //Gdx.app.debug(TAG, "bottom collison 1");
-                return true;
-            }
-        }
-        return false;
+    private boolean isTopColliding() {
+        int playerX1 = (int)Math.floor(footSensor.x);
+        int playerX2 = (int)Math.floor(footSensor.x + footSensor.width);
+        int playerY = (int)Math.ceil(footSensor.y);
+
+        TiledMapTileLayer.Cell leftCell = map.getCell(playerX1, playerY);
+        TiledMapTileLayer.Cell rightCell = map.getCell(playerX2, playerY);
+
+        return isColliding(leftCell, rightCell);
     }
 
     private boolean isRightColliding() {
@@ -202,29 +199,8 @@ public class Player extends MovingEntity {
 
         TiledMapTileLayer.Cell bottomCell = map.getCell(playerX, playerY1);
         TiledMapTileLayer.Cell topCell = map.getCell(playerX, playerY2);
-        TiledMapTile bottomTile = null;
-        TiledMapTile topTile = null;
 
-        if(bottomCell != null) {
-            bottomTile = bottomCell.getTile();
-        }
-        if(topCell != null) {
-            topTile = topCell.getTile();
-        }
-
-        if(bottomTile != null) {
-            Object blocked = bottomTile.getProperties().get("blocked");
-            if(blocked != null && blocked.equals(true)) {
-                return true;
-            }
-        }
-        if(topTile != null) {
-            Object blocked = topTile.getProperties().get("blocked");
-            if(blocked != null && blocked.equals(true)) {
-                return true;
-            }
-        }
-        return false;
+        return isColliding(bottomCell, topCell);
     }
 
     private boolean isLeftColliding() {
@@ -234,24 +210,29 @@ public class Player extends MovingEntity {
 
         TiledMapTileLayer.Cell bottomCell = map.getCell(playerX, playerY1);
         TiledMapTileLayer.Cell topCell = map.getCell(playerX, playerY2);
-        TiledMapTile bottomTile = null;
-        TiledMapTile topTile = null;
 
-        if(bottomCell != null) {
-            bottomTile = bottomCell.getTile();
+        return isColliding(bottomCell, topCell);
+    }
+
+    private boolean isColliding(TiledMapTileLayer.Cell cell1, TiledMapTileLayer.Cell cell2) {
+        TiledMapTile tile1 = null;
+        TiledMapTile tile2 = null;
+
+        if(cell1 != null) {
+            tile1 = cell1.getTile();
         }
-        if(topCell != null) {
-            topTile = topCell.getTile();
+        if(cell2 != null) {
+            tile2 = cell2.getTile();
         }
 
-        if(bottomTile != null) {
-            Object blocked = bottomTile.getProperties().get("blocked");
+        if(tile1 != null) {
+            Object blocked = tile1.getProperties().get("blocked");
             if(blocked != null && blocked.equals(true)) {
                 return true;
             }
         }
-        if(topTile != null) {
-            Object blocked = topTile.getProperties().get("blocked");
+        if(tile2 != null) {
+            Object blocked = tile2.getProperties().get("blocked");
             if(blocked != null && blocked.equals(true)) {
                 return true;
             }
@@ -259,8 +240,9 @@ public class Player extends MovingEntity {
         return false;
     }
 
-    public void setBoundingBox(Rectangle boundingBox) {
-        this.boundingBox = boundingBox;
+    public void updateBoundingBox(Rectangle body, Rectangle foot, float deltaTime) {
+        boundingBox = body;
+        footSensor = foot;
     }
 
     public Rectangle getBoundingBox() {
@@ -269,9 +251,5 @@ public class Player extends MovingEntity {
 
     public Rectangle getFootSensor() {
         return footSensor;
-    }
-
-    public void setFootSensor(Rectangle footSensor) {
-        this.footSensor = footSensor;
     }
 }

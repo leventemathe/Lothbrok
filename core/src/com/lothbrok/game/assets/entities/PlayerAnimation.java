@@ -39,11 +39,17 @@ public class PlayerAnimation implements Disposable {
 
     public Rectangle getFootSensor() {
         Rectangle leftLegRect = animation.getBoundingBox(AssetsConstants.PLAYER_ANIMATION_SPRITE_LEFT_LEG);
-        Rectangle righttLegRect = animation.getBoundingBox(AssetsConstants.PLAYER_ANIMATION_SPRITE_RIGHT_LEG);
-        if(leftLegRect != null && righttLegRect != null) {
-            return new Rectangle(leftLegRect.x,
-                    leftLegRect.y,
-                    righttLegRect.x + righttLegRect.width - leftLegRect.x,
+        Rectangle rightLegRect = animation.getBoundingBox(AssetsConstants.PLAYER_ANIMATION_SPRITE_RIGHT_LEG);
+        if(leftLegRect != null && rightLegRect != null) {
+            if(!animation.isFlipped()) {
+                return new Rectangle(leftLegRect.x,
+                        leftLegRect.y,
+                        rightLegRect.x + rightLegRect.width - leftLegRect.x,
+                        AssetsConstants.PLAYER_ANIMATION_BOTTOM_DELTA);
+            }
+            return new Rectangle(rightLegRect.x,
+                    rightLegRect.y,
+                    leftLegRect.x + leftLegRect.width - rightLegRect.x,
                     AssetsConstants.PLAYER_ANIMATION_BOTTOM_DELTA);
         }
         return null;

@@ -61,12 +61,15 @@ public class GameScreen extends AbstractScreen {
     }
 
     public void update(float deltaTime) {
-        Rectangle boundingBox = gameRenderer.getPlayerAnimation().getBodyBoudningBox();
-        Rectangle footSensor = gameRenderer.getPlayerAnimation().getFootSensor();
-        gameModel.getPlayer().setBoundingBox(boundingBox);
-        gameModel.getPlayer().setFootSensor(footSensor);
+        updatePlayerBoundingBox(deltaTime);
         gameModel.update(deltaTime);
         controller.control(deltaTime);
+    }
+
+    private void updatePlayerBoundingBox(float deltaTime) {
+        Rectangle body = gameRenderer.getPlayerAnimation().getBodyBoudningBox();
+        Rectangle foot = gameRenderer.getPlayerAnimation().getFootSensor();
+        gameModel.getPlayer().updateBoundingBox(body, foot, deltaTime);
     }
 
     @Override
