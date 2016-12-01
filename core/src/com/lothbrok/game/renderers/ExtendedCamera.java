@@ -1,6 +1,5 @@
 package com.lothbrok.game.renderers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
@@ -10,10 +9,12 @@ public class ExtendedCamera {
     private static final String TAG = ExtendedCamera.class.getSimpleName();
     private Camera camera;
 
-    private float speed = 1.5f;
+    private final float BASE_SPEED = 1.5f;
+    private float speed = BASE_SPEED;
+    private float acceleration = 1.01f;
     private float zoomSpeed = 1.5f;
 
-    private float toleration = 0.001f;
+    private float tolerance = 0.08f;
 
     public ExtendedCamera(Camera camera) {
         this.camera = camera;
@@ -64,12 +65,14 @@ public class ExtendedCamera {
         Vector2 cameraPos = new Vector2(camera.position.x, camera.position.y);
         float distance = cameraPos.dst(targetPos);
         Vector2 direction = (new Vector2(targetPos.x - cameraPos.x, targetPos.y - cameraPos.y)).nor();
-        if(distance < toleration) {
+        if(distance < tolerance) {
             snapTo(targetPos);
+            speed = BASE_SPEED;
         } else {
+            speed *= acceleration;
             camera.translate(direction.x * speed * deltaTime, direction.y * speed * deltaTime, 0f);
         }
-        Gdx.app.debug(TAG, "direction: " + direction.x + ", " + direction.y + ", distannce: " + distance);
+        //Gdx.app.debug(TAG, "direction: " + direction.x + ", " + direction.y + ", distannce: " + distance);
     }
 
     public Camera getCamera() {

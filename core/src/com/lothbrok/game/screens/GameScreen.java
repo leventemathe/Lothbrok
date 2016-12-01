@@ -12,6 +12,8 @@ import com.lothbrok.game.controllers.Controller;
 import com.lothbrok.game.controllers.input.MobileInputInterface;
 import com.lothbrok.game.controllers.input.PCInput;
 import com.lothbrok.game.model.GameModel;
+import com.lothbrok.game.model.entities.Player;
+import com.lothbrok.game.renderers.ExtendedCamera;
 import com.lothbrok.game.renderers.GameRenderer;
 
 public class GameScreen extends AbstractScreen {
@@ -39,6 +41,7 @@ public class GameScreen extends AbstractScreen {
 
         gameRenderer = new GameRenderer(gameModel, spriteBatch, shapeRenderer);
         box2DDebugRenderer = new Box2DDebugRenderer();
+        gameRenderer.getExtendedCamera().snapTo(gameModel.getPlayer().getPosition());
 
         controller = new Controller(gameRenderer.getExtendedCamera(), gameModel.getPlayer());
         mobileInputInterface = new MobileInputInterface(controller, spriteBatch);
@@ -69,15 +72,20 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void updateCamera(float deltaTime) {
+        Player player = gameModel.getPlayer();
+        ExtendedCamera camera = gameRenderer.getExtendedCamera();
+
         Vector2 targetPos = new Vector2();
-        float offsetX = 0.5f;
+        float offsetX = 0.7f;
+
         if(!gameRenderer.getPlayerAnimation().getAnimation().isFlipped()) {
-            targetPos.x = gameModel.getPlayer().getPosition().x + offsetX;
+            targetPos.x = player.getPosition().x + offsetX;
         } else {
-            targetPos.x = gameModel.getPlayer().getPosition().x - offsetX;
+            targetPos.x = player.getPosition().x - offsetX;
         }
-        targetPos.y = gameModel.getPlayer().getPosition().y;
-        gameRenderer.getExtendedCamera().moveTo(targetPos, deltaTime);
+        targetPos.y = player.getPosition().y;
+
+        camera.moveTo(targetPos, deltaTime);
     }
 
     private void updatePlayerBoundingBox(float deltaTime) {
