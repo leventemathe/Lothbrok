@@ -21,9 +21,6 @@ public class MovementComponent extends AbstractComponent {
         accelerate();
         entity.prevPosition.x = entity.position.x;
         entity.position.x -= speed * deltaTime;
-//        if(isLeftColliding()) {
-//            position.x = prevPosition.x;
-//        }
         entity.movementState = Entity.MovementState.LEFT;
     }
 
@@ -31,9 +28,6 @@ public class MovementComponent extends AbstractComponent {
         accelerate();
         entity.prevPosition.x = entity.position.x;
         entity.position.x += speed * deltaTime;
-//        if(isRightColliding()) {
-//            position.x = prevPosition.x;
-//        }
         entity.movementState = Entity.MovementState.RIGHT;
     }
 

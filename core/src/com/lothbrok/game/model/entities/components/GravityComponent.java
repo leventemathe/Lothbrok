@@ -17,11 +17,15 @@ public class GravityComponent extends AbstractComponent {
         this.weight = baseWeight;
     }
 
-    private void applyGravity() {
+    public void applyGravity(float deltaTime) {
         if(entity.actionState == Entity.ActionState.FALLING && weight < maxWeight) {
             weight *= gravity;
         } else if(entity.actionState != Entity.ActionState.FALLING) {
             weight = baseWeight;
+        }
+        if(entity.actionState == Entity.ActionState.FALLING) {
+            entity.prevPosition.y = entity.position.y;
+            entity.position.y -= weight * deltaTime;
         }
     }
 }

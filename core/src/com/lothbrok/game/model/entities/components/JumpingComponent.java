@@ -28,13 +28,13 @@ public class JumpingComponent extends AbstractComponent {
                 entity.prevPosition.y = entity.position.y;
                 entity.position.y += jumpSpeed * delta;
                 jumpHeight += jumpSpeed * delta;
-//                if(isTopColliding()) {
-//                    position.y = prevPosition.y;
-//                } else {
-//                    actionState = MovingEntity.ActionState.JUMPING;
-//                }
+                entity.actionState = Entity.ActionState.JUMPING;
+            } else {
+                jumpHeight = 0f;
+                entity.actionState = Entity.ActionState.FALLING;
             }
-            //Gdx.app.debug(TAG, "jumping");
+        } else {
+            jumpHeight = 0f;
         }
     }
 

@@ -19,7 +19,7 @@ public class TiledCollisionComponent extends AbstractComponent {
         this.mapBorder = new Rectangle(0f, 0f, (int)map.getProperties().get("width"), (int)map.getProperties().get("height"));
     }
 
-    private boolean isBottomColliding() {
+    public boolean isBottomColliding() {
         int playerX1 = (int)Math.floor(footSensor.x);
         int playerX2 = (int)Math.floor(footSensor.x + footSensor.width);
         int playerY = (int)Math.floor(footSensor.y);
@@ -30,7 +30,7 @@ public class TiledCollisionComponent extends AbstractComponent {
         return isColliding(leftCell, rightCell);
     }
 
-    private boolean isTopColliding() {
+    public boolean isTopColliding() {
         int playerX1 = (int)Math.floor(footSensor.x);
         int playerX2 = (int)Math.floor(footSensor.x + footSensor.width);
         int playerY = (int)Math.ceil(footSensor.y);
@@ -41,7 +41,7 @@ public class TiledCollisionComponent extends AbstractComponent {
         return isColliding(leftCell, rightCell);
     }
 
-    private boolean isRightColliding() {
+    public boolean isRightColliding() {
         int playerX = (int)Math.floor(boundingBox.x + boundingBox.width);
         int playerY1 = (int)Math.floor(boundingBox.y);
         int playerY2 = (int)Math.floor(boundingBox.y + boundingBox.height);
@@ -56,7 +56,7 @@ public class TiledCollisionComponent extends AbstractComponent {
         return isColliding(bottomCell, topCell);
     }
 
-    private boolean isLeftColliding() {
+    public boolean isLeftColliding() {
         int playerX = (int)Math.floor(boundingBox.x);
         int playerY1 = (int)Math.floor(boundingBox.y);
         int playerY2 = (int)Math.floor(boundingBox.y + boundingBox.height);
@@ -97,7 +97,7 @@ public class TiledCollisionComponent extends AbstractComponent {
         return false;
     }
 
-    public void updateBoundingBox(Rectangle body, Rectangle foot, float deltaTime) {
+    public void updateBoundingBox(Rectangle body, Rectangle foot) {
         boundingBox = body;
         footSensor = foot;
     }
