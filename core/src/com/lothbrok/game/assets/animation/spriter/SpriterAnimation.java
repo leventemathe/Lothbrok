@@ -48,10 +48,18 @@ public class SpriterAnimation implements Disposable {
     private PlayerFinishedListener cachedPlayerFinishedListener;
     private PlayerTweenerFinishedListener cachedPlayerTweenerFinishedListener;
 
+    public static final int PLAY_ONCE = 0;
+    public static final int PLAY_ALWAYS = 1;
+    public static final int PLAYER_TWEENER = 2;
+    public static final int CONTROLLERS_SIZE = 3;
+    private Player.PlayerListener[] controllerListeners;
+
     public SpriterAnimation() {
         this.cachedPlayers = new HashMap<>();
         this.cachedPlayerFinishedListener = new PlayerFinishedListener();
         this.cachedPlayerTweenerFinishedListener = new PlayerTweenerFinishedListener();
+
+        this.controllerListeners = new Player.PlayerListener[CONTROLLERS_SIZE];
     }
 
     //Loaders
@@ -138,8 +146,13 @@ public class SpriterAnimation implements Disposable {
     public void setPlayOnce(String animation) {
         playOnce = cacheAndSetPlayer(animation);
         playOnce.addListener(cachedPlayerFinishedListener);
+        Player.PlayerListener controlListener = controllerListeners[PLAY_ONCE];
+        if(controlListener != null) {
+            playOnce.addListener(controlListener);
+        }
     }
 
+    //TODO optimize new - cache
     public void setPlayerTweener(String doThis, String whileDoingThis, String baseBone) {
         Player doPlayer = cacheAndSetPlayer(doThis);
         Player whilePlayer = cacheAndSetPlayer(whileDoingThis);
@@ -222,10 +235,6 @@ public class SpriterAnimation implements Disposable {
             spriteDrawer.draw(playOnce);
         } else if(playAlways != null) {
             spriteDrawer.draw(playAlways);
-//            Box bodyBox = playAlways.getBox(playAlways.getObject(PLAYER_ANIMATION_SPRITE_BODY));
-//            Box legBox = playAlways.getBox(playAlways.getObject(PLAYER_ANIMATION_SPRITE_LEG));
-//            spriteDrawer.drawBox(bodyBox);
-//            spriteDrawer.drawBox(legBox);
         }
     }
 
@@ -254,6 +263,26 @@ public class SpriterAnimation implements Disposable {
 
     public boolean isFlipped() {
         return flipped;
+    }
+
+    public Player getPlayOnce() {
+        return playOnce;
+    }
+
+    public Player getPlayAlways() {
+        return playAlways;
+    }
+
+    public PlayerTweener getPlayerTweener() {
+        return playerTweener;
+    }
+
+    public void setControllerListener(int i, Player.PlayerListener listener) {
+        if(i >= CONTROLLERS_SIZE) {
+            Gdx.app.error(TAG, "Index out of bounds for controllerListeners");
+            return;
+        }
+        controllerListeners[i] = listener;
     }
 
     @Override

@@ -2,13 +2,17 @@ package com.lothbrok.game.assets.entities;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Disposable;
+import com.brashmonkey.spriter.Animation;
+import com.brashmonkey.spriter.Mainline;
 import com.lothbrok.game.assets.animation.spriter.SpriterAnimation;
 import com.lothbrok.game.assets.utils.AssetsConstants;
+import com.lothbrok.game.model.entities.Player;
 
 
 public class PlayerAnimation implements Disposable {
 
     private SpriterAnimation animation;
+    private PlayerAttackingStoppedListener playerAttackingStoppedListener;
 
     public PlayerAnimation(SpriterAnimation animation) {
         init(animation);
@@ -59,8 +63,50 @@ public class PlayerAnimation implements Disposable {
         return animation;
     }
 
+    public void setStopAttackingListener(Player player) {
+        if(playerAttackingStoppedListener == null) {
+            playerAttackingStoppedListener = new PlayerAttackingStoppedListener(player);
+            animation.setControllerListener(SpriterAnimation.PLAY_ONCE, playerAttackingStoppedListener);
+            //animation.setControllerListener(animation.getPlayerTweener().getFirstPlayer(), playerAttackingStoppedListener);
+        }
+    }
+
     @Override
     public void dispose() {
         animation.dispose();
+    }
+
+    private class PlayerAttackingStoppedListener implements com.brashmonkey.spriter.Player.PlayerListener {
+
+        private Player player;
+
+        public PlayerAttackingStoppedListener(Player player) {
+            this.player = player;
+        }
+
+        @Override
+        public void animationFinished(Animation animation) {
+            player.stopAttacking();
+        }
+
+        @Override
+        public void animationChanged(Animation oldAnim, Animation newAnim) {
+
+        }
+
+        @Override
+        public void preProcess(com.brashmonkey.spriter.Player player) {
+
+        }
+
+        @Override
+        public void postProcess(com.brashmonkey.spriter.Player player) {
+
+        }
+
+        @Override
+        public void mainlineKeyChanged(Mainline.Key prevKey, Mainline.Key newKey) {
+
+        }
     }
 }

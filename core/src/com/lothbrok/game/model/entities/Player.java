@@ -162,7 +162,7 @@ public class Player extends MovingEntity {
     }
 
     @Override
-    public void startAttacking(float deltaTime) {
+    public void startAttacking() {
         if(actionState.equals(ActionState.STANDING)) {
             actionState = ActionState.ATTACKING;
             Gdx.app.debug(TAG, "started attacking");
@@ -170,7 +170,7 @@ public class Player extends MovingEntity {
     }
 
     @Override
-    public void stopAttacking(float delta) {
+    public void stopAttacking() {
         if(actionState.equals(ActionState.ATTACKING)) {
             actionState = ActionState.STANDING;
             Gdx.app.debug(TAG, "stopped attacking");
