@@ -1,32 +1,27 @@
 package com.lothbrok.game.model.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.Map;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.lothbrok.game.model.entities.components.AttackingComponent;
+import com.lothbrok.game.model.entities.components.GravityComponent;
+import com.lothbrok.game.model.entities.components.JumpingComponent;
+import com.lothbrok.game.model.entities.components.MovementComponent;
+import com.lothbrok.game.model.entities.components.TiledCollisionComponent;
 
-public class Player extends MovingEntity {
+public class Player extends Entity {
 
-    private final String TAG = Player.class.getSimpleName();
+    private GravityComponent gravityComponent;
+    private MovementComponent movementComponent;
+    private JumpingComponent jumpingComponent;
+    private TiledCollisionComponent tiledCollisionComponent;
+    private AttackingComponent attackingComponent;
 
-    private TiledMapTileLayer map;
-    private Rectangle mapBorder;
-
-
-    private Rectangle boundingBox;
-    private Rectangle footSensor;
-    private final float MAX_BOUNDING_BOX_AGE = 1000f;
-    private float boundingBoxAge = MAX_BOUNDING_BOX_AGE;
-
+    // Setup
     public Player(Vector2 position, Map map) {
-        this.map = (TiledMapTileLayer)map.getLayers().get("tiles");
-        this.mapBorder = new Rectangle(0f, 0f, (int)map.getProperties().get("width"), (int)map.getProperties().get("height"));
         setupBasics(position);
-        setupMoving();
-        setupJumping();
-        setupFalling();
+        setupComponents(map);
     }
 
     private void setupBasics(Vector2 position) {
@@ -34,237 +29,99 @@ public class Player extends MovingEntity {
         this.prevPosition = new Vector2();
         this.prevPosition.x = position.x;
         this.prevPosition.y = position.y;
-        this.actionState = ActionState.STANDING;
-        this.movingState = MovingState.STANDING;
-        this.boundingBox = new Rectangle();
-        this.footSensor = new Rectangle();
+        this.actionState = Entity.ActionState.STANDING;
+        this.movementState = Entity.MovementState.STANDING;
     }
 
-    private void setupMoving() {
-        this.speed = 1f;
-        this.acceleration = 1.01f;
-        this.maxSpeed = 2f;
-        this.baseSpeed = this.speed;
+    private void setupComponents(Map map) {
+        gravityComponent = new GravityComponent(this, 1.008f, 3f, 0.8f);
+        movementComponent = new MovementComponent(this, 1.01f, 2f, 1f);
+        jumpingComponent = new JumpingComponent(this, 1.6f, 0.992f, 1.4f, 2.4f);
+        tiledCollisionComponent = new TiledCollisionComponent(this, (TiledMap)map);
+        attackingComponent = new AttackingComponent(this);
     }
 
-    private void setupJumping() {
-        this.maxJumpHeight = 1.6f;
 
-        this.jumpSpeed = 2.4f;
-        this.jumpDeceleration = 0.992f;
-        this.minJumpSpeed = 1.4f;
-        this.baseJumpSpeed = this.jumpSpeed;
-    }
 
-    private void setupFalling() {
-        this.weight = 0.8f;
-        this.gravity = 1.008f;
-        this.maxWeight = 3f;
-        this.baseWeight = this.weight;
-    }
-
-    @Override
+    // Update
     public void update(float deltaTime) {
         updateActionState(deltaTime);
         updateMovingState();
     }
 
     private void updateActionState(float deltaTime) {
-        //TODO collision detection with ground
-        if(actionState == ActionState.JUMPING) {
-            actionState = ActionState.MIDJUMP;
-        } else if(actionState != ActionState.ATTACKING) {
-            actionState = ActionState.FALLING;
-            jumpHeight = 0f;
+        if(actionState == Entity.ActionState.JUMPING) {
+            actionState = Entity.ActionState.MIDJUMP;
+        } else if(actionState != Entity.ActionState.ATTACKING) {
+            actionState = Entity.ActionState.FALLING;
         }
 
-        applyGravity();
-        if(actionState == ActionState.FALLING) {
-            prevPosition.y = position.y;
-            position.y -= weight * deltaTime;
-            if(isBottomColliding()) {
-                actionState = ActionState.STANDING;
-                position.y = prevPosition.y;
-            }
+        gravityComponent.applyGravity(deltaTime);
+        if(tiledCollisionComponent.isBottomColliding()) {
+            actionState = Entity.ActionState.STANDING;
+            position.y = prevPosition.y;
         }
     }
 
     private void updateMovingState() {
-        if(movingState == MovingState.LEFT || movingState == MovingState.RIGHT) {
-            movingState = MovingState.MIDMOVING;
+        if(movementState == Entity.MovementState.LEFT || movementState == Entity.MovementState.RIGHT) {
+            movementState = Entity.MovementState.MIDMOVING;
         } else {
-            movingState = MovingState.STANDING;
+            movementState = Entity.MovementState.STANDING;
         }
     }
 
-    private void applyGravity() {
-        if(actionState == ActionState.FALLING && weight < maxWeight) {
-            weight *= gravity;
-        } else if(actionState != ActionState.FALLING) {
-            weight = baseWeight;
-        }
-    }
 
-    @Override
+
+
+    // Control methods
     public void moveLeft(float deltaTime) {
-        accelerate();
-        prevPosition.x = position.x;
-        position.x -= speed * deltaTime;
-        if(isLeftColliding()) {
+        movementComponent.moveLeft(deltaTime);
+        if(tiledCollisionComponent.isLeftColliding()) {
             position.x = prevPosition.x;
         }
-        movingState = MovingState.LEFT;
     }
 
-    @Override
     public void moveRight(float deltaTime) {
-        accelerate();
-        prevPosition.x = position.x;
-        position.x += speed * deltaTime;
-        if(isRightColliding()) {
+        movementComponent.moveRight(deltaTime);
+        if(tiledCollisionComponent.isRightColliding()) {
             position.x = prevPosition.x;
         }
-        movingState = MovingState.RIGHT;
     }
 
-    private void accelerate() {
-        if(movingState == MovingState.MIDMOVING && speed < maxSpeed) {
-            speed *= acceleration;
-        } else if(movingState != MovingState.MIDMOVING) {
-            speed = baseSpeed;
+    public void jump(float deltaTime) {
+        jumpingComponent.jump(deltaTime);
+        if(tiledCollisionComponent.isBottomColliding()) {
+            //position.y = prevPosition.y;
+            //actionState = ActionState.FALLING;
         }
     }
 
-    @Override
-    public void jump(float delta) {
-        if(actionState.equals(ActionState.STANDING) || actionState.equals(ActionState.JUMPING) || actionState == ActionState.MIDJUMP) {
-            if(jumpHeight < maxJumpHeight) {
-                decelerateJumping();
-                prevPosition.y = position.y;
-                position.y += jumpSpeed * delta;
-                jumpHeight += jumpSpeed * delta;
-                if(isTopColliding()) {
-                    position.y = prevPosition.y;
-                } else {
-                    actionState = ActionState.JUMPING;
-                }
-            }
-            //Gdx.app.debug(TAG, "jumping");
-        }
-    }
-
-    private void decelerateJumping() {
-        if(actionState == ActionState.MIDJUMP && jumpSpeed > minJumpSpeed) {
-            jumpSpeed *= jumpDeceleration;
-        } else if(actionState != ActionState.MIDJUMP) {
-            jumpSpeed = baseJumpSpeed;
-        }
-    }
-
-    @Override
     public void startAttacking() {
-        if(actionState.equals(ActionState.STANDING)) {
-            actionState = ActionState.ATTACKING;
-            Gdx.app.debug(TAG, "started attacking");
-        }
+        attackingComponent.startAttacking();
     }
 
-    @Override
     public void stopAttacking() {
-        if(actionState.equals(ActionState.ATTACKING)) {
-            actionState = ActionState.STANDING;
-            Gdx.app.debug(TAG, "stopped attacking");
-        }
+        attackingComponent.stopAttacking();
     }
 
-    private boolean isBottomColliding() {
-        int playerX1 = (int)Math.floor(footSensor.x);
-        int playerX2 = (int)Math.floor(footSensor.x + footSensor.width);
-        int playerY = (int)Math.floor(footSensor.y);
-
-        TiledMapTileLayer.Cell leftCell = map.getCell(playerX1, playerY);
-        TiledMapTileLayer.Cell rightCell = map.getCell(playerX2, playerY);
-
-        return isColliding(leftCell, rightCell);
+    public void updateBoundingBox(Rectangle body, Rectangle foot) {
+        tiledCollisionComponent.updateBoundingBox(body, foot);
     }
 
-    private boolean isTopColliding() {
-        int playerX1 = (int)Math.floor(footSensor.x);
-        int playerX2 = (int)Math.floor(footSensor.x + footSensor.width);
-        int playerY = (int)Math.ceil(footSensor.y);
-
-        TiledMapTileLayer.Cell leftCell = map.getCell(playerX1, playerY);
-        TiledMapTileLayer.Cell rightCell = map.getCell(playerX2, playerY);
-
-        return isColliding(leftCell, rightCell);
+    public boolean isActuallyMoving() {
+        return position.x != prevPosition.x;
     }
 
-    private boolean isRightColliding() {
-        int playerX = (int)Math.floor(boundingBox.x + boundingBox.width);
-        int playerY1 = (int)Math.floor(boundingBox.y);
-        int playerY2 = (int)Math.floor(boundingBox.y + boundingBox.height);
-
-        if(boundingBox.x + boundingBox.width > mapBorder.width) {
-            return true;
-        }
-
-        TiledMapTileLayer.Cell bottomCell = map.getCell(playerX, playerY1);
-        TiledMapTileLayer.Cell topCell = map.getCell(playerX, playerY2);
-
-        return isColliding(bottomCell, topCell);
-    }
-
-    private boolean isLeftColliding() {
-        int playerX = (int)Math.floor(boundingBox.x);
-        int playerY1 = (int)Math.floor(boundingBox.y);
-        int playerY2 = (int)Math.floor(boundingBox.y + boundingBox.height);
-
-        if(boundingBox.x < mapBorder.x) {
-            return true;
-        }
-
-        TiledMapTileLayer.Cell bottomCell = map.getCell(playerX, playerY1);
-        TiledMapTileLayer.Cell topCell = map.getCell(playerX, playerY2);
-
-        return isColliding(bottomCell, topCell);
-    }
-
-    private boolean isColliding(TiledMapTileLayer.Cell cell1, TiledMapTileLayer.Cell cell2) {
-        TiledMapTile tile1 = null;
-        TiledMapTile tile2 = null;
-
-        if(cell1 != null) {
-            tile1 = cell1.getTile();
-        }
-        if(cell2 != null) {
-            tile2 = cell2.getTile();
-        }
-
-        if(tile1 != null) {
-            Object blocked = tile1.getProperties().get("blocked");
-            if(blocked != null && blocked.equals(true)) {
-                return true;
-            }
-        }
-        if(tile2 != null) {
-            Object blocked = tile2.getProperties().get("blocked");
-            if(blocked != null && blocked.equals(true)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void updateBoundingBox(Rectangle body, Rectangle foot, float deltaTime) {
-        boundingBox = body;
-        footSensor = foot;
+    public float getSpeed() {
+        return movementComponent.getSpeed();
     }
 
     public Rectangle getBoundingBox() {
-        return boundingBox;
+        return tiledCollisionComponent.getBoundingBox();
     }
 
     public Rectangle getFootSensor() {
-        return footSensor;
+        return tiledCollisionComponent.getFootSensor();
     }
 }

@@ -42,7 +42,7 @@ public class GameScreen extends AbstractScreen {
 
         gameRenderer = new GameRenderer(gameModel, spriteBatch, shapeRenderer);
         box2DDebugRenderer = new Box2DDebugRenderer();
-        gameRenderer.getExtendedCamera().snapTo(gameModel.getPlayer().getPosition());
+        gameRenderer.getExtendedCamera().snapTo(gameModel.getPlayer().position);
 
         controller = new Controller(gameRenderer.getExtendedCamera(), gameModel.getPlayer());
         mobileInputInterface = new MobileInputInterface(controller, spriteBatch);
@@ -84,11 +84,11 @@ public class GameScreen extends AbstractScreen {
         float offsetX = 0.7f;
 
         if(!gameRenderer.getPlayerAnimation().getAnimation().isFlipped()) {
-            targetPos.x = player.getPosition().x + offsetX;
+            targetPos.x = player.position.x + offsetX;
         } else {
-            targetPos.x = player.getPosition().x - offsetX;
+            targetPos.x = player.position.x - offsetX;
         }
-        targetPos.y = player.getPosition().y;
+        targetPos.y = player.position.y;
 
         camera.moveToX(targetPos.x, deltaTime);
         //camera.snapToX(targetPos.x);
@@ -98,7 +98,7 @@ public class GameScreen extends AbstractScreen {
     private void updatePlayerBoundingBox(float deltaTime) {
         Rectangle body = gameRenderer.getPlayerAnimation().getBodyBoudningBox();
         Rectangle foot = gameRenderer.getPlayerAnimation().getFootSensor();
-        gameModel.getPlayer().updateBoundingBox(body, foot, deltaTime);
+        gameModel.getPlayer().updateBoundingBox(body, foot);
     }
 
     @Override

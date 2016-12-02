@@ -21,20 +21,18 @@ public class JumpingComponent extends AbstractComponent {
     }
 
     public void jump(float delta) {
-        if(entity.actionState.equals(Entity.ActionState.STANDING) || entity.actionState.equals(Entity.ActionState.JUMPING) ||
+        if(entity.actionState == Entity.ActionState.STANDING) {
+            jumpHeight = 0f;
+        }
+        if(entity.actionState == Entity.ActionState.STANDING || entity.actionState == Entity.ActionState.JUMPING ||
                 entity.actionState == Entity.ActionState.MIDJUMP) {
-            if(jumpHeight < maxJumpHeight) {
+            if (jumpHeight < maxJumpHeight) {
                 decelerateJumping();
                 entity.prevPosition.y = entity.position.y;
                 entity.position.y += jumpSpeed * delta;
                 jumpHeight += jumpSpeed * delta;
                 entity.actionState = Entity.ActionState.JUMPING;
-            } else {
-                jumpHeight = 0f;
-                entity.actionState = Entity.ActionState.FALLING;
             }
-        } else {
-            jumpHeight = 0f;
         }
     }
 

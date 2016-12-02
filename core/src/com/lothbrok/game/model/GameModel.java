@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lothbrok.game.model.box2d.Box2DCollisionFromTiled;
 import com.lothbrok.game.model.box2d.util.Box2DUtils;
-import com.lothbrok.game.model.entities.MovingEntity;
+import com.lothbrok.game.model.entities.Entity;
 import com.lothbrok.game.model.entities.Player;
 
 import java.util.List;
@@ -41,9 +41,9 @@ public class GameModel {
         //TODO do the accumulator method
         world.step(1f/60f, 6, 2);
         if(player.isActuallyMoving()) {
-            if (player.getMovingState().equals(MovingEntity.MovingState.RIGHT)) {
+            if (player.movementState == Entity.MovementState.RIGHT) {
                 parallaxBackground.update(player.getSpeed(), deltaTime);
-            } else if (player.getMovingState().equals(MovingEntity.MovingState.LEFT)) {
+            } else if (player.movementState == Entity.MovementState.LEFT) {
                 parallaxBackground.update(-player.getSpeed(), deltaTime);
             }
         }

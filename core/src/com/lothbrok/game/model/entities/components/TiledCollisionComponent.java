@@ -1,5 +1,6 @@
 package com.lothbrok.game.model.entities.components;
 
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
@@ -13,9 +14,9 @@ public class TiledCollisionComponent extends AbstractComponent {
     private Rectangle boundingBox;
     private Rectangle footSensor;
 
-    public TiledCollisionComponent(Entity entity, TiledMapTileLayer map) {
+    public TiledCollisionComponent(Entity entity, TiledMap map) {
         super(entity);
-        this.map = map;
+        this.map = (TiledMapTileLayer)map.getLayers().get("tiles");
         this.mapBorder = new Rectangle(0f, 0f, (int)map.getProperties().get("width"), (int)map.getProperties().get("height"));
     }
 
@@ -100,5 +101,13 @@ public class TiledCollisionComponent extends AbstractComponent {
     public void updateBoundingBox(Rectangle body, Rectangle foot) {
         boundingBox = body;
         footSensor = foot;
+    }
+
+    public Rectangle getBoundingBox() {
+        return boundingBox;
+    }
+
+    public Rectangle getFootSensor() {
+        return footSensor;
     }
 }

@@ -144,7 +144,7 @@
  </objectgroup>
  <layer height="8" name="tiles" width="32">
   <data compression="zlib" encoding="base64">
-   eJxjYBi+gBmCGwbCbqaBsJQIu9mBmAMJEwIcWDC5dpMKQHaxYMHY3IDuL3TMjiMd4FLDjsNuZDegm4lPPS63IqvhRMP4zENXS6p6mDgAuAQEAw==
+   eJxjYBi+gBmCGwbCbiYaqaXUPHYg5kDChOzmwILJtZtUALKLBQvG5gZ0f6FjdhzpAJcadhx2I7sB3Ux86nG5FVkNJxrGZx66WlLVw8QBwPwEBw==
   </data>
  </layer>
  <objectgroup name="collision" />

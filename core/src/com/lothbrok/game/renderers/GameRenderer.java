@@ -14,7 +14,7 @@ import com.lothbrok.game.assets.animation.spriter.SpriterAnimation;
 import com.lothbrok.game.assets.entities.PlayerAnimation;
 import com.lothbrok.game.assets.utils.AssetsConstants;
 import com.lothbrok.game.model.GameModel;
-import com.lothbrok.game.model.entities.MovingEntity;
+import com.lothbrok.game.model.entities.Entity;
 
 public class GameRenderer implements Disposable {
 
@@ -89,41 +89,41 @@ public class GameRenderer implements Disposable {
         spriteBatch.begin();
 
         SpriterAnimation animation = playerAnimation.getAnimation();
-        MovingEntity.ActionState actionState = gameModel.getPlayer().getActionState();
-        MovingEntity.MovingState movingState = gameModel.getPlayer().getMovingState();
+        Entity.ActionState actionState = gameModel.getPlayer().actionState;
+        Entity.MovementState movementState = gameModel.getPlayer().movementState;
 
         animation.unflip();
         //TODO move all animationchanging to playerAnimation from animation
-        if(actionState == MovingEntity.ActionState.ATTACKING) {
-            if(movingState == MovingEntity.MovingState.STANDING) {
+        if(actionState == Entity.ActionState.ATTACKING) {
+            if(movementState == Entity.MovementState.STANDING) {
                 animation.setPlayOnce(AssetsConstants.PLAYER_ANIMATION_ATTACKING);
             }
-            else if(movingState == MovingEntity.MovingState.LEFT){
+            else if(movementState == Entity.MovementState.LEFT){
                 animation.flip();
                 playerAnimation.attackWhileMoving();
             } else {
                 playerAnimation.attackWhileMoving();
             }
-        } else if(actionState == MovingEntity.ActionState.FALLING) {
+        } else if(actionState == Entity.ActionState.FALLING) {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_FALLING);
-            if(movingState == MovingEntity.MovingState.LEFT) {
+            if(movementState == Entity.MovementState.LEFT) {
                 animation.flip();
             }
-        } else if(actionState == MovingEntity.ActionState.JUMPING) {
+        } else if(actionState == Entity.ActionState.JUMPING) {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_JUMPING);
-            if(movingState == MovingEntity.MovingState.LEFT) {
+            if(movementState == Entity.MovementState.LEFT) {
                 animation.flip();
             }
-        } else if(movingState == MovingEntity.MovingState.RIGHT) {
+        } else if(movementState == Entity.MovementState.RIGHT) {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
-        } else if (movingState == MovingEntity.MovingState.LEFT) {
+        } else if (movementState == Entity.MovementState.LEFT) {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
             animation.flip();
         } else {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_IDLE);
         }
 
-        animation.setPosition(gameModel.getPlayer().getPosition().x, gameModel.getPlayer().getPosition().y);
+        animation.setPosition(gameModel.getPlayer().position.x, gameModel.getPlayer().position.y);
         animation.update(deltaTime);
         animation.render(spriteBatch, shapeRenderer);
 
