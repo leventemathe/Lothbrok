@@ -19,6 +19,8 @@ public class AssetsConstants {
     public static final String PLAYER_ANIMATION_FALLING = "falling";
     public static final String PLAYER_ANIMATION_ATTACKING = "attacking";
 
+    public static final String ENEMY_ANIMATION_PATH = "xl/anim/player/player.scml";
+
     public static final String MAP_PREFIX = "xl/map/map";
     public static final String MAP_POSTFIX = ".tmx";
 

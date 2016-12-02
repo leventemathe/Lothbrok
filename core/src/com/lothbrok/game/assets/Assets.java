@@ -37,7 +37,6 @@ public class Assets implements Disposable {
     private Assets() {}
 
     private RalewayLightFont ralewayLightFont;
-    private SpriterAnimationAssets playerAnimationAssets;
     private MainMenuAssets mainMenuAssets;
 
     public void init(AssetManager assetManager) {
@@ -90,6 +89,13 @@ public class Assets implements Disposable {
         return assetManager.get(AssetsConstants.PLAYER_ANIMATION_PATH);
     }
 
+    public void loadEnemyAnimationAssets() {
+        assetManager.load(AssetsConstants.ENEMY_ANIMATION_PATH, SpriterAnimationAssets.class);
+    }
+
+    public SpriterAnimationAssets getEnemyAnimationAssets() {
+        return assetManager.get(AssetsConstants.ENEMY_ANIMATION_PATH);
+    }
     public void loadMainMenuAssets() {
         assetManager.load(AssetsConstants.MENU_SKIN_PATH, Skin.class, new SkinLoader.SkinParameter(AssetsConstants.MENU_ATLAS_PATH));
         //assetManager.load(AssetsConstants.MENU_FONT_PATH, BitmapFont.class);

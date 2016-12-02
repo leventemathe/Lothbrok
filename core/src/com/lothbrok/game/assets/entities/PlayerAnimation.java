@@ -8,6 +8,7 @@ import com.lothbrok.game.assets.utils.AssetsConstants;
 import com.lothbrok.game.model.entities.Player;
 
 
+//TODO commong interface/abstract class with enemy
 public class PlayerAnimation {
 
     private SpriterAnimation animation;

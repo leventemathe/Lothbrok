@@ -15,6 +15,7 @@ public class MainMenuLoadingScreen extends AbstractScreen {
         Gdx.app.log(TAG, "show");
         Assets.instance.loadMainMenuAssets();
         Assets.instance.loadPlayerAnimationAssets();
+        Assets.instance.loadEnemyAnimationAssets();
         Assets.instance.loadMap(1);
         Assets.instance.loadMobileControlsSkin();
     }

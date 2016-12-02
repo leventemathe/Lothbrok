@@ -68,25 +68,27 @@ public class Controller {
         }
 
         // camera
-        if(commands.get(Keys.CAMERA_MOVEDOWN)) {
-            camera.moveDown(deltaTime);
+        if(GameScreen.debugCamera) {
+            if (commands.get(Keys.CAMERA_MOVEDOWN)) {
+                camera.moveDown(deltaTime);
+            }
+            if (commands.get(Keys.CAMERA_MOVEUP)) {
+                camera.moveUp(deltaTime);
+            }
+            if (commands.get(Keys.CAMERA_MOVELEFT)) {
+                camera.moveLeft(deltaTime);
+            }
+            if (commands.get(Keys.CAMERA_MOVERIGHT)) {
+                camera.moveRight(deltaTime);
+            }
+            if (commands.get(Keys.CAMERA_ZOOM_IN)) {
+                camera.zoomIn(deltaTime);
+            }
+            if (commands.get(Keys.CAMERA_ZOOM_OUT)) {
+                camera.zoomOut(deltaTime);
+            }
         }
-        if(commands.get(Keys.CAMERA_MOVEUP)) {
-            camera.moveUp(deltaTime);
-        }
-        if(commands.get(Keys.CAMERA_MOVELEFT)) {
-            camera.moveLeft(deltaTime);
-        }
-        if(commands.get(Keys.CAMERA_MOVERIGHT)) {
-            camera.moveRight(deltaTime);
-        }
-        if(commands.get(Keys.CAMERA_ZOOM_IN)) {
-            camera.zoomIn(deltaTime);
-        }
-        if(commands.get(Keys.CAMERA_ZOOM_OUT)) {
-            camera.zoomOut(deltaTime);
-        }
-        if(commands.get(Keys.CAMERA_DEBUG_MODE)) {
+        if (commands.get(Keys.CAMERA_DEBUG_MODE)) {
             GameScreen.debugCamera = !GameScreen.debugCamera;
             commands.put(Keys.CAMERA_DEBUG_MODE, false);
         }
