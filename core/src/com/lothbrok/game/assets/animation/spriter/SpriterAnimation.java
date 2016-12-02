@@ -48,18 +48,12 @@ public class SpriterAnimation implements Disposable {
     private PlayerFinishedListener cachedPlayerFinishedListener;
     private PlayerTweenerFinishedListener cachedPlayerTweenerFinishedListener;
 
-    public static final int PLAY_ONCE = 0;
-    public static final int PLAY_ALWAYS = 1;
-    public static final int PLAYER_TWEENER = 2;
-    public static final int CONTROLLERS_SIZE = 3;
-    private Player.PlayerListener[] controllerListeners;
+    private Player.PlayerListener controllerListener;
 
     public SpriterAnimation() {
         this.cachedPlayers = new HashMap<>();
         this.cachedPlayerFinishedListener = new PlayerFinishedListener();
         this.cachedPlayerTweenerFinishedListener = new PlayerTweenerFinishedListener();
-
-        this.controllerListeners = new Player.PlayerListener[CONTROLLERS_SIZE];
     }
 
     //Loaders
@@ -145,16 +139,18 @@ public class SpriterAnimation implements Disposable {
 
     public void setPlayOnce(String animation) {
         playOnce = cacheAndSetPlayer(animation);
+        playOnce.removeListener(cachedPlayerFinishedListener);
         playOnce.addListener(cachedPlayerFinishedListener);
-        Player.PlayerListener controlListener = controllerListeners[PLAY_ONCE];
-        if(controlListener != null) {
-            playOnce.addListener(controlListener);
+        if(controllerListener != null) {
+            playOnce.removeListener(controllerListener);
+            playOnce.addListener(controllerListener);
         }
     }
 
     //TODO optimize new - cache
     public void setPlayerTweener(String doThis, String whileDoingThis, String baseBone) {
-        Player doPlayer = cacheAndSetPlayer(doThis);
+        setPlayOnce(doThis);
+        Player doPlayer = playOnce;
         Player whilePlayer = cacheAndSetPlayer(whileDoingThis);
 
         if(playerTweener == null) {
@@ -168,6 +164,7 @@ public class SpriterAnimation implements Disposable {
         playerTweener.baseBoneName = baseBone;
         playerTweener.setWeight(0f);
 
+        doPlayer.removeListener(cachedPlayerTweenerFinishedListener);
         doPlayer.addListener(cachedPlayerTweenerFinishedListener);
     }
 
@@ -277,12 +274,8 @@ public class SpriterAnimation implements Disposable {
         return playerTweener;
     }
 
-    public void setControllerListener(int i, Player.PlayerListener listener) {
-        if(i >= CONTROLLERS_SIZE) {
-            Gdx.app.error(TAG, "Index out of bounds for controllerListeners");
-            return;
-        }
-        controllerListeners[i] = listener;
+    public void setControllerListener(Player.PlayerListener listener) {
+        controllerListener = listener;
     }
 
     @Override

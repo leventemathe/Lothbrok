@@ -65,9 +65,7 @@ public class PlayerAnimation implements Disposable {
 
     public void setStopAttackingListener(Player player) {
         if(playerAttackingStoppedListener == null) {
-            playerAttackingStoppedListener = new PlayerAttackingStoppedListener(player);
-            animation.setControllerListener(SpriterAnimation.PLAY_ONCE, playerAttackingStoppedListener);
-            //animation.setControllerListener(animation.getPlayerTweener().getFirstPlayer(), playerAttackingStoppedListener);
+            animation.setControllerListener(new PlayerAttackingStoppedListener(player));
         }
     }
 
