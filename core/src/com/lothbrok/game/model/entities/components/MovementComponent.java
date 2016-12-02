@@ -9,8 +9,12 @@ public class MovementComponent extends AbstractComponent {
     private float maxSpeed;
     private float baseSpeed;
 
-    public MovementComponent(Entity entity) {
+    public MovementComponent(Entity entity, float acceleration, float maxSpeed, float baseSpeed) {
         super(entity);
+        this.acceleration = acceleration;
+        this.maxSpeed = maxSpeed;
+        this.baseSpeed = baseSpeed;
+        this.speed = baseSpeed;
     }
 
     public void moveLeft(float deltaTime) {

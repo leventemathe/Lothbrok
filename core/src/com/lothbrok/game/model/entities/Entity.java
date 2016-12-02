@@ -2,7 +2,7 @@ package com.lothbrok.game.model.entities;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class Entity {
+public abstract class Entity {
 
     public enum ActionState {
         STANDING,

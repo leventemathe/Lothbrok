@@ -9,8 +9,12 @@ public class GravityComponent extends AbstractComponent {
     private float maxWeight;
     private float baseWeight;
 
-    public GravityComponent(Entity entity) {
+    public GravityComponent(Entity entity, float gravity, float maxWeight, float baseWeight) {
         super(entity);
+        this.gravity = gravity;
+        this.maxWeight = maxWeight;
+        this.baseWeight = baseWeight;
+        this.weight = baseWeight;
     }
 
     private void applyGravity() {

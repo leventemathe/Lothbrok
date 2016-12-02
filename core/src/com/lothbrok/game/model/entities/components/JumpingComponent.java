@@ -4,15 +4,20 @@ import com.lothbrok.game.model.entities.Entity;
 
 public class JumpingComponent extends AbstractComponent {
 
-    protected float jumpHeight = 0f;
-    protected float maxJumpHeight;
-    protected float jumpSpeed;
-    protected float jumpDeceleration;
-    protected float minJumpSpeed;
-    protected float baseJumpSpeed;
+    private float jumpHeight = 0f;
+    private float maxJumpHeight;
+    private float jumpSpeed;
+    private float jumpDeceleration;
+    private float minJumpSpeed;
+    private float baseJumpSpeed;
 
-    public JumpingComponent(Entity entity) {
+    public JumpingComponent(Entity entity, float maxJumpHeight, float jumpDeceleration, float minJumpSpeed, float baseJumpSpeed) {
         super(entity);
+        this.maxJumpHeight = maxJumpHeight;
+        this.jumpDeceleration = jumpDeceleration;
+        this.minJumpSpeed = minJumpSpeed;
+        this.baseJumpSpeed = baseJumpSpeed;
+        this.jumpSpeed = baseJumpSpeed;
     }
 
     public void jump(float delta) {
