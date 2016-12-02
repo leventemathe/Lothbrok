@@ -91,9 +91,8 @@ public class Player extends Entity {
 
     public void jump(float deltaTime) {
         jumpingComponent.jump(deltaTime);
-        if(tiledCollisionComponent.isBottomColliding()) {
-            //position.y = prevPosition.y;
-            //actionState = ActionState.FALLING;
+        if(tiledCollisionComponent.isTopColliding()) {
+            actionState = ActionState.FALLING;
         }
     }
 

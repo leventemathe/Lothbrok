@@ -32,9 +32,9 @@ public class TiledCollisionComponent extends AbstractComponent {
     }
 
     public boolean isTopColliding() {
-        int playerX1 = (int)Math.floor(footSensor.x);
-        int playerX2 = (int)Math.floor(footSensor.x + footSensor.width);
-        int playerY = (int)Math.ceil(footSensor.y);
+        int playerX1 = (int)Math.floor(boundingBox.x);
+        int playerX2 = (int)Math.floor(boundingBox.x + boundingBox.width);
+        int playerY = (int)Math.ceil(boundingBox.y);
 
         TiledMapTileLayer.Cell leftCell = map.getCell(playerX1, playerY);
         TiledMapTileLayer.Cell rightCell = map.getCell(playerX2, playerY);

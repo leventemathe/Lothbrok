@@ -19,14 +19,16 @@ public class MovementComponent extends AbstractComponent {
 
     public void moveLeft(float deltaTime) {
         accelerate();
-        entity.prevPosition.x = entity.position.x;
+        float backupX = entity.position.x;
+        entity.prevPosition.x = backupX;
         entity.position.x -= speed * deltaTime;
         entity.movementState = Entity.MovementState.LEFT;
     }
 
     public void moveRight(float deltaTime) {
         accelerate();
-        entity.prevPosition.x = entity.position.x;
+        float backupX = entity.position.x;
+        entity.prevPosition.x = backupX;
         entity.position.x += speed * deltaTime;
         entity.movementState = Entity.MovementState.RIGHT;
     }
