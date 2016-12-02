@@ -1,36 +1,24 @@
 package com.lothbrok.game.assets.animation.spriter;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Disposable;
 import com.brashmonkey.spriter.Animation;
 import com.brashmonkey.spriter.Box;
-import com.brashmonkey.spriter.Data;
 import com.brashmonkey.spriter.Entity;
-import com.brashmonkey.spriter.Loader;
 import com.brashmonkey.spriter.Mainline;
 import com.brashmonkey.spriter.Player;
 import com.brashmonkey.spriter.PlayerTweener;
-import com.brashmonkey.spriter.SCMLReader;
 
 import java.util.HashMap;
 import java.util.Map;
 
 //TODO add error handling
-public class SpriterAnimation implements Disposable {
+public class SpriterAnimation {
 
     private static final String TAG = SpriterAnimation.class.getSimpleName();
 
-    private FileHandle fileHandle;
-
-    private SCMLReader scmlReader;
-    private Data scmlData;
-
-    private Loader<Sprite> spriteLoader;
+    private SpriterAnimationAssets assets;
     private LibGdxDrawer spriteDrawer;
 
     private float x = 0.0f;
@@ -50,23 +38,13 @@ public class SpriterAnimation implements Disposable {
 
     private Player.PlayerListener controllerListener;
 
-    public SpriterAnimation() {
+    public SpriterAnimation(SpriterAnimationAssets assets) {
+        this.assets = assets;
+        this.spriteDrawer = new LibGdxDrawer(assets.getSpriteLoader());
+
         this.cachedPlayers = new HashMap<>();
         this.cachedPlayerFinishedListener = new PlayerFinishedListener();
         this.cachedPlayerTweenerFinishedListener = new PlayerTweenerFinishedListener();
-    }
-
-    //Loaders
-    public void loadScml(String path) {
-        this.fileHandle = Gdx.files.internal(path);
-        this.scmlReader = new SCMLReader(fileHandle.read());
-        this.scmlData = scmlReader.getData();
-    }
-
-    public void loadImages() {
-        this.spriteLoader = new LibGdxLoader(this.scmlData);
-        this.spriteLoader.load(fileHandle.file());
-        this.spriteDrawer = new LibGdxDrawer(this.spriteLoader);
     }
 
     //Metrics
@@ -101,7 +79,7 @@ public class SpriterAnimation implements Disposable {
 
     //Entity
     public void setCurrentEntity(String entity) {
-        this.currentEntity = scmlData.getEntity(entity);
+        this.currentEntity = assets.getScmlData().getEntity(entity);
     }
 
     //Players
@@ -276,11 +254,6 @@ public class SpriterAnimation implements Disposable {
 
     public void setControllerListener(Player.PlayerListener listener) {
         controllerListener = listener;
-    }
-
-    @Override
-    public void dispose() {
-        spriteLoader.dispose();
     }
 
     private class PlayerFinishedListener implements Player.PlayerListener {

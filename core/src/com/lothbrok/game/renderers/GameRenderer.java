@@ -47,7 +47,7 @@ public class GameRenderer implements Disposable {
 
     //TODO move to logic?
     private void setupAnimation() {
-        playerAnimation = Assets.instance.getPlayerAnimation();
+        playerAnimation = new PlayerAnimation(new SpriterAnimation(Assets.instance.getPlayerAnimationAssets()));
         //TODO get scale from m l xl etc
         playerAnimation.getAnimation().setScale(1f/540f); //xl
     }

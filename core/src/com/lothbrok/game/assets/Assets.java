@@ -17,10 +17,9 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.StringBuilder;
-import com.lothbrok.game.assets.animation.SpriterAnimationLoader;
-import com.lothbrok.game.assets.animation.spriter.SpriterAnimation;
+import com.lothbrok.game.assets.animation.spriter.SpriterAnimationAssets;
+import com.lothbrok.game.assets.animation.spriter.SpriterAnimationAssetsLoader;
 import com.lothbrok.game.assets.entities.MainMenuAssets;
-import com.lothbrok.game.assets.entities.PlayerAnimation;
 import com.lothbrok.game.assets.entities.RalewayLightFont;
 import com.lothbrok.game.assets.utils.AssetsConstants;
 import com.lothbrok.game.assets.utils.AssetsErrorListenerImplementation;
@@ -38,7 +37,7 @@ public class Assets implements Disposable {
     private Assets() {}
 
     private RalewayLightFont ralewayLightFont;
-    private PlayerAnimation playerAnimation;
+    private SpriterAnimationAssets playerAnimationAssets;
     private MainMenuAssets mainMenuAssets;
 
     public void init(AssetManager assetManager) {
@@ -46,7 +45,7 @@ public class Assets implements Disposable {
         //TODO this error handling sucks, implement something better with exception throwing, catching
         assetManager.setErrorListener(new AssetsErrorListenerImplementation());
 
-        assetManager.setLoader(SpriterAnimation.class, new SpriterAnimationLoader(new InternalFileHandleResolver()));
+        assetManager.setLoader(SpriterAnimationAssets.class, new SpriterAnimationAssetsLoader(new InternalFileHandleResolver()));
         assetManager.setLoader(TiledMap.class, new AtlasTmxMapLoader(new InternalFileHandleResolver()));
         assetManager.setLoader(Skin.class, new SkinLoader(new InternalFileHandleResolver()));
         assetManager.setLoader(BitmapFont.class, new BitmapFontLoader(new InternalFileHandleResolver()));
@@ -83,16 +82,12 @@ public class Assets implements Disposable {
         return ralewayLightFont;
     }
 
-    public void loadPlayerAssets() {
-        assetManager.load(AssetsConstants.PLAYER_ANIMATION_PATH, SpriterAnimation.class);
+    public void loadPlayerAnimationAssets() {
+        assetManager.load(AssetsConstants.PLAYER_ANIMATION_PATH, SpriterAnimationAssets.class);
     }
 
-    public PlayerAnimation getPlayerAnimation() {
-        if(playerAnimation == null) {
-            SpriterAnimation animation = assetManager.get(AssetsConstants.PLAYER_ANIMATION_PATH);
-            playerAnimation = new PlayerAnimation(animation);
-        }
-        return playerAnimation;
+    public SpriterAnimationAssets getPlayerAnimationAssets() {
+        return assetManager.get(AssetsConstants.PLAYER_ANIMATION_PATH);
     }
 
     public void loadMainMenuAssets() {

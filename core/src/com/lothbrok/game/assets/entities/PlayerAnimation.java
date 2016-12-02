@@ -1,7 +1,6 @@
 package com.lothbrok.game.assets.entities;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Disposable;
 import com.brashmonkey.spriter.Animation;
 import com.brashmonkey.spriter.Mainline;
 import com.lothbrok.game.assets.animation.spriter.SpriterAnimation;
@@ -9,7 +8,7 @@ import com.lothbrok.game.assets.utils.AssetsConstants;
 import com.lothbrok.game.model.entities.Player;
 
 
-public class PlayerAnimation implements Disposable {
+public class PlayerAnimation {
 
     private SpriterAnimation animation;
     private PlayerAttackingStoppedListener playerAttackingStoppedListener;
@@ -67,11 +66,6 @@ public class PlayerAnimation implements Disposable {
         if(playerAttackingStoppedListener == null) {
             animation.setControllerListener(new PlayerAttackingStoppedListener(player));
         }
-    }
-
-    @Override
-    public void dispose() {
-        animation.dispose();
     }
 
     private class PlayerAttackingStoppedListener implements com.brashmonkey.spriter.Player.PlayerListener {
