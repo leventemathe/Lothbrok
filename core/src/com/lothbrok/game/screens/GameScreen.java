@@ -9,9 +9,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.controllers.Controller;
+import com.lothbrok.game.controllers.EnemyController;
 import com.lothbrok.game.controllers.input.MobileInputInterface;
 import com.lothbrok.game.controllers.input.PCInput;
 import com.lothbrok.game.model.GameModel;
+import com.lothbrok.game.model.entities.Entity;
 import com.lothbrok.game.model.entities.Player;
 import com.lothbrok.game.renderers.ExtendedCamera;
 import com.lothbrok.game.renderers.GameRenderer;
@@ -33,6 +35,7 @@ public class GameScreen extends AbstractScreen {
     //C
     private InputProcessor inputProcessor;
     private Controller controller;
+    private EnemyController enemyController;
 
     @Override
     public void show() {
@@ -49,6 +52,7 @@ public class GameScreen extends AbstractScreen {
         inputProcessor = new PCInput(controller);
         //inputProcessor = mobileInputInterface.getStage();
         Gdx.input.setInputProcessor(inputProcessor);
+        enemyController = new EnemyController(gameModel.getEnemies());
 
         gameRenderer.getPlayerAnimation().setStopAttackingListener(gameModel.getPlayer().getAttackingComponent());
     }
@@ -71,6 +75,7 @@ public class GameScreen extends AbstractScreen {
         updatePlayerBoundingBox(deltaTime);
         gameModel.update(deltaTime);
         controller.control(deltaTime);
+        enemyController.control(deltaTime);
         if(!debugCamera) {
             updateCamera(deltaTime);
         }
@@ -83,9 +88,9 @@ public class GameScreen extends AbstractScreen {
         Vector2 targetPos = new Vector2();
         float offsetX = 0.7f;
 
-        if(gameRenderer.getPlayerAnimation().getAnimation().facingRight()) {
+        if(player.direction == Entity.Direction.RIGHT) {
             targetPos.x = player.position.x + offsetX;
-        } else {
+        } else if(player.direction == Entity.Direction.LEFT){
             targetPos.x = player.position.x - offsetX;
         }
         targetPos.y = player.position.y;

@@ -7,7 +7,8 @@ import com.lothbrok.game.screens.GameScreen;
 import java.util.EnumMap;
 import java.util.Map;
 
-//TODO cache commands
+//TODO common superclass with AI
+//TODO or at lease do separate camera and player controller
 public class Controller {
 
     private ExtendedCamera camera;

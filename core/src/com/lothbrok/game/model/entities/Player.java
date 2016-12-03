@@ -36,6 +36,8 @@ public class Player extends Entity {
 
     // Update
     public void update(float deltaTime) {
+        prevPosition.x = position.x;
+        prevPosition.y = position.y;
         updateActionState(deltaTime);
         updateMovingState();
     }
