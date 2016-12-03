@@ -4,11 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.lothbrok.game.assets.animation.spriter.SpriterAnimation;
 import com.lothbrok.game.assets.utils.AssetsConstants;
 
-
-//TODO commong interface/abstract class with enemy
 public class PlayerAnimation extends EntityAnimation {
-
-    private SpriterAnimation animation;
 
     public PlayerAnimation(SpriterAnimation animation) {
         super(animation, AssetsConstants.PLAYER_ANIMATION_ENTITY_PLAYER, AssetsConstants.PLAYER_ANIMATION_IDLE);

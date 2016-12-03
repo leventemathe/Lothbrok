@@ -38,7 +38,7 @@ public abstract class EntityAnimation {
         Rectangle leftLegRect = animation.getBoundingBox(leftLeg);
         Rectangle rightLegRect = animation.getBoundingBox(rightLeg);
         if(leftLegRect != null && rightLegRect != null) {
-            if(!animation.isFlipped()) {
+            if(animation.facingRight()) {
                 return new Rectangle(leftLegRect.x,
                         leftLegRect.y,
                         rightLegRect.x + rightLegRect.width - leftLegRect.x,

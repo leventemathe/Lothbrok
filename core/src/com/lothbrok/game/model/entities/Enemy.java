@@ -13,6 +13,9 @@ public class Enemy extends Entity {
     private TiledCollisionComponent tiledCollisionComponent;
     private AttackingComponent attackingComponent;
 
+    private float travelled = 0f;
+    private final float MAX_TRAVELLED = 3f;
+
     public Enemy(Vector2 position, Map map) {
         super(position);
         setupComponents(map);

@@ -22,7 +22,8 @@ public class MovementComponent extends AbstractComponent {
         float backupX = entity.position.x;
         entity.prevPosition.x = backupX;
         entity.position.x -= speed * deltaTime;
-        entity.movementState = Entity.MovementState.LEFT;
+        entity.movementState = Entity.MovementState.MOVING;
+        entity.direction = Entity.Direction.LEFT;
     }
 
     public void moveRight(float deltaTime) {
@@ -30,7 +31,8 @@ public class MovementComponent extends AbstractComponent {
         float backupX = entity.position.x;
         entity.prevPosition.x = backupX;
         entity.position.x += speed * deltaTime;
-        entity.movementState = Entity.MovementState.RIGHT;
+        entity.movementState = Entity.MovementState.MOVING;
+        entity.direction = Entity.Direction.RIGHT;
     }
 
     private void accelerate() {

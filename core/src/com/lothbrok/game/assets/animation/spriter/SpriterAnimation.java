@@ -13,6 +13,7 @@ import com.brashmonkey.spriter.PlayerTweener;
 import java.util.HashMap;
 import java.util.Map;
 
+
 //TODO add error handling
 public class SpriterAnimation {
 
@@ -24,7 +25,13 @@ public class SpriterAnimation {
     private float x = 0.0f;
     private float y = 0.0f;
     private float scale = 1.0f;
-    private boolean flipped = false;
+
+    private enum Direction {
+        LEFT,
+        RIGHT
+    }
+
+    private Direction direction = Direction.RIGHT;
 
     private Entity currentEntity;
     private Player playOnce;
@@ -33,6 +40,7 @@ public class SpriterAnimation {
 
     //TODO lots of iterators are created for maps -> could cause GC stutter
     private Map<Entity, Map<String, Player>> cachedPlayers;
+    private PlayerTweener cachedPlayerTweener;
     private PlayerFinishedListener cachedPlayerFinishedListener;
     private PlayerTweenerFinishedListener cachedPlayerTweenerFinishedListener;
 
@@ -58,8 +66,8 @@ public class SpriterAnimation {
                 player.setPosition(x, y);
             }
         }
-        if(playerTweener != null) {
-            playerTweener.setPosition(x, y);
+        if(cachedPlayerTweener != null) {
+            cachedPlayerTweener.setPosition(x, y);
         }
     }
 
@@ -72,8 +80,8 @@ public class SpriterAnimation {
                 player.setScale(scale);
             }
         }
-        if(playerTweener != null) {
-            playerTweener.setScale(scale);
+        if(cachedPlayerTweener != null) {
+            cachedPlayerTweener.setScale(scale);
         }
     }
 
@@ -108,6 +116,26 @@ public class SpriterAnimation {
         setMe.setAnimation(animation);
         setMe.setPosition(this.x, this.y);
         setMe.setScale(this.scale);
+        if(direction == Direction.LEFT) {
+            setMe.flipX();
+        }
+        return setMe;
+    }
+
+    private PlayerTweener cacheAndSetPlayerTweener() {
+        if(cachedPlayerTweener == null) {
+            cachedPlayerTweener = createPlayerTweener();
+        }
+        return cachedPlayerTweener;
+    }
+
+    private PlayerTweener createPlayerTweener() {
+        PlayerTweener setMe = new PlayerTweener(currentEntity);
+        setMe.setPosition(this.x, this.y);
+        setMe.setScale(this.scale);
+        if(direction == Direction.LEFT) {
+            setMe.flipX();
+        }
         return setMe;
     }
 
@@ -132,12 +160,9 @@ public class SpriterAnimation {
         Player whilePlayer = cacheAndSetPlayer(whileDoingThis);
 
         if(playerTweener == null) {
-            playerTweener = new PlayerTweener(currentEntity);
-            playerTweener.setScale(scale);
-            playerTweener.setPosition(x, y);
+            playerTweener = cacheAndSetPlayerTweener();
         }
         playerTweener.setPlayers(doPlayer, whilePlayer);
-
         playerTweener.setBaseAnimation(whileDoingThis);
         playerTweener.baseBoneName = baseBone;
         playerTweener.setWeight(0f);
@@ -146,7 +171,10 @@ public class SpriterAnimation {
         doPlayer.addListener(cachedPlayerTweenerFinishedListener);
     }
 
-    public void flip() {
+    public void faceLeft() {
+        if(direction == Direction.LEFT) {
+            return;
+        }
         for(Map.Entry<Entity, Map<String, Player>> entityEntry : cachedPlayers.entrySet()) {
             for(Map.Entry<String, Player> playerEntry : entityEntry.getValue().entrySet()) {
                 Player player = playerEntry.getValue();
@@ -155,15 +183,18 @@ public class SpriterAnimation {
                 }
             }
         }
-        if(playerTweener != null) {
-            if(playerTweener.flippedX() == 1) {
-                playerTweener.flipX();
+        if(cachedPlayerTweener != null) {
+            if(cachedPlayerTweener.flippedX() == 1) {
+                cachedPlayerTweener.flipX();
             };
         }
-        flipped = true;
+        direction = Direction.LEFT;
     }
 
-    public void unflip() {
+    public void faceRight() {
+        if(direction == Direction.RIGHT) {
+            return;
+        }
         for(Map.Entry<Entity, Map<String, Player>> entityEntry : cachedPlayers.entrySet()) {
             for(Map.Entry<String, Player> playerEntry : entityEntry.getValue().entrySet()) {
                 Player player = playerEntry.getValue();
@@ -172,12 +203,12 @@ public class SpriterAnimation {
                 }
             }
         }
-        if(playerTweener != null) {
-            if(playerTweener.flippedX() == -1) {
-                playerTweener.flipX();
+        if(cachedPlayerTweener != null) {
+            if(cachedPlayerTweener.flippedX() == -1) {
+                cachedPlayerTweener.flipX();
             }
         }
-        flipped = false;
+        direction = Direction.RIGHT;
     }
 
     //Update & render
@@ -236,10 +267,6 @@ public class SpriterAnimation {
                 spriterRect.top -spriterRect.bottom);
     }
 
-    public boolean isFlipped() {
-        return flipped;
-    }
-
     public Player getPlayOnce() {
         return playOnce;
     }
@@ -255,6 +282,16 @@ public class SpriterAnimation {
     public void setControllerListener(Player.PlayerListener listener) {
         controllerListener = listener;
     }
+
+    public boolean facingLeft() {
+        return direction == Direction.LEFT;
+    }
+
+    public boolean facingRight() {
+        return direction == Direction.RIGHT;
+    }
+
+
 
     private class PlayerFinishedListener implements Player.PlayerListener {
 

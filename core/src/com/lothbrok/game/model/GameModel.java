@@ -62,9 +62,9 @@ public class GameModel {
         //TODO do the accumulator method
         world.step(1f/60f, 6, 2);
         if(player.isActuallyMoving()) {
-            if (player.movementState == Entity.MovementState.RIGHT) {
+            if (player.direction == Entity.Direction.RIGHT) {
                 parallaxBackground.update(player.getSpeed(), deltaTime);
-            } else if (player.movementState == Entity.MovementState.LEFT) {
+            } else if (player.direction == Entity.Direction.LEFT) {
                 parallaxBackground.update(-player.getSpeed(), deltaTime);
             }
         }

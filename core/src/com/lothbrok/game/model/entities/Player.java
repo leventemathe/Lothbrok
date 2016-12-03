@@ -55,7 +55,7 @@ public class Player extends Entity {
     }
 
     private void updateMovingState() {
-        if(movementState == Entity.MovementState.LEFT || movementState == Entity.MovementState.RIGHT) {
+        if(movementState == MovementState.MOVING) {
             movementState = Entity.MovementState.MIDMOVING;
         } else {
             movementState = Entity.MovementState.STANDING;

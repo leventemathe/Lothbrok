@@ -6,7 +6,6 @@ import com.lothbrok.game.assets.utils.AssetsConstants;
 
 public class EnemyAnimation extends EntityAnimation {
 
-
     public EnemyAnimation(SpriterAnimation animation) {
         super(animation, AssetsConstants.ENEMY_ANIMATION_ENTITY_ENEMY, AssetsConstants.ENEMY_ANIMATION_WALKING);
     }

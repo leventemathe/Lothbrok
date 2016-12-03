@@ -83,7 +83,7 @@ public class GameScreen extends AbstractScreen {
         Vector2 targetPos = new Vector2();
         float offsetX = 0.7f;
 
-        if(!gameRenderer.getPlayerAnimation().getAnimation().isFlipped()) {
+        if(gameRenderer.getPlayerAnimation().getAnimation().facingRight()) {
             targetPos.x = player.position.x + offsetX;
         } else {
             targetPos.x = player.position.x - offsetX;

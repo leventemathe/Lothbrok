@@ -14,13 +14,18 @@ public abstract class Entity {
 
     public enum MovementState {
         STANDING,
-        LEFT,
-        RIGHT,
+        MOVING,
         MIDMOVING
+    }
+
+    public enum Direction {
+        LEFT,
+        RIGHT
     }
 
     public ActionState actionState;
     public MovementState movementState;
+    public Direction direction;
 
     public Vector2 position;
     public Vector2 prevPosition;
@@ -34,7 +39,8 @@ public abstract class Entity {
         this.prevPosition = new Vector2();
         this.prevPosition.x = position.x;
         this.prevPosition.y = position.y;
-        this.actionState = Entity.ActionState.STANDING;
-        this.movementState = Entity.MovementState.STANDING;
+        this.actionState = ActionState.STANDING;
+        this.movementState = MovementState.STANDING;
+        this.direction = Direction.RIGHT;
     }
 }

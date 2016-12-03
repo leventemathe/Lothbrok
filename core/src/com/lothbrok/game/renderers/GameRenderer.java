@@ -111,36 +111,30 @@ public class GameRenderer implements Disposable {
         SpriterAnimation animation = playerAnimation.getAnimation();
         Entity.ActionState actionState = gameModel.getPlayer().actionState;
         Entity.MovementState movementState = gameModel.getPlayer().movementState;
+        Entity.Direction direction = gameModel.getPlayer().direction;
 
-        animation.unflip();
         //TODO move all animationchanging to playerAnimation from animation
         if(actionState == Entity.ActionState.ATTACKING) {
             if(movementState == Entity.MovementState.STANDING) {
                 animation.setPlayOnce(AssetsConstants.PLAYER_ANIMATION_ATTACKING);
             }
-            else if(movementState == Entity.MovementState.LEFT){
-                animation.flip();
-                playerAnimation.attackWhileMoving();
-            } else {
+            else if(movementState == Entity.MovementState.MOVING){
                 playerAnimation.attackWhileMoving();
             }
         } else if(actionState == Entity.ActionState.FALLING) {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_FALLING);
-            if(movementState == Entity.MovementState.LEFT) {
-                animation.flip();
-            }
         } else if(actionState == Entity.ActionState.JUMPING) {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_JUMPING);
-            if(movementState == Entity.MovementState.LEFT) {
-                animation.flip();
-            }
-        } else if(movementState == Entity.MovementState.RIGHT) {
+        } else if(movementState == Entity.MovementState.MOVING) {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
-        } else if (movementState == Entity.MovementState.LEFT) {
-            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
-            animation.flip();
         } else {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_IDLE);
+        }
+
+        if(direction == Entity.Direction.RIGHT) {
+            animation.faceRight();
+        } else if(direction == Entity.Direction.LEFT) {
+            animation.faceLeft();
         }
 
         animation.setPosition(gameModel.getPlayer().position.x, gameModel.getPlayer().position.y);
@@ -153,16 +147,20 @@ public class GameRenderer implements Disposable {
             SpriterAnimation animation = entry.value.getAnimation();
             Entity.ActionState actionState = entry.key.actionState;
             Entity.MovementState movementState = entry.key.movementState;
+            Entity.Direction direction = entry.key.direction;
 
-            animation.unflip();
+            animation.faceRight();
             //TODO move all animationchanging to playerAnimation from animation
             if (actionState == Entity.ActionState.ATTACKING) {
                 animation.setPlayOnce(AssetsConstants.ENEMY_ANIMATION_ATTACKING);
-            } else if (movementState == Entity.MovementState.RIGHT) {
+            } else if (movementState == Entity.MovementState.MOVING) {
                 animation.setPlayAlways(AssetsConstants.ENEMY_ANIMATION_WALKING);
-            } else if (movementState == Entity.MovementState.LEFT) {
-                animation.setPlayAlways(AssetsConstants.ENEMY_ANIMATION_WALKING);
-                animation.flip();
+            }
+
+            if(direction == Entity.Direction.RIGHT) {
+                animation.faceRight();
+            } else if(direction == Entity.Direction.LEFT) {
+                animation.faceLeft();
             }
 
             animation.setPosition(entry.key.position.x, entry.key.position.y);
