@@ -12,14 +12,22 @@ public class AssetsConstants {
     public static final String PLAYER_ANIMATION_SPRITE_LEFT_LEG = "left_leg";
     public static final String PLAYER_ANIMATION_SPRITE_RIGHT_LEG = "right_leg";
     public static final float PLAYER_ANIMATION_BOTTOM_DELTA = 0.04f;
-    public static final float PLAYER_ANIMATION_TOP_DELTAT = 0.1f;
+    public static final float PLAYER_ANIMATION_TOP_DELTA = 0.1f;
     public static final String PLAYER_ANIMATION_IDLE = "idle";
     public static final String PLAYER_ANIMATION_WALKING = "walking";
     public static final String PLAYER_ANIMATION_JUMPING = "jumping";
     public static final String PLAYER_ANIMATION_FALLING = "falling";
     public static final String PLAYER_ANIMATION_ATTACKING = "attacking";
 
-    public static final String ENEMY_ANIMATION_PATH = "xl/anim/player/player.scml";
+    public static final String ENEMY_ANIMATION_PATH = "xl/anim/enemy/enemy.scml";
+    public static final String ENEMY_ANIMATION_ENTITY_ENEMY = "enemy";
+    public static final String ENEMY_ANIMATION_SPRITE_BODY = "body";
+    public static final String ENEMY_ANIMATION_SPRITE_LEFT_LEG = "left_leg";
+    public static final String ENEMY_ANIMATION_SPRITE_RIGHT_LEG = "right_leg";
+    public static final float ENEMY_ANIMATION_BOTTOM_DELTA = 0.04f;
+    public static final float ENEMY_ANIMATION_TOP_DELTA = 0.1f;
+    public static final String ENEMY_ANIMATION_WALKING = "walking";
+    public static final String ENEMY_ANIMATION_ATTACKING = "attacking";
 
     public static final String MAP_PREFIX = "xl/map/map";
     public static final String MAP_POSTFIX = ".tmx";

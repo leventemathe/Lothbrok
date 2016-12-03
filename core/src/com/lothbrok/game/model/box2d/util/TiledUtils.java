@@ -2,14 +2,14 @@ package com.lothbrok.game.model.box2d.util;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class Box2DUtils {
+public class TiledUtils {
 
     public static final short BIT_GROUND = 2;
     public static final short BIT_PLAYER = 4;
 
     private static float pixelsPerUnit = 540f;//xl
 
-    private Box2DUtils() {}
+    private TiledUtils() {}
 
     public static float toWorld(float unit) {
         return unit / pixelsPerUnit;

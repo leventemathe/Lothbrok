@@ -20,17 +20,8 @@ public class Player extends Entity {
 
     // Setup
     public Player(Vector2 position, Map map) {
-        setupBasics(position);
+        super(position);
         setupComponents(map);
-    }
-
-    private void setupBasics(Vector2 position) {
-        this.position = position;
-        this.prevPosition = new Vector2();
-        this.prevPosition.x = position.x;
-        this.prevPosition.y = position.y;
-        this.actionState = Entity.ActionState.STANDING;
-        this.movementState = Entity.MovementState.STANDING;
     }
 
     private void setupComponents(Map map) {
@@ -122,5 +113,9 @@ public class Player extends Entity {
 
     public Rectangle getFootSensor() {
         return tiledCollisionComponent.getFootSensor();
+    }
+
+    public AttackingComponent getAttackingComponent() {
+        return attackingComponent;
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="8" tilewidth="540" tileheight="540" nextobjectid="182">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="8" tilewidth="540" tileheight="540" nextobjectid="185">
  <tileset firstgid="1" name="tiles" tilewidth="540" tileheight="540" tilecount="9" columns="0">
   <tile id="0">
    <properties>
@@ -76,11 +76,12 @@
    <image width="2160" height="211" source="mountains_15.png"/>
   </tile>
  </tileset>
- <objectgroup name="spawn">
-  <object id="55" name="playerSpawn" x="1080" y="1080" width="540" height="540"/>
-  <object id="172" type="enemySpawn" x="5400" y="1080" width="540" height="540"/>
-  <object id="174" type="enemySpawn" x="12960" y="1620" width="540" height="540"/>
-  <object id="175" type="enemySpawn" x="16200" y="540" width="540" height="540"/>
+ <objectgroup name="enemies_spawn">
+  <object id="183" x="5400" y="1620" width="540" height="540"/>
+  <object id="184" x="12960" y="2160" width="540" height="540"/>
+ </objectgroup>
+ <objectgroup name="player_spawn">
+  <object id="55" x="1620" y="1080" width="540" height="540"/>
  </objectgroup>
  <objectgroup name="background3">
   <object id="25" gid="12" x="0" y="1620" width="2160" height="254"/>

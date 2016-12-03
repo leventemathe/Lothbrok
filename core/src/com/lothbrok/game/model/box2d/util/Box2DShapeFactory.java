@@ -16,11 +16,11 @@ public class Box2DShapeFactory {
         float hX, hY;
         if(scale) {
             size = new Vector2(
-                    Box2DUtils.toWorld(rectangle.x + rectangle.width * 0.5f),
-                    Box2DUtils.toWorld(rectangle.y + rectangle.height * 0.5f)
+                    TiledUtils.toWorld(rectangle.x + rectangle.width * 0.5f),
+                    TiledUtils.toWorld(rectangle.y + rectangle.height * 0.5f)
             );
-            hX = Box2DUtils.toWorld(rectangle.width * 0.5f);
-            hY = Box2DUtils.toWorld(rectangle.height * 0.5f);
+            hX = TiledUtils.toWorld(rectangle.width * 0.5f);
+            hY = TiledUtils.toWorld(rectangle.height * 0.5f);
         } else {
             size = new Vector2(
                     rectangle.x + rectangle.width * 0.5f,
@@ -49,8 +49,8 @@ public class Box2DShapeFactory {
 
             for (int i = 0; i < vertices.length / 2; ++i) {
                 worldVertices[i] = new Vector2();
-                worldVertices[i].x = Box2DUtils.toWorld(vertices[i * 2]);
-                worldVertices[i].y = Box2DUtils.toWorld(vertices[i * 2 + 1]);
+                worldVertices[i].x = TiledUtils.toWorld(vertices[i * 2]);
+                worldVertices[i].y = TiledUtils.toWorld(vertices[i * 2 + 1]);
             }
 
             chain.createChain(worldVertices);

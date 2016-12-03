@@ -50,7 +50,7 @@ public class GameScreen extends AbstractScreen {
         //inputProcessor = mobileInputInterface.getStage();
         Gdx.input.setInputProcessor(inputProcessor);
 
-        gameRenderer.getPlayerAnimation().setStopAttackingListener(gameModel.getPlayer());
+        gameRenderer.getPlayerAnimation().setStopAttackingListener(gameModel.getPlayer().getAttackingComponent());
     }
 
     @Override

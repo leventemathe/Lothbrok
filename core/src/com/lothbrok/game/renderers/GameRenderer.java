@@ -7,14 +7,19 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.assets.animation.spriter.SpriterAnimation;
+import com.lothbrok.game.assets.entities.EnemyAnimation;
 import com.lothbrok.game.assets.entities.PlayerAnimation;
 import com.lothbrok.game.assets.utils.AssetsConstants;
 import com.lothbrok.game.model.GameModel;
+import com.lothbrok.game.model.entities.Enemy;
 import com.lothbrok.game.model.entities.Entity;
+
+import java.util.List;
 
 public class GameRenderer implements Disposable {
 
@@ -27,6 +32,7 @@ public class GameRenderer implements Disposable {
     private ShapeRenderer shapeRenderer;
     private MyOrthogonalTiledMapRenderer mapRenderer;
     private PlayerAnimation playerAnimation;
+    private ObjectMap<Enemy, EnemyAnimation> enemyAnimations;
 
     public GameRenderer(GameModel gameModel, SpriteBatch batch, ShapeRenderer shapeRenderer) {
         this.gameModel = gameModel;
@@ -45,11 +51,18 @@ public class GameRenderer implements Disposable {
         viewport = new ExtendViewport(width, height, extendedCamera.getCamera());
     }
 
-    //TODO move to logic?
     private void setupAnimation() {
         playerAnimation = new PlayerAnimation(new SpriterAnimation(Assets.instance.getPlayerAnimationAssets()));
         //TODO get scale from m l xl etc
         playerAnimation.getAnimation().setScale(1f/540f); //xl
+
+        List<Enemy> enemies = gameModel.getEnemies();
+        enemyAnimations = new ObjectMap<>();
+        for(int i = 0; i < enemies.size(); i++) {
+            EnemyAnimation animation = new EnemyAnimation(new SpriterAnimation(Assets.instance.getEnemyAnimationAssets()));
+            animation.getAnimation().setScale(1f/540f); //xl
+            enemyAnimations.put(enemies.get(i), animation);
+        }
     }
 
     private void setupRendering(SpriteBatch batch, ShapeRenderer shapeRenderer) {
@@ -88,6 +101,13 @@ public class GameRenderer implements Disposable {
         spriteBatch.setProjectionMatrix(extendedCamera.getCamera().combined);
         spriteBatch.begin();
 
+        renderPlayerAnimation(deltaTime);
+        renderEnemyAnimations(deltaTime);
+
+        spriteBatch.end();
+    }
+
+    private void renderPlayerAnimation(float deltaTime) {
         SpriterAnimation animation = playerAnimation.getAnimation();
         Entity.ActionState actionState = gameModel.getPlayer().actionState;
         Entity.MovementState movementState = gameModel.getPlayer().movementState;
@@ -126,8 +146,29 @@ public class GameRenderer implements Disposable {
         animation.setPosition(gameModel.getPlayer().position.x, gameModel.getPlayer().position.y);
         animation.update(deltaTime);
         animation.render(spriteBatch, shapeRenderer);
+    }
 
-        spriteBatch.end();
+    private void renderEnemyAnimations(float deltaTime) {
+        for(ObjectMap.Entry<Enemy, EnemyAnimation> entry : enemyAnimations.entries()) {
+            SpriterAnimation animation = entry.value.getAnimation();
+            Entity.ActionState actionState = entry.key.actionState;
+            Entity.MovementState movementState = entry.key.movementState;
+
+            animation.unflip();
+            //TODO move all animationchanging to playerAnimation from animation
+            if (actionState == Entity.ActionState.ATTACKING) {
+                animation.setPlayOnce(AssetsConstants.ENEMY_ANIMATION_ATTACKING);
+            } else if (movementState == Entity.MovementState.RIGHT) {
+                animation.setPlayAlways(AssetsConstants.ENEMY_ANIMATION_WALKING);
+            } else if (movementState == Entity.MovementState.LEFT) {
+                animation.setPlayAlways(AssetsConstants.ENEMY_ANIMATION_WALKING);
+                animation.flip();
+            }
+
+            animation.setPosition(entry.key.position.x, entry.key.position.y);
+            animation.update(deltaTime);
+            animation.render(spriteBatch, shapeRenderer);
+        }
     }
 
     public void renderRectangle(Rectangle rect) {
