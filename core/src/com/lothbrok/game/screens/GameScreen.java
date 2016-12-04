@@ -20,6 +20,7 @@ import com.lothbrok.game.model.entities.Entity;
 import com.lothbrok.game.model.entities.Player;
 import com.lothbrok.game.renderers.ExtendedCamera;
 import com.lothbrok.game.renderers.GameRenderer;
+import com.lothbrok.game.renderers.HUDRenderer;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class GameScreen extends AbstractScreen {
 
     //V
     private GameRenderer gameRenderer;
+    private HUDRenderer hudRenderer;
     //TODO polimorphism instead of if statements
     private MobileInputInterface mobileInputInterface;
     private Box2DDebugRenderer box2DDebugRenderer;
@@ -49,6 +51,7 @@ public class GameScreen extends AbstractScreen {
         gameModel = new GameModel(map);
 
         gameRenderer = new GameRenderer(gameModel, spriteBatch, shapeRenderer);
+        hudRenderer = new HUDRenderer(spriteBatch, gameModel.getPlayer().getHealth(), gameModel.getPlayer().getTreasure());
         box2DDebugRenderer = new Box2DDebugRenderer();
         gameRenderer.getExtendedCamera().snapTo(gameModel.getPlayer().position);
 
@@ -71,6 +74,7 @@ public class GameScreen extends AbstractScreen {
         gameRenderer.render(deltaTime);
         gameRenderer.renderRectangle(gameModel.getPlayer().getBoundingBox());
         gameRenderer.renderRectangle(gameModel.getPlayer().getFootSensor());
+        hudRenderer.render(deltaTime);
         mobileInputInterface.render(deltaTime);
         box2DDebugRenderer.render(gameModel.getWorld(), gameRenderer.getExtendedCamera().getCamera().combined);
         super.render(deltaTime);
@@ -85,6 +89,8 @@ public class GameScreen extends AbstractScreen {
         if(!debugCamera) {
             updateCamera(deltaTime);
         }
+        hudRenderer.updateHealth(gameModel.getPlayer().getHealth());
+        hudRenderer.updateTreasure(gameModel.getPlayer().getTreasure());
     }
 
     private void updateCamera(float deltaTime) {
@@ -126,6 +132,7 @@ public class GameScreen extends AbstractScreen {
     public void resize(int width, int height) {
         super.resize(width, height);
         gameRenderer.resize(width, height);
+        hudRenderer.resize(width, height);
         mobileInputInterface.resize(width, height);
     }
 

@@ -22,6 +22,9 @@ public class Player extends Entity {
     private HealthComponent healthComponent;
     private TreasureComponent treasureComponent;
 
+    private float treasureTime = 0f;
+    private final float TREASURE_INTERVAL = 0.5f;
+
     // Setup
     public Player(Vector2 position, Map map) {
         super(position);
@@ -46,6 +49,8 @@ public class Player extends Entity {
         prevPosition.y = position.y;
         updateActionState(deltaTime);
         updateMovingState();
+        updateHealth();
+        updateTreasure(deltaTime);
     }
 
     private void updateActionState(float deltaTime) {
@@ -67,6 +72,24 @@ public class Player extends Entity {
             movementState = Entity.MovementState.MIDMOVING;
         } else {
             movementState = Entity.MovementState.STANDING;
+        }
+    }
+
+    private void updateHealth() {
+        if(tiledCollisionComponent.hasFallenOutOfMap()) {
+            healthComponent.setHealth(0);
+        }
+    }
+
+    private void updateTreasure(float deltaTime) {
+        if(movementState != MovementState.STANDING || actionState != ActionState.STANDING) {
+            treasureTime += deltaTime;
+        } else {
+            treasureTime = 0f;
+        }
+        if(treasureTime >= TREASURE_INTERVAL) {
+            treasureTime = 0f;
+            treasureComponent.loseTreasure(1);
         }
     }
 
@@ -97,6 +120,7 @@ public class Player extends Entity {
 
     public void startAttacking() {
         attackingComponent.startAttacking();
+        treasureComponent.loseTreasure(1);
     }
 
     public void stopAttacking() {

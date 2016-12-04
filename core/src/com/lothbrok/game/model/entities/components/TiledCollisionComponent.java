@@ -102,28 +102,17 @@ public class TiledCollisionComponent extends AbstractComponent {
         int x = (int)Math.floor(boundingBox.x);
         int y = (int)Math.floor(boundingBox.y - 1f);
 
-        TiledMapTileLayer.Cell cell = map.getCell(x, y);
-        if(cell == null) {
-            return false;
-        }
-
-        TiledMapTile tile = cell.getTile();
-        if(tile == null) {
-            return false;
-        }
-
-        Object blocked = tile.getProperties().get("blocked");
-        if(blocked == null || blocked.equals(false)) {
-            return false;
-        }
-
-        return true;
+        return doesPlatformExist(x, y);
     }
 
     public boolean doesRightPlatformExist() {
         int x = (int)Math.ceil(boundingBox.x + boundingBox.width - 1f);
         int y = (int)Math.floor(boundingBox.y - 1f);
 
+        return doesPlatformExist(x, y);
+    }
+
+    private boolean doesPlatformExist(int x, int y) {
         TiledMapTileLayer.Cell cell = map.getCell(x, y);
         if(cell == null) {
             return false;
@@ -138,8 +127,11 @@ public class TiledCollisionComponent extends AbstractComponent {
         if(blocked == null || blocked.equals(false)) {
             return false;
         }
-
         return true;
+    }
+
+    public boolean hasFallenOutOfMap() {
+        return boundingBox.y + boundingBox.height < mapBorder.y;
     }
 
     public void updateBoundingBox(Rectangle body, Rectangle foot) {

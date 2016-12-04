@@ -5,6 +5,7 @@ import com.lothbrok.game.model.entities.Entity;
 public class TreasureComponent extends AbstractComponent {
 
     private int treasure;
+    private float timer = 0f;
 
     public TreasureComponent(Entity entity, int treasure) {
         super(entity);
