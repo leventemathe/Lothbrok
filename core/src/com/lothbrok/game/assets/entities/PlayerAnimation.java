@@ -11,11 +11,16 @@ public class PlayerAnimation extends EntityAnimation {
     }
 
     @Override
-    public Rectangle getBodyBoudningBox() {
+    public Rectangle getBodyBoundingBox() {
         return getBodyBoundingBox(AssetsConstants.PLAYER_ANIMATION_SPRITE_BODY,
                 AssetsConstants.PLAYER_ANIMATION_SPRITE_LEFT_LEG,
                 AssetsConstants.PLAYER_ANIMATION_BOTTOM_DELTA,
                 AssetsConstants.PLAYER_ANIMATION_TOP_DELTA);
+    }
+
+    @Override
+    public Rectangle getWeaponBoundingBox() {
+        return getWeaponBoundingBox(AssetsConstants.PLAYER_ANIMATION_SPRITE_WEAPON);
     }
 
     @Override

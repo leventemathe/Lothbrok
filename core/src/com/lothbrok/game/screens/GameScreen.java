@@ -76,8 +76,9 @@ public class GameScreen extends AbstractScreen {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         gameRenderer.render(deltaTime);
-        gameRenderer.renderRectangle(gameModel.getPlayer().getBoundingBox());
+        gameRenderer.renderRectangle(gameModel.getPlayer().getBodyBox());
         gameRenderer.renderRectangle(gameModel.getPlayer().getFootSensor());
+        gameRenderer.renderRectangle(gameModel.getPlayer().getWeaponBox());
         hudRenderer.render(deltaTime);
         mobileInputInterface.render(deltaTime);
         box2DDebugRenderer.render(gameModel.getWorld(), gameRenderer.getExtendedCamera().getCamera().combined);
@@ -117,18 +118,20 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void updatePlayerBoundingBox() {
-        Rectangle body = gameRenderer.getPlayerAnimation().getBodyBoudningBox();
+        Rectangle body = gameRenderer.getPlayerAnimation().getBodyBoundingBox();
         Rectangle foot = gameRenderer.getPlayerAnimation().getFootSensor();
-        gameModel.getPlayer().updateBoundingBoxes(body, foot);
+        Rectangle weapon = gameRenderer.getPlayerAnimation().getWeaponBoundingBox();
+        gameModel.getPlayer().updateBoundingBoxes(body, foot, weapon);
     }
 
     private void updateEnemiesBoundingBox() {
         ObjectMap<Enemy, EnemyAnimation> anims = gameRenderer.getEnemyAnimations();
         List<Enemy> enemies = gameModel.getEnemies();
         for(int i = 0; i < enemies.size(); i++) {
-            Rectangle body = anims.get(enemies.get(i)).getBodyBoudningBox();
+            Rectangle body = anims.get(enemies.get(i)).getBodyBoundingBox();
             Rectangle foot = anims.get(enemies.get(i)).getFootSensor();
-            enemies.get(i).updateBoundingBox(body, foot);
+            Rectangle weapon = anims.get(enemies.get(i)).getWeaponBoundingBox();
+            enemies.get(i).updateBoundingBox(body, foot, weapon);
         }
     }
 

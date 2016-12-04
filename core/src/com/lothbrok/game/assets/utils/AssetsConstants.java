@@ -11,6 +11,7 @@ public class AssetsConstants {
     public static final String PLAYER_ANIMATION_SPRITE_BODY = "body";
     public static final String PLAYER_ANIMATION_SPRITE_LEFT_LEG = "left_leg";
     public static final String PLAYER_ANIMATION_SPRITE_RIGHT_LEG = "right_leg";
+    public static final String PLAYER_ANIMATION_SPRITE_WEAPON = "sword";
     public static final float PLAYER_ANIMATION_BOTTOM_DELTA = 0.04f;
     public static final float PLAYER_ANIMATION_TOP_DELTA = 0.1f;
     public static final String PLAYER_ANIMATION_IDLE = "idle";
@@ -24,6 +25,7 @@ public class AssetsConstants {
     public static final String ENEMY_ANIMATION_SPRITE_BODY = "body";
     public static final String ENEMY_ANIMATION_SPRITE_LEFT_LEG = "left_leg";
     public static final String ENEMY_ANIMATION_SPRITE_RIGHT_LEG = "right_leg";
+    public static final String ENEMY_ANIMATION_SPRITE_WEAPON = "sword";
     public static final float ENEMY_ANIMATION_BOTTOM_DELTA = 0.04f;
     public static final float ENEMY_ANIMATION_TOP_DELTA = 0.1f;
     public static final String ENEMY_ANIMATION_IDLE = "idle";

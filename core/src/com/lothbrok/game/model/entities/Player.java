@@ -5,13 +5,14 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.lothbrok.game.model.entities.components.AttackingComponent;
-import com.lothbrok.game.model.entities.components.BoundingBoxComponent;
+import com.lothbrok.game.model.entities.components.BodyBoxComponent;
 import com.lothbrok.game.model.entities.components.GravityComponent;
 import com.lothbrok.game.model.entities.components.HealthComponent;
 import com.lothbrok.game.model.entities.components.JumpingComponent;
 import com.lothbrok.game.model.entities.components.MovementComponent;
 import com.lothbrok.game.model.entities.components.TiledCollisionComponent;
 import com.lothbrok.game.model.entities.components.TreasureComponent;
+import com.lothbrok.game.model.entities.components.WeaponBoxComponent;
 
 public class Player extends Entity {
 
@@ -19,7 +20,8 @@ public class Player extends Entity {
     private GravityComponent gravityComponent;
     private MovementComponent movementComponent;
     private JumpingComponent jumpingComponent;
-    private BoundingBoxComponent boundingBoxComponent;
+    private BodyBoxComponent bodyBoxComponent;
+    private WeaponBoxComponent weaponBoxComponent;
     private TiledCollisionComponent tiledCollisionComponent;
     private AttackingComponent attackingComponent;
     private HealthComponent healthComponent;
@@ -38,8 +40,9 @@ public class Player extends Entity {
         gravityComponent = new GravityComponent(this, 1.008f, 3f, 0.8f);
         movementComponent = new MovementComponent(this, 1.01f, 2f, 1f);
         jumpingComponent = new JumpingComponent(this, 1.6f, 0.992f, 1.4f, 2.4f);
-        boundingBoxComponent = new BoundingBoxComponent(this);
-        tiledCollisionComponent = new TiledCollisionComponent(this, (TiledMap)map, boundingBoxComponent);
+        bodyBoxComponent = new BodyBoxComponent(this);
+        weaponBoxComponent = new WeaponBoxComponent(this);
+        tiledCollisionComponent = new TiledCollisionComponent(this, (TiledMap)map, bodyBoxComponent);
         attackingComponent = new AttackingComponent(this);
         healthComponent = new HealthComponent(this, 3);
         treasureComponent = new TreasureComponent(this, 100);
@@ -128,13 +131,10 @@ public class Player extends Entity {
         treasureComponent.loseTreasure(1);
     }
 
-    public void stopAttacking() {
-        attackingComponent.stopAttacking();
-    }
-
-    public void updateBoundingBoxes(Rectangle body, Rectangle foot) {
-        boundingBoxComponent.setBoundingBox(body);
+    public void updateBoundingBoxes(Rectangle body, Rectangle foot, Rectangle weapon) {
+        bodyBoxComponent.setBodyBox(body);
         tiledCollisionComponent.setFootSensor(foot);
+        weaponBoxComponent.setWeaponBox(weapon);
     }
 
     public boolean isActuallyMoving() {
@@ -145,12 +145,16 @@ public class Player extends Entity {
         return movementComponent.getSpeed();
     }
 
-    public Rectangle getBoundingBox() {
-        return tiledCollisionComponent.getBoundingBox();
+    public Rectangle getBodyBox() {
+        return bodyBoxComponent.getBodyBox();
     }
 
     public Rectangle getFootSensor() {
         return tiledCollisionComponent.getFootSensor();
+    }
+
+    public Rectangle getWeaponBox() {
+        return weaponBoxComponent.getWeaponBox();
     }
 
     public AttackingComponent getAttackingComponent() {

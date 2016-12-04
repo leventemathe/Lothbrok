@@ -7,6 +7,7 @@ import com.brashmonkey.spriter.Player;
 import com.lothbrok.game.assets.spriter.SpriterAnimation;
 import com.lothbrok.game.model.entities.components.AttackingComponent;
 
+//TODO this should consist of components too
 public abstract class EntityAnimation {
 
     protected SpriterAnimation animation;
@@ -19,7 +20,8 @@ public abstract class EntityAnimation {
         this.animation.setPlayAlways(idleAnimation);
     }
 
-    public abstract Rectangle getBodyBoudningBox();
+    public abstract Rectangle getBodyBoundingBox();
+    public abstract Rectangle getWeaponBoundingBox();
     public abstract Rectangle getFootSensor();
 
     protected Rectangle getBodyBoundingBox(String body, String leg, float bottomDelta, float topDelta) {
@@ -48,6 +50,14 @@ public abstract class EntityAnimation {
                     rightLegRect.y,
                     leftLegRect.x + leftLegRect.width - rightLegRect.x,
                     bottomDelta);
+        }
+        return null;
+    }
+
+    protected Rectangle getWeaponBoundingBox(String weapon) {
+        Rectangle rect = animation.getBoundingBox(weapon);
+        if(rect != null) {
+            return rect;
         }
         return null;
     }
