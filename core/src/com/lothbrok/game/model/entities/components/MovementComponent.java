@@ -1,5 +1,6 @@
 package com.lothbrok.game.model.entities.components;
 
+import com.badlogic.gdx.math.Vector2;
 import com.lothbrok.game.model.entities.Entity;
 
 public class MovementComponent extends AbstractComponent {
@@ -35,12 +36,37 @@ public class MovementComponent extends AbstractComponent {
         entity.direction = Entity.Direction.RIGHT;
     }
 
+    public void moveTo(Vector2 position, float deltaTime) {
+        accelerate();
+        float distanceX = position.x - entity.position.x;
+        float directionX = distanceX / Math.abs(distanceX);
+        entity.position.x += directionX * speed * deltaTime;
+        if(directionX < 0f) {
+            if(entity.direction == Entity.Direction.RIGHT) {
+                resetAcceleration();
+            }
+            entity.direction = Entity.Direction.LEFT;
+        } else if(directionX > 0f) {
+            if(entity.direction == Entity.Direction.LEFT) {
+                resetAcceleration();
+            }
+            entity.direction = Entity.Direction.RIGHT;
+        }
+    }
+
     private void accelerate() {
-        if(entity.movementState == Entity.MovementState.MIDMOVING && speed < maxSpeed) {
+        if((entity.movementState == Entity.MovementState.MIDMOVING ||
+                entity.movementState == Entity.MovementState.MOVING) &&
+                speed < maxSpeed) {
+
             speed *= acceleration;
         } else if(entity.movementState != Entity.MovementState.MIDMOVING) {
             speed = baseSpeed;
         }
+    }
+
+    public void resetAcceleration() {
+        speed = baseSpeed;
     }
 
     public float getSpeed() {

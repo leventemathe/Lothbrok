@@ -11,16 +11,20 @@ import com.lothbrok.game.model.entities.components.TiledCollisionComponent;
 
 public class Enemy extends Entity {
 
+    private static final String TAG = Enemy.class.getSimpleName();
     private MovementComponent movementComponent;
     private BoundingBoxComponent boundingBoxComponent;
     private TiledCollisionComponent tiledCollisionComponent;
     private AttackingComponent attackingComponent;
 
-    private float travelled = 0f;
-    private final float MAX_TRAVELLED = 3f;
+    private float origin;
+    private float distanceFromOrigin = 0f;
+    public final float RADIUS = 3f;
+    public final float ATTACK_RADIUS = 0.5f;
 
     public Enemy(Vector2 position, Map map) {
         super(position);
+        this.origin = position.x;
         setupComponents(map);
     }
 
@@ -37,26 +41,40 @@ public class Enemy extends Entity {
                 movementComponent.moveLeft(deltaTime);
             } else {
                 direction = Direction.RIGHT;
+                movementComponent.resetAcceleration();
             }
         } else if(direction == Direction.RIGHT) {
             if(tiledCollisionComponent.doesRightPlatformExist() && !tiledCollisionComponent.isRightColliding()) {
                 movementComponent.moveRight(deltaTime);
             } else {
                 direction = Direction.LEFT;
+                movementComponent.resetAcceleration();
             }
         }
 
-        float movement = position.x - prevPosition.x;
-        if(movement != 0f) {
-            travelled += movement;
-            if (travelled >= MAX_TRAVELLED) {
-                position.x -= movement;
-                direction = Direction.LEFT;
-            } else if (travelled <= -MAX_TRAVELLED) {
-                position.x += movement;
-                direction = Direction.RIGHT;
+        distanceFromOrigin = position.x - origin;
+        if (distanceFromOrigin >= RADIUS) {
+            direction = Direction.LEFT;
+            movementComponent.resetAcceleration();
+        } else if (distanceFromOrigin <= -RADIUS) {
+            direction = Direction.RIGHT;
+            movementComponent.resetAcceleration();
+        }
+        //Gdx.app.debug(TAG, "speed: " + movementComponent.getSpeed());
+    }
+
+    public void moveTo(Vector2 position, float deltaTime) {
+        float direction = position.x - this.position.x;
+        if(direction < 0f) {
+            if(tiledCollisionComponent.doesLeftPlatformExist() && !tiledCollisionComponent.isLeftColliding()) {
+                movementComponent.moveTo(position, deltaTime);
+            }
+        } else if(direction > 0f) {
+            if(tiledCollisionComponent.doesRightPlatformExist() && !tiledCollisionComponent.isRightColliding()) {
+                movementComponent.moveTo(position, deltaTime);
             }
         }
+        //Gdx.app.debug(TAG, "speed: " + movementComponent.getSpeed());
     }
 
     public void updateBoundingBox(Rectangle body, Rectangle foot) {

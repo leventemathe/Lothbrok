@@ -81,7 +81,6 @@
  </tileset>
  <objectgroup name="enemies_spawn">
   <object height="540" id="183" width="540" x="5400" y="1620" />
-  <object height="540" id="184" width="540" x="12960" y="2160" />
  </objectgroup>
  <objectgroup name="player_spawn">
   <object height="540" id="55" width="540" x="1620" y="1080" />

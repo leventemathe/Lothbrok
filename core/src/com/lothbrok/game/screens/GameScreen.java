@@ -60,7 +60,7 @@ public class GameScreen extends AbstractScreen {
         inputProcessor = new PCInput(controller);
         //inputProcessor = mobileInputInterface.getStage();
         Gdx.input.setInputProcessor(inputProcessor);
-        enemyController = new EnemyController(gameModel.getEnemies());
+        enemyController = new EnemyController(gameModel.getEnemies(), gameModel.getPlayer());
 
         gameRenderer.getPlayerAnimation().setStopAttackingListener(gameModel.getPlayer().getAttackingComponent());
     }

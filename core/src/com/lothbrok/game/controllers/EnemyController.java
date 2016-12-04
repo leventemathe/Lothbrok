@@ -1,15 +1,18 @@
 package com.lothbrok.game.controllers;
 
 import com.lothbrok.game.model.entities.Enemy;
+import com.lothbrok.game.model.entities.Player;
 
 import java.util.List;
 
 public class EnemyController {
 
     private List<Enemy> enemies;
+    private Player player;
 
-    public EnemyController(List<Enemy> enemies) {
+    public EnemyController(List<Enemy> enemies, Player player) {
         this.enemies = enemies;
+        this.player = player;
     }
 
     public void control(float deltaTime) {
@@ -19,9 +22,13 @@ public class EnemyController {
     }
 
     private void controlEnemy(Enemy enemy, float deltaTime) {
-        //if player not in sight:
-        enemy.move(deltaTime);
-        //if player in sight:
-        //  attack
+        if(Math.abs(enemy.position.x - player.position.x) < enemy.RADIUS &&
+                Math.round(player.position.y) == Math.round(enemy.position.y)) {
+
+            enemy.moveTo(player.position, deltaTime);
+        } else {
+            enemy.move(deltaTime);
+        }
+
     }
 }
