@@ -115,7 +115,7 @@ public class GameScreen extends AbstractScreen {
     private void updatePlayerBoundingBox() {
         Rectangle body = gameRenderer.getPlayerAnimation().getBodyBoudningBox();
         Rectangle foot = gameRenderer.getPlayerAnimation().getFootSensor();
-        gameModel.getPlayer().updateBoundingBox(body, foot);
+        gameModel.getPlayer().updateBoundingBoxes(body, foot);
     }
 
     private void updateEnemiesBoundingBox() {

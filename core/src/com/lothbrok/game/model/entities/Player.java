@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.lothbrok.game.model.entities.components.AttackingComponent;
+import com.lothbrok.game.model.entities.components.BoundingBoxComponent;
 import com.lothbrok.game.model.entities.components.GravityComponent;
 import com.lothbrok.game.model.entities.components.HealthComponent;
 import com.lothbrok.game.model.entities.components.JumpingComponent;
@@ -17,6 +18,7 @@ public class Player extends Entity {
     private GravityComponent gravityComponent;
     private MovementComponent movementComponent;
     private JumpingComponent jumpingComponent;
+    private BoundingBoxComponent boundingBoxComponent;
     private TiledCollisionComponent tiledCollisionComponent;
     private AttackingComponent attackingComponent;
     private HealthComponent healthComponent;
@@ -35,7 +37,8 @@ public class Player extends Entity {
         gravityComponent = new GravityComponent(this, 1.008f, 3f, 0.8f);
         movementComponent = new MovementComponent(this, 1.01f, 2f, 1f);
         jumpingComponent = new JumpingComponent(this, 1.6f, 0.992f, 1.4f, 2.4f);
-        tiledCollisionComponent = new TiledCollisionComponent(this, (TiledMap)map);
+        boundingBoxComponent = new BoundingBoxComponent(this);
+        tiledCollisionComponent = new TiledCollisionComponent(this, (TiledMap)map, boundingBoxComponent);
         attackingComponent = new AttackingComponent(this);
         healthComponent = new HealthComponent(this, 3);
         treasureComponent = new TreasureComponent(this, 100);
@@ -127,8 +130,9 @@ public class Player extends Entity {
         attackingComponent.stopAttacking();
     }
 
-    public void updateBoundingBox(Rectangle body, Rectangle foot) {
-        tiledCollisionComponent.updateBoundingBox(body, foot);
+    public void updateBoundingBoxes(Rectangle body, Rectangle foot) {
+        boundingBoxComponent.setBoundingBox(body);
+        tiledCollisionComponent.setFootSensor(foot);
     }
 
     public boolean isActuallyMoving() {

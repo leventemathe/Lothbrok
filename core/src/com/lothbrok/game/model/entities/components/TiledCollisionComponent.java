@@ -11,13 +11,14 @@ public class TiledCollisionComponent extends AbstractComponent {
     private TiledMapTileLayer map;
     private Rectangle mapBorder;
 
-    private Rectangle boundingBox;
+    private BoundingBoxComponent boundingBoxComponent;
     private Rectangle footSensor;
 
-    public TiledCollisionComponent(Entity entity, TiledMap map) {
+    public TiledCollisionComponent(Entity entity, TiledMap map, BoundingBoxComponent boundingBoxComponent) {
         super(entity);
         this.map = (TiledMapTileLayer)map.getLayers().get("tiles");
         this.mapBorder = new Rectangle(0f, 0f, (int)map.getProperties().get("width"), (int)map.getProperties().get("height"));
+        this.boundingBoxComponent = boundingBoxComponent;
     }
 
     public boolean isBottomColliding() {
@@ -32,9 +33,9 @@ public class TiledCollisionComponent extends AbstractComponent {
     }
 
     public boolean isTopColliding() {
-        int x1 = (int)Math.floor(boundingBox.x);
-        int x2 = (int)Math.floor(boundingBox.x + boundingBox.width);
-        int y = (int)Math.ceil(boundingBox.y);
+        int x1 = (int)Math.floor(boundingBoxComponent.getBoundingBox().x);
+        int x2 = (int)Math.floor(boundingBoxComponent.getBoundingBox().x + boundingBoxComponent.getBoundingBox().width);
+        int y = (int)Math.ceil(boundingBoxComponent.getBoundingBox().y);
 
         TiledMapTileLayer.Cell leftCell = map.getCell(x1, y);
         TiledMapTileLayer.Cell rightCell = map.getCell(x2, y);
@@ -43,11 +44,11 @@ public class TiledCollisionComponent extends AbstractComponent {
     }
 
     public boolean isRightColliding() {
-        int x = (int)Math.floor(boundingBox.x + boundingBox.width);
-        int y1 = (int)Math.floor(boundingBox.y);
-        int y2 = (int)Math.floor(boundingBox.y + boundingBox.height);
+        int x = (int)Math.floor(boundingBoxComponent.getBoundingBox().x + boundingBoxComponent.getBoundingBox().width);
+        int y1 = (int)Math.floor(boundingBoxComponent.getBoundingBox().y);
+        int y2 = (int)Math.floor(boundingBoxComponent.getBoundingBox().y + boundingBoxComponent.getBoundingBox().height);
 
-        if(boundingBox.x + boundingBox.width > mapBorder.width) {
+        if(boundingBoxComponent.getBoundingBox().x + boundingBoxComponent.getBoundingBox().width > mapBorder.width) {
             return true;
         }
 
@@ -58,11 +59,11 @@ public class TiledCollisionComponent extends AbstractComponent {
     }
 
     public boolean isLeftColliding() {
-        int x = (int)Math.floor(boundingBox.x);
-        int y1 = (int)Math.floor(boundingBox.y);
-        int y2 = (int)Math.floor(boundingBox.y + boundingBox.height);
+        int x = (int)Math.floor(boundingBoxComponent.getBoundingBox().x);
+        int y1 = (int)Math.floor(boundingBoxComponent.getBoundingBox().y);
+        int y2 = (int)Math.floor(boundingBoxComponent.getBoundingBox().y + boundingBoxComponent.getBoundingBox().height);
 
-        if(boundingBox.x < mapBorder.x) {
+        if(boundingBoxComponent.getBoundingBox().x < mapBorder.x) {
             return true;
         }
 
@@ -99,15 +100,15 @@ public class TiledCollisionComponent extends AbstractComponent {
     }
 
     public boolean doesLeftPlatformExist() {
-        int x = (int)Math.floor(boundingBox.x);
-        int y = (int)Math.floor(boundingBox.y - 1f);
+        int x = (int)Math.floor(boundingBoxComponent.getBoundingBox().x);
+        int y = (int)Math.floor(boundingBoxComponent.getBoundingBox().y - 1f);
 
         return doesPlatformExist(x, y);
     }
 
     public boolean doesRightPlatformExist() {
-        int x = (int)Math.ceil(boundingBox.x + boundingBox.width - 1f);
-        int y = (int)Math.floor(boundingBox.y - 1f);
+        int x = (int)Math.ceil(boundingBoxComponent.getBoundingBox().x + boundingBoxComponent.getBoundingBox().width - 1f);
+        int y = (int)Math.floor(boundingBoxComponent.getBoundingBox().y - 1f);
 
         return doesPlatformExist(x, y);
     }
@@ -131,19 +132,18 @@ public class TiledCollisionComponent extends AbstractComponent {
     }
 
     public boolean hasFallenOutOfMap() {
-        return boundingBox.y + boundingBox.height < mapBorder.y;
-    }
-
-    public void updateBoundingBox(Rectangle body, Rectangle foot) {
-        boundingBox = body;
-        footSensor = foot;
+        return boundingBoxComponent.getBoundingBox().y + boundingBoxComponent.getBoundingBox().height < mapBorder.y;
     }
 
     public Rectangle getBoundingBox() {
-        return boundingBox;
+        return boundingBoxComponent.getBoundingBox();
     }
 
     public Rectangle getFootSensor() {
         return footSensor;
+    }
+
+    public void setFootSensor(Rectangle footSensor) {
+        this.footSensor = footSensor;
     }
 }

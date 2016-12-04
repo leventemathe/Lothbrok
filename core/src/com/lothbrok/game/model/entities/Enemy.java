@@ -5,12 +5,14 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.lothbrok.game.model.entities.components.AttackingComponent;
+import com.lothbrok.game.model.entities.components.BoundingBoxComponent;
 import com.lothbrok.game.model.entities.components.MovementComponent;
 import com.lothbrok.game.model.entities.components.TiledCollisionComponent;
 
 public class Enemy extends Entity {
 
     private MovementComponent movementComponent;
+    private BoundingBoxComponent boundingBoxComponent;
     private TiledCollisionComponent tiledCollisionComponent;
     private AttackingComponent attackingComponent;
 
@@ -24,7 +26,8 @@ public class Enemy extends Entity {
 
     private void setupComponents(Map map) {
         movementComponent = new MovementComponent(this, 1.01f, 2f, 1f);
-        tiledCollisionComponent = new TiledCollisionComponent(this, (TiledMap)map);
+        boundingBoxComponent = new BoundingBoxComponent(this);
+        tiledCollisionComponent = new TiledCollisionComponent(this, (TiledMap)map, boundingBoxComponent);
         attackingComponent = new AttackingComponent(this);
     }
 
@@ -57,6 +60,7 @@ public class Enemy extends Entity {
     }
 
     public void updateBoundingBox(Rectangle body, Rectangle foot) {
-        tiledCollisionComponent.updateBoundingBox(body, foot);
+        boundingBoxComponent.setBoundingBox(body);
+        tiledCollisionComponent.setFootSensor(foot);
     }
 }
