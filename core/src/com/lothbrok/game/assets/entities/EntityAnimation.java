@@ -73,7 +73,7 @@ public abstract class EntityAnimation {
 
         @Override
         public void animationFinished(Animation animation) {
-
+            attackingComponent.stopAttacking();
         }
 
         @Override

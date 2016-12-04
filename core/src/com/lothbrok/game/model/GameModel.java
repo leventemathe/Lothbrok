@@ -61,6 +61,7 @@ public class GameModel {
     public void update(float deltaTime) {
         //TODO do the accumulator method
         world.step(1f/60f, 6, 2);
+
         if(player.isActuallyMoving()) {
             if (player.direction == Entity.Direction.RIGHT) {
                 parallaxBackground.update(player.getSpeed(), deltaTime);
@@ -68,7 +69,12 @@ public class GameModel {
                 parallaxBackground.update(-player.getSpeed(), deltaTime);
             }
         }
+
         player.update(deltaTime);
+
+        for(int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).update(deltaTime);
+        }
     }
 
     public TiledMap getMap() {

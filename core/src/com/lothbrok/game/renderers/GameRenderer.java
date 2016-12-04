@@ -101,8 +101,8 @@ public class GameRenderer implements Disposable {
         spriteBatch.setProjectionMatrix(extendedCamera.getCamera().combined);
         spriteBatch.begin();
 
-        renderPlayerAnimation(deltaTime);
         renderEnemyAnimations(deltaTime);
+        renderPlayerAnimation(deltaTime);
 
         spriteBatch.end();
     }
@@ -155,6 +155,8 @@ public class GameRenderer implements Disposable {
                 animation.setPlayOnce(AssetsConstants.ENEMY_ANIMATION_ATTACKING);
             } else if (movementState == Entity.MovementState.MOVING) {
                 animation.setPlayAlways(AssetsConstants.ENEMY_ANIMATION_WALKING);
+            } else {
+                animation.setPlayAlways(AssetsConstants.ENEMY_ANIMATION_IDLE);
             }
 
             if(direction == Entity.Direction.RIGHT) {

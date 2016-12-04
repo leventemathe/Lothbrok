@@ -15,6 +15,7 @@ import com.lothbrok.game.model.entities.components.TreasureComponent;
 
 public class Player extends Entity {
 
+    private static final String TAG = Player.class.getSimpleName();
     private GravityComponent gravityComponent;
     private MovementComponent movementComponent;
     private JumpingComponent jumpingComponent;
@@ -54,6 +55,7 @@ public class Player extends Entity {
         updateMovingState();
         updateHealth();
         updateTreasure(deltaTime);
+        //Gdx.app.debug(TAG, "actionState: " + actionState);
     }
 
     private void updateActionState(float deltaTime) {
@@ -64,7 +66,7 @@ public class Player extends Entity {
         }
 
         gravityComponent.applyGravity(deltaTime);
-        if(tiledCollisionComponent.isBottomColliding()) {
+        if(tiledCollisionComponent.isBottomColliding() && actionState == ActionState.FALLING) {
             actionState = Entity.ActionState.STANDING;
             position.y = prevPosition.y;
         }

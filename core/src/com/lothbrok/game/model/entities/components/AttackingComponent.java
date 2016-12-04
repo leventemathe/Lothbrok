@@ -4,6 +4,8 @@ import com.lothbrok.game.model.entities.Entity;
 
 public class AttackingComponent extends AbstractComponent {
 
+    private static final String TAG = AttackingComponent.class.getSimpleName();
+
     public AttackingComponent(Entity entity) {
         super(entity);
     }

@@ -20,7 +20,10 @@ public class Enemy extends Entity {
     private float origin;
     private float distanceFromOrigin = 0f;
     public final float RADIUS = 3f;
-    public final float ATTACK_RADIUS = 0.5f;
+    public final float ATTACK_RADIUS = 0.8f;
+
+    public final float ATTACK_TIME = 1f;
+    public float attackTimer = ATTACK_TIME;
 
     public Enemy(Vector2 position, Map map) {
         super(position);
@@ -33,6 +36,11 @@ public class Enemy extends Entity {
         boundingBoxComponent = new BoundingBoxComponent(this);
         tiledCollisionComponent = new TiledCollisionComponent(this, (TiledMap)map, boundingBoxComponent);
         attackingComponent = new AttackingComponent(this);
+    }
+
+    public void update(float deltaTime) {
+        attackTimer += deltaTime;
+        movementState = MovementState.STANDING;
     }
 
     public void move(float deltaTime) {
@@ -80,5 +88,16 @@ public class Enemy extends Entity {
     public void updateBoundingBox(Rectangle body, Rectangle foot) {
         boundingBoxComponent.setBoundingBox(body);
         tiledCollisionComponent.setFootSensor(foot);
+    }
+
+    public void startAttacking() {
+        if(attackTimer >= ATTACK_TIME) {
+            attackingComponent.startAttacking();
+            attackTimer = 0f;
+        }
+    }
+
+    public AttackingComponent getAttackingComponent() {
+        return attackingComponent;
     }
 }

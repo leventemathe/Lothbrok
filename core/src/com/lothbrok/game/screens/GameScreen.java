@@ -63,6 +63,10 @@ public class GameScreen extends AbstractScreen {
         enemyController = new EnemyController(gameModel.getEnemies(), gameModel.getPlayer());
 
         gameRenderer.getPlayerAnimation().setStopAttackingListener(gameModel.getPlayer().getAttackingComponent());
+        ObjectMap<Enemy, EnemyAnimation> enemyAnimations = gameRenderer.getEnemyAnimations();
+        for(ObjectMap.Entry<Enemy, EnemyAnimation> entry : enemyAnimations) {
+            entry.value.setStopAttackingListener(entry.key.getAttackingComponent());
+        }
     }
 
     @Override
