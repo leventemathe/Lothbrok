@@ -18,6 +18,7 @@ public class MainMenuLoadingScreen extends AbstractScreen {
         Assets.instance.loadEnemyAnimationAssets();
         Assets.instance.loadMap(1);
         Assets.instance.loadMobileControlsSkin();
+        Assets.instance.loadUI();
     }
 
     @Override

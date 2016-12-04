@@ -6,9 +6,11 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.lothbrok.game.model.entities.components.AttackingComponent;
 import com.lothbrok.game.model.entities.components.GravityComponent;
+import com.lothbrok.game.model.entities.components.HealthComponent;
 import com.lothbrok.game.model.entities.components.JumpingComponent;
 import com.lothbrok.game.model.entities.components.MovementComponent;
 import com.lothbrok.game.model.entities.components.TiledCollisionComponent;
+import com.lothbrok.game.model.entities.components.TreasureComponent;
 
 public class Player extends Entity {
 
@@ -17,6 +19,8 @@ public class Player extends Entity {
     private JumpingComponent jumpingComponent;
     private TiledCollisionComponent tiledCollisionComponent;
     private AttackingComponent attackingComponent;
+    private HealthComponent healthComponent;
+    private TreasureComponent treasureComponent;
 
     // Setup
     public Player(Vector2 position, Map map) {
@@ -30,6 +34,8 @@ public class Player extends Entity {
         jumpingComponent = new JumpingComponent(this, 1.6f, 0.992f, 1.4f, 2.4f);
         tiledCollisionComponent = new TiledCollisionComponent(this, (TiledMap)map);
         attackingComponent = new AttackingComponent(this);
+        healthComponent = new HealthComponent(this, 3);
+        treasureComponent = new TreasureComponent(this, 100);
     }
 
 
@@ -119,5 +125,13 @@ public class Player extends Entity {
 
     public AttackingComponent getAttackingComponent() {
         return attackingComponent;
+    }
+
+    public int getHealth() {
+        return healthComponent.getHealth();
+    }
+
+    public int getTreasure() {
+        return treasureComponent.getTreasure();
     }
 }

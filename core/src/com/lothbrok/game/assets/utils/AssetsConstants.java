@@ -38,4 +38,7 @@ public class AssetsConstants {
 
     public static final String MOBILE_CONTROLS_SKIN_PATH = "xl/img/mobile_controls/mobile_controls_skin.json";
     public static final String MOBILE_CONTROLS_ATLAS_PATH = "xl/img/mobile_controls/mobile_controls.pack.atlas";
+
+    public static final String UI_SKIN_PATH = "xl/img/ui/ui_skin.json";
+    public static final String UI_ATLAS_PATH = "xl/img/ui/ui.pack.atlas";
 }

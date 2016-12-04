@@ -155,6 +155,14 @@ public class Assets implements Disposable {
         return assetManager.get(AssetsConstants.MOBILE_CONTROLS_SKIN_PATH);
     }
 
+    public void loadUI() {
+        assetManager.load(AssetsConstants.UI_SKIN_PATH, Skin.class, new SkinLoader.SkinParameter(AssetsConstants.UI_ATLAS_PATH));
+    }
+
+    public Skin getUI() {
+        return assetManager.get(AssetsConstants.UI_SKIN_PATH);
+    }
+
     //TODO add unload methods
     //TODO assets switching in screen transition
     @Override

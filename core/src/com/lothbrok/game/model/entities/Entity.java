@@ -9,7 +9,8 @@ public abstract class Entity {
         FALLING,
         JUMPING,
         MIDJUMP,
-        ATTACKING
+        ATTACKING,
+        DEAD
     }
 
     public enum MovementState {

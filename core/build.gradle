@@ -61,6 +61,7 @@ project.ext.settingsS.paddingX = 5
 project.ext.settingsS.paddingY = 5
 project.ext.settingsS.scale = [0.333333333]
 
+// MAP
 task clearMapAtlas << {
     project.delete fileTree("../android/assets") { include  '**/map/*.pack*.atlas',
                                                             '**/map/*.pack*.png'}
@@ -77,13 +78,10 @@ task packMapAtlas << {
                            "android/assets/s/map"];
 
     // generete texture packs
-    //TODO change to for with array
     TexturePacker.process(settingsXL, source, destinations[0], packName);
     TexturePacker.process(settingsL, source, destinations[1], packName);
     TexturePacker.process(settingsM, source, destinations[2], packName);
     TexturePacker.process(settingsS, source, destinations[3], packName);
-
-    // genereate scaled, texture pack compatible tmx maps
 }
 
 task clearMapTmx << {
@@ -141,6 +139,55 @@ task clearMap << {
     clearMapAtlas.execute()
     clearMapTmx.execute()
 }
+
+
+
+// GAME UI
+task clearGameUI << {
+    project.delete fileTree("../android/assets") { include  '**/img/ui/*.pack*.atlas',
+            '**/img/ui/*.pack*.png',
+            '**/img/ui/*.json'}
+}
+
+task packGameUI << {
+    clearGameUI.execute()
+
+    // generete texture packs
+    String packName     = "ui.pack";
+    String source       = "core/assets_raw/img/ui";
+    String[] destinations = ["android/assets/xl/img/ui",
+                             "android/assets/l/img/ui",
+                             "android/assets/m/img/ui",
+                             "android/assets/s/img/ui"];
+
+    TexturePacker.process(settingsXL, source, destinations[0], packName);
+    TexturePacker.process(settingsL, source, destinations[1], packName);
+    TexturePacker.process(settingsM, source, destinations[2], packName);
+    TexturePacker.process(settingsS, source, destinations[3], packName);
+
+    // pack skin json
+    String skinSource       = "assets_raw/img/ui";
+    String[] skinDestination = ["../android/assets/xl/img/ui",
+                             "../android/assets/l/img/ui",
+                             "../android/assets/m/img/ui",
+                             "../android/assets/s/img/ui"];
+
+    for(String dest : skinDestination) {
+        println("packing skin json")
+        project.copy {
+            from skinSource
+            into dest
+            include "ui_skin.json"
+        }
+    }
+}
+
+
+
+
+
+
+//TODO Old tasks, fix them
 
 //TODO safe  max atalas size?
 task packMenu << {
