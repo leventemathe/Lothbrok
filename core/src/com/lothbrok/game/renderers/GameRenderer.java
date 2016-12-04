@@ -191,4 +191,8 @@ public class GameRenderer implements Disposable {
     public PlayerAnimation getPlayerAnimation() {
         return playerAnimation;
     }
+
+    public ObjectMap<Enemy, EnemyAnimation> getEnemyAnimations() {
+        return enemyAnimations;
+    }
 }

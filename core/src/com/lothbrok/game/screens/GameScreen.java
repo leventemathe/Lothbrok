@@ -7,16 +7,21 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.lothbrok.game.assets.Assets;
+import com.lothbrok.game.assets.entities.EnemyAnimation;
 import com.lothbrok.game.controllers.Controller;
 import com.lothbrok.game.controllers.EnemyController;
 import com.lothbrok.game.controllers.input.MobileInputInterface;
 import com.lothbrok.game.controllers.input.PCInput;
 import com.lothbrok.game.model.GameModel;
+import com.lothbrok.game.model.entities.Enemy;
 import com.lothbrok.game.model.entities.Entity;
 import com.lothbrok.game.model.entities.Player;
 import com.lothbrok.game.renderers.ExtendedCamera;
 import com.lothbrok.game.renderers.GameRenderer;
+
+import java.util.List;
 
 public class GameScreen extends AbstractScreen {
 
@@ -72,7 +77,8 @@ public class GameScreen extends AbstractScreen {
     }
 
     public void update(float deltaTime) {
-        updatePlayerBoundingBox(deltaTime);
+        updatePlayerBoundingBox();
+        updateEnemiesBoundingBox();
         gameModel.update(deltaTime);
         controller.control(deltaTime);
         enemyController.control(deltaTime);
@@ -100,10 +106,20 @@ public class GameScreen extends AbstractScreen {
         camera.snapToY(targetPos.y);
     }
 
-    private void updatePlayerBoundingBox(float deltaTime) {
+    private void updatePlayerBoundingBox() {
         Rectangle body = gameRenderer.getPlayerAnimation().getBodyBoudningBox();
         Rectangle foot = gameRenderer.getPlayerAnimation().getFootSensor();
         gameModel.getPlayer().updateBoundingBox(body, foot);
+    }
+
+    private void updateEnemiesBoundingBox() {
+        ObjectMap<Enemy, EnemyAnimation> anims = gameRenderer.getEnemyAnimations();
+        List<Enemy> enemies = gameModel.getEnemies();
+        for(int i = 0; i < enemies.size(); i++) {
+            Rectangle body = anims.get(enemies.get(i)).getBodyBoudningBox();
+            Rectangle foot = anims.get(enemies.get(i)).getFootSensor();
+            enemies.get(i).updateBoundingBox(body, foot);
+        }
     }
 
     @Override

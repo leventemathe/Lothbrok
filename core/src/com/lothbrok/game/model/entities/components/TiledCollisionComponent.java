@@ -21,53 +21,53 @@ public class TiledCollisionComponent extends AbstractComponent {
     }
 
     public boolean isBottomColliding() {
-        int playerX1 = (int)Math.floor(footSensor.x);
-        int playerX2 = (int)Math.floor(footSensor.x + footSensor.width);
-        int playerY = (int)Math.floor(footSensor.y);
+        int x1 = (int)Math.floor(footSensor.x);
+        int x2 = (int)Math.floor(footSensor.x + footSensor.width);
+        int y = (int)Math.floor(footSensor.y);
 
-        TiledMapTileLayer.Cell leftCell = map.getCell(playerX1, playerY);
-        TiledMapTileLayer.Cell rightCell = map.getCell(playerX2, playerY);
+        TiledMapTileLayer.Cell leftCell = map.getCell(x1, y);
+        TiledMapTileLayer.Cell rightCell = map.getCell(x2, y);
 
         return isColliding(leftCell, rightCell);
     }
 
     public boolean isTopColliding() {
-        int playerX1 = (int)Math.floor(boundingBox.x);
-        int playerX2 = (int)Math.floor(boundingBox.x + boundingBox.width);
-        int playerY = (int)Math.ceil(boundingBox.y);
+        int x1 = (int)Math.floor(boundingBox.x);
+        int x2 = (int)Math.floor(boundingBox.x + boundingBox.width);
+        int y = (int)Math.ceil(boundingBox.y);
 
-        TiledMapTileLayer.Cell leftCell = map.getCell(playerX1, playerY);
-        TiledMapTileLayer.Cell rightCell = map.getCell(playerX2, playerY);
+        TiledMapTileLayer.Cell leftCell = map.getCell(x1, y);
+        TiledMapTileLayer.Cell rightCell = map.getCell(x2, y);
 
         return isColliding(leftCell, rightCell);
     }
 
     public boolean isRightColliding() {
-        int playerX = (int)Math.floor(boundingBox.x + boundingBox.width);
-        int playerY1 = (int)Math.floor(boundingBox.y);
-        int playerY2 = (int)Math.floor(boundingBox.y + boundingBox.height);
+        int x = (int)Math.floor(boundingBox.x + boundingBox.width);
+        int y1 = (int)Math.floor(boundingBox.y);
+        int y2 = (int)Math.floor(boundingBox.y + boundingBox.height);
 
         if(boundingBox.x + boundingBox.width > mapBorder.width) {
             return true;
         }
 
-        TiledMapTileLayer.Cell bottomCell = map.getCell(playerX, playerY1);
-        TiledMapTileLayer.Cell topCell = map.getCell(playerX, playerY2);
+        TiledMapTileLayer.Cell bottomCell = map.getCell(x, y1);
+        TiledMapTileLayer.Cell topCell = map.getCell(x, y2);
 
         return isColliding(bottomCell, topCell);
     }
 
     public boolean isLeftColliding() {
-        int playerX = (int)Math.floor(boundingBox.x);
-        int playerY1 = (int)Math.floor(boundingBox.y);
-        int playerY2 = (int)Math.floor(boundingBox.y + boundingBox.height);
+        int x = (int)Math.floor(boundingBox.x);
+        int y1 = (int)Math.floor(boundingBox.y);
+        int y2 = (int)Math.floor(boundingBox.y + boundingBox.height);
 
         if(boundingBox.x < mapBorder.x) {
             return true;
         }
 
-        TiledMapTileLayer.Cell bottomCell = map.getCell(playerX, playerY1);
-        TiledMapTileLayer.Cell topCell = map.getCell(playerX, playerY2);
+        TiledMapTileLayer.Cell bottomCell = map.getCell(x, y1);
+        TiledMapTileLayer.Cell topCell = map.getCell(x, y2);
 
         return isColliding(bottomCell, topCell);
     }
@@ -96,6 +96,50 @@ public class TiledCollisionComponent extends AbstractComponent {
             }
         }
         return false;
+    }
+
+    public boolean doesLeftPlatformExist() {
+        int x = (int)Math.floor(boundingBox.x);
+        int y = (int)Math.floor(boundingBox.y - 1f);
+
+        TiledMapTileLayer.Cell cell = map.getCell(x, y);
+        if(cell == null) {
+            return false;
+        }
+
+        TiledMapTile tile = cell.getTile();
+        if(tile == null) {
+            return false;
+        }
+
+        Object blocked = tile.getProperties().get("blocked");
+        if(blocked == null || blocked.equals(false)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean doesRightPlatformExist() {
+        int x = (int)Math.ceil(boundingBox.x + boundingBox.width - 1f);
+        int y = (int)Math.floor(boundingBox.y - 1f);
+
+        TiledMapTileLayer.Cell cell = map.getCell(x, y);
+        if(cell == null) {
+            return false;
+        }
+
+        TiledMapTile tile = cell.getTile();
+        if(tile == null) {
+            return false;
+        }
+
+        Object blocked = tile.getProperties().get("blocked");
+        if(blocked == null || blocked.equals(false)) {
+            return false;
+        }
+
+        return true;
     }
 
     public void updateBoundingBox(Rectangle body, Rectangle foot) {
