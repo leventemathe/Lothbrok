@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lothbrok.game.model.box2d.Box2DCollisionFromTiled;
-import com.lothbrok.game.model.box2d.util.TiledUtils;
+import com.lothbrok.game.model.tiled.TiledUtils;
 import com.lothbrok.game.model.entities.Enemy;
 import com.lothbrok.game.model.entities.Entity;
 import com.lothbrok.game.model.entities.Player;
@@ -21,7 +21,7 @@ public class GameModel {
     private World world;
 
     private TiledMap map;
-    private ParallaxBackground parallaxBackground;
+    private com.lothbrok.game.model.tiled.ParallaxBackground parallaxBackground;
 
     private Player player;
     private List<Enemy> enemies;
@@ -36,7 +36,7 @@ public class GameModel {
         this.world = new World(new Vector2(0f, -0.1f), true);
         this.map = map;
         Box2DCollisionFromTiled.build(map, world);
-        this.parallaxBackground = new ParallaxBackground(map);
+        this.parallaxBackground = new com.lothbrok.game.model.tiled.ParallaxBackground(map);
     }
 
     private void setupPlayer(TiledMap map) {

@@ -1,4 +1,4 @@
-package com.lothbrok.game.assets.animation.spriter;
+package com.lothbrok.game.assets.spriter;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;

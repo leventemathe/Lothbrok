@@ -1,7 +1,7 @@
 package com.lothbrok.game.assets.entities;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.lothbrok.game.assets.animation.spriter.SpriterAnimation;
+import com.lothbrok.game.assets.spriter.SpriterAnimation;
 import com.lothbrok.game.assets.utils.AssetsConstants;
 
 public class PlayerAnimation extends EntityAnimation {

@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.brashmonkey.spriter.Animation;
 import com.brashmonkey.spriter.Mainline;
 import com.brashmonkey.spriter.Player;
-import com.lothbrok.game.assets.animation.spriter.SpriterAnimation;
+import com.lothbrok.game.assets.spriter.SpriterAnimation;
 import com.lothbrok.game.model.entities.components.AttackingComponent;
 
 public abstract class EntityAnimation {

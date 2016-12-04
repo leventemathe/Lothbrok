@@ -29,9 +29,9 @@ public class Box2DCollisionFromTiled {
             Shape shape;
 
             if (object instanceof RectangleMapObject) {
-                shape = com.lothbrok.game.model.box2d.util.Box2DShapeFactory.getRectangle(((RectangleMapObject)object).getRectangle(), true);
+                shape = Box2DShapeFactory.getRectangle(((RectangleMapObject)object).getRectangle(), true);
             } else if(object instanceof PolylineMapObject) {
-                shape = com.lothbrok.game.model.box2d.util.Box2DShapeFactory.getPolyline(((PolylineMapObject)object).getPolyline(), true);
+                shape = Box2DShapeFactory.getPolyline(((PolylineMapObject)object).getPolyline(), true);
             } else {
                 continue;
             }

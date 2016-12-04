@@ -1,11 +1,8 @@
-package com.lothbrok.game.model.box2d.util;
+package com.lothbrok.game.model.tiled;
 
 import com.badlogic.gdx.math.Vector2;
 
 public class TiledUtils {
-
-    public static final short BIT_GROUND = 2;
-    public static final short BIT_PLAYER = 4;
 
     private static float pixelsPerUnit = 540f;//xl
 

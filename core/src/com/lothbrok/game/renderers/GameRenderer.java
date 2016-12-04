@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lothbrok.game.assets.Assets;
-import com.lothbrok.game.assets.animation.spriter.SpriterAnimation;
+import com.lothbrok.game.assets.spriter.SpriterAnimation;
 import com.lothbrok.game.assets.entities.EnemyAnimation;
 import com.lothbrok.game.assets.entities.PlayerAnimation;
 import com.lothbrok.game.assets.utils.AssetsConstants;

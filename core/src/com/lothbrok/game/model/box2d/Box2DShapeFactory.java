@@ -1,10 +1,11 @@
-package com.lothbrok.game.model.box2d.util;
+package com.lothbrok.game.model.box2d;
 
 import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.lothbrok.game.model.tiled.TiledUtils;
 
 public class Box2DShapeFactory {
 

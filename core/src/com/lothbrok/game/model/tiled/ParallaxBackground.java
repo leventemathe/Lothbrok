@@ -1,4 +1,4 @@
-package com.lothbrok.game.model;
+package com.lothbrok.game.model.tiled;
 
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapLayer;
