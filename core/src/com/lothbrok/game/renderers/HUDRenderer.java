@@ -102,6 +102,14 @@ public class HUDRenderer implements Disposable {
         stage.getViewport().update(width, height, true);
     }
 
+    public int getHealth() {
+        return health;
+    }
+
+    public int getTreasure() {
+        return treasure;
+    }
+
     @Override
     public void dispose() {
         stage.dispose();

@@ -244,6 +244,7 @@ public class SpriterAnimation {
         }
     }
 
+    // TODO cache rectangles
     public Rectangle getBoundingBox(String object) {
         Rectangle rect = null;
         if(playerTweener != null) {

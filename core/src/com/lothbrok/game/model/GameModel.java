@@ -3,12 +3,15 @@ package com.lothbrok.game.model;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lothbrok.game.model.box2d.Box2DCollisionFromTiled;
-import com.lothbrok.game.model.tiled.TiledUtils;
 import com.lothbrok.game.model.entities.Enemy;
 import com.lothbrok.game.model.entities.Entity;
 import com.lothbrok.game.model.entities.Player;
+import com.lothbrok.game.model.entities.TreasureFactory;
+import com.lothbrok.game.model.tiled.ParallaxBackground;
+import com.lothbrok.game.model.tiled.TiledUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -21,13 +24,15 @@ public class GameModel {
     private World world;
 
     private TiledMap map;
-    private com.lothbrok.game.model.tiled.ParallaxBackground parallaxBackground;
+    private List<Body> treasureList;
+    private ParallaxBackground parallaxBackground;
 
     private Player player;
     private List<Enemy> enemies;
 
     public GameModel(TiledMap map) {
         setupWorld(map);
+        treasureList = new LinkedList<>();
         setupPlayer(map);
         setupEnemies();
     }
@@ -61,7 +66,13 @@ public class GameModel {
     public void update(float deltaTime) {
         //TODO do the accumulator method
         world.step(1f/60f, 6, 2);
+        player.update(deltaTime);
+        updateParallax(deltaTime);
+        updateEnemies(deltaTime);
+    }
 
+
+    private void updateParallax(float deltaTime) {
         if(player.isActuallyMoving()) {
             if (player.direction == Entity.Direction.RIGHT) {
                 parallaxBackground.update(player.getSpeed(), deltaTime);
@@ -69,11 +80,21 @@ public class GameModel {
                 parallaxBackground.update(-player.getSpeed(), deltaTime);
             }
         }
+    }
 
-        player.update(deltaTime);
+    private void updateEnemies(float deltaTime) {
+        if(player.isActuallyMoving()) {
+            if (player.direction == Entity.Direction.RIGHT) {
+                parallaxBackground.update(player.getSpeed(), deltaTime);
+            } else if (player.direction == Entity.Direction.LEFT) {
+                parallaxBackground.update(-player.getSpeed(), deltaTime);
+            }
+        }
+    }
 
-        for(int i = 0; i < enemies.size(); i++) {
-            enemies.get(i).update(deltaTime);
+    public void spawnLostTreasure(Vector2 position, Vector2 forceDirection, int amount) {
+        for(int i = 0; i < amount; i++) {
+            treasureList.add(TreasureFactory.createTreasure(position, world));
         }
     }
 
@@ -83,6 +104,10 @@ public class GameModel {
 
     public World getWorld() {
         return world;
+    }
+
+    public List<Body> getTreasureList() {
+        return treasureList;
     }
 
     public Player getPlayer() {
