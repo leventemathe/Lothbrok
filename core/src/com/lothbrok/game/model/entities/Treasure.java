@@ -4,29 +4,40 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody;
 
-public class TreasureFactory {
+public class Treasure {
 
     private Body body;
+    private float timer = 0f;
+    private final float LIFE_SPAN = 5f;
 
-    private TreasureFactory() {}
-
-    public static Body createTreasure(Vector2 position, World world) {
+    public Treasure(Vector2 position, World world, Shape shape) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = DynamicBody;
         bodyDef.position.x = position.x;
         bodyDef.position.y = position.y;
-        Body body = world.createBody(bodyDef);
+        body = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.density = 1f;
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1;
         fixtureDef.restitution = 0.4f;
         body.createFixture(fixtureDef);
+    }
 
-        //shape.dispose();
+    public void update(float deltaTime) {
+        timer += deltaTime;
+    }
+
+    public boolean isTimeUp() {
+        return timer >= LIFE_SPAN;
+    }
+
+    public Body getBody() {
         return body;
     }
 }

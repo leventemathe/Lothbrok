@@ -92,8 +92,8 @@ public class GameScreen extends AbstractScreen {
     public void update(float deltaTime) {
         updatePlayerBoundingBox();
         updateEnemiesBoundingBox();
-        updateTreasure();
         gameModel.update(deltaTime);
+        updateTreasure();
         controller.control(deltaTime);
         enemyController.control(deltaTime);
         collisionController.control(deltaTime);

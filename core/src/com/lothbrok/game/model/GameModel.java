@@ -3,16 +3,19 @@ package com.lothbrok.game.model;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.lothbrok.game.model.box2d.Box2DCollisionFromTiled;
 import com.lothbrok.game.model.entities.Enemy;
 import com.lothbrok.game.model.entities.Entity;
 import com.lothbrok.game.model.entities.Player;
-import com.lothbrok.game.model.entities.TreasureFactory;
+import com.lothbrok.game.model.entities.Treasure;
 import com.lothbrok.game.model.tiled.ParallaxBackground;
 import com.lothbrok.game.model.tiled.TiledUtils;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +27,7 @@ public class GameModel {
     private World world;
 
     private TiledMap map;
-    private List<Body> treasureList;
+    private Array<Treasure> treasureList;
     private ParallaxBackground parallaxBackground;
 
     private Player player;
@@ -32,13 +35,13 @@ public class GameModel {
 
     public GameModel(TiledMap map) {
         setupWorld(map);
-        treasureList = new LinkedList<>();
+        treasureList = new Array<>();
         setupPlayer(map);
         setupEnemies();
     }
 
     private void setupWorld(TiledMap map) {
-        this.world = new World(new Vector2(0f, -0.1f), true);
+        this.world = new World(new Vector2(0f, -9.8f), true);
         this.map = map;
         Box2DCollisionFromTiled.build(map, world);
         this.parallaxBackground = new com.lothbrok.game.model.tiled.ParallaxBackground(map);
@@ -64,13 +67,13 @@ public class GameModel {
     }
 
     public void update(float deltaTime) {
-        //TODO do the accumulator method
-        world.step(1f/60f, 6, 2);
+        //TODO do fix timestep
+        world.step(deltaTime, 6, 2);
         player.update(deltaTime);
         updateParallax(deltaTime);
         updateEnemies(deltaTime);
+        updateTreasure(deltaTime);
     }
-
 
     private void updateParallax(float deltaTime) {
         if(player.isActuallyMoving()) {
@@ -83,19 +86,36 @@ public class GameModel {
     }
 
     private void updateEnemies(float deltaTime) {
-        if(player.isActuallyMoving()) {
-            if (player.direction == Entity.Direction.RIGHT) {
-                parallaxBackground.update(player.getSpeed(), deltaTime);
-            } else if (player.direction == Entity.Direction.LEFT) {
-                parallaxBackground.update(-player.getSpeed(), deltaTime);
+        for(int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).update(deltaTime);
+        }
+    }
+
+    private void updateTreasure(float deltaTime) {
+        Iterator<Treasure> it = treasureList.iterator();
+        while (it.hasNext()) {
+            Treasure treasure = it.next();
+            treasure.update(deltaTime);
+            if(treasure.isTimeUp()) {
+                world.destroyBody(treasure.getBody());
+                it.remove();
             }
+        }
+        for(int i = 0; i < treasureList.size; i++) {
+            treasureList.get(i).update(deltaTime);
         }
     }
 
     public void spawnLostTreasure(Vector2 position, Vector2 forceDirection, int amount) {
+        Shape shape = new CircleShape();
+        shape.setRadius(0.1f);
+        float dirX = player.direction == Entity.Direction.LEFT ? 1f : -1f;
         for(int i = 0; i < amount; i++) {
-            treasureList.add(TreasureFactory.createTreasure(position, world));
+            Treasure treasure = new Treasure(position, world, shape);
+            treasureList.add(treasure);
+            treasure.getBody().applyForceToCenter(dirX*5f, 5f, true);
         }
+        shape.dispose();
     }
 
     public TiledMap getMap() {
@@ -106,7 +126,7 @@ public class GameModel {
         return world;
     }
 
-    public List<Body> getTreasureList() {
+    public Array<Treasure> getTreasureList() {
         return treasureList;
     }
 

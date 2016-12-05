@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<map height="8" nextobjectid="192" orientation="orthogonal" renderorder="right-down" tileheight="180" tilewidth="180" version="1.0" width="32">
+<map height="8" nextobjectid="209" orientation="orthogonal" renderorder="right-down" tileheight="180" tilewidth="180" version="1.0" width="32">
  <properties>
   <property name="atlas" value="map.pack.atlas" />
  </properties>
@@ -153,5 +153,57 @@
    eJxjYBi+gBmCGwbCbqYBVItPDTsQcyBhQuZxYMGUuo9YALKLBQvG5gZ0f6FjdhzpAJcadhx2I7sB3Ux86nG5FVkNJxrGZx66WlLVw8QBxZwECQ==
   </data>
  </layer>
- <objectgroup name="collision" />
+ <objectgroup name="collision">
+  <object id="192" x="0" y="2160">
+   <polyline points="0,0 540,0" />
+  </object>
+  <object id="193" x="540" y="1620">
+   <polyline points="0,0 540,0" />
+  </object>
+  <object id="194" x="0" y="3240">
+   <polyline points="0,0 2160,0" />
+  </object>
+  <object id="195" x="3240" y="3240">
+   <polyline points="0,0 540,0" />
+  </object>
+  <object id="196" x="3780" y="2700">
+   <polyline points="0,0 540,0" />
+  </object>
+  <object id="197" x="4320" y="2160">
+   <polyline points="0,0 2160,0" />
+  </object>
+  <object id="198" x="6480" y="1620">
+   <polyline points="0,0 540,0" />
+  </object>
+  <object id="199" x="7020" y="2700">
+   <polyline points="0,0 540,0" />
+  </object>
+  <object id="200" x="7560" y="3240">
+   <polyline points="0,0 1080,0" />
+  </object>
+  <object id="201" x="9720" y="2700">
+   <polyline points="0,0 1080,0" />
+  </object>
+  <object id="202" x="10800" y="2160">
+   <polyline points="0,0 540,0" />
+  </object>
+  <object id="203" x="11340" y="1620">
+   <polyline points="0,0 540,0" />
+  </object>
+  <object id="204" x="11880" y="1080">
+   <polyline points="0,0 540,0" />
+  </object>
+  <object id="205" x="12420" y="540">
+   <polyline points="0,0 1080,0" />
+  </object>
+  <object id="206" x="11340" y="2700">
+   <polyline points="0,0 3240,0" />
+  </object>
+  <object id="207" x="15120" y="1620">
+   <polyline points="0,0 2160,0" />
+  </object>
+  <object id="208" x="15660" y="3240">
+   <polyline points="0,0 1620,0" />
+  </object>
+ </objectgroup>
 </map>
