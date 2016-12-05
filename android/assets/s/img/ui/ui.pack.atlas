@@ -1,0 +1,20 @@
+
+ui.pack.png
+size: 256,128
+format: RGBA8888
+filter: MipMapLinearNearest,MipMapLinearNearest
+repeat: none
+health
+  rotate: false
+  xy: 100, 6
+  size: 80, 69
+  orig: 80, 69
+  offset: 0, 0
+  index: -1
+treasure
+  rotate: false
+  xy: 5, 5
+  size: 90, 70
+  orig: 90, 70
+  offset: 0, 0
+  index: -1
