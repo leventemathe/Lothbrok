@@ -15,7 +15,6 @@ import com.lothbrok.game.model.entities.Treasure;
 import com.lothbrok.game.model.tiled.ParallaxBackground;
 import com.lothbrok.game.model.tiled.TiledUtils;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class GameModel {
     private World world;
 
     private TiledMap map;
-    private Array<Treasure> treasureList;
+    private Array<Treasure> treasures;
     private ParallaxBackground parallaxBackground;
 
     private Player player;
@@ -35,7 +34,7 @@ public class GameModel {
 
     public GameModel(TiledMap map) {
         setupWorld(map);
-        treasureList = new Array<>();
+        treasures = new Array<>();
         setupPlayer(map);
         setupEnemies();
     }
@@ -72,7 +71,6 @@ public class GameModel {
         player.update(deltaTime);
         updateParallax(deltaTime);
         updateEnemies(deltaTime);
-        updateTreasure(deltaTime);
     }
 
     private void updateParallax(float deltaTime) {
@@ -91,31 +89,15 @@ public class GameModel {
         }
     }
 
-    private void updateTreasure(float deltaTime) {
-        Iterator<Treasure> it = treasureList.iterator();
-        while (it.hasNext()) {
-            Treasure treasure = it.next();
-            treasure.update(deltaTime);
-            if(treasure.isTimeUp()) {
-                world.destroyBody(treasure.getBody());
-                it.remove();
-            }
-        }
-        for(int i = 0; i < treasureList.size; i++) {
-            treasureList.get(i).update(deltaTime);
-        }
-    }
-
-    public void spawnLostTreasure(Vector2 position, Vector2 forceDirection, int amount) {
+    public Treasure spawnLostTreasure(Vector2 position) {
         Shape shape = new CircleShape();
         shape.setRadius(0.1f);
         float dirX = player.direction == Entity.Direction.LEFT ? 1f : -1f;
-        for(int i = 0; i < amount; i++) {
-            Treasure treasure = new Treasure(position, world, shape);
-            treasureList.add(treasure);
-            treasure.getBody().applyForceToCenter(dirX*5f, 5f, true);
-        }
+        Treasure treasure = new Treasure(position, world, shape);
+        treasures.add(treasure);
+        treasure.getBody().applyForceToCenter(dirX*5f, 5f, true);
         shape.dispose();
+        return treasure;
     }
 
     public TiledMap getMap() {
@@ -126,8 +108,8 @@ public class GameModel {
         return world;
     }
 
-    public Array<Treasure> getTreasureList() {
-        return treasureList;
+    public Array<Treasure> getTreasures() {
+        return treasures;
     }
 
     public Player getPlayer() {

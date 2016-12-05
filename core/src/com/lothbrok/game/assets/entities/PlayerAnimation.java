@@ -43,12 +43,6 @@ public class PlayerAnimation extends EntityAnimation {
         return treasurePosition;
     }
 
-    public Vector2 getTreasureDirection() {
-        treasureDirection.x = treasurePosition.x;
-        treasureDirection.y = treasurePosition.y;
-        return treasureDirection.nor();
-    }
-
     public void attackWhileMoving() {
         animation.setPlayerTweener(AssetsConstants.PLAYER_ANIMATION_ATTACKING, AssetsConstants.PLAYER_ANIMATION_WALKING, AssetsConstants
                 .PLAYER_ANIMATION_BONE_ATTACK);

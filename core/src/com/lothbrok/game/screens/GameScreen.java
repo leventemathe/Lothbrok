@@ -19,10 +19,12 @@ import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.model.entities.Enemy;
 import com.lothbrok.game.model.entities.Entity;
 import com.lothbrok.game.model.entities.Player;
+import com.lothbrok.game.model.entities.Treasure;
 import com.lothbrok.game.renderers.ExtendedCamera;
 import com.lothbrok.game.renderers.GameRenderer;
 import com.lothbrok.game.renderers.HUDRenderer;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class GameScreen extends AbstractScreen {
@@ -93,25 +95,35 @@ public class GameScreen extends AbstractScreen {
         updatePlayerBoundingBox();
         updateEnemiesBoundingBox();
         gameModel.update(deltaTime);
-        updateTreasure();
         controller.control(deltaTime);
         enemyController.control(deltaTime);
         collisionController.control(deltaTime);
         if(!debugCamera) {
             updateCamera(deltaTime);
         }
+        updateTreasure(deltaTime);
         hudRenderer.updateHealth(gameModel.getPlayer().getHealth());
         hudRenderer.updateTreasure(gameModel.getPlayer().getTreasure());
     }
 
-    private void updateTreasure() {
-        int treasure = gameModel.getPlayer().getTreasure();
-        int prevTreasure = hudRenderer.getTreasure();
-        int count = prevTreasure - treasure;
-        if(count > 0) {
-            gameModel.spawnLostTreasure(gameRenderer.getPlayerAnimation().getTreasurePosition(),
-                    gameRenderer.getPlayerAnimation().getTreasureDirection(),
-                    count);
+    private void updateTreasure(float deltaTime) {
+        int treasureAmount = gameModel.getPlayer().getTreasure();
+        int prevTreasureAmount = hudRenderer.getTreasure();
+        int count = prevTreasureAmount - treasureAmount;
+        for(int i = 0; i < count; i++) {
+            Treasure treasure = gameModel.spawnLostTreasure(gameRenderer.getPlayerAnimation().getTreasurePosition());
+            gameRenderer.addLostTreasure(treasure);
+        }
+
+        Iterator<Treasure> it = gameModel.getTreasures().iterator();
+        while (it.hasNext()) {
+            Treasure treasure = it.next();
+            treasure.update(deltaTime);
+            if(treasure.isTimeUp()) {
+                gameModel.getWorld().destroyBody(treasure.getBody());
+                gameRenderer.removeLostTreasure(treasure);
+                it.remove();
+            }
         }
     }
 

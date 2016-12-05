@@ -14,6 +14,7 @@ public class Treasure {
     private Body body;
     private float timer = 0f;
     private final float LIFE_SPAN = 5f;
+    private float rotation;
 
     public Treasure(Vector2 position, World world, Shape shape) {
         BodyDef bodyDef = new BodyDef();
@@ -39,5 +40,33 @@ public class Treasure {
 
     public Body getBody() {
         return body;
+    }
+
+    public float getX() {
+        return body.getPosition().x - getWidth()/2f;
+    }
+
+    public float getY() {
+        return body.getPosition().y - getHeight()/2f;
+    }
+
+    public float getOriginX() {
+        return body.getPosition().x;
+    }
+
+    public float getOriginY() {
+        return body.getPosition().y;
+    }
+
+    public float getWidth() {
+        return body.getFixtureList().get(0).getShape().getRadius() * 2;
+    }
+
+    public float getHeight() {
+        return body.getFixtureList().get(0).getShape().getRadius() * 2;
+    }
+
+    public float getRotation() {
+        return -1f;
     }
 }

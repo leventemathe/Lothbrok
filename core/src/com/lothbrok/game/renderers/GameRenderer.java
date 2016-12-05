@@ -3,7 +3,9 @@ package com.lothbrok.game.renderers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Disposable;
@@ -11,13 +13,14 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lothbrok.game.assets.Assets;
-import com.lothbrok.game.assets.spriter.SpriterAnimation;
 import com.lothbrok.game.assets.entities.EnemyAnimation;
 import com.lothbrok.game.assets.entities.PlayerAnimation;
+import com.lothbrok.game.assets.spriter.SpriterAnimation;
 import com.lothbrok.game.assets.utils.AssetsConstants;
 import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.model.entities.Enemy;
 import com.lothbrok.game.model.entities.Entity;
+import com.lothbrok.game.model.entities.Treasure;
 
 import java.util.List;
 
@@ -33,6 +36,7 @@ public class GameRenderer implements Disposable {
     private MyOrthogonalTiledMapRenderer mapRenderer;
     private PlayerAnimation playerAnimation;
     private ObjectMap<Enemy, EnemyAnimation> enemyAnimations;
+    private ObjectMap<Treasure, TextureRegion> treasureTextures;
 
     public GameRenderer(GameModel gameModel, SpriteBatch batch, ShapeRenderer shapeRenderer) {
         this.gameModel = gameModel;
@@ -40,6 +44,7 @@ public class GameRenderer implements Disposable {
         setupViewPort();
         setupAnimation();
         setupRendering(batch, shapeRenderer);
+        treasureTextures = new ObjectMap<>();
     }
 
     private void setupViewPort() {
@@ -72,11 +77,25 @@ public class GameRenderer implements Disposable {
         mapRenderer = new MyOrthogonalTiledMapRenderer(gameModel.getMap(), 1f/540f, spriteBatch, shapeRenderer); //xl
     }
 
+    public void addLostTreasure(Treasure treasure) {
+        Sprite sprite = new Sprite(Assets.instance.getCoin());
+        treasureTextures.put(treasure, sprite);
+    }
+
+    public void removeLostTreasure(Treasure treasure) {
+        treasureTextures.remove(treasure);
+    }
+
     public void render(float deltaTime) {
         viewport.apply();
         renderSky();
         renderMap();
+
+        spriteBatch.setProjectionMatrix(extendedCamera.getCamera().combined);
+        spriteBatch.begin();
+        renderLostTreasure();
         renderAnimation(deltaTime);
+        spriteBatch.end();
     }
 
     private void renderSky() {
@@ -98,13 +117,8 @@ public class GameRenderer implements Disposable {
     }
 
     private void renderAnimation(float deltaTime) {
-        spriteBatch.setProjectionMatrix(extendedCamera.getCamera().combined);
-        spriteBatch.begin();
-
         renderEnemyAnimations(deltaTime);
         renderPlayerAnimation(deltaTime);
-
-        spriteBatch.end();
     }
 
     private void renderPlayerAnimation(float deltaTime) {
@@ -168,6 +182,21 @@ public class GameRenderer implements Disposable {
             animation.setPosition(entry.key.position.x, entry.key.position.y);
             animation.update(deltaTime);
             animation.render(spriteBatch, shapeRenderer);
+        }
+    }
+
+    private void renderLostTreasure() {
+        for(ObjectMap.Entry<Treasure, TextureRegion> entry : treasureTextures.entries()) {
+            TextureRegion texture = entry.value;
+            Treasure treasure = entry.key;
+            float x = treasure.getX();
+            float y = treasure.getY();
+            float width = treasure.getWidth();
+            float height = treasure.getHeight();
+            float originX = width/2f;
+            float originY = height/2f;
+            float rotation = treasure.getBody().getAngle();
+            spriteBatch.draw(texture, x, y, originX, originY, width, height, 1f, 1f, (float)Math.toDegrees(rotation));
         }
     }
 

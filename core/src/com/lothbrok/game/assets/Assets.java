@@ -17,10 +17,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.StringBuilder;
-import com.lothbrok.game.assets.spriter.SpriterAnimationAssets;
-import com.lothbrok.game.assets.spriter.SpriterAnimationAssetsLoader;
 import com.lothbrok.game.assets.entities.MainMenuAssets;
 import com.lothbrok.game.assets.entities.RalewayLightFont;
+import com.lothbrok.game.assets.spriter.SpriterAnimationAssets;
+import com.lothbrok.game.assets.spriter.SpriterAnimationAssetsLoader;
 import com.lothbrok.game.assets.utils.AssetsConstants;
 import com.lothbrok.game.assets.utils.AssetsErrorListenerImplementation;
 
@@ -38,6 +38,7 @@ public class Assets implements Disposable {
 
     private RalewayLightFont ralewayLightFont;
     private MainMenuAssets mainMenuAssets;
+    private TextureRegion coin;
 
     public void init(AssetManager assetManager) {
         this.assetManager = assetManager;
@@ -161,6 +162,13 @@ public class Assets implements Disposable {
 
     public Skin getUI() {
         return assetManager.get(AssetsConstants.UI_SKIN_PATH);
+    }
+
+    public TextureRegion getCoin() {
+        if(coin == null) {
+            coin = getUI().getRegion(AssetsConstants.UI_COIN);
+        }
+        return coin;
     }
 
     //TODO add unload methods

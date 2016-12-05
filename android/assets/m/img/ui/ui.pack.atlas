@@ -4,6 +4,13 @@ size: 512,128
 format: RGBA8888
 filter: MipMapLinearNearest,MipMapLinearNearest
 repeat: none
+coin
+  rotate: false
+  xy: 276, 76
+  size: 34, 37
+  orig: 34, 37
+  offset: 0, 0
+  index: -1
 health
   rotate: false
   xy: 149, 9
