@@ -23,7 +23,7 @@ public class Player extends Entity {
     private BodyBoxComponent bodyBoxComponent;
     private WeaponBoxComponent weaponBoxComponent;
     private TiledCollisionComponent tiledCollisionComponent;
-    private AttackingComponent attackingComponent;
+    private AttackingComponent<Enemy> attackingComponent;
     private HealthComponent healthComponent;
     private TreasureComponent treasureComponent;
 
@@ -43,7 +43,7 @@ public class Player extends Entity {
         bodyBoxComponent = new BodyBoxComponent(this);
         weaponBoxComponent = new WeaponBoxComponent(this);
         tiledCollisionComponent = new TiledCollisionComponent(this, (TiledMap)map, bodyBoxComponent);
-        attackingComponent = new AttackingComponent(this);
+        attackingComponent = new AttackingComponent<>(this);
         healthComponent = new HealthComponent(this, 3);
         treasureComponent = new TreasureComponent(this, 100);
     }
@@ -131,10 +131,22 @@ public class Player extends Entity {
         treasureComponent.loseTreasure(1);
     }
 
+    public void stopAttacking() {
+        attackingComponent.stopAttacking();
+    }
+
     public void updateBoundingBoxes(Rectangle body, Rectangle foot, Rectangle weapon) {
         bodyBoxComponent.setBodyBox(body);
         tiledCollisionComponent.setFootSensor(foot);
         weaponBoxComponent.setWeaponBox(weapon);
+    }
+
+    public boolean hit(Enemy enemy) {
+        return attackingComponent.addOpponentHit(enemy);
+    }
+
+    public void getHit() {
+        healthComponent.loseHealth(1);
     }
 
     public boolean isActuallyMoving() {
@@ -167,5 +179,9 @@ public class Player extends Entity {
 
     public int getTreasure() {
         return treasureComponent.getTreasure();
+    }
+
+    public HealthComponent getHealthComponent() {
+        return healthComponent;
     }
 }

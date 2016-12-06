@@ -31,12 +31,14 @@ public class GameModel {
 
     private Player player;
     private List<Enemy> enemies;
+    private Collision collision;
 
     public GameModel(TiledMap map) {
         setupWorld(map);
         treasures = new Array<>();
         setupPlayer(map);
         setupEnemies();
+        collision = new Collision(this);
     }
 
     private void setupWorld(TiledMap map) {
@@ -71,6 +73,7 @@ public class GameModel {
         player.update(deltaTime);
         updateParallax(deltaTime);
         updateEnemies(deltaTime);
+        collision.update();;
     }
 
     private void updateParallax(float deltaTime) {
@@ -85,7 +88,13 @@ public class GameModel {
 
     private void updateEnemies(float deltaTime) {
         for(int i = 0; i < enemies.size(); i++) {
-            enemies.get(i).update(deltaTime);
+            Enemy enemy = enemies.get(i);
+            enemy.update(deltaTime);
+            if(enemy.isActive()) {
+                collision.addActiveEnemey(enemy);
+            } else {
+                collision.removeActiveEnemy(enemy);
+            }
         }
     }
 

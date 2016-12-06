@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.assets.entities.EnemyAnimation;
-import com.lothbrok.game.controllers.CollisionController;
 import com.lothbrok.game.controllers.Controller;
 import com.lothbrok.game.controllers.EnemyController;
 import com.lothbrok.game.controllers.input.MobileInputInterface;
@@ -46,7 +45,6 @@ public class GameScreen extends AbstractScreen {
     private InputProcessor inputProcessor;
     private Controller controller;
     private EnemyController enemyController;
-    private CollisionController collisionController;
 
     @Override
     public void show() {
@@ -65,7 +63,6 @@ public class GameScreen extends AbstractScreen {
         //inputProcessor = mobileInputInterface.getStage();
         Gdx.input.setInputProcessor(inputProcessor);
         enemyController = new EnemyController(gameModel.getEnemies(), gameModel.getPlayer());
-        collisionController = new CollisionController(gameModel.getEnemies(), gameModel.getPlayer());
 
         gameRenderer.getPlayerAnimation().setStopAttackingListener(gameModel.getPlayer().getAttackingComponent());
         ObjectMap<Enemy, EnemyAnimation> enemyAnimations = gameRenderer.getEnemyAnimations();
@@ -97,7 +94,6 @@ public class GameScreen extends AbstractScreen {
         gameModel.update(deltaTime);
         controller.control(deltaTime);
         enemyController.control(deltaTime);
-        collisionController.control(deltaTime);
         if(!debugCamera) {
             updateCamera(deltaTime);
         }
