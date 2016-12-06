@@ -153,7 +153,6 @@ public class SpriterAnimation {
         }
     }
 
-    //TODO optimize new - cache
     public void setPlayerTweener(String doThis, String whileDoingThis, String baseBone) {
         setPlayOnce(doThis);
         Player doPlayer = playOnce;

@@ -105,7 +105,7 @@ public class Enemy extends Entity {
     }
 
     public void getHit() {
-
+        lifeState = LifeState.DEAD;
     }
 
     public void updateBoundingBox(Rectangle body, Rectangle foot, Rectangle weapon) {

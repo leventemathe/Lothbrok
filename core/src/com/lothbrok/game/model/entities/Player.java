@@ -58,7 +58,7 @@ public class Player extends Entity {
         updateMovingState();
         updateHealth();
         updateTreasure(deltaTime);
-        //Gdx.app.debug(TAG, "actionState: " + actionState);
+        updateLifeState(deltaTime);
     }
 
     private void updateActionState(float deltaTime) {
@@ -101,6 +101,12 @@ public class Player extends Entity {
         }
     }
 
+    private void updateLifeState(float deltaTime) {
+        lifeState = LifeState.WELL;
+        if(getHealth() <= 0) {
+            lifeState = LifeState.DEAD;
+        }
+    }
 
 
 
@@ -146,6 +152,7 @@ public class Player extends Entity {
     }
 
     public void getHit() {
+        lifeState = LifeState.HIT;
         healthComponent.loseHealth(1);
     }
 

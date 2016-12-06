@@ -1,26 +1,33 @@
 
 ui.pack.png
-size: 1024,256
+size: 4096,2048
 format: RGBA8888
 filter: MipMapLinearNearest,MipMapLinearNearest
 repeat: none
 coin
   rotate: false
-  xy: 552, 151
+  xy: 14, 14
   size: 67, 74
   orig: 67, 74
   offset: 0, 0
   index: -1
+game_over_logo
+  rotate: false
+  xy: 14, 327
+  size: 2386, 1091
+  orig: 2386, 1091
+  offset: 0, 0
+  index: -1
 health
   rotate: false
-  xy: 298, 17
+  xy: 2414, 1210
   size: 240, 208
   orig: 240, 208
   offset: 0, 0
   index: -1
 treasure
   rotate: false
-  xy: 14, 14
+  xy: 14, 102
   size: 270, 211
   orig: 270, 211
   offset: 0, 0

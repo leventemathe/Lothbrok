@@ -1,6 +1,8 @@
 {
 	com.badlogic.gdx.scenes.scene2d.ui.Image: {
 		treasure: { drawable: treasure },
-		health: { drawable: health},	
+		health: { drawable: health},
+		gameOver: { drawable: game_over_logo}
 	},
+
 }

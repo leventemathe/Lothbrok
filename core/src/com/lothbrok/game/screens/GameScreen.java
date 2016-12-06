@@ -100,6 +100,7 @@ public class GameScreen extends AbstractScreen {
         updateTreasure(deltaTime);
         hudRenderer.updateHealth(gameModel.getPlayer().getHealth());
         hudRenderer.updateTreasure(gameModel.getPlayer().getTreasure());
+        updateGameOver();
     }
 
     private void updateTreasure(float deltaTime) {
@@ -157,6 +158,12 @@ public class GameScreen extends AbstractScreen {
             Rectangle foot = anims.get(enemies.get(i)).getFootSensor();
             Rectangle weapon = anims.get(enemies.get(i)).getWeaponBoundingBox();
             enemies.get(i).updateBoundingBox(body, foot, weapon);
+        }
+    }
+
+    private void updateGameOver() {
+        if(gameModel.getPlayer().lifeState == Entity.LifeState.DEAD) {
+            Gdx.app.debug(TAG, "game over");
         }
     }
 

@@ -125,6 +125,7 @@ public class GameRenderer implements Disposable {
         SpriterAnimation animation = playerAnimation.getAnimation();
         Entity.ActionState actionState = gameModel.getPlayer().actionState;
         Entity.MovementState movementState = gameModel.getPlayer().movementState;
+        Entity.LifeState lifeState = gameModel.getPlayer().lifeState;
         Entity.Direction direction = gameModel.getPlayer().direction;
 
         //TODO move all animationchanging to playerAnimation from animation

@@ -9,7 +9,12 @@ public abstract class Entity {
         FALLING,
         JUMPING,
         MIDJUMP,
-        ATTACKING,
+        ATTACKING
+    }
+
+    public enum LifeState {
+        WELL,
+        HIT,
         DEAD
     }
 
@@ -25,6 +30,7 @@ public abstract class Entity {
     }
 
     public ActionState actionState;
+    public LifeState lifeState;
     public MovementState movementState;
     public Direction direction;
 
@@ -41,6 +47,7 @@ public abstract class Entity {
         this.prevPosition.x = position.x;
         this.prevPosition.y = position.y;
         this.actionState = ActionState.STANDING;
+        this.lifeState = LifeState.WELL;
         this.movementState = MovementState.STANDING;
         this.direction = Direction.RIGHT;
     }
