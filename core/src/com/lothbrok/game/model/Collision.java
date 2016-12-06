@@ -1,6 +1,5 @@
 package com.lothbrok.game.model;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.lothbrok.game.model.entities.Enemy;
@@ -27,14 +26,14 @@ public class Collision {
                     intersect(player.getBodyBox(), enemy.getWeaponBox()) &&
                     enemy.hit(player)) {
 
-                Gdx.app.debug(TAG, "player hit");
+                //Gdx.app.debug(TAG, "player hit");
                 player.getHit();
             }
             if(player.actionState == Entity.ActionState.ATTACKING &&
                     intersect(enemy.getBodyBox(), player.getWeaponBox()) &&
                     player.hit(enemy)) {
 
-                Gdx.app.debug(TAG, "enemy hit");
+                //Gdx.app.debug(TAG, "enemy hit");
                 enemy.getHit();
             }
         }
@@ -46,13 +45,13 @@ public class Collision {
 
     public void addActiveEnemey(Enemy enemy) {
         if(activeEnemies.add(enemy)) {
-            Gdx.app.debug(TAG, "active enemy added");
+            //Gdx.app.debug(TAG, "active enemy added");
         }
     }
 
     public void removeActiveEnemy(Enemy enemy) {
         if(activeEnemies.remove(enemy)) {
-            Gdx.app.debug(TAG, "active enemy removed");
+            //Gdx.app.debug(TAG, "active enemy removed");
         }
     }
 }

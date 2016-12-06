@@ -22,7 +22,7 @@ public class Enemy extends Entity {
     private float origin;
     private float distanceFromOrigin = 0f;
     public final float RADIUS = 3f;
-    public final float ATTACK_RADIUS = 0.8f;
+    public final float ATTACK_RADIUS = 1f;
 
     private final float ATTACK_TIME = 1f;
     private float attackTimer = ATTACK_TIME;

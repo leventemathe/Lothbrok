@@ -30,6 +30,8 @@ public class Player extends Entity {
     private float treasureTime = 0f;
     private final float TREASURE_INTERVAL = 0.5f;
 
+    private boolean victory = false;
+
     // Setup
     public Player(Vector2 position, Map map) {
         super(position);
@@ -59,6 +61,7 @@ public class Player extends Entity {
         updateHealth();
         updateTreasure(deltaTime);
         updateLifeState(deltaTime);
+        updateVictory();
     }
 
     private void updateActionState(float deltaTime) {
@@ -102,9 +105,19 @@ public class Player extends Entity {
     }
 
     private void updateLifeState(float deltaTime) {
-        lifeState = LifeState.WELL;
-        if(getHealth() <= 0) {
+        if(lifeState == LifeState.DYING) {
             lifeState = LifeState.DEAD;
+        }
+        if(getHealth() <= 0 && lifeState != LifeState.DEAD) {
+            lifeState = LifeState.DYING;
+            gravityComponent.disable();
+        }
+        //Gdx.app.debug("life: ", lifeState.toString());
+    }
+
+    private void updateVictory() {
+        if(!victory) {
+            victory = tiledCollisionComponent.victoryReached();
         }
     }
 
@@ -152,7 +165,7 @@ public class Player extends Entity {
     }
 
     public void getHit() {
-        lifeState = LifeState.HIT;
+        //lifeState = LifeState.HIT;
         healthComponent.loseHealth(1);
     }
 
@@ -161,7 +174,7 @@ public class Player extends Entity {
     }
 
     public boolean isVictoryAchieved() {
-        return tiledCollisionComponent.victoryReached();
+        return victory;
     }
 
     public boolean isGameOVerAchieved() {
@@ -198,5 +211,9 @@ public class Player extends Entity {
 
     public HealthComponent getHealthComponent() {
         return healthComponent;
+    }
+
+    public MovementComponent getMovementComponent() {
+        return movementComponent;
     }
 }

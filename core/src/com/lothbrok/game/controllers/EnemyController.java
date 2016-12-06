@@ -1,6 +1,7 @@
 package com.lothbrok.game.controllers;
 
 import com.lothbrok.game.model.entities.Enemy;
+import com.lothbrok.game.model.entities.Entity;
 import com.lothbrok.game.model.entities.Player;
 
 import java.util.List;
@@ -24,12 +25,12 @@ public class EnemyController {
     private void controlEnemy(Enemy enemy, float deltaTime) {
         float distance = Math.abs(enemy.position.x - player.position.x);
         boolean isOnSameLevel = Math.round(player.position.y) == Math.round(enemy.position.y);
-        if(distance < enemy.ATTACK_RADIUS && isOnSameLevel) {
+        if(distance < enemy.ATTACK_RADIUS && isOnSameLevel && player.lifeState != Entity.LifeState.DEAD) {
             enemy.startAttacking();
-        } else if(distance < enemy.RADIUS && isOnSameLevel) {
+        } else if(distance < enemy.RADIUS && isOnSameLevel && player.lifeState != Entity.LifeState.DEAD) {
             enemy.moveTo(player.position, deltaTime);
         } else {
-                enemy.move(deltaTime);
+            enemy.move(deltaTime);
         }
 
     }

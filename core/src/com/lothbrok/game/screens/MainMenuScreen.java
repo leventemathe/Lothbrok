@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -107,7 +108,8 @@ public class MainMenuScreen extends AbstractScreen {
         Group layer = new Group();
 
         Color skyColor = skin.get("sky", Color.class);
-        sky = new ColorRectangleActor(skyColor, 0.0f, 0.0f, stage.getViewport().getWorldWidth(), stage.getViewport().getWorldHeight());
+        sky = new ColorRectangleActor(shapeRenderer, skyColor, new Rectangle(0.0f, 0.0f, stage.getViewport().getWorldWidth(), stage.getViewport()
+                .getWorldHeight()));
 
         blueHills = skin.get("blueHills", Image.class);
         blueHills.setPosition(0.0f, 0.0f);

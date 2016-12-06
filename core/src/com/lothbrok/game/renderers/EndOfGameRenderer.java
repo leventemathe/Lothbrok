@@ -4,6 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -15,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.assets.utils.AssetsConstants;
 import com.lothbrok.game.screens.MainMenuScreen;
+import com.lothbrok.game.screens.utils.ColorRectangleActor;
 import com.lothbrok.game.screens.utils.ScreensConstants;
 
 public class EndOfGameRenderer implements Disposable {
@@ -24,20 +27,29 @@ public class EndOfGameRenderer implements Disposable {
 
     protected Table rootTable;
 
+    protected ColorRectangleActor background;
     protected TextButton btnMainMenu;
 
-    public EndOfGameRenderer(SpriteBatch spriteBatch) {
+    public EndOfGameRenderer(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
         stage = new Stage(new FitViewport(ScreensConstants.VIEWPORT_MENU_WIDTH,
                 ScreensConstants.VIEWPORT_MENU_HEIGHT), spriteBatch);
         skin = Assets.instance.getUI();
         Gdx.input.setInputProcessor(stage);
-        rebuildStage();
+        rebuildStage(shapeRenderer);
     }
 
-    protected void rebuildStage() {
+    protected void rebuildStage(ShapeRenderer shapeRenderer) {
         stage.clear();
         rootTable = new Table();
         rootTable.setFillParent(true);
+
+        background = new ColorRectangleActor(shapeRenderer, new Color(0f, 0f, 0f, 0.5f),
+                new Rectangle(stage.getCamera().position.x - stage.getCamera().viewportWidth/2,
+                stage.getCamera().position.y - stage.getCamera().viewportHeight/2,
+                stage.getCamera().viewportWidth,
+                stage.getCamera().viewportHeight));
+        stage.addActor(background);
+
         stage.addActor(rootTable);
     }
 

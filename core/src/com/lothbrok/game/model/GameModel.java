@@ -70,8 +70,8 @@ public class GameModel {
     public void update(float deltaTime) {
         //TODO do fix timestep
         world.step(deltaTime, 6, 2);
-        player.update(deltaTime);
         updateParallax(deltaTime);
+        player.update(deltaTime);
         updateEnemies(deltaTime);
         collision.update();
     }

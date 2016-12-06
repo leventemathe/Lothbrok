@@ -16,7 +16,8 @@ public class AssetsConstants {
     public static final float PLAYER_ANIMATION_BOTTOM_DELTA = 0.04f;
     public static final float PLAYER_ANIMATION_TOP_DELTA = 0.1f;
     public static final String PLAYER_ANIMATION_IDLE = "idle";
-    public static final String PLAYER_ANIMATION_HIT = "hit";
+    public static final String PLAYER_ANIMATION_DEATH = "death";
+    public static final String PLAYER_ANIMATION_DEAD = "dead";
     public static final String PLAYER_ANIMATION_WALKING = "walking";
     public static final String PLAYER_ANIMATION_JUMPING = "jumping";
     public static final String PLAYER_ANIMATION_FALLING = "falling";

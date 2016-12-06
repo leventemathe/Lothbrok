@@ -9,6 +9,7 @@ import com.brashmonkey.spriter.Entity;
 import com.brashmonkey.spriter.Mainline;
 import com.brashmonkey.spriter.Player;
 import com.brashmonkey.spriter.PlayerTweener;
+import com.brashmonkey.spriter.Timeline;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -259,7 +260,11 @@ public class SpriterAnimation {
     // Getting a Box or Spriter Rectangle from a Player references and recalculates the same box and rect
     // Have to get a math Rectangle before recalculation
     private Rectangle createBoundingRect(Player player, String object) {
-        Box box = player.getBox(player.getObject(object));
+        Timeline.Key.Object obj = player.getObject(object);
+        if(obj == null) {
+            return null;
+        }
+        Box box = player.getBox(obj);
         com.brashmonkey.spriter.Rectangle spriterRect = box.getBoundingRect();
         return new Rectangle(spriterRect.left,
                 spriterRect.bottom,

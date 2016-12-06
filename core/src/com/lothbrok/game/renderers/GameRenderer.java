@@ -2,6 +2,7 @@ package com.lothbrok.game.renderers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -37,6 +38,8 @@ public class GameRenderer implements Disposable {
     private PlayerAnimation playerAnimation;
     private ObjectMap<Enemy, EnemyAnimation> enemyAnimations;
     private ObjectMap<Treasure, TextureRegion> treasureTextures;
+
+    int counter = 0;
 
     public GameRenderer(GameModel gameModel, SpriteBatch batch, ShapeRenderer shapeRenderer) {
         this.gameModel = gameModel;
@@ -88,6 +91,8 @@ public class GameRenderer implements Disposable {
 
     public void render(float deltaTime) {
         viewport.apply();
+        Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderSky();
         renderMap();
 
@@ -96,6 +101,13 @@ public class GameRenderer implements Disposable {
         renderLostTreasure();
         renderAnimation(deltaTime);
         spriteBatch.end();
+//
+//        byte[] pixels = ScreenUtils.getFrameBufferPixels(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
+//        Pixmap pixmap = new Pixmap(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), Pixmap.Format.RGBA8888);
+//        BufferUtils.copy(pixels, 0, pixmap.getPixels(), pixels.length);
+//        PixmapIO.writePNG(Gdx.files.external("screenshots/mypixmap" + Integer.toString(counter) + ".png"), pixmap);
+//        pixmap.dispose();
+//        counter++;
     }
 
     private void renderSky() {
@@ -144,6 +156,12 @@ public class GameRenderer implements Disposable {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
         } else {
             animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_IDLE);
+        }
+
+        if(lifeState == Entity.LifeState.DYING) {
+            animation.setPlayOnce(AssetsConstants.PLAYER_ANIMATION_DEATH);
+        } else if(lifeState == Entity.LifeState.DEAD) {
+            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_DEAD);
         }
 
         if(direction == Entity.Direction.RIGHT) {

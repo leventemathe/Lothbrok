@@ -2,7 +2,6 @@ package com.lothbrok.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -35,6 +34,8 @@ public class GameScreen extends AbstractScreen {
     public static boolean debugCamera = false;
 
     private boolean isGameFinished = false;
+    private float gameFinishedTimer = 0f;
+    private float GAME_FINISHED_TIME = 3f;
 
     //M
     private GameModel gameModel;
@@ -80,8 +81,8 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void render(float deltaTime) {
         if(isGameFinished) {
-            updateAfterGameOver(deltaTime);
-            renderAfterEndOfGame(deltaTime);
+            updateAfterGameFinished(deltaTime);
+            renderAfterGameFinished(deltaTime);
         } else {
             updateRegular(deltaTime);
             renderRegular(deltaTime);
@@ -91,7 +92,9 @@ public class GameScreen extends AbstractScreen {
 
     // TODO move bounding box setting to a controller?
     public void updateRegular(float deltaTime) {
-        updatePlayerBoundingBox();
+        if(gameModel.getPlayer().lifeState != Entity.LifeState.DYING && gameModel.getPlayer().lifeState != Entity.LifeState.DEAD) {
+            updatePlayerBoundingBox();
+        }
         updateEnemiesBoundingBox();
         gameModel.update(deltaTime);
         controller.control(deltaTime);
@@ -105,10 +108,13 @@ public class GameScreen extends AbstractScreen {
         isGameFinished(deltaTime);
     }
 
-    public void updateAfterGameOver(float deltaTime) {
+    public void updateAfterGameFinished(float deltaTime) {
         updateEnemiesBoundingBox();
         gameModel.update(deltaTime);
         enemyController.control(deltaTime);
+        if(gameModel.getPlayer().isVictoryAchieved()) {
+            gameModel.getPlayer().getMovementComponent().moveRight(deltaTime);
+        }
     }
 
     private void updateTreasure(float deltaTime) {
@@ -172,20 +178,22 @@ public class GameScreen extends AbstractScreen {
     private void isGameFinished(float deltaTime) {
         if(gameModel.getPlayer().isGameOVerAchieved()) {
             if(endOfGameRenderer == null) {
-                endOfGameRenderer = new GameOverRenderer(spriteBatch);
+                endOfGameRenderer = new GameOverRenderer(spriteBatch, shapeRenderer);
             }
-            isGameFinished = true;
+            //isGameFinished = true;
+            gameFinishedTimer += deltaTime;
+            if(gameFinishedTimer >= GAME_FINISHED_TIME) {
+                isGameFinished = true;
+            }
         } else if(gameModel.getPlayer().isVictoryAchieved()) {
             if(endOfGameRenderer == null) {
-                endOfGameRenderer = new YouWonRenderer(spriteBatch);
+                endOfGameRenderer = new YouWonRenderer(spriteBatch, shapeRenderer);
             }
             isGameFinished = true;
         }
     }
 
     private void renderRegular(float deltaTime) {
-        Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         gameRenderer.render(deltaTime);
 
         gameRenderer.renderRectangle(gameModel.getPlayer().getBodyBox());
@@ -196,9 +204,7 @@ public class GameScreen extends AbstractScreen {
         box2DDebugRenderer.render(gameModel.getWorld(), gameRenderer.getExtendedCamera().getCamera().combined);
     }
 
-    private void renderAfterEndOfGame(float deltaTime) {
-        Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    private void renderAfterGameFinished(float deltaTime) {
         gameRenderer.render(deltaTime);
         endOfGameRenderer.render(deltaTime);
     }

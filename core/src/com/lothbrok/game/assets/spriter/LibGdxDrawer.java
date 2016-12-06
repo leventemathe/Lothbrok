@@ -52,6 +52,11 @@ public class LibGdxDrawer extends Drawer<Sprite> {
 	@Override
 	public void draw(Timeline.Key.Object object) {
 		Sprite sprite = loader.get(object.ref);
+
+		float scaleX = object.scale.x;
+		float scaleY = object.scale.y;
+		sprite.setScale(scaleX, scaleY);
+
 		float newPivotX = (sprite.getWidth() * object.pivot.x);
 		float newX = object.position.x - newPivotX;
 		float newPivotY = (sprite.getHeight() * object.pivot.y);
@@ -62,10 +67,6 @@ public class LibGdxDrawer extends Drawer<Sprite> {
 
 		sprite.setOrigin(newPivotX, newPivotY);
 		sprite.setRotation(object.angle);
-
-        float scaleX = object.scale.x;
-        float scaleY = object.scale.y;
-        sprite.setScale(scaleX, scaleY);
 
 		sprite.draw(spriteBatch);;
 	}
