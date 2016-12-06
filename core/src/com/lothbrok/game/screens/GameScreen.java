@@ -1,5 +1,6 @@
 package com.lothbrok.game.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
@@ -164,6 +165,7 @@ public class GameScreen extends AbstractScreen {
     private void updateGameOver() {
         if(gameModel.getPlayer().lifeState == Entity.LifeState.DEAD) {
             Gdx.app.debug(TAG, "game over");
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
         }
     }
 

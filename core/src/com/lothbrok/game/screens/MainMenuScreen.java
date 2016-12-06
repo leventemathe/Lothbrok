@@ -163,4 +163,10 @@ public class MainMenuScreen extends AbstractScreen {
     private void onPlayClicked() {
         ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
     }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+        super.dispose();
+    }
 }

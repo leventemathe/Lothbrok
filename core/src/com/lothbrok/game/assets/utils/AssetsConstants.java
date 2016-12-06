@@ -47,4 +47,6 @@ public class AssetsConstants {
     public static final String UI_SKIN_PATH = "xl/img/ui/ui_skin.json";
     public static final String UI_ATLAS_PATH = "xl/img/ui/ui.pack.atlas";
     public static final String UI_COIN = "coin";
+    public static final String UI_GAME_OVER_LOGO = "gameOverLogo";
+    public static final String UI_TEXT_BUTTON_STYLE = "default";
 }

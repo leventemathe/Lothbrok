@@ -1,34 +1,55 @@
 
 ui.pack.png
-size: 2048,1024
+size: 4096,1024
 format: RGBA8888
 filter: MipMapLinearNearest,MipMapLinearNearest
 repeat: none
 coin
   rotate: false
-  xy: 10, 10
+  xy: 3313, 188
   size: 45, 49
   orig: 45, 49
   offset: 0, 0
   index: -1
 game_over_logo
   rotate: false
-  xy: 10, 220
+  xy: 1853, 247
   size: 1591, 727
   orig: 1591, 727
   offset: 0, 0
   index: -1
 health
   rotate: false
-  xy: 1611, 808
+  xy: 10, 10
   size: 160, 139
   orig: 160, 139
   offset: 0, 0
   index: -1
+main_menu_btn_default
+  rotate: false
+  xy: 1853, 51
+  size: 720, 186
+  orig: 720, 186
+  offset: 0, 0
+  index: -1
+main_menu_btn_pressed
+  rotate: false
+  xy: 2583, 51
+  size: 720, 186
+  orig: 720, 186
+  offset: 0, 0
+  index: -1
 treasure
   rotate: false
-  xy: 10, 69
+  xy: 3454, 833
   size: 180, 141
   orig: 180, 141
+  offset: 0, 0
+  index: -1
+you_won_logo
+  rotate: false
+  xy: 10, 159
+  size: 1833, 815
+  orig: 1833, 815
   offset: 0, 0
   index: -1
