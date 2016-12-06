@@ -1,6 +1,5 @@
 package com.lothbrok.game.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
@@ -20,9 +19,12 @@ import com.lothbrok.game.model.entities.Enemy;
 import com.lothbrok.game.model.entities.Entity;
 import com.lothbrok.game.model.entities.Player;
 import com.lothbrok.game.model.entities.Treasure;
+import com.lothbrok.game.renderers.EndOfGameRenderer;
 import com.lothbrok.game.renderers.ExtendedCamera;
+import com.lothbrok.game.renderers.GameOverRenderer;
 import com.lothbrok.game.renderers.GameRenderer;
 import com.lothbrok.game.renderers.HUDRenderer;
+import com.lothbrok.game.renderers.YouWonRenderer;
 
 import java.util.Iterator;
 import java.util.List;
@@ -31,6 +33,8 @@ public class GameScreen extends AbstractScreen {
 
     public static final String TAG = GameScreen.class.getSimpleName();
     public static boolean debugCamera = false;
+
+    private boolean isGameFinished = false;
 
     //M
     private GameModel gameModel;
@@ -41,6 +45,7 @@ public class GameScreen extends AbstractScreen {
     //TODO polimorphism instead of if statements
     private MobileInputInterface mobileInputInterface;
     private Box2DDebugRenderer box2DDebugRenderer;
+    private EndOfGameRenderer endOfGameRenderer;
 
     //C
     private InputProcessor inputProcessor;
@@ -74,22 +79,18 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void render(float deltaTime) {
-        update(deltaTime);
-
-        Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        gameRenderer.render(deltaTime);
-        gameRenderer.renderRectangle(gameModel.getPlayer().getBodyBox());
-        gameRenderer.renderRectangle(gameModel.getPlayer().getFootSensor());
-        gameRenderer.renderRectangle(gameModel.getPlayer().getWeaponBox());
-        hudRenderer.render(deltaTime);
-        mobileInputInterface.render(deltaTime);
-        box2DDebugRenderer.render(gameModel.getWorld(), gameRenderer.getExtendedCamera().getCamera().combined);
+        if(isGameFinished) {
+            updateAfterGameOver(deltaTime);
+            renderAfterEndOfGame(deltaTime);
+        } else {
+            updateRegular(deltaTime);
+            renderRegular(deltaTime);
+        }
         super.render(deltaTime);
     }
 
     // TODO move bounding box setting to a controller?
-    public void update(float deltaTime) {
+    public void updateRegular(float deltaTime) {
         updatePlayerBoundingBox();
         updateEnemiesBoundingBox();
         gameModel.update(deltaTime);
@@ -101,7 +102,13 @@ public class GameScreen extends AbstractScreen {
         updateTreasure(deltaTime);
         hudRenderer.updateHealth(gameModel.getPlayer().getHealth());
         hudRenderer.updateTreasure(gameModel.getPlayer().getTreasure());
-        updateGameOver();
+        isGameFinished(deltaTime);
+    }
+
+    public void updateAfterGameOver(float deltaTime) {
+        updateEnemiesBoundingBox();
+        gameModel.update(deltaTime);
+        enemyController.control(deltaTime);
     }
 
     private void updateTreasure(float deltaTime) {
@@ -162,11 +169,38 @@ public class GameScreen extends AbstractScreen {
         }
     }
 
-    private void updateGameOver() {
-        if(gameModel.getPlayer().lifeState == Entity.LifeState.DEAD) {
-            Gdx.app.debug(TAG, "game over");
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
+    private void isGameFinished(float deltaTime) {
+        if(gameModel.getPlayer().isGameOVerAchieved()) {
+            if(endOfGameRenderer == null) {
+                endOfGameRenderer = new GameOverRenderer(spriteBatch);
+            }
+            isGameFinished = true;
+        } else if(gameModel.getPlayer().isVictoryAchieved()) {
+            if(endOfGameRenderer == null) {
+                endOfGameRenderer = new YouWonRenderer(spriteBatch);
+            }
+            isGameFinished = true;
         }
+    }
+
+    private void renderRegular(float deltaTime) {
+        Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        gameRenderer.render(deltaTime);
+
+        gameRenderer.renderRectangle(gameModel.getPlayer().getBodyBox());
+        gameRenderer.renderRectangle(gameModel.getPlayer().getFootSensor());
+        gameRenderer.renderRectangle(gameModel.getPlayer().getWeaponBox());
+        hudRenderer.render(deltaTime);
+        mobileInputInterface.render(deltaTime);
+        box2DDebugRenderer.render(gameModel.getWorld(), gameRenderer.getExtendedCamera().getCamera().combined);
+    }
+
+    private void renderAfterEndOfGame(float deltaTime) {
+        Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        gameRenderer.render(deltaTime);
+        endOfGameRenderer.render(deltaTime);
     }
 
     @Override

@@ -2,7 +2,8 @@
 	com.badlogic.gdx.scenes.scene2d.ui.Image: {
 		treasure: { drawable: treasure },
 		health: { drawable: health},
-		gameOverLogo: { drawable: game_over_logo}
+		gameOverLogo: { drawable: game_over_logo},
+		youWonLogo: { drawable: you_won_logo},
 	},
 	com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		default: {
@@ -11,5 +12,6 @@
 	},
 	com.badlogic.gdx.graphics.Color: {
         white: { r: 1, g: 1, b: 1, a: 1 },
+		green: { r: 0.5, g: 0.7421875, b: 0.12109375, a: 1},
     },
 }

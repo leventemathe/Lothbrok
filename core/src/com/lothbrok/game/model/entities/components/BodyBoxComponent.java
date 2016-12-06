@@ -9,6 +9,7 @@ public class BodyBoxComponent extends AbstractComponent {
 
     public BodyBoxComponent(Entity entity) {
         super(entity);
+        bodyBox = new Rectangle(entity.position.x, entity.position.y, 0f, 0f);
     }
 
     public Rectangle getBodyBox() {

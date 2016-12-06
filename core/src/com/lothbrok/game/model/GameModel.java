@@ -73,7 +73,7 @@ public class GameModel {
         player.update(deltaTime);
         updateParallax(deltaTime);
         updateEnemies(deltaTime);
-        collision.update();;
+        collision.update();
     }
 
     private void updateParallax(float deltaTime) {

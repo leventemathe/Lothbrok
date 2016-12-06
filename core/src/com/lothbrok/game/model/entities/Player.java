@@ -84,7 +84,7 @@ public class Player extends Entity {
     }
 
     private void updateHealth() {
-        if(tiledCollisionComponent.hasFallenOutOfMap()) {
+        if(tiledCollisionComponent.fallenOutOfMap()) {
             healthComponent.setHealth(0);
         }
     }
@@ -158,6 +158,14 @@ public class Player extends Entity {
 
     public boolean isActuallyMoving() {
         return position.x != prevPosition.x;
+    }
+
+    public boolean isVictoryAchieved() {
+        return tiledCollisionComponent.victoryReached();
+    }
+
+    public boolean isGameOVerAchieved() {
+        return lifeState == LifeState.DEAD;
     }
 
     public float getSpeed() {

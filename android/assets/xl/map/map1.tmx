@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<map height="8" nextobjectid="216" orientation="orthogonal" renderorder="right-down" tileheight="540" tilewidth="540" version="1.0" width="32">
+<map height="8" nextobjectid="221" orientation="orthogonal" renderorder="right-down" tileheight="540" tilewidth="540" version="1.0" width="32">
  <properties>
   <property name="atlas" value="map.pack.atlas" />
  </properties>
@@ -59,7 +59,7 @@
    <image height="540" source="water_08.png" width="540" />
   </tile>
  </tileset>
- <tileset columns="0" firstgid="10" name="bg" tilecount="6" tileheight="1080" tilewidth="2160">
+ <tileset columns="0" firstgid="10" name="bg" tilecount="7" tileheight="1080" tilewidth="2160">
   <tile id="1">
    <image height="540" source="buxus_tree_10.png" width="540" />
   </tile>
@@ -77,6 +77,9 @@
   </tile>
   <tile id="6">
    <image height="540" source="mountains_15.png" width="540" />
+  </tile>
+  <tile id="7">
+   <image height="540" source="star_15.png" width="540" />
   </tile>
  </tileset>
  <objectgroup name="enemies_spawn">
@@ -147,6 +150,7 @@
   <object gid="11" height="705.6" id="50" width="392" x="16780" y="3256" />
   <object gid="11" height="504" id="52" width="280" x="6624" y="2168" />
   <object gid="11" height="408" id="53" width="226.667" x="6274.33" y="2164" />
+  <object gid="17" height="441" id="220" width="469" x="16229.5" y="1555.5" />
  </objectgroup>
  <layer height="8" name="tiles" width="32">
   <data compression="zlib" encoding="base64">
@@ -172,5 +176,6 @@
   <object id="215" x="17280" y="3240">
    <polyline points="0,0 -1620,0 -1620,540 -1080,540 -1080,1080" />
   </object>
+  <object height="1080" id="219" name="victory" width="1080" x="16200" y="540" />
  </objectgroup>
 </map>

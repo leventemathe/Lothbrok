@@ -1,15 +1,18 @@
 package com.lothbrok.game.model.entities.components;
 
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.lothbrok.game.model.entities.Entity;
+import com.lothbrok.game.model.tiled.TiledUtils;
 
 public class TiledCollisionComponent extends AbstractComponent {
 
     private TiledMapTileLayer map;
     private Rectangle mapBorder;
+    private Rectangle victoryRect;
 
     private BodyBoxComponent bodyBoxComponent;
     private Rectangle footSensor;
@@ -17,6 +20,7 @@ public class TiledCollisionComponent extends AbstractComponent {
     public TiledCollisionComponent(Entity entity, TiledMap map, BodyBoxComponent bodyBoxComponent) {
         super(entity);
         this.map = (TiledMapTileLayer)map.getLayers().get("tiles");
+        victoryRect = TiledUtils.toWorld(((RectangleMapObject)map.getLayers().get("collision").getObjects().get("victory")).getRectangle());
         this.mapBorder = new Rectangle(0f, 0f, (int)map.getProperties().get("width"), (int)map.getProperties().get("height"));
         this.bodyBoxComponent = bodyBoxComponent;
     }
@@ -131,8 +135,12 @@ public class TiledCollisionComponent extends AbstractComponent {
         return true;
     }
 
-    public boolean hasFallenOutOfMap() {
+    public boolean fallenOutOfMap() {
         return bodyBoxComponent.getBodyBox().y + bodyBoxComponent.getBodyBox().height < mapBorder.y;
+    }
+
+    public boolean victoryReached() {
+        return victoryRect.contains(entity.position);
     }
 
     public Rectangle getBodyBox() {
