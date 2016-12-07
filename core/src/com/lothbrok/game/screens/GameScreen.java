@@ -8,8 +8,9 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.assets.entities.EnemyAnimation;
-import com.lothbrok.game.controllers.Controller;
+import com.lothbrok.game.controllers.PlayerController;
 import com.lothbrok.game.controllers.EnemyController;
+import com.lothbrok.game.controllers.CameraController;
 import com.lothbrok.game.controllers.input.MobileInputInterface;
 import com.lothbrok.game.controllers.input.PCInput;
 import com.lothbrok.game.model.GameModel;
@@ -48,7 +49,8 @@ public class GameScreen extends AbstractScreen {
 
     //C
     private InputProcessor inputProcessor;
-    private Controller controller;
+    private PlayerController playerController;
+    private CameraController cameraController;
     private EnemyController enemyController;
 
     @Override
@@ -62,12 +64,13 @@ public class GameScreen extends AbstractScreen {
         box2DDebugRenderer = new Box2DDebugRenderer();
         gameRenderer.getExtendedCamera().snapTo(gameModel.getPlayer().position);
 
-        controller = new Controller(gameRenderer.getExtendedCamera(), gameModel.getPlayer());
-        mobileInputInterface = new MobileInputInterface(controller, spriteBatch);
-        inputProcessor = new PCInput(controller);
+        playerController = new PlayerController();
+        cameraController = new CameraController();
+        mobileInputInterface = new MobileInputInterface(playerController, spriteBatch);
+        inputProcessor = new PCInput(playerController, cameraController);
         //inputProcessor = mobileInputInterface.getStage();
         Gdx.input.setInputProcessor(inputProcessor);
-        enemyController = new EnemyController(gameModel.getEnemies(), gameModel.getPlayer());
+        enemyController = new EnemyController();
 
         gameRenderer.getPlayerAnimation().setStopAttackingListener(gameModel.getPlayer().getAttackingComponent());
         ObjectMap<Enemy, EnemyAnimation> enemyAnimations = gameRenderer.getEnemyAnimations();
@@ -88,30 +91,33 @@ public class GameScreen extends AbstractScreen {
         super.render(deltaTime);
     }
 
-    // TODO move bounding box setting to a controller?
+    // TODO move bounding box setting to a playerController?
     public void updateRegular(float deltaTime) {
         gameModel.update(deltaTime, gameRenderer);
-        controller.control(deltaTime);
-        enemyController.control(deltaTime);
+        cameraController.control(deltaTime, gameRenderer.getExtendedCamera());
+        playerController.control(deltaTime, gameModel.getPlayer());
+        enemyController.control(deltaTime, gameModel.getEnemies(), gameModel.getPlayer());
         if(!debugCamera) {
             updateCamera(deltaTime);
         }
         updateTreasure(deltaTime);
-        hudRenderer.updateHealth(gameModel.getPlayer().getHealth());
-        hudRenderer.updateTreasure(gameModel.getPlayer().getTreasure());
+        if(gameModel.getPlayer() != null) {
+            hudRenderer.updateHealth(gameModel.getPlayer().getHealth());
+            hudRenderer.updateTreasure(gameModel.getPlayer().getTreasure());
+        }
         isGameFinished(deltaTime);
     }
 
     public void updateAfterGameFinished(float deltaTime) {
         gameModel.update(deltaTime, gameRenderer);
-        enemyController.control(deltaTime);
-        if(gameModel.getPlayer().isVictoryAchieved()) {
+        enemyController.control(deltaTime, gameModel.getEnemies(), gameModel.getPlayer());
+        if(gameModel.getPlayer() != null && gameModel.getPlayer().isVictoryAchieved()) {
             gameModel.getPlayer().getMovementComponent().moveRight(deltaTime);
         }
     }
 
     private void updateTreasure(float deltaTime) {
-        if(gameModel.getPlayer().lifeState == Entity.LifeState.DYING || gameModel.getPlayer().lifeState == Entity.LifeState.DEAD) {
+        if(gameModel.getPlayer() == null) {
             return;
         }
         int treasureAmount = gameModel.getPlayer().getTreasure();
@@ -136,6 +142,9 @@ public class GameScreen extends AbstractScreen {
 
     private void updateCamera(float deltaTime) {
         Player player = gameModel.getPlayer();
+        if(player == null) {
+            return;
+        }
         ExtendedCamera camera = gameRenderer.getExtendedCamera();
 
         Vector2 targetPos = new Vector2();
@@ -154,7 +163,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void isGameFinished(float deltaTime) {
-        if(gameModel.getPlayer().isGameOVerAchieved()) {
+        if(gameModel.getPlayer() == null) {
             if(endOfGameRenderer == null) {
                 endOfGameRenderer = new GameOverRenderer(spriteBatch, shapeRenderer);
             }
@@ -174,9 +183,6 @@ public class GameScreen extends AbstractScreen {
     private void renderRegular(float deltaTime) {
         gameRenderer.render(deltaTime);
 
-        gameRenderer.renderRectangle(gameModel.getPlayer().getBodyBox());
-        gameRenderer.renderRectangle(gameModel.getPlayer().getFootSensor());
-        gameRenderer.renderRectangle(gameModel.getPlayer().getWeaponBox());
         hudRenderer.render(deltaTime);
         mobileInputInterface.render(deltaTime);
         box2DDebugRenderer.render(gameModel.getWorld(), gameRenderer.getExtendedCamera().getCamera().combined);

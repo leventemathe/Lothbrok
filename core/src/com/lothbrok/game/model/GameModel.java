@@ -82,7 +82,7 @@ public class GameModel {
     }
 
     private void updateParallax(float deltaTime) {
-        if(player.isActuallyMoving()) {
+        if(player != null && player.isActuallyMoving()) {
             if (player.direction == Entity.Direction.RIGHT) {
                 parallaxBackground.update(player.getSpeed(), deltaTime);
             } else if (player.direction == Entity.Direction.LEFT) {
@@ -92,7 +92,11 @@ public class GameModel {
     }
 
     private void updatePlayer(float deltaTime, PlayerAnimation anim) {
-        if(player.lifeState != Entity.LifeState.DYING && player.lifeState != Entity.LifeState.DEAD) {
+        if(player == null || player.lifeState == Entity.LifeState.DEAD) {
+            player = null;
+            return;
+        }
+        if(player.lifeState != Entity.LifeState.DYING) {
             Rectangle body = anim.getBodyBoundingBox();
             Rectangle foot = anim.getFootSensor();
             Rectangle weapon = anim.getWeaponBoundingBox();

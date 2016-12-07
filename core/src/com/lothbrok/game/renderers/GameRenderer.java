@@ -22,11 +22,10 @@ import com.lothbrok.game.assets.utils.AssetsConstants;
 import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.model.entities.Enemy;
 import com.lothbrok.game.model.entities.Entity;
+import com.lothbrok.game.model.entities.Player;
 import com.lothbrok.game.model.entities.Treasure;
 
 public class GameRenderer implements Disposable {
-
-    private GameModel gameModel;
 
     private ExtendedCamera extendedCamera;
     private Viewport viewport;
@@ -34,22 +33,26 @@ public class GameRenderer implements Disposable {
     private SpriteBatch spriteBatch;
     private ShapeRenderer shapeRenderer;
     private MyOrthogonalTiledMapRenderer mapRenderer;
+
+    private Player player;
     private PlayerAnimation playerAnimation;
+
     private ObjectMap<Enemy, EnemyAnimation> enemyAnimations;
+
     private ObjectMap<Treasure, TextureRegion> treasureTextures;
 
     int counter = 0;
 
     public GameRenderer(GameModel gameModel, SpriteBatch batch, ShapeRenderer shapeRenderer) {
-        this.gameModel = gameModel;
+        this.player = gameModel.getPlayer();
 
-        setupViewPort();
-        setupAnimation();
-        setupRendering(batch, shapeRenderer);
+        setupViewPort(gameModel);
+        setupAnimation(gameModel);
+        setupRendering(batch, shapeRenderer, gameModel);
         treasureTextures = new ObjectMap<>();
     }
 
-    private void setupViewPort() {
+    private void setupViewPort(GameModel gameModel) {
         extendedCamera = new ExtendedCamera(new OrthographicCamera(), gameModel.getMap());
         //TODO custom viewport (or maybe extended), now it sets it to the size of the desktop launcher/android screen size
         float aspect = (float) Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight();
@@ -58,7 +61,7 @@ public class GameRenderer implements Disposable {
         viewport = new ExtendViewport(width, height, extendedCamera.getCamera());
     }
 
-    private void setupAnimation() {
+    private void setupAnimation(GameModel gameModel) {
         playerAnimation = new PlayerAnimation(new SpriterAnimation(Assets.instance.getPlayerAnimationAssets()));
         //TODO get scale from m l xl etc
         playerAnimation.getAnimation().setScale(1f/540f); //xl
@@ -72,7 +75,7 @@ public class GameRenderer implements Disposable {
         }
     }
 
-    private void setupRendering(SpriteBatch batch, ShapeRenderer shapeRenderer) {
+    private void setupRendering(SpriteBatch batch, ShapeRenderer shapeRenderer, GameModel gameModel) {
         this.spriteBatch = batch;
         this.shapeRenderer = shapeRenderer;
         //TODO get scale from m l xl etc
@@ -100,6 +103,7 @@ public class GameRenderer implements Disposable {
         renderLostTreasure();
         renderAnimation(deltaTime);
         spriteBatch.end();
+        renderPlayerRectangles();
 //
 //        byte[] pixels = ScreenUtils.getFrameBufferPixels(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
 //        Pixmap pixmap = new Pixmap(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), Pixmap.Format.RGBA8888);
@@ -134,10 +138,10 @@ public class GameRenderer implements Disposable {
 
     private void renderPlayerAnimation(float deltaTime) {
         SpriterAnimation animation = playerAnimation.getAnimation();
-        Entity.ActionState actionState = gameModel.getPlayer().actionState;
-        Entity.MovementState movementState = gameModel.getPlayer().movementState;
-        Entity.LifeState lifeState = gameModel.getPlayer().lifeState;
-        Entity.Direction direction = gameModel.getPlayer().direction;
+        Entity.ActionState actionState = player.actionState;
+        Entity.MovementState movementState = player.movementState;
+        Entity.LifeState lifeState = player.lifeState;
+        Entity.Direction direction = player.direction;
 
         //TODO move all animationchanging to playerAnimation from animation
         if(actionState == Entity.ActionState.ATTACKING) {
@@ -169,7 +173,7 @@ public class GameRenderer implements Disposable {
             animation.faceLeft();
         }
 
-        animation.setPosition(gameModel.getPlayer().position.x, gameModel.getPlayer().position.y);
+        animation.setPosition(player.position.x, player.position.y);
         animation.update(deltaTime);
         animation.render(spriteBatch, shapeRenderer);
     }
@@ -222,9 +226,14 @@ public class GameRenderer implements Disposable {
         }
     }
 
-    public void renderRectangle(Rectangle rect) {
+    public void renderPlayerRectangles() {
+        Rectangle body = player.getBodyBox();
+        Rectangle weapon = player.getWeaponBox();
+        Rectangle footSensor = player.getFootSensor();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.rect(rect.x, rect.y, rect.width, rect.height);
+        shapeRenderer.rect(body.x, body.y, body.width, body.height);
+        shapeRenderer.rect(weapon.x, weapon.y, weapon.width, weapon.height);
+        shapeRenderer.rect(footSensor.x, footSensor.y, footSensor.width, footSensor.height);
         shapeRenderer.end();
     }
 

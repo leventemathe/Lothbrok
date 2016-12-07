@@ -7,21 +7,16 @@ import com.lothbrok.game.model.entities.Player;
 
 public class EnemyController {
 
-    private Array<Enemy> enemies;
-    private Player player;
-
-    public EnemyController(Array<Enemy> enemies, Player player) {
-        this.enemies = enemies;
-        this.player = player;
-    }
-
-    public void control(float deltaTime) {
+    public void control(float deltaTime, Array<Enemy> enemies, Player player) {
+        if(player == null) {
+            return;
+        }
         for(int i = 0; i < enemies.size; i++) {
-            controlEnemy(enemies.get(i), deltaTime);
+            controlEnemy(enemies.get(i), deltaTime, player);
         }
     }
 
-    private void controlEnemy(Enemy enemy, float deltaTime) {
+    private void controlEnemy(Enemy enemy, float deltaTime, Player player) {
         float distance = Math.abs(enemy.position.x - player.position.x);
         boolean isOnSameLevel = Math.round(player.position.y) == Math.round(enemy.position.y);
         if(distance < enemy.ATTACK_RADIUS && isOnSameLevel && player.lifeState != Entity.LifeState.DEAD) {

@@ -176,10 +176,6 @@ public class Player extends Entity {
         return victory;
     }
 
-    public boolean isGameOVerAchieved() {
-        return lifeState == LifeState.DEAD;
-    }
-
     public float getSpeed() {
         return movementComponent.getSpeed();
     }

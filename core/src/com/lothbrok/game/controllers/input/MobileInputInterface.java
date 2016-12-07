@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lothbrok.game.assets.Assets;
-import com.lothbrok.game.controllers.Controller;
+import com.lothbrok.game.controllers.PlayerController;
 import com.lothbrok.game.screens.utils.ScreensConstants;
 
 public class MobileInputInterface implements Disposable{
@@ -29,9 +29,9 @@ public class MobileInputInterface implements Disposable{
     private ImageButton btnJump;
     private ImageButton btnAttack;
 
-    private Controller controller;
+    private PlayerController controller;
 
-    public MobileInputInterface(Controller controller, SpriteBatch batch) {
+    public MobileInputInterface(PlayerController controller, SpriteBatch batch) {
         stage = new Stage(new FitViewport(ScreensConstants.VIEWPORT_MENU_WIDTH,
                                           ScreensConstants.VIEWPORT_MENU_HEIGHT), batch);
         skin = Assets.instance.getMobileControlsSkin();
