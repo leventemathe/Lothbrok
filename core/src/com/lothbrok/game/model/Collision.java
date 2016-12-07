@@ -10,15 +10,16 @@ public class Collision {
 
     private static final String TAG = Collision.class.getSimpleName();
 
-    private Player player;
     private ObjectSet<Enemy> activeEnemies;
 
-    public Collision(GameModel gameModel) {
-        this.player = gameModel.getPlayer();
+    public Collision() {
         this.activeEnemies = new ObjectSet<>();
     }
 
-    public void update() {
+    public void update(Player player) {
+        if(player == null) {
+            return;
+        }
         ObjectSet.ObjectSetIterator<Enemy> it = activeEnemies.iterator();
         while(it.hasNext()) {
             Enemy enemy = it.next();
@@ -44,14 +45,10 @@ public class Collision {
     }
 
     public void addActiveEnemey(Enemy enemy) {
-        if(activeEnemies.add(enemy)) {
-            //Gdx.app.debug(TAG, "active enemy added");
-        }
+        activeEnemies.add(enemy);
     }
 
     public void removeActiveEnemy(Enemy enemy) {
-        if(activeEnemies.remove(enemy)) {
-            //Gdx.app.debug(TAG, "active enemy removed");
-        }
+        activeEnemies.remove(enemy);
     }
 }

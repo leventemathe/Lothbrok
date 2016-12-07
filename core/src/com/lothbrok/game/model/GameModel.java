@@ -41,7 +41,7 @@ public class GameModel {
         setupWorld(map);
         setupPlayer(map);
         setupEnemies();
-        collision = new Collision(this);
+        collision = new Collision();
     }
 
     private void setupWorld(TiledMap map) {
@@ -78,7 +78,7 @@ public class GameModel {
         updateParallax(deltaTime);
         updatePlayer(deltaTime, gameRenderer.getPlayerAnimation());
         updateEnemies(deltaTime, gameRenderer.getEnemyAnimations());
-        collision.update();
+        collision.update(player);
     }
 
     private void updateParallax(float deltaTime) {
@@ -111,6 +111,7 @@ public class GameModel {
             Enemy enemy = it.next();
             if(enemy.lifeState == Entity.LifeState.DEAD) {
                 it.remove();
+                collision.removeActiveEnemy(enemy);
                 continue;
             }
             if(enemy.lifeState != Entity.LifeState.DYING) {
