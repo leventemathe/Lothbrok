@@ -18,9 +18,6 @@ public class GravityComponent extends AbstractComponent {
     }
 
     public void applyGravity(float deltaTime) {
-        if(!enabled) {
-            return;
-        }
         if(entity.actionState == Entity.ActionState.FALLING && weight < maxWeight) {
             weight *= gravity;
         } else if(entity.actionState != Entity.ActionState.FALLING) {

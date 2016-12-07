@@ -3,7 +3,6 @@ package com.lothbrok.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -26,7 +25,6 @@ import com.lothbrok.game.renderers.HUDRenderer;
 import com.lothbrok.game.renderers.YouWonRenderer;
 
 import java.util.Iterator;
-import java.util.List;
 
 public class GameScreen extends AbstractScreen {
 
@@ -92,11 +90,7 @@ public class GameScreen extends AbstractScreen {
 
     // TODO move bounding box setting to a controller?
     public void updateRegular(float deltaTime) {
-        if(gameModel.getPlayer().lifeState != Entity.LifeState.DYING && gameModel.getPlayer().lifeState != Entity.LifeState.DEAD) {
-            updatePlayerBoundingBox();
-        }
-        updateEnemiesBoundingBox();
-        gameModel.update(deltaTime);
+        gameModel.update(deltaTime, gameRenderer);
         controller.control(deltaTime);
         enemyController.control(deltaTime);
         if(!debugCamera) {
@@ -109,8 +103,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     public void updateAfterGameFinished(float deltaTime) {
-        updateEnemiesBoundingBox();
-        gameModel.update(deltaTime);
+        gameModel.update(deltaTime, gameRenderer);
         enemyController.control(deltaTime);
         if(gameModel.getPlayer().isVictoryAchieved()) {
             gameModel.getPlayer().getMovementComponent().moveRight(deltaTime);
@@ -118,6 +111,9 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void updateTreasure(float deltaTime) {
+        if(gameModel.getPlayer().lifeState == Entity.LifeState.DYING || gameModel.getPlayer().lifeState == Entity.LifeState.DEAD) {
+            return;
+        }
         int treasureAmount = gameModel.getPlayer().getTreasure();
         int prevTreasureAmount = hudRenderer.getTreasure();
         int count = prevTreasureAmount - treasureAmount;
@@ -155,24 +151,6 @@ public class GameScreen extends AbstractScreen {
         camera.moveToX(targetPos.x, deltaTime);
         //camera.snapToX(targetPos.x);
         camera.snapToY(targetPos.y);
-    }
-
-    private void updatePlayerBoundingBox() {
-        Rectangle body = gameRenderer.getPlayerAnimation().getBodyBoundingBox();
-        Rectangle foot = gameRenderer.getPlayerAnimation().getFootSensor();
-        Rectangle weapon = gameRenderer.getPlayerAnimation().getWeaponBoundingBox();
-        gameModel.getPlayer().updateBoundingBoxes(body, foot, weapon);
-    }
-
-    private void updateEnemiesBoundingBox() {
-        ObjectMap<Enemy, EnemyAnimation> anims = gameRenderer.getEnemyAnimations();
-        List<Enemy> enemies = gameModel.getEnemies();
-        for(int i = 0; i < enemies.size(); i++) {
-            Rectangle body = anims.get(enemies.get(i)).getBodyBoundingBox();
-            Rectangle foot = anims.get(enemies.get(i)).getFootSensor();
-            Rectangle weapon = anims.get(enemies.get(i)).getWeaponBoundingBox();
-            enemies.get(i).updateBoundingBox(body, foot, weapon);
-        }
     }
 
     private void isGameFinished(float deltaTime) {

@@ -2,11 +2,15 @@ package com.lothbrok.game.model;
 
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.lothbrok.game.assets.entities.EnemyAnimation;
+import com.lothbrok.game.assets.entities.PlayerAnimation;
 import com.lothbrok.game.model.box2d.Box2DCollisionFromTiled;
 import com.lothbrok.game.model.entities.Enemy;
 import com.lothbrok.game.model.entities.Entity;
@@ -14,9 +18,9 @@ import com.lothbrok.game.model.entities.Player;
 import com.lothbrok.game.model.entities.Treasure;
 import com.lothbrok.game.model.tiled.ParallaxBackground;
 import com.lothbrok.game.model.tiled.TiledUtils;
+import com.lothbrok.game.renderers.GameRenderer;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Iterator;
 
 
 public class GameModel {
@@ -30,12 +34,11 @@ public class GameModel {
     private ParallaxBackground parallaxBackground;
 
     private Player player;
-    private List<Enemy> enemies;
+    private Array<Enemy> enemies;
     private Collision collision;
 
     public GameModel(TiledMap map) {
         setupWorld(map);
-        treasures = new Array<>();
         setupPlayer(map);
         setupEnemies();
         collision = new Collision(this);
@@ -46,6 +49,7 @@ public class GameModel {
         this.map = map;
         Box2DCollisionFromTiled.build(map, world);
         this.parallaxBackground = new com.lothbrok.game.model.tiled.ParallaxBackground(map);
+        treasures = new Array<>();
     }
 
     private void setupPlayer(TiledMap map) {
@@ -56,7 +60,7 @@ public class GameModel {
     }
 
     private void setupEnemies() {
-        enemies = new LinkedList<>();
+        enemies = new Array<>();
         MapObjects mapObjects = map.getLayers().get("enemies_spawn").getObjects();
         for(int i = 0; i < mapObjects.getCount(); i++) {
             Vector2 pos = new Vector2();
@@ -67,12 +71,13 @@ public class GameModel {
         }
     }
 
-    public void update(float deltaTime) {
+    //TODO get the renderer out of here
+    public void update(float deltaTime, GameRenderer gameRenderer) {
         //TODO do fix timestep
         world.step(deltaTime, 6, 2);
         updateParallax(deltaTime);
-        player.update(deltaTime);
-        updateEnemies(deltaTime);
+        updatePlayer(deltaTime, gameRenderer.getPlayerAnimation());
+        updateEnemies(deltaTime, gameRenderer.getEnemyAnimations());
         collision.update();
     }
 
@@ -86,15 +91,37 @@ public class GameModel {
         }
     }
 
-    private void updateEnemies(float deltaTime) {
-        for(int i = 0; i < enemies.size(); i++) {
-            Enemy enemy = enemies.get(i);
-            enemy.update(deltaTime);
-            if(enemy.isActive()) {
-                collision.addActiveEnemey(enemy);
-            } else {
-                collision.removeActiveEnemy(enemy);
+    private void updatePlayer(float deltaTime, PlayerAnimation anim) {
+        if(player.lifeState != Entity.LifeState.DYING && player.lifeState != Entity.LifeState.DEAD) {
+            Rectangle body = anim.getBodyBoundingBox();
+            Rectangle foot = anim.getFootSensor();
+            Rectangle weapon = anim.getWeaponBoundingBox();
+            player.updateBoundingBoxes(body, foot, weapon);
+        }
+        player.update(deltaTime);
+    }
+
+    private void updateEnemies(float deltaTime, ObjectMap<Enemy, EnemyAnimation> anims) {
+        Iterator<Enemy> it = enemies.iterator();
+        while(it.hasNext()) {
+            Enemy enemy = it.next();
+            if(enemy.lifeState == Entity.LifeState.DEAD) {
+                it.remove();
+                continue;
             }
+            if(enemy.lifeState != Entity.LifeState.DYING) {
+                Rectangle body = anims.get(enemy).getBodyBoundingBox();
+                Rectangle foot = anims.get(enemy).getFootSensor();
+                Rectangle weapon = anims.get(enemy).getWeaponBoundingBox();
+                enemy.updateBoundingBox(body, foot, weapon);
+
+                if(enemy.isActive()) {
+                    collision.addActiveEnemey(enemy);
+                } else {
+                    collision.removeActiveEnemy(enemy);
+                }
+            }
+            enemy.update(deltaTime);
         }
     }
 
@@ -125,7 +152,7 @@ public class GameModel {
         return player;
     }
 
-    public List<Enemy> getEnemies() {
+    public Array<Enemy> getEnemies() {
         return enemies;
     }
 }

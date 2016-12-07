@@ -32,6 +32,8 @@ public class AssetsConstants {
     public static final float ENEMY_ANIMATION_BOTTOM_DELTA = 0.04f;
     public static final float ENEMY_ANIMATION_TOP_DELTA = 0.1f;
     public static final String ENEMY_ANIMATION_IDLE = "idle";
+    public static final String ENEMY_ANIMATION_DEATH = "death";
+    public static final String ENEMY_ANIMATION_DEAD = "dead";
     public static final String ENEMY_ANIMATION_WALKING = "walking";
     public static final String ENEMY_ANIMATION_ATTACKING = "attacking";
 

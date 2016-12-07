@@ -110,7 +110,6 @@ public class Player extends Entity {
         }
         if(getHealth() <= 0 && lifeState != LifeState.DEAD) {
             lifeState = LifeState.DYING;
-            gravityComponent.disable();
         }
         //Gdx.app.debug("life: ", lifeState.toString());
     }

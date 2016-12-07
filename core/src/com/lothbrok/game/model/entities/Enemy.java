@@ -46,6 +46,9 @@ public class Enemy extends Entity {
     public void update(float deltaTime) {
         attackTimer += deltaTime;
         movementState = MovementState.STANDING;
+        if(lifeState == LifeState.DYING) {
+            lifeState = LifeState.DEAD;
+        }
     }
 
     public void move(float deltaTime) {
@@ -105,7 +108,7 @@ public class Enemy extends Entity {
     }
 
     public void getHit() {
-        lifeState = LifeState.DEAD;
+        lifeState = LifeState.DYING;
     }
 
     public void updateBoundingBox(Rectangle body, Rectangle foot, Rectangle weapon) {

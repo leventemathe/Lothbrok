@@ -14,7 +14,6 @@ public abstract class Entity {
 
     public enum LifeState {
         WELL,
-        HIT,
         DYING,
         DEAD
     }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -22,8 +23,6 @@ import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.model.entities.Enemy;
 import com.lothbrok.game.model.entities.Entity;
 import com.lothbrok.game.model.entities.Treasure;
-
-import java.util.List;
 
 public class GameRenderer implements Disposable {
 
@@ -64,9 +63,9 @@ public class GameRenderer implements Disposable {
         //TODO get scale from m l xl etc
         playerAnimation.getAnimation().setScale(1f/540f); //xl
 
-        List<Enemy> enemies = gameModel.getEnemies();
+        Array<Enemy> enemies = gameModel.getEnemies();
         enemyAnimations = new ObjectMap<>();
-        for(int i = 0; i < enemies.size(); i++) {
+        for(int i = 0; i < enemies.size; i++) {
             EnemyAnimation animation = new EnemyAnimation(new SpriterAnimation(Assets.instance.getEnemyAnimationAssets()));
             animation.getAnimation().setScale(1f/540f); //xl
             enemyAnimations.put(enemies.get(i), animation);
@@ -179,23 +178,27 @@ public class GameRenderer implements Disposable {
         for(ObjectMap.Entry<Enemy, EnemyAnimation> entry : enemyAnimations.entries()) {
             SpriterAnimation animation = entry.value.getAnimation();
             Entity.ActionState actionState = entry.key.actionState;
+            Entity.LifeState lifeState = entry.key.lifeState;
             Entity.MovementState movementState = entry.key.movementState;
             Entity.Direction direction = entry.key.direction;
 
-            animation.faceRight();
-            //TODO move all animationchanging to playerAnimation from animation
-            if (actionState == Entity.ActionState.ATTACKING) {
-                animation.setPlayOnce(AssetsConstants.ENEMY_ANIMATION_ATTACKING);
-            } else if (movementState == Entity.MovementState.MOVING) {
-                animation.setPlayAlways(AssetsConstants.ENEMY_ANIMATION_WALKING);
+            if(lifeState == Entity.LifeState.DYING) {
+                animation.setPlayOnce(AssetsConstants.ENEMY_ANIMATION_DEATH);
+            } else if(lifeState == Entity.LifeState.DEAD) {
+                animation.setPlayAlways(AssetsConstants.ENEMY_ANIMATION_DEAD);
             } else {
-                animation.setPlayAlways(AssetsConstants.ENEMY_ANIMATION_IDLE);
-            }
-
-            if(direction == Entity.Direction.RIGHT) {
-                animation.faceRight();
-            } else if(direction == Entity.Direction.LEFT) {
-                animation.faceLeft();
+                if (actionState == Entity.ActionState.ATTACKING) {
+                    animation.setPlayOnce(AssetsConstants.ENEMY_ANIMATION_ATTACKING);
+                } else if (movementState == Entity.MovementState.MOVING) {
+                    animation.setPlayAlways(AssetsConstants.ENEMY_ANIMATION_WALKING);
+                } else {
+                    animation.setPlayAlways(AssetsConstants.ENEMY_ANIMATION_IDLE);
+                }
+                if(direction == Entity.Direction.RIGHT) {
+                    animation.faceRight();
+                } else if(direction == Entity.Direction.LEFT) {
+                    animation.faceLeft();
+                }
             }
 
             animation.setPosition(entry.key.position.x, entry.key.position.y);
