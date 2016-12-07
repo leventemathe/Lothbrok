@@ -4,6 +4,7 @@
 		health: { drawable: health},
 		gameOverLogo: { drawable: game_over_logo},
 		youWonLogo: { drawable: you_won_logo},
+		pausedLogo: { drawable: paused_logo }
 	},
 	com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		default: {

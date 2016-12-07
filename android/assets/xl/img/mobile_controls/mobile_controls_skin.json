@@ -6,6 +6,9 @@
 		jump: {
             down: jump_btn, up: jump_btn
         },
+		pause: {
+            down: pause_btn, up: pause_btn
+        },
 	},
 	com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle: {
 		default: {

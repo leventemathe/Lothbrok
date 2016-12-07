@@ -77,6 +77,10 @@ public class EndOfGameRenderer implements Disposable {
         stage.getViewport().update(width, height, true);
     }
 
+    public Stage getStage() {
+        return stage;
+    }
+
     @Override
     public void dispose() {
         stage.dispose();

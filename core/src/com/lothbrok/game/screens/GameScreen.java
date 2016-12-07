@@ -8,11 +8,11 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.assets.entities.EnemyAnimation;
-import com.lothbrok.game.controllers.PlayerController;
-import com.lothbrok.game.controllers.EnemyController;
 import com.lothbrok.game.controllers.CameraController;
+import com.lothbrok.game.controllers.EnemyController;
+import com.lothbrok.game.controllers.PauseController;
+import com.lothbrok.game.controllers.PlayerController;
 import com.lothbrok.game.controllers.input.MobileInputInterface;
-import com.lothbrok.game.controllers.input.PCInput;
 import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.model.entities.Enemy;
 import com.lothbrok.game.model.entities.Entity;
@@ -23,6 +23,7 @@ import com.lothbrok.game.renderers.ExtendedCamera;
 import com.lothbrok.game.renderers.GameOverRenderer;
 import com.lothbrok.game.renderers.GameRenderer;
 import com.lothbrok.game.renderers.HUDRenderer;
+import com.lothbrok.game.renderers.PauseRenderer;
 import com.lothbrok.game.renderers.YouWonRenderer;
 
 import java.util.Iterator;
@@ -46,12 +47,14 @@ public class GameScreen extends AbstractScreen {
     private MobileInputInterface mobileInputInterface;
     private Box2DDebugRenderer box2DDebugRenderer;
     private EndOfGameRenderer endOfGameRenderer;
+    private PauseRenderer pauseRenderer;
 
     //C
     private InputProcessor inputProcessor;
     private PlayerController playerController;
     private CameraController cameraController;
     private EnemyController enemyController;
+    private PauseController pauseController;
 
     @Override
     public void show() {
@@ -66,9 +69,11 @@ public class GameScreen extends AbstractScreen {
 
         playerController = new PlayerController();
         cameraController = new CameraController();
-        mobileInputInterface = new MobileInputInterface(playerController, spriteBatch);
-        inputProcessor = new PCInput(playerController, cameraController);
-        //inputProcessor = mobileInputInterface.getStage();
+        pauseController = new PauseController();
+        mobileInputInterface = new MobileInputInterface(playerController, pauseController, spriteBatch);
+        pauseRenderer = new PauseRenderer(spriteBatch, shapeRenderer, pauseController);
+        //inputProcessor = new PCInput(playerController, cameraController, pauseController);
+        inputProcessor = mobileInputInterface.getStage();
         Gdx.input.setInputProcessor(inputProcessor);
         enemyController = new EnemyController();
 
@@ -81,6 +86,14 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void render(float deltaTime) {
+        super.render(deltaTime);
+        if(pauseController.isPaused()) {
+            Gdx.input.setInputProcessor(pauseRenderer.getStage());
+            pauseRenderer.render(deltaTime);
+            return;
+        } else {
+            Gdx.input.setInputProcessor(inputProcessor);
+        }
         if(isGameFinished) {
             updateAfterGameFinished(deltaTime);
             renderAfterGameFinished(deltaTime);
@@ -88,7 +101,6 @@ public class GameScreen extends AbstractScreen {
             updateRegular(deltaTime);
             renderRegular(deltaTime);
         }
-        super.render(deltaTime);
     }
 
     // TODO move bounding box setting to a playerController?

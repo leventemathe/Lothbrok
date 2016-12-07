@@ -184,6 +184,48 @@ task packGameUI << {
 
 
 
+// MOBILE CONTROLS
+task clearMobileControls << {
+    project.delete fileTree("../android/assets") { include  '**/img/mobile_controls/*.pack*.atlas',
+            '**/img/mobile_controls/*.pack*.png',
+            '**/img/mobile_controls/*.json'}
+}
+
+task packMobileControls << {
+    clearMobileControls.execute()
+
+    // generete texture packs
+    String packName     = "mobile_controls.pack";
+    String source       = "core/assets_raw/img/mobile_controls";
+    String[] destinations = ["android/assets/xl/img/mobile_controls",
+                             "android/assets/l/img/mobile_controls",
+                             "android/assets/m/img/mobile_controls",
+                             "android/assets/s/img/mobile_controls"];
+
+    TexturePacker.process(settingsXL, source, destinations[0], packName);
+    TexturePacker.process(settingsL, source, destinations[1], packName);
+    TexturePacker.process(settingsM, source, destinations[2], packName);
+    TexturePacker.process(settingsS, source, destinations[3], packName);
+
+    // pack skin json
+    String skinSource       = "assets_raw/img/mobile_controls";
+    String[] skinDestination = ["../android/assets/xl/img/mobile_controls",
+                                "../android/assets/l/img/mobile_controls",
+                                "../android/assets/m/img/mobile_controls",
+                                "../android/assets/s/img/mobile_controls"];
+
+    for(String dest : skinDestination) {
+        println("packing skin json")
+        project.copy {
+            from skinSource
+            into dest
+            include "mobile_controls_skin.json"
+        }
+    }
+}
+
+
+
 
 
 
@@ -222,10 +264,3 @@ project.ext.mobileControlsSettings.paddingX = 10
 project.ext.mobileControlsSettings.paddingY = 10
 project.ext.mobileControlsSettings.filterMin = Texture.TextureFilter.MipMapLinearNearest;
 project.ext.mobileControlsSettings.filterMag = Texture.TextureFilter.MipMapLinearNearest;
-
-task packMobileControls << {
-    if (project.ext.has('mobileControls')) {
-        logger.info "Calling TexturePacker: "+ platform
-        TexturePacker.process(mobileControlsSettings, mobileControls[0], mobileControls[1], mobileControls[2])
-    }
-}

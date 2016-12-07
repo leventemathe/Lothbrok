@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -15,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lothbrok.game.assets.Assets;
+import com.lothbrok.game.controllers.PauseController;
 import com.lothbrok.game.controllers.PlayerController;
 import com.lothbrok.game.screens.utils.ScreensConstants;
 
@@ -28,21 +28,24 @@ public class MobileInputInterface implements Disposable{
     private Touchpad touchPad;
     private ImageButton btnJump;
     private ImageButton btnAttack;
+    private ImageButton btnPause;
 
-    private PlayerController controller;
+    private PlayerController playerController;
+    private PauseController pauseController;
 
-    public MobileInputInterface(PlayerController controller, SpriteBatch batch) {
+    public MobileInputInterface(PlayerController playerController, PauseController pauseController, SpriteBatch batch) {
         stage = new Stage(new FitViewport(ScreensConstants.VIEWPORT_MENU_WIDTH,
                                           ScreensConstants.VIEWPORT_MENU_HEIGHT), batch);
         skin = Assets.instance.getMobileControlsSkin();
-        this.controller = controller;
+        this.playerController = playerController;
+        this.pauseController = pauseController;
         rebuildStage();
     }
 
     //TODO a padding erteket kiszervezni
     private void rebuildStage() {
         stage.clear();
-        //stage.setDebugAll(true);
+        stage.setDebugAll(true);
 
         Table rootTable = new Table();
         rootTable.setFillParent(true);
@@ -51,9 +54,11 @@ public class MobileInputInterface implements Disposable{
         buildTouchPad();
         buildJumpButton();
         buildAttackButton();
+        buildPauseButton();
 
-        Container<Touchpad> touchpadContainer = buildTouchPadLayer();
-        rootTable.add(touchpadContainer).expand().bottom().left().padBottom(50f).padLeft(50f);
+        rootTable.add(touchPad).expand().bottom().left().padBottom(50f).padLeft(50f);
+
+        rootTable.add(btnPause).expand().center().bottom().padBottom(50f);
 
         HorizontalGroup btnGroup = buildButtonsLayer();
         rootTable.add(btnGroup).expand().bottom().right().padBottom(50f).padRight(50f);
@@ -65,12 +70,12 @@ public class MobileInputInterface implements Disposable{
         touchPad.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                controller.moveRight(false);
-                controller.moveLeft(false);
+                playerController.moveRight(false);
+                playerController.moveLeft(false);
                 if(touchPad.getKnobPercentX() > 0f) {
-                    controller.moveRight(true);
+                    playerController.moveRight(true);
                 } else if(touchPad.getKnobPercentX() < 0f) {
-                    controller.moveLeft(true);
+                    playerController.moveLeft(true);
                 }
             }
         });
@@ -82,13 +87,13 @@ public class MobileInputInterface implements Disposable{
         btnJump.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                controller.jump(true);
+                playerController.jump(true);
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                controller.jump(false);
+                playerController.jump(false);
             }
         });
     }
@@ -99,16 +104,22 @@ public class MobileInputInterface implements Disposable{
         btnAttack.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                controller.attack(true);
+                playerController.attack(true);
                 return true;
             }
         });
     }
 
-    private Container<Touchpad> buildTouchPadLayer() {
-        Container<Touchpad> result = new Container<>();
-        result.setActor(touchPad);
-        return result;
+    private void buildPauseButton() {
+        ImageButton.ImageButtonStyle style = skin.get("pause", ImageButton.ImageButtonStyle.class);
+        btnPause = new ImageButton(style);
+        btnPause.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                pauseController.setPaused(true);
+                return true;
+            }
+        });
     }
 
     private HorizontalGroup buildButtonsLayer() {

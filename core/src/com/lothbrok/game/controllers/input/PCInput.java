@@ -3,16 +3,19 @@ package com.lothbrok.game.controllers.input;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.lothbrok.game.controllers.CameraController;
+import com.lothbrok.game.controllers.PauseController;
 import com.lothbrok.game.controllers.PlayerController;
 
 public class PCInput implements InputProcessor {
 
     private PlayerController playerController;
     private CameraController cameraController;
+    private PauseController pauseController;
 
-    public PCInput(PlayerController playerController, CameraController cameraController) {
+    public PCInput(PlayerController playerController, CameraController cameraController, PauseController pauseController) {
         this.playerController = playerController;
         this.cameraController = cameraController;
+        this.pauseController = pauseController;
     }
 
     @Override
@@ -88,6 +91,10 @@ public class PCInput implements InputProcessor {
         }
         if(keycode == Input.Keys.SPACE) {
             cameraController.debugModeOn(false);
+        }
+
+        if(keycode == Input.Keys.ESCAPE) {
+            pauseController.switchPaused();
         }
 
         return true;
