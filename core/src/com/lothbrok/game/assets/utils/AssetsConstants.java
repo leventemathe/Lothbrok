@@ -54,4 +54,9 @@ public class AssetsConstants {
     public static final String UI_YOU_WON_LOGO = "youWonLogo";
     public static final String UI_PAUSED_LOGO = "pausedLogo";
     public static final String UI_TEXT_BUTTON_STYLE = "default";
+
+    public static final String MUSIC_MAIN_MENU = "audio/music/realm_of_fantasy_looping.mp3";
+    public static final String MUSIC_GAMEPLAY = "audio/music/goblin_loop.mp3";
+    public static final String MUSIC_DEATH = "audio/music/disturbing_chimes.mp3";
+    public static final String MUSIC_VICTORY = "audio/music/rpg_battle_climax_v0001.mp3";
 }

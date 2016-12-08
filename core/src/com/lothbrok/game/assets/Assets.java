@@ -2,8 +2,13 @@ package com.lothbrok.game.assets;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.BitmapFontLoader;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.MusicLoader;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
+import com.badlogic.gdx.assets.loaders.SoundLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -18,6 +23,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.lothbrok.game.assets.entities.MainMenuAssets;
+import com.lothbrok.game.assets.entities.MusicAssets;
 import com.lothbrok.game.assets.entities.RalewayLightFont;
 import com.lothbrok.game.assets.spriter.SpriterAnimationAssets;
 import com.lothbrok.game.assets.spriter.SpriterAnimationAssetsLoader;
@@ -39,17 +45,21 @@ public class Assets implements Disposable {
     private RalewayLightFont ralewayLightFont;
     private MainMenuAssets mainMenuAssets;
     private TextureRegion coin;
+    private MusicAssets musicAssets;
 
     public void init(AssetManager assetManager) {
         this.assetManager = assetManager;
         //TODO this error handling sucks, implement something better with exception throwing, catching
         assetManager.setErrorListener(new AssetsErrorListenerImplementation());
 
-        assetManager.setLoader(SpriterAnimationAssets.class, new SpriterAnimationAssetsLoader(new InternalFileHandleResolver()));
-        assetManager.setLoader(TiledMap.class, new AtlasTmxMapLoader(new InternalFileHandleResolver()));
-        assetManager.setLoader(Skin.class, new SkinLoader(new InternalFileHandleResolver()));
-        assetManager.setLoader(BitmapFont.class, new BitmapFontLoader(new InternalFileHandleResolver()));
-        assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(new InternalFileHandleResolver()));
+        FileHandleResolver fileHandleResolver = new InternalFileHandleResolver();
+        assetManager.setLoader(SpriterAnimationAssets.class, new SpriterAnimationAssetsLoader(fileHandleResolver));
+        assetManager.setLoader(TiledMap.class, new AtlasTmxMapLoader(fileHandleResolver));
+        assetManager.setLoader(Skin.class, new SkinLoader(fileHandleResolver));
+        assetManager.setLoader(BitmapFont.class, new BitmapFontLoader(fileHandleResolver));
+        assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(fileHandleResolver));
+        assetManager.setLoader(Music.class, new MusicLoader(fileHandleResolver));
+        assetManager.setLoader(Sound.class, new SoundLoader(fileHandleResolver));
     }
 
     public boolean isDoneLoading() {
@@ -169,6 +179,22 @@ public class Assets implements Disposable {
             coin = getUI().getRegion(AssetsConstants.UI_COIN);
         }
         return coin;
+    }
+
+    public void loadMusicAssets() {
+        assetManager.load(AssetsConstants.MUSIC_MAIN_MENU, Music.class);
+        assetManager.load(AssetsConstants.MUSIC_GAMEPLAY, Music.class);
+        assetManager.load(AssetsConstants.MUSIC_DEATH, Music.class);
+        assetManager.load(AssetsConstants.MUSIC_VICTORY, Music.class);
+    }
+
+    public MusicAssets getMusicAssets() {
+        musicAssets = new MusicAssets();
+        musicAssets.setMainMenu((Music)assetManager.get(AssetsConstants.MUSIC_MAIN_MENU));
+        musicAssets.setGamePlay((Music)assetManager.get(AssetsConstants.MUSIC_GAMEPLAY));
+        musicAssets.setDeath((Music)assetManager.get(AssetsConstants.MUSIC_DEATH));
+        musicAssets.setVictory((Music)assetManager.get(AssetsConstants.MUSIC_VICTORY));
+        return musicAssets;
     }
 
     //TODO add unload methods

@@ -8,12 +8,15 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.assets.entities.EnemyAnimation;
+import com.lothbrok.game.audio.Audio;
 import com.lothbrok.game.controllers.CameraController;
 import com.lothbrok.game.controllers.EnemyController;
 import com.lothbrok.game.controllers.PauseController;
 import com.lothbrok.game.controllers.PlayerController;
 import com.lothbrok.game.controllers.input.MobileInputInterface;
+import com.lothbrok.game.controllers.input.PCInput;
 import com.lothbrok.game.model.GameModel;
+import com.lothbrok.game.model.entities.ActionListener;
 import com.lothbrok.game.model.entities.Enemy;
 import com.lothbrok.game.model.entities.Entity;
 import com.lothbrok.game.model.entities.Player;
@@ -48,6 +51,7 @@ public class GameScreen extends AbstractScreen {
     private Box2DDebugRenderer box2DDebugRenderer;
     private EndOfGameRenderer endOfGameRenderer;
     private PauseRenderer pauseRenderer;
+    private Audio audio;
 
     //C
     private InputProcessor inputProcessor;
@@ -72,8 +76,8 @@ public class GameScreen extends AbstractScreen {
         pauseController = new PauseController();
         mobileInputInterface = new MobileInputInterface(playerController, pauseController, spriteBatch);
         pauseRenderer = new PauseRenderer(spriteBatch, shapeRenderer, pauseController);
-        //inputProcessor = new PCInput(playerController, cameraController, pauseController);
-        inputProcessor = mobileInputInterface.getStage();
+        inputProcessor = new PCInput(playerController, cameraController, pauseController);
+        //inputProcessor = mobileInputInterface.getStage();
         Gdx.input.setInputProcessor(inputProcessor);
         enemyController = new EnemyController();
 
@@ -82,17 +86,33 @@ public class GameScreen extends AbstractScreen {
         for(ObjectMap.Entry<Enemy, EnemyAnimation> entry : enemyAnimations) {
             entry.value.setStopAttackingListener(entry.key.getAttackingComponent());
         }
+
+        audio = new Audio(Assets.instance.getMusicAssets());
+        audio.playGamePlay();
+
+        gameModel.getPlayer().getAttackingComponent().setStartAttackingListener(new ActionListener() {
+            @Override
+            public void listen() {
+                Gdx.app.debug(TAG, "started attacking");
+            }
+        });
+        gameModel.getPlayer().getAttackingComponent().setStopAttackingListener(new ActionListener() {
+            @Override
+            public void listen() {
+                Gdx.app.debug(TAG, "stopped attacking");
+            }
+        });
     }
 
     @Override
     public void render(float deltaTime) {
         super.render(deltaTime);
         if(pauseController.isPaused()) {
-            Gdx.input.setInputProcessor(pauseRenderer.getStage());
-            pauseRenderer.render(deltaTime);
-            return;
+            //Gdx.input.setInputProcessor(pauseRenderer.getStage());
+            //pauseRenderer.render(deltaTime);
+            //return;
         } else {
-            Gdx.input.setInputProcessor(inputProcessor);
+            //Gdx.input.setInputProcessor(inputProcessor);
         }
         if(isGameFinished) {
             updateAfterGameFinished(deltaTime);
@@ -106,17 +126,24 @@ public class GameScreen extends AbstractScreen {
     // TODO move bounding box setting to a playerController?
     public void updateRegular(float deltaTime) {
         gameModel.update(deltaTime, gameRenderer);
+
         cameraController.control(deltaTime, gameRenderer.getExtendedCamera());
         playerController.control(deltaTime, gameModel.getPlayer());
         enemyController.control(deltaTime, gameModel.getEnemies(), gameModel.getPlayer());
+
         if(!debugCamera) {
             updateCamera(deltaTime);
         }
+
         updateTreasure(deltaTime);
-        if(gameModel.getPlayer() != null) {
+
+        if(gameModel.getPlayer() == null) {
+            audio.playDeath(deltaTime);
+        } else if(gameModel.getPlayer() != null) {
             hudRenderer.updateHealth(gameModel.getPlayer().getHealth());
             hudRenderer.updateTreasure(gameModel.getPlayer().getTreasure());
         }
+
         isGameFinished(deltaTime);
     }
 
@@ -125,6 +152,7 @@ public class GameScreen extends AbstractScreen {
         enemyController.control(deltaTime, gameModel.getEnemies(), gameModel.getPlayer());
         if(gameModel.getPlayer() != null && gameModel.getPlayer().isVictoryAchieved()) {
             gameModel.getPlayer().getMovementComponent().moveRight(deltaTime);
+            audio.playVictory(deltaTime);
         }
     }
 

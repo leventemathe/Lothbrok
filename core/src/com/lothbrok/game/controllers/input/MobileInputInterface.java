@@ -45,7 +45,7 @@ public class MobileInputInterface implements Disposable{
     //TODO a padding erteket kiszervezni
     private void rebuildStage() {
         stage.clear();
-        stage.setDebugAll(true);
+        //stage.setDebugAll(true);
 
         Table rootTable = new Table();
         rootTable.setFillParent(true);
