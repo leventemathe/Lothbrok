@@ -1,5 +1,6 @@
 package com.lothbrok.game.model.entities.components;
 
+import com.lothbrok.game.model.entities.ActionListener;
 import com.lothbrok.game.model.entities.Entity;
 
 public class JumpingComponent extends AbstractComponent {
@@ -10,6 +11,8 @@ public class JumpingComponent extends AbstractComponent {
     private float jumpDeceleration;
     private float minJumpSpeed;
     private float baseJumpSpeed;
+
+    private ActionListener jumpListener;
 
     public JumpingComponent(Entity entity, float maxJumpHeight, float jumpDeceleration, float minJumpSpeed, float baseJumpSpeed) {
         super(entity);
@@ -23,6 +26,9 @@ public class JumpingComponent extends AbstractComponent {
     public void jump(float delta) {
         if(entity.actionState == Entity.ActionState.STANDING) {
             jumpHeight = 0f;
+            if(jumpListener != null) {
+                jumpListener.listen();
+            }
         }
         if(entity.actionState == Entity.ActionState.STANDING || entity.actionState == Entity.ActionState.JUMPING ||
                 entity.actionState == Entity.ActionState.MIDJUMP) {
@@ -45,4 +51,7 @@ public class JumpingComponent extends AbstractComponent {
         }
     }
 
+    public void setJumpListener(ActionListener jumpListener) {
+        this.jumpListener = jumpListener;
+    }
 }

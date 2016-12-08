@@ -84,4 +84,8 @@ public class Audio {
     public void playSlice() {
         soundAssets.getSlice().play();
     }
+
+    public void playEhh() {
+        soundAssets.getEhh().play();
+    }
 }

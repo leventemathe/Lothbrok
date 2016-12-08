@@ -211,4 +211,8 @@ public class Player extends Entity {
     public MovementComponent getMovementComponent() {
         return movementComponent;
     }
+
+    public JumpingComponent getJumpingComponent() {
+        return jumpingComponent;
+    }
 }

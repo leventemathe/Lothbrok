@@ -23,6 +23,7 @@ import com.lothbrok.game.model.entities.Entity;
 import com.lothbrok.game.model.entities.Player;
 import com.lothbrok.game.model.entities.Treasure;
 import com.lothbrok.game.model.entities.components.AttackingComponent;
+import com.lothbrok.game.model.entities.components.JumpingComponent;
 import com.lothbrok.game.renderers.EndOfGameRenderer;
 import com.lothbrok.game.renderers.ExtendedCamera;
 import com.lothbrok.game.renderers.GameOverRenderer;
@@ -112,6 +113,7 @@ public class GameScreen extends AbstractScreen {
         audio.playGamePlay();
 
         AttackingComponent playerAttackingComponent = gameModel.getPlayer().getAttackingComponent();
+        JumpingComponent playerJumpingComponent = gameModel.getPlayer().getJumpingComponent();
 
         playerAttackingComponent.setStartAttackingListener(new ActionListener() {
             @Override
@@ -123,6 +125,12 @@ public class GameScreen extends AbstractScreen {
             @Override
             public void listen() {
                 audio.playSlice();
+            }
+        });
+        playerJumpingComponent.setJumpListener(new ActionListener() {
+            @Override
+            public void listen() {
+                audio.playEhh();
             }
         });
 
