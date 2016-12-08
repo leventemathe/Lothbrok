@@ -9,13 +9,15 @@ public class Audio {
     private MusicAssets musicAssets;
     private SoundAssets soundAssets;
 
+    private final long EXTREMAL_ID = -1;
+    private long playerFootStepID = 0;
+
     public Audio(MusicAssets musicAssets, SoundAssets soundAssets) {
         this.musicAssets = musicAssets;
         this.soundAssets = soundAssets;
     }
 
     public void playGamePlay() {
-        musicAssets.getGamePlay().setVolume(1f);
         musicAssets.getDeath().setVolume(0f);
         musicAssets.getVictory().setVolume(0f);
 
@@ -23,8 +25,9 @@ public class Audio {
         musicAssets.getDeath().stop();
         musicAssets.getVictory().stop();
 
-        musicAssets.getGamePlay().setLooping(true);
         musicAssets.getGamePlay().play();
+        musicAssets.getGamePlay().setLooping(true);
+        musicAssets.getGamePlay().setVolume(1f);
     }
 
     public void playDeath(float deltaTime) {
@@ -52,7 +55,7 @@ public class Audio {
         if(!music.isPlaying()) {
             return;
         }
-        if(music.getVolume() <= 0f) {
+        if(music.getVolume() <= 0.1f) {
             music.stop();
         } else {
             music.setVolume(musicAssets.getGamePlay().getVolume() - deltaTime);
@@ -60,7 +63,18 @@ public class Audio {
     }
 
     public void playFootsteps() {
+        if(playerFootStepID != EXTREMAL_ID) {
+            return;
+        } else {
+            playerFootStepID = soundAssets.getFootStep().loop();
+        }
+    }
 
+    public void stopFootsteps() {
+        if(playerFootStepID != EXTREMAL_ID) {
+            soundAssets.getFootStep().stop(playerFootStepID);
+            playerFootStepID = EXTREMAL_ID;
+        }
     }
 
     public void playSwing() {

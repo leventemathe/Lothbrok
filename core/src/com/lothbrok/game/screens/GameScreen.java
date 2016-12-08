@@ -274,11 +274,24 @@ public class GameScreen extends AbstractScreen {
         hudRenderer.render(deltaTime);
         mobileInputInterface.render(deltaTime);
         box2DDebugRenderer.render(gameModel.getWorld(), gameRenderer.getExtendedCamera().getCamera().combined);
+        renderSound();
     }
 
     private void renderAfterGameFinished(float deltaTime) {
         gameRenderer.render(deltaTime);
         endOfGameRenderer.render(deltaTime);
+    }
+
+    private void renderSound() {
+        Player player = gameModel.getPlayer();
+        if(player != null &&
+                (player.movementState == Entity.MovementState.MOVING || player.movementState == Entity.MovementState.MIDMOVING) &&
+                player.actionState != Entity.ActionState.FALLING &&
+                player.actionState != Entity.ActionState.JUMPING) {
+            audio.playFootsteps();
+        } else {
+            audio.stopFootsteps();
+        }
     }
 
 

@@ -60,8 +60,7 @@ public class AssetsConstants {
     public static final String MUSIC_DEATH = "audio/music/disturbing_chimes.mp3";
     public static final String MUSIC_VICTORY = "audio/music/rpg_battle_climax_v0001.mp3";
 
-    public static final String SOUND_FOOTSTEP_1 = "audio/sound/footstep1.ogg";
-    public static final String SOUND_FOOTSTEP_2 = "audio/sound/footstep2.ogg";
+    public static final String SOUND_FOOTSTEP = "audio/sound/footstep.wav";
     public static final String SOUND_SWING = "audio/sound/swing.wav";
     public static final String SOUND_SLICE = "audio/sound/slice.wav";
     public static final String SOUND_EHH = "audio/sound/ehh.wav";

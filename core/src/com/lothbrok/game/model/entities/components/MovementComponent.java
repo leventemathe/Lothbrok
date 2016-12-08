@@ -72,16 +72,4 @@ public class MovementComponent extends AbstractComponent {
     public float getSpeed() {
         return speed;
     }
-
-    public float getAcceleration() {
-        return acceleration;
-    }
-
-    public float getMaxSpeed() {
-        return maxSpeed;
-    }
-
-    public float getBaseSpeed() {
-        return baseSpeed;
-    }
 }
