@@ -1,5 +1,8 @@
 package com.lothbrok.game.renderers;
 
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -18,11 +21,17 @@ public class PauseRenderer extends EndOfGameRenderer {
     private Image pausedLogo;
     private TextButton btnResume;
 
+    private InputMultiplexer inputMultiplexer;
+
     public PauseRenderer(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, PauseController pauseController) {
         super(spriteBatch, shapeRenderer);
+        inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(new PauseKeyProcessor());
+
         this.pauseController = pauseController;
         pausedLogo = skin.get(AssetsConstants.UI_PAUSED_LOGO, Image.class);
-        rootTable.add(pausedLogo).expand().center().padTop(50f).row();
+        rootTable.add(pausedLogo).expand().center().padTop(0f).row();
         buildBtnResume();
         buildBtnMainMenu();
     }
@@ -39,12 +48,27 @@ public class PauseRenderer extends EndOfGameRenderer {
             }
         });
 
-        rootTable.add(btnResume).expand().padTop(50f);
+        rootTable.add(btnResume).expand().padTop(25f).row();
     }
 
     @Override
     protected void rebuildStage(ShapeRenderer shapeRenderer) {
         super.rebuildStage(shapeRenderer);
-        rootTable.add(pausedLogo).expand().top().center().padTop(50f).row();
+        rootTable.add(pausedLogo).expand().top().center().padTop(25).row();
+    }
+
+    public InputMultiplexer getInputMultiplexer() {
+        return inputMultiplexer;
+    }
+
+    private class PauseKeyProcessor extends InputAdapter{
+
+        @Override
+        public boolean keyUp(int keycode) {
+            if(keycode == Input.Keys.ESCAPE) {
+                pauseController.switchPaused();
+            }
+            return true;
+        }
     }
 }

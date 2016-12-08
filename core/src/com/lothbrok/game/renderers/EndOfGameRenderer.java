@@ -30,6 +30,8 @@ public class EndOfGameRenderer implements Disposable {
     protected ColorRectangleActor background;
     protected TextButton btnMainMenu;
 
+    public EndOfGameRenderer() {}
+
     public EndOfGameRenderer(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
         stage = new Stage(new FitViewport(ScreensConstants.VIEWPORT_MENU_WIDTH,
                 ScreensConstants.VIEWPORT_MENU_HEIGHT), spriteBatch);
@@ -65,7 +67,7 @@ public class EndOfGameRenderer implements Disposable {
             }
         });
 
-        rootTable.add(btnMainMenu).expand().padTop(50f);
+        rootTable.add(btnMainMenu).expand().padTop(25f).row();
     }
 
     public void render(float delta) {

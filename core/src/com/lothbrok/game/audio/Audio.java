@@ -17,7 +17,7 @@ public class Audio {
         this.soundAssets = soundAssets;
     }
 
-    public void playGamePlay() {
+    public void playGamePlayMusic() {
         musicAssets.getDeath().setVolume(0f);
         musicAssets.getVictory().setVolume(0f);
 
@@ -30,13 +30,13 @@ public class Audio {
         musicAssets.getGamePlay().setVolume(1f);
     }
 
-    public void playDeath(float deltaTime) {
+    public void playDeathMusic(float deltaTime) {
         fadeIn(deltaTime, musicAssets.getDeath());
         fadeOut(deltaTime, musicAssets.getGamePlay());
         musicAssets.getDeath().play();
     }
 
-    public void playVictory(float deltaTime) {
+    public void playVictoryMusic(float deltaTime) {
         fadeIn(deltaTime, musicAssets.getVictory());
         fadeOut(deltaTime, musicAssets.getGamePlay());
         musicAssets.getVictory().play();
