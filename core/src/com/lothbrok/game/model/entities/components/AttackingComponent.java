@@ -13,6 +13,7 @@ public class AttackingComponent<OpponentType> extends AbstractComponent {
     private Set<OpponentType> opponentsHit;
     private ActionListener startAttackingListener;
     private ActionListener stopAttackingListener;
+    private ActionListener hitListener;
 
     public AttackingComponent(Entity entity) {
         super(entity);
@@ -26,7 +27,6 @@ public class AttackingComponent<OpponentType> extends AbstractComponent {
             if(startAttackingListener != null) {
                 startAttackingListener.listen();
             }
-            //Gdx.app.debug(TAG, "started attacking");
         }
     }
 
@@ -41,7 +41,11 @@ public class AttackingComponent<OpponentType> extends AbstractComponent {
     }
 
     public boolean addOpponentHit(OpponentType opponent) {
-        return opponentsHit.add(opponent);
+        boolean hit = opponentsHit.add(opponent);
+        if(hitListener != null && hit) {
+            hitListener.listen();
+        }
+        return hit;
     }
 
     public void setStartAttackingListener(ActionListener startAttackingListener) {
@@ -50,5 +54,9 @@ public class AttackingComponent<OpponentType> extends AbstractComponent {
 
     public void setStopAttackingListener(ActionListener stopAttackingListener) {
         this.stopAttackingListener = stopAttackingListener;
+    }
+
+    public void setHitListener(ActionListener hitListener) {
+        this.hitListener = hitListener;
     }
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.assets.entities.EnemyAnimation;
@@ -21,6 +22,7 @@ import com.lothbrok.game.model.entities.Enemy;
 import com.lothbrok.game.model.entities.Entity;
 import com.lothbrok.game.model.entities.Player;
 import com.lothbrok.game.model.entities.Treasure;
+import com.lothbrok.game.model.entities.components.AttackingComponent;
 import com.lothbrok.game.renderers.EndOfGameRenderer;
 import com.lothbrok.game.renderers.ExtendedCamera;
 import com.lothbrok.game.renderers.GameOverRenderer;
@@ -60,17 +62,31 @@ public class GameScreen extends AbstractScreen {
     private EnemyController enemyController;
     private PauseController pauseController;
 
+
+
     @Override
     public void show() {
         super.show();
+        setupModel();
+        setUpRenderers();
+        setupControllers();
+        setupAnimationListeners();
+        setupAudio();
+    }
+
+    private void setupModel() {
         TiledMap map = Assets.instance.getMap(1);
         gameModel = new GameModel(map);
+    }
 
+    private void setUpRenderers() {
         gameRenderer = new GameRenderer(gameModel, spriteBatch, shapeRenderer);
         hudRenderer = new HUDRenderer(spriteBatch, gameModel.getPlayer().getHealth(), gameModel.getPlayer().getTreasure());
         box2DDebugRenderer = new Box2DDebugRenderer();
         gameRenderer.getExtendedCamera().snapTo(gameModel.getPlayer().position);
+    }
 
+    private void setupControllers() {
         playerController = new PlayerController();
         cameraController = new CameraController();
         pauseController = new PauseController();
@@ -80,33 +96,58 @@ public class GameScreen extends AbstractScreen {
         //inputProcessor = mobileInputInterface.getStage();
         Gdx.input.setInputProcessor(inputProcessor);
         enemyController = new EnemyController();
+    }
 
+    private void setupAnimationListeners() {
         gameRenderer.getPlayerAnimation().setStopAttackingListener(gameModel.getPlayer().getAttackingComponent());
+
         ObjectMap<Enemy, EnemyAnimation> enemyAnimations = gameRenderer.getEnemyAnimations();
         for(ObjectMap.Entry<Enemy, EnemyAnimation> entry : enemyAnimations) {
             entry.value.setStopAttackingListener(entry.key.getAttackingComponent());
         }
+    }
 
-        audio = new Audio(Assets.instance.getMusicAssets());
+    private void setupAudio() {
+        audio = new Audio(Assets.instance.getMusicAssets(), Assets.instance.getSoundAssets());
         audio.playGamePlay();
 
-        gameModel.getPlayer().getAttackingComponent().setStartAttackingListener(new ActionListener() {
+        AttackingComponent playerAttackingComponent = gameModel.getPlayer().getAttackingComponent();
+
+        playerAttackingComponent.setStartAttackingListener(new ActionListener() {
             @Override
             public void listen() {
-                Gdx.app.debug(TAG, "started attacking");
+                audio.playSwing();
             }
         });
-        gameModel.getPlayer().getAttackingComponent().setStopAttackingListener(new ActionListener() {
+        playerAttackingComponent.setHitListener(new ActionListener() {
             @Override
             public void listen() {
-                Gdx.app.debug(TAG, "stopped attacking");
+                audio.playSlice();
             }
         });
+
+        Array<Enemy> enemies = gameModel.getEnemies();
+        for(int i = 0; i < enemies.size; i++) {
+            AttackingComponent attackingComponent = enemies.get(i).getAttackingComponent();
+            attackingComponent.setStartAttackingListener(new ActionListener() {
+                @Override
+                public void listen() {
+                    audio.playSwing();
+                }
+            });
+            attackingComponent.setHitListener(new ActionListener() {
+                @Override
+                public void listen() {
+                    audio.playSlice();
+                }
+            });
+        }
     }
+
+
 
     @Override
     public void render(float deltaTime) {
-        super.render(deltaTime);
         if(pauseController.isPaused()) {
             //Gdx.input.setInputProcessor(pauseRenderer.getStage());
             //pauseRenderer.render(deltaTime);
@@ -114,6 +155,7 @@ public class GameScreen extends AbstractScreen {
         } else {
             //Gdx.input.setInputProcessor(inputProcessor);
         }
+
         if(isGameFinished) {
             updateAfterGameFinished(deltaTime);
             renderAfterGameFinished(deltaTime);
@@ -121,7 +163,11 @@ public class GameScreen extends AbstractScreen {
             updateRegular(deltaTime);
             renderRegular(deltaTime);
         }
+
+        super.render(deltaTime);
     }
+
+
 
     // TODO move bounding box setting to a playerController?
     public void updateRegular(float deltaTime) {
@@ -220,6 +266,8 @@ public class GameScreen extends AbstractScreen {
         }
     }
 
+
+
     private void renderRegular(float deltaTime) {
         gameRenderer.render(deltaTime);
 
@@ -232,6 +280,8 @@ public class GameScreen extends AbstractScreen {
         gameRenderer.render(deltaTime);
         endOfGameRenderer.render(deltaTime);
     }
+
+
 
     @Override
     public void resize(int width, int height) {

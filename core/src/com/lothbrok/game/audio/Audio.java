@@ -2,13 +2,16 @@ package com.lothbrok.game.audio;
 
 import com.badlogic.gdx.audio.Music;
 import com.lothbrok.game.assets.entities.MusicAssets;
+import com.lothbrok.game.assets.entities.SoundAssets;
 
 public class Audio {
 
     private MusicAssets musicAssets;
+    private SoundAssets soundAssets;
 
-    public Audio(MusicAssets musicAssets) {
+    public Audio(MusicAssets musicAssets, SoundAssets soundAssets) {
         this.musicAssets = musicAssets;
+        this.soundAssets = soundAssets;
     }
 
     public void playGamePlay() {
@@ -54,5 +57,17 @@ public class Audio {
         } else {
             music.setVolume(musicAssets.getGamePlay().getVolume() - deltaTime);
         }
+    }
+
+    public void playFootsteps() {
+
+    }
+
+    public void playSwing() {
+        soundAssets.getSwing().play();
+    }
+
+    public void playSlice() {
+        soundAssets.getSlice().play();
     }
 }

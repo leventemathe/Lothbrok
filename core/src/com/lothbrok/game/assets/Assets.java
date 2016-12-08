@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.StringBuilder;
 import com.lothbrok.game.assets.entities.MainMenuAssets;
 import com.lothbrok.game.assets.entities.MusicAssets;
 import com.lothbrok.game.assets.entities.RalewayLightFont;
+import com.lothbrok.game.assets.entities.SoundAssets;
 import com.lothbrok.game.assets.spriter.SpriterAnimationAssets;
 import com.lothbrok.game.assets.spriter.SpriterAnimationAssetsLoader;
 import com.lothbrok.game.assets.utils.AssetsConstants;
@@ -46,6 +47,7 @@ public class Assets implements Disposable {
     private MainMenuAssets mainMenuAssets;
     private TextureRegion coin;
     private MusicAssets musicAssets;
+    private SoundAssets soundAssets;
 
     public void init(AssetManager assetManager) {
         this.assetManager = assetManager;
@@ -189,12 +191,34 @@ public class Assets implements Disposable {
     }
 
     public MusicAssets getMusicAssets() {
-        musicAssets = new MusicAssets();
-        musicAssets.setMainMenu((Music)assetManager.get(AssetsConstants.MUSIC_MAIN_MENU));
-        musicAssets.setGamePlay((Music)assetManager.get(AssetsConstants.MUSIC_GAMEPLAY));
-        musicAssets.setDeath((Music)assetManager.get(AssetsConstants.MUSIC_DEATH));
-        musicAssets.setVictory((Music)assetManager.get(AssetsConstants.MUSIC_VICTORY));
+        if(musicAssets == null) {
+            musicAssets = new MusicAssets();
+            musicAssets.setMainMenu((Music) assetManager.get(AssetsConstants.MUSIC_MAIN_MENU));
+            musicAssets.setGamePlay((Music) assetManager.get(AssetsConstants.MUSIC_GAMEPLAY));
+            musicAssets.setDeath((Music) assetManager.get(AssetsConstants.MUSIC_DEATH));
+            musicAssets.setVictory((Music) assetManager.get(AssetsConstants.MUSIC_VICTORY));
+        }
         return musicAssets;
+    }
+
+    public void loadSoundAssets() {
+        assetManager.load(AssetsConstants.SOUND_FOOTSTEP_1, Sound.class);
+        assetManager.load(AssetsConstants.SOUND_FOOTSTEP_2, Sound.class);
+        assetManager.load(AssetsConstants.SOUND_SLICE, Sound.class);
+        assetManager.load(AssetsConstants.SOUND_SWING, Sound.class);
+        assetManager.load(AssetsConstants.SOUND_EHH, Sound.class);
+    }
+
+    public SoundAssets getSoundAssets() {
+        if(soundAssets == null) {
+            soundAssets = new SoundAssets();
+            soundAssets.setFootStep1((Sound) assetManager.get(AssetsConstants.SOUND_FOOTSTEP_1));
+            soundAssets.setFootStep2((Sound) assetManager.get(AssetsConstants.SOUND_FOOTSTEP_2));
+            soundAssets.setSwing((Sound) assetManager.get(AssetsConstants.SOUND_SWING));
+            soundAssets.setSlice((Sound) assetManager.get(AssetsConstants.SOUND_SLICE));
+            soundAssets.setEhh((Sound) assetManager.get(AssetsConstants.SOUND_EHH));
+        }
+        return soundAssets;
     }
 
     //TODO add unload methods
