@@ -1,5 +1,6 @@
 package com.lothbrok.game.assets;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.BitmapFontLoader;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
@@ -9,48 +10,39 @@ import com.badlogic.gdx.assets.loaders.SoundLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.maps.tiled.AtlasTmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.StringBuilder;
-import com.lothbrok.game.assets.entities.MainMenuAssets;
-import com.lothbrok.game.assets.entities.MusicAssets;
-import com.lothbrok.game.assets.entities.RalewayLightFont;
-import com.lothbrok.game.assets.entities.SoundAssets;
+import com.lothbrok.game.assets.entities.audio.MusicAssets;
+import com.lothbrok.game.assets.entities.audio.SoundAssets;
+import com.lothbrok.game.assets.entities.fonts.Font;
+import com.lothbrok.game.assets.entities.fonts.FontLoader;
 import com.lothbrok.game.assets.spriter.SpriterAnimationAssets;
 import com.lothbrok.game.assets.spriter.SpriterAnimationAssetsLoader;
-import com.lothbrok.game.assets.utils.AssetsConstants;
 import com.lothbrok.game.assets.utils.AssetsErrorListenerImplementation;
+import com.lothbrok.game.constants.AssetsConstants;
+import com.lothbrok.game.constants.UIConstants;
 
 public class Assets implements Disposable {
 
     public static final String TAG = Assets.class.getSimpleName();
 
-    public static final Assets instance = new Assets();
-
-    //TODO implement scale: 1080p 1x, 4k 2x etc -> changel file paths and viewport sizes accordingly
-
     private AssetManager assetManager;
 
-    private Assets() {}
-
-    private RalewayLightFont ralewayLightFont;
-    private MainMenuAssets mainMenuAssets;
     private TextureRegion coin;
     private MusicAssets musicAssets;
     private SoundAssets soundAssets;
 
-    public void init(AssetManager assetManager) {
-        this.assetManager = assetManager;
+    public Assets() {
+        init();
+    }
+
+    private void init() {
+        assetManager = new AssetManager();
         //TODO this error handling sucks, implement something better with exception throwing, catching
         assetManager.setErrorListener(new AssetsErrorListenerImplementation());
 
@@ -59,9 +51,26 @@ public class Assets implements Disposable {
         assetManager.setLoader(TiledMap.class, new AtlasTmxMapLoader(fileHandleResolver));
         assetManager.setLoader(Skin.class, new SkinLoader(fileHandleResolver));
         assetManager.setLoader(BitmapFont.class, new BitmapFontLoader(fileHandleResolver));
-        assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(fileHandleResolver));
+        assetManager.setLoader(Font.class, new FontLoader(fileHandleResolver));
         assetManager.setLoader(Music.class, new MusicLoader(fileHandleResolver));
         assetManager.setLoader(Sound.class, new SoundLoader(fileHandleResolver));
+    }
+
+    public void loadEssentials() {
+        loadRalewayLightFont();
+        loadLoadingAnimationAssets();
+    }
+
+    public void loadAll() {
+        loadPRVikingFont();
+        loadMainMenuSkin();
+        loadPlayerAnimationAssets();
+        loadEnemyAnimationAssets();
+        loadMap(1);
+        loadMobileControlsSkin();
+        loadUI();
+        loadMusicAssets();
+        loadSoundAssets();
     }
 
     public boolean isDoneLoading() {
@@ -72,26 +81,14 @@ public class Assets implements Disposable {
         return assetManager.getProgress();
     }
 
+
+
     public void loadRalewayLightFont() {
-        assetManager.load(com.lothbrok.game.assets.utils.AssetsConstants.RALEWAY_LIGHT_FONT_PATH, FreeTypeFontGenerator.class);
+        assetManager.load(AssetsConstants.RALEWAY_LIGHT_FONT_PATH, Font.class);
     }
 
-    //TODO move the generation to loading somehow, same for menu
-    public RalewayLightFont getRalewayLightFont() {
-        if(ralewayLightFont == null) {
-            FreeTypeFontGenerator fontGenerator = assetManager.get(AssetsConstants.RALEWAY_LIGHT_FONT_PATH);
-
-            FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-            parameter.size = 32;
-            BitmapFont font32 = fontGenerator.generateFont(parameter);
-            parameter.size = 48;
-            BitmapFont font48 = fontGenerator.generateFont(parameter);
-
-            ralewayLightFont = new RalewayLightFont();
-            ralewayLightFont.setFont32(font32);
-            ralewayLightFont.setFont48(font48);
-        }
-        return ralewayLightFont;
+    public Font getRalewayLightFont() {
+        return assetManager.get(AssetsConstants.RALEWAY_LIGHT_FONT_PATH);
     }
 
     public void loadPlayerAnimationAssets() {
@@ -109,46 +106,35 @@ public class Assets implements Disposable {
     public SpriterAnimationAssets getEnemyAnimationAssets() {
         return assetManager.get(AssetsConstants.ENEMY_ANIMATION_PATH);
     }
-    public void loadMainMenuAssets() {
-        assetManager.load(AssetsConstants.MENU_SKIN_PATH, Skin.class, new SkinLoader.SkinParameter(AssetsConstants.MENU_ATLAS_PATH));
-        //assetManager.load(AssetsConstants.MENU_FONT_PATH, BitmapFont.class);
-        assetManager.load(AssetsConstants.MENU_FONT_PATH, FreeTypeFontGenerator.class);
+
+    public void loadLoadingAnimationAssets() {
+        assetManager.load(AssetsConstants.LOADING_ANIMATION_PATH, SpriterAnimationAssets.class);
     }
 
-    public MainMenuAssets getMainMenuAssets() {
-        if(mainMenuAssets == null) {
-            Skin skin = assetManager.get(AssetsConstants.MENU_SKIN_PATH);
+    public SpriterAnimationAssets getLoadingAnimationAssets() {
+        return assetManager.get(AssetsConstants.LOADING_ANIMATION_PATH);
+    }
 
-            FreeTypeFontGenerator fontGenerator = assetManager.get(AssetsConstants.MENU_FONT_PATH);
+    public void loadPRVikingFont () {
+        assetManager.load(AssetsConstants.PR_VIKING_FONT_PATH, Font.class);
+    }
 
-            FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-            parameter.size = 48;
-            BitmapFont font48 = fontGenerator.generateFont(parameter);
+    public Font getPrVikingFont() {
+        return assetManager.get(AssetsConstants.PR_VIKING_FONT_PATH);
+    }
 
-            mainMenuAssets = new MainMenuAssets();
-            mainMenuAssets.setSkin(skin);
-            mainMenuAssets.setFontGenerator(fontGenerator);
-            mainMenuAssets.setFont48(font48);
-        }
-        //TODO load filtering from settings
-        //TODO set filtering for other images too (animation, map)
-        Texture.TextureFilter filter = Texture.TextureFilter.MipMapLinearLinear;
-        Texture.TextureFilter fontFilter = Texture.TextureFilter.Linear;
-        ObjectSet<Texture> textures = mainMenuAssets.getSkin().getAtlas().getTextures();
-        Array<TextureRegion> fontTextures = mainMenuAssets.getFont48().getRegions();
-        for(Texture texture : textures) {
-            texture.setFilter(filter, filter);
-        }
-        for(TextureRegion texture : fontTextures) {
-            texture.getTexture().setFilter(fontFilter, fontFilter);
-        }
-        return mainMenuAssets;
+    public void loadMainMenuSkin() {
+        assetManager.load(AssetsConstants.MAIN_MENU_SKIN_PATH, Skin.class, new SkinLoader.SkinParameter(AssetsConstants.MAIN_MENU_ATLAS_PATH));
+    }
+
+    public Skin getMainMenuSkin() {
+        return assetManager.get(AssetsConstants.MAIN_MENU_SKIN_PATH);
     }
 
     public String buildMapFilePath(int index) {
-        StringBuilder path = new StringBuilder(AssetsConstants.MAP_PREFIX);
+        StringBuilder path = new StringBuilder(AssetsConstants.MAP_PREFIX_PATH);
         path.append(String.valueOf(index));
-        path.append(com.lothbrok.game.assets.utils.AssetsConstants.MAP_POSTFIX);
+        path.append(AssetsConstants.MAP_POSTFIX_PATH);
         return  path.toString();
     }
 
@@ -178,7 +164,7 @@ public class Assets implements Disposable {
 
     public TextureRegion getCoin() {
         if(coin == null) {
-            coin = getUI().getRegion(AssetsConstants.UI_COIN);
+            coin = getUI().getRegion(UIConstants.UI_COIN);
         }
         return coin;
     }
@@ -219,10 +205,9 @@ public class Assets implements Disposable {
         return soundAssets;
     }
 
-    //TODO add unload methods
-    //TODO assets switching in screen transition
     @Override
     public void dispose() {
+        Gdx.app.debug(TAG, "dispose");
         assetManager.dispose();
     }
 }

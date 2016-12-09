@@ -1,8 +1,8 @@
 package com.lothbrok.game.audio;
 
 import com.badlogic.gdx.audio.Music;
-import com.lothbrok.game.assets.entities.MusicAssets;
-import com.lothbrok.game.assets.entities.SoundAssets;
+import com.lothbrok.game.assets.entities.audio.MusicAssets;
+import com.lothbrok.game.assets.entities.audio.SoundAssets;
 
 public class Audio {
 
@@ -15,6 +15,12 @@ public class Audio {
     public Audio(MusicAssets musicAssets, SoundAssets soundAssets) {
         this.musicAssets = musicAssets;
         this.soundAssets = soundAssets;
+    }
+
+    public void playMenuMusic() {
+        musicAssets.getMainMenu().play();
+        musicAssets.getMainMenu().setLooping(true);
+        musicAssets.getMainMenu().setVolume(1f);
     }
 
     public void playGamePlayMusic() {

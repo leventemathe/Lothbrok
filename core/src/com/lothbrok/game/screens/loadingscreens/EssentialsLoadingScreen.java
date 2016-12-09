@@ -9,16 +9,22 @@ public class EssentialsLoadingScreen implements Screen {
 
     private static final String TAG = EssentialsLoadingScreen.class.getSimpleName();
 
+    Assets assets;
+
+    public EssentialsLoadingScreen(Assets assets) {
+        this.assets = assets;
+    }
+
     @Override
     public void show() {
-        Assets.instance.loadRalewayLightFont();
+        assets.loadEssentials();
     }
 
     @Override
     public void render(float delta) {
-        Gdx.app.debug(TAG, "loading: " + Assets.instance.getProgess());
-        if(Assets.instance.isDoneLoading()) {
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuLoadingScreen());
+        Gdx.app.debug(TAG, "loading: " + assets.getProgess());
+        if(assets.isDoneLoading()) {
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuLoadingScreen(assets));
         }
     }
 
@@ -44,6 +50,6 @@ public class EssentialsLoadingScreen implements Screen {
 
     @Override
     public void dispose() {
-        Assets.instance.dispose();
+
     }
 }

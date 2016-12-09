@@ -1,0 +1,34 @@
+
+main_menu.pack.png
+size: 4096,2048
+format: RGBA8888
+filter: MipMapLinearNearest,MipMapLinearNearest
+repeat: none
+background
+  rotate: false
+  xy: 10, 721
+  size: 2560, 1070
+  orig: 2560, 1070
+  offset: 0, 0
+  index: -1
+btn_default
+  rotate: false
+  xy: 2580, 1605
+  size: 720, 186
+  orig: 720, 186
+  offset: 0, 0
+  index: -1
+btn_pressed
+  rotate: false
+  xy: 10, 10
+  size: 720, 186
+  orig: 720, 186
+  offset: 0, 0
+  index: -1
+logo
+  rotate: false
+  xy: 10, 206
+  size: 1560, 505
+  orig: 1560, 505
+  offset: 0, 0
+  index: -1

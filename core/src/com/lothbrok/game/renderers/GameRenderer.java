@@ -2,7 +2,6 @@ package com.lothbrok.game.renderers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,10 +14,10 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lothbrok.game.assets.Assets;
-import com.lothbrok.game.assets.entities.EnemyAnimation;
-import com.lothbrok.game.assets.entities.PlayerAnimation;
+import com.lothbrok.game.assets.entities.animation.EnemyAnimation;
+import com.lothbrok.game.assets.entities.animation.PlayerAnimation;
 import com.lothbrok.game.assets.spriter.SpriterAnimation;
-import com.lothbrok.game.assets.utils.AssetsConstants;
+import com.lothbrok.game.constants.AnimationConstants;
 import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.model.entities.Enemy;
 import com.lothbrok.game.model.entities.Entity;
@@ -26,6 +25,8 @@ import com.lothbrok.game.model.entities.Player;
 import com.lothbrok.game.model.entities.Treasure;
 
 public class GameRenderer implements Disposable {
+
+    private Assets assets;
 
     private ExtendedCamera extendedCamera;
     private Viewport viewport;
@@ -43,7 +44,9 @@ public class GameRenderer implements Disposable {
 
     int counter = 0;
 
-    public GameRenderer(GameModel gameModel, SpriteBatch batch, ShapeRenderer shapeRenderer) {
+    public GameRenderer(GameModel gameModel, SpriteBatch batch, ShapeRenderer shapeRenderer, Assets assets) {
+        this.assets = assets;
+
         this.player = gameModel.getPlayer();
 
         setupViewPort(gameModel);
@@ -62,14 +65,14 @@ public class GameRenderer implements Disposable {
     }
 
     private void setupAnimation(GameModel gameModel) {
-        playerAnimation = new PlayerAnimation(new SpriterAnimation(Assets.instance.getPlayerAnimationAssets()));
+        playerAnimation = new PlayerAnimation(new SpriterAnimation(assets.getPlayerAnimationAssets()));
         //TODO get scale from m l xl etc
         playerAnimation.getAnimation().setScale(1f/540f); //xl
 
         Array<Enemy> enemies = gameModel.getEnemies();
         enemyAnimations = new ObjectMap<>();
         for(int i = 0; i < enemies.size; i++) {
-            EnemyAnimation animation = new EnemyAnimation(new SpriterAnimation(Assets.instance.getEnemyAnimationAssets()));
+            EnemyAnimation animation = new EnemyAnimation(new SpriterAnimation(assets.getEnemyAnimationAssets()));
             animation.getAnimation().setScale(1f/540f); //xl
             enemyAnimations.put(enemies.get(i), animation);
         }
@@ -83,7 +86,7 @@ public class GameRenderer implements Disposable {
     }
 
     public void addLostTreasure(Treasure treasure) {
-        Sprite sprite = new Sprite(Assets.instance.getCoin());
+        Sprite sprite = new Sprite(assets.getCoin());
         treasureTextures.put(treasure, sprite);
     }
 
@@ -93,8 +96,6 @@ public class GameRenderer implements Disposable {
 
     public void render(float deltaTime) {
         viewport.apply();
-        Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderSky();
         renderMap();
 
@@ -111,6 +112,19 @@ public class GameRenderer implements Disposable {
 //        PixmapIO.writePNG(Gdx.files.external("screenshots/mypixmap" + Integer.toString(counter) + ".png"), pixmap);
 //        pixmap.dispose();
 //        counter++;
+    }
+
+    public void renderWithoutUpdate(float deltaTime) {
+        viewport.apply();
+        renderSky();
+        renderMap();
+
+        spriteBatch.setProjectionMatrix(extendedCamera.getCamera().combined);
+        spriteBatch.begin();
+        renderLostTreasure();
+        renderAnimationWithoutUpdate(deltaTime);
+        spriteBatch.end();
+        renderPlayerRectangles();
     }
 
     private void renderSky() {
@@ -132,11 +146,27 @@ public class GameRenderer implements Disposable {
     }
 
     private void renderAnimation(float deltaTime) {
-        renderEnemyAnimations(deltaTime);
-        renderPlayerAnimation(deltaTime);
+        renderEnemyAnimationsWithUpdate(deltaTime);
+        renderPlayerAnimationWithUpdate(deltaTime);
     }
 
-    private void renderPlayerAnimation(float deltaTime) {
+    private void renderAnimationWithoutUpdate(float deltaTime) {
+        renderEnemyAnimationsWithoutUpdate(deltaTime);
+        renderPlayerAnimationWithoutUpdate(deltaTime);
+    }
+
+    private void renderPlayerAnimationWithoutUpdate(float deltaTime) {
+        preparePlayerAnimation(deltaTime);
+        playerAnimation.getAnimation().render(spriteBatch, shapeRenderer);
+    }
+
+    private void renderPlayerAnimationWithUpdate(float deltaTime) {
+        preparePlayerAnimation(deltaTime);
+        playerAnimation.getAnimation().update(deltaTime);
+        playerAnimation.getAnimation().render(spriteBatch, shapeRenderer);
+    }
+
+    private void preparePlayerAnimation(float deltaTime) {
         SpriterAnimation animation = playerAnimation.getAnimation();
         Entity.ActionState actionState = player.actionState;
         Entity.MovementState movementState = player.movementState;
@@ -146,25 +176,25 @@ public class GameRenderer implements Disposable {
         //TODO move all animationchanging to playerAnimation from animation
         if(actionState == Entity.ActionState.ATTACKING) {
             if(movementState == Entity.MovementState.STANDING) {
-                animation.setPlayOnce(AssetsConstants.PLAYER_ANIMATION_ATTACKING);
+                animation.setPlayOnce(AnimationConstants.PLAYER_ANIMATION_ATTACKING);
             }
             else if(movementState == Entity.MovementState.MOVING){
                 playerAnimation.attackWhileMoving();
             }
         } else if(actionState == Entity.ActionState.FALLING) {
-            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_FALLING);
+            animation.setPlayAlways(AnimationConstants.PLAYER_ANIMATION_FALLING);
         } else if(actionState == Entity.ActionState.JUMPING) {
-            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_JUMPING);
+            animation.setPlayAlways(AnimationConstants.PLAYER_ANIMATION_JUMPING);
         } else if(movementState == Entity.MovementState.MOVING) {
-            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
+            animation.setPlayAlways(AnimationConstants.PLAYER_ANIMATION_WALKING);
         } else {
-            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_IDLE);
+            animation.setPlayAlways(AnimationConstants.PLAYER_ANIMATION_IDLE);
         }
 
         if(lifeState == Entity.LifeState.DYING) {
-            animation.setPlayOnce(AssetsConstants.PLAYER_ANIMATION_DEATH);
+            animation.setPlayOnce(AnimationConstants.PLAYER_ANIMATION_DEATH);
         } else if(lifeState == Entity.LifeState.DEAD) {
-            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_DEAD);
+            animation.setPlayAlways(AnimationConstants.PLAYER_ANIMATION_DEAD);
         }
 
         if(direction == Entity.Direction.RIGHT) {
@@ -174,41 +204,58 @@ public class GameRenderer implements Disposable {
         }
 
         animation.setPosition(player.position.x, player.position.y);
-        animation.update(deltaTime);
-        animation.render(spriteBatch, shapeRenderer);
     }
 
-    private void renderEnemyAnimations(float deltaTime) {
+    private void renderEnemyAnimationsWithUpdate(float deltaTime) {
         for(ObjectMap.Entry<Enemy, EnemyAnimation> entry : enemyAnimations.entries()) {
-            SpriterAnimation animation = entry.value.getAnimation();
-            Entity.ActionState actionState = entry.key.actionState;
-            Entity.LifeState lifeState = entry.key.lifeState;
-            Entity.MovementState movementState = entry.key.movementState;
-            Entity.Direction direction = entry.key.direction;
-
-            if(lifeState == Entity.LifeState.DYING) {
-                animation.setPlayOnce(AssetsConstants.ENEMY_ANIMATION_DEATH);
-            } else if(lifeState == Entity.LifeState.DEAD) {
-                animation.setPlayAlways(AssetsConstants.ENEMY_ANIMATION_DEAD);
-            } else {
-                if (actionState == Entity.ActionState.ATTACKING) {
-                    animation.setPlayOnce(AssetsConstants.ENEMY_ANIMATION_ATTACKING);
-                } else if (movementState == Entity.MovementState.MOVING) {
-                    animation.setPlayAlways(AssetsConstants.ENEMY_ANIMATION_WALKING);
-                } else {
-                    animation.setPlayAlways(AssetsConstants.ENEMY_ANIMATION_IDLE);
-                }
-                if(direction == Entity.Direction.RIGHT) {
-                    animation.faceRight();
-                } else if(direction == Entity.Direction.LEFT) {
-                    animation.faceLeft();
-                }
-            }
-
-            animation.setPosition(entry.key.position.x, entry.key.position.y);
-            animation.update(deltaTime);
-            animation.render(spriteBatch, shapeRenderer);
+            prepareEnemyAnimation(deltaTime, entry);
+            renderEnemyAnimationWithUpdate(deltaTime, entry.value);
         }
+    }
+
+    private void renderEnemyAnimationsWithoutUpdate(float deltaTime) {
+        for(ObjectMap.Entry<Enemy, EnemyAnimation> entry : enemyAnimations.entries()) {
+            prepareEnemyAnimation(deltaTime, entry);
+            renderEnemyAnimationWithoutUpdate(deltaTime, entry.value);
+        }
+    }
+
+    private void renderEnemyAnimationWithUpdate(float deltaTime, EnemyAnimation animation) {
+        animation.getAnimation().update(deltaTime);
+        animation.getAnimation().render(spriteBatch, shapeRenderer);
+    }
+
+    private void renderEnemyAnimationWithoutUpdate(float deltaTime, EnemyAnimation animation) {
+        animation.getAnimation().render(spriteBatch, shapeRenderer);
+    }
+
+    private void prepareEnemyAnimation(float deltaTime, ObjectMap.Entry<Enemy, EnemyAnimation> entry) {
+        SpriterAnimation animation = entry.value.getAnimation();
+        Entity.ActionState actionState = entry.key.actionState;
+        Entity.LifeState lifeState = entry.key.lifeState;
+        Entity.MovementState movementState = entry.key.movementState;
+        Entity.Direction direction = entry.key.direction;
+
+        if(lifeState == Entity.LifeState.DYING) {
+            animation.setPlayOnce(AnimationConstants.ENEMY_ANIMATION_DEATH);
+        } else if(lifeState == Entity.LifeState.DEAD) {
+            animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_DEAD);
+        } else {
+            if (actionState == Entity.ActionState.ATTACKING) {
+                animation.setPlayOnce(AnimationConstants.ENEMY_ANIMATION_ATTACKING);
+            } else if (movementState == Entity.MovementState.MOVING) {
+                animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_WALKING);
+            } else {
+                animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_IDLE);
+            }
+            if(direction == Entity.Direction.RIGHT) {
+                animation.faceRight();
+            } else if(direction == Entity.Direction.LEFT) {
+                animation.faceLeft();
+            }
+        }
+
+        animation.setPosition(entry.key.position.x, entry.key.position.y);
     }
 
     private void renderLostTreasure() {
