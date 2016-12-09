@@ -1,0 +1,48 @@
+
+main_menu.pack.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMapLinearNearest,MipMapLinearNearest
+repeat: none
+blue_hills
+  rotate: false
+  xy: 7, 714
+  size: 1920, 228
+  orig: 1920, 228
+  offset: 0, 0
+  index: -1
+clouds
+  rotate: false
+  xy: 7, 540
+  size: 1920, 167
+  orig: 1920, 167
+  offset: 0, 0
+  index: -1
+green_hills
+  rotate: false
+  xy: 7, 949
+  size: 1920, 382
+  orig: 1920, 382
+  offset: 0, 0
+  index: -1
+logo
+  rotate: false
+  xy: 7, 154
+  size: 1170, 379
+  orig: 1170, 379
+  offset: 0, 0
+  index: -1
+main_menu_btn_default
+  rotate: false
+  xy: 7, 7
+  size: 540, 140
+  orig: 540, 140
+  offset: 0, 0
+  index: -1
+main_menu_btn_pressed
+  rotate: false
+  xy: 1184, 393
+  size: 540, 140
+  orig: 540, 140
+  offset: 0, 0
+  index: -1
