@@ -69,7 +69,7 @@ public class HUDRenderer implements Disposable {
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         //TODO fix the font system
-        labelStyle.font = Assets.instance.getMainMenuAssets().getFont48();
+        labelStyle.font = Assets.instance.getPrVikingFont().getFont64();
         treasureLabel = new Label(Integer.toString(treasure), labelStyle);
 
         result.addActor(treasureImage);

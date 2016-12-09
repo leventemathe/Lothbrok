@@ -11,7 +11,7 @@ import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.assets.spriter.SpriterAnimation;
 import com.lothbrok.game.constants.AnimationConstants;
 import com.lothbrok.game.screens.AbstractScreen;
-import com.lothbrok.game.screens.GameScreen;
+import com.lothbrok.game.screens.MainMenuScreen;
 
 public class MainMenuLoadingScreen extends AbstractScreen {
 
@@ -35,7 +35,8 @@ public class MainMenuLoadingScreen extends AbstractScreen {
         loadingAnimation.setScale(1f/540f);
         loadingAnimation.setPosition(0f, 0f);
 
-        Assets.instance.loadMainMenuAssets();
+        Assets.instance.loadPRVikingFont();
+        Assets.instance.loadMainMenuSkin();
         Assets.instance.loadPlayerAnimationAssets();
         Assets.instance.loadEnemyAnimationAssets();
         Assets.instance.loadMap(1);
@@ -50,7 +51,7 @@ public class MainMenuLoadingScreen extends AbstractScreen {
         Gdx.app.debug(TAG, "loading: " + Assets.instance.getProgess());
 
         if(Assets.instance.isDoneLoading()) {
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
         }
 
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

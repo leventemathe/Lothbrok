@@ -9,23 +9,17 @@ import com.badlogic.gdx.assets.loaders.SoundLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.maps.tiled.AtlasTmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.StringBuilder;
-import com.lothbrok.game.assets.entities.MainMenuAssets;
-import com.lothbrok.game.assets.entities.MusicAssets;
-import com.lothbrok.game.assets.entities.RalewayLightFont;
-import com.lothbrok.game.assets.entities.SoundAssets;
+import com.lothbrok.game.assets.entities.audio.MusicAssets;
+import com.lothbrok.game.assets.entities.audio.SoundAssets;
+import com.lothbrok.game.assets.entities.fonts.Font;
+import com.lothbrok.game.assets.entities.fonts.FontLoader;
 import com.lothbrok.game.assets.spriter.SpriterAnimationAssets;
 import com.lothbrok.game.assets.spriter.SpriterAnimationAssetsLoader;
 import com.lothbrok.game.assets.utils.AssetsErrorListenerImplementation;
@@ -44,8 +38,6 @@ public class Assets implements Disposable {
 
     private Assets() {}
 
-    private RalewayLightFont ralewayLightFont;
-    private MainMenuAssets mainMenuAssets;
     private TextureRegion coin;
     private MusicAssets musicAssets;
     private SoundAssets soundAssets;
@@ -60,7 +52,7 @@ public class Assets implements Disposable {
         assetManager.setLoader(TiledMap.class, new AtlasTmxMapLoader(fileHandleResolver));
         assetManager.setLoader(Skin.class, new SkinLoader(fileHandleResolver));
         assetManager.setLoader(BitmapFont.class, new BitmapFontLoader(fileHandleResolver));
-        assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(fileHandleResolver));
+        assetManager.setLoader(Font.class, new FontLoader(fileHandleResolver));
         assetManager.setLoader(Music.class, new MusicLoader(fileHandleResolver));
         assetManager.setLoader(Sound.class, new SoundLoader(fileHandleResolver));
     }
@@ -73,26 +65,14 @@ public class Assets implements Disposable {
         return assetManager.getProgress();
     }
 
+
+
     public void loadRalewayLightFont() {
-        assetManager.load(AssetsConstants.RALEWAY_LIGHT_FONT_PATH, FreeTypeFontGenerator.class);
+        assetManager.load(AssetsConstants.RALEWAY_LIGHT_FONT_PATH, Font.class);
     }
 
-    //TODO move the generation to loading somehow, same for menu
-    public RalewayLightFont getRalewayLightFont() {
-        if(ralewayLightFont == null) {
-            FreeTypeFontGenerator fontGenerator = assetManager.get(AssetsConstants.RALEWAY_LIGHT_FONT_PATH);
-
-            FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-            parameter.size = 32;
-            BitmapFont font32 = fontGenerator.generateFont(parameter);
-            parameter.size = 48;
-            BitmapFont font48 = fontGenerator.generateFont(parameter);
-
-            ralewayLightFont = new RalewayLightFont();
-            ralewayLightFont.setFont32(font32);
-            ralewayLightFont.setFont48(font48);
-        }
-        return ralewayLightFont;
+    public Font getRalewayLightFont() {
+        return assetManager.get(AssetsConstants.RALEWAY_LIGHT_FONT_PATH);
     }
 
     public void loadPlayerAnimationAssets() {
@@ -119,40 +99,20 @@ public class Assets implements Disposable {
         return assetManager.get(AssetsConstants.LOADING_ANIMATION_PATH);
     }
 
-    public void loadMainMenuAssets() {
-        assetManager.load(AssetsConstants.MAIN_MENU_SKIN_PATH, Skin.class, new SkinLoader.SkinParameter(AssetsConstants.MAIN_MENU_ATLAS_PATH));
-        //assetManager.load(AssetsConstants.PR_VIKING_FONT_PATH, BitmapFont.class);
-        assetManager.load(AssetsConstants.PR_VIKING_FONT_PATH, FreeTypeFontGenerator.class);
+    public void loadPRVikingFont () {
+        assetManager.load(AssetsConstants.PR_VIKING_FONT_PATH, Font.class);
     }
 
-    public MainMenuAssets getMainMenuAssets() {
-        if(mainMenuAssets == null) {
-            Skin skin = assetManager.get(AssetsConstants.MAIN_MENU_SKIN_PATH);
+    public Font getPrVikingFont() {
+        return assetManager.get(AssetsConstants.PR_VIKING_FONT_PATH);
+    }
 
-            FreeTypeFontGenerator fontGenerator = assetManager.get(AssetsConstants.PR_VIKING_FONT_PATH);
+    public void loadMainMenuSkin() {
+        assetManager.load(AssetsConstants.MAIN_MENU_SKIN_PATH, Skin.class, new SkinLoader.SkinParameter(AssetsConstants.MAIN_MENU_ATLAS_PATH));
+    }
 
-            FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-            parameter.size = 48;
-            BitmapFont font48 = fontGenerator.generateFont(parameter);
-
-            mainMenuAssets = new MainMenuAssets();
-            mainMenuAssets.setSkin(skin);
-            mainMenuAssets.setFontGenerator(fontGenerator);
-            mainMenuAssets.setFont48(font48);
-        }
-        //TODO load filtering from settings
-        //TODO set filtering for other images too (animation, map)
-        Texture.TextureFilter filter = Texture.TextureFilter.MipMapLinearLinear;
-        Texture.TextureFilter fontFilter = Texture.TextureFilter.Linear;
-        ObjectSet<Texture> textures = mainMenuAssets.getSkin().getAtlas().getTextures();
-        Array<TextureRegion> fontTextures = mainMenuAssets.getFont48().getRegions();
-        for(Texture texture : textures) {
-            texture.setFilter(filter, filter);
-        }
-        for(TextureRegion texture : fontTextures) {
-            texture.getTexture().setFilter(fontFilter, fontFilter);
-        }
-        return mainMenuAssets;
+    public Skin getMainMenuSkin() {
+        return assetManager.get(AssetsConstants.MAIN_MENU_SKIN_PATH);
     }
 
     public String buildMapFilePath(int index) {
@@ -229,8 +189,6 @@ public class Assets implements Disposable {
         return soundAssets;
     }
 
-    //TODO add unload methods
-    //TODO assets switching in screen transition
     @Override
     public void dispose() {
         assetManager.dispose();

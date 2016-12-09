@@ -1,4 +1,4 @@
-package com.lothbrok.game.assets.entities;
+package com.lothbrok.game.assets.entities.animation;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.brashmonkey.spriter.Animation;

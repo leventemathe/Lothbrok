@@ -1,4 +1,4 @@
-package com.lothbrok.game.assets.entities;
+package com.lothbrok.game.assets.entities.audio;
 
 import com.badlogic.gdx.audio.Sound;
 

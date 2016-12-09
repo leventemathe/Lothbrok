@@ -12,6 +12,8 @@ import com.badlogic.gdx.utils.Array;
 public class SpriterAnimationAssetsLoader extends AsynchronousAssetLoader<SpriterAnimationAssets,
         SpriterAnimationAssetsLoader.SpriterAnimationAssetsParameter> {
 
+    SpriterAnimationAssets animationAssets;
+
     public SpriterAnimationAssetsLoader() {
         super(new InternalFileHandleResolver());
     }
@@ -19,8 +21,6 @@ public class SpriterAnimationAssetsLoader extends AsynchronousAssetLoader<Sprite
     public SpriterAnimationAssetsLoader(FileHandleResolver resolver) {
         super(resolver);
     }
-
-    SpriterAnimationAssets animationAssets;
 
     @Override
     public void loadAsync(AssetManager manager, String fileName, FileHandle file, SpriterAnimationAssetsParameter parameter) {

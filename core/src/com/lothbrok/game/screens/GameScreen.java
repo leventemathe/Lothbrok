@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.lothbrok.game.assets.Assets;
-import com.lothbrok.game.assets.entities.EnemyAnimation;
+import com.lothbrok.game.assets.entities.animation.EnemyAnimation;
 import com.lothbrok.game.audio.Audio;
 import com.lothbrok.game.controllers.CameraController;
 import com.lothbrok.game.controllers.EnemyController;

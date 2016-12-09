@@ -1,8 +1,8 @@
 package com.lothbrok.game.audio;
 
 import com.badlogic.gdx.audio.Music;
-import com.lothbrok.game.assets.entities.MusicAssets;
-import com.lothbrok.game.assets.entities.SoundAssets;
+import com.lothbrok.game.assets.entities.audio.MusicAssets;
+import com.lothbrok.game.assets.entities.audio.SoundAssets;
 
 public class Audio {
 
