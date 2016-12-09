@@ -2,7 +2,6 @@ package com.lothbrok.game.renderers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -97,8 +96,6 @@ public class GameRenderer implements Disposable {
 
     public void render(float deltaTime) {
         viewport.apply();
-        Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderSky();
         renderMap();
 
@@ -115,6 +112,19 @@ public class GameRenderer implements Disposable {
 //        PixmapIO.writePNG(Gdx.files.external("screenshots/mypixmap" + Integer.toString(counter) + ".png"), pixmap);
 //        pixmap.dispose();
 //        counter++;
+    }
+
+    public void renderWithoutUpdate(float deltaTime) {
+        viewport.apply();
+        renderSky();
+        renderMap();
+
+        spriteBatch.setProjectionMatrix(extendedCamera.getCamera().combined);
+        spriteBatch.begin();
+        renderLostTreasure();
+        renderAnimationWithoutUpdate(deltaTime);
+        spriteBatch.end();
+        renderPlayerRectangles();
     }
 
     private void renderSky() {
@@ -136,11 +146,27 @@ public class GameRenderer implements Disposable {
     }
 
     private void renderAnimation(float deltaTime) {
-        renderEnemyAnimations(deltaTime);
-        renderPlayerAnimation(deltaTime);
+        renderEnemyAnimationsWithUpdate(deltaTime);
+        renderPlayerAnimationWithUpdate(deltaTime);
     }
 
-    private void renderPlayerAnimation(float deltaTime) {
+    private void renderAnimationWithoutUpdate(float deltaTime) {
+        renderEnemyAnimationsWithoutUpdate(deltaTime);
+        renderPlayerAnimationWithoutUpdate(deltaTime);
+    }
+
+    private void renderPlayerAnimationWithoutUpdate(float deltaTime) {
+        preparePlayerAnimation(deltaTime);
+        playerAnimation.getAnimation().render(spriteBatch, shapeRenderer);
+    }
+
+    private void renderPlayerAnimationWithUpdate(float deltaTime) {
+        preparePlayerAnimation(deltaTime);
+        playerAnimation.getAnimation().update(deltaTime);
+        playerAnimation.getAnimation().render(spriteBatch, shapeRenderer);
+    }
+
+    private void preparePlayerAnimation(float deltaTime) {
         SpriterAnimation animation = playerAnimation.getAnimation();
         Entity.ActionState actionState = player.actionState;
         Entity.MovementState movementState = player.movementState;
@@ -178,41 +204,58 @@ public class GameRenderer implements Disposable {
         }
 
         animation.setPosition(player.position.x, player.position.y);
-        animation.update(deltaTime);
-        animation.render(spriteBatch, shapeRenderer);
     }
 
-    private void renderEnemyAnimations(float deltaTime) {
+    private void renderEnemyAnimationsWithUpdate(float deltaTime) {
         for(ObjectMap.Entry<Enemy, EnemyAnimation> entry : enemyAnimations.entries()) {
-            SpriterAnimation animation = entry.value.getAnimation();
-            Entity.ActionState actionState = entry.key.actionState;
-            Entity.LifeState lifeState = entry.key.lifeState;
-            Entity.MovementState movementState = entry.key.movementState;
-            Entity.Direction direction = entry.key.direction;
-
-            if(lifeState == Entity.LifeState.DYING) {
-                animation.setPlayOnce(AnimationConstants.ENEMY_ANIMATION_DEATH);
-            } else if(lifeState == Entity.LifeState.DEAD) {
-                animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_DEAD);
-            } else {
-                if (actionState == Entity.ActionState.ATTACKING) {
-                    animation.setPlayOnce(AnimationConstants.ENEMY_ANIMATION_ATTACKING);
-                } else if (movementState == Entity.MovementState.MOVING) {
-                    animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_WALKING);
-                } else {
-                    animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_IDLE);
-                }
-                if(direction == Entity.Direction.RIGHT) {
-                    animation.faceRight();
-                } else if(direction == Entity.Direction.LEFT) {
-                    animation.faceLeft();
-                }
-            }
-
-            animation.setPosition(entry.key.position.x, entry.key.position.y);
-            animation.update(deltaTime);
-            animation.render(spriteBatch, shapeRenderer);
+            prepareEnemyAnimation(deltaTime, entry);
+            renderEnemyAnimationWithUpdate(deltaTime, entry.value);
         }
+    }
+
+    private void renderEnemyAnimationsWithoutUpdate(float deltaTime) {
+        for(ObjectMap.Entry<Enemy, EnemyAnimation> entry : enemyAnimations.entries()) {
+            prepareEnemyAnimation(deltaTime, entry);
+            renderEnemyAnimationWithoutUpdate(deltaTime, entry.value);
+        }
+    }
+
+    private void renderEnemyAnimationWithUpdate(float deltaTime, EnemyAnimation animation) {
+        animation.getAnimation().update(deltaTime);
+        animation.getAnimation().render(spriteBatch, shapeRenderer);
+    }
+
+    private void renderEnemyAnimationWithoutUpdate(float deltaTime, EnemyAnimation animation) {
+        animation.getAnimation().render(spriteBatch, shapeRenderer);
+    }
+
+    private void prepareEnemyAnimation(float deltaTime, ObjectMap.Entry<Enemy, EnemyAnimation> entry) {
+        SpriterAnimation animation = entry.value.getAnimation();
+        Entity.ActionState actionState = entry.key.actionState;
+        Entity.LifeState lifeState = entry.key.lifeState;
+        Entity.MovementState movementState = entry.key.movementState;
+        Entity.Direction direction = entry.key.direction;
+
+        if(lifeState == Entity.LifeState.DYING) {
+            animation.setPlayOnce(AnimationConstants.ENEMY_ANIMATION_DEATH);
+        } else if(lifeState == Entity.LifeState.DEAD) {
+            animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_DEAD);
+        } else {
+            if (actionState == Entity.ActionState.ATTACKING) {
+                animation.setPlayOnce(AnimationConstants.ENEMY_ANIMATION_ATTACKING);
+            } else if (movementState == Entity.MovementState.MOVING) {
+                animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_WALKING);
+            } else {
+                animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_IDLE);
+            }
+            if(direction == Entity.Direction.RIGHT) {
+                animation.faceRight();
+            } else if(direction == Entity.Direction.LEFT) {
+                animation.faceLeft();
+            }
+        }
+
+        animation.setPosition(entry.key.position.x, entry.key.position.y);
     }
 
     private void renderLostTreasure() {

@@ -17,6 +17,12 @@ public class Audio {
         this.soundAssets = soundAssets;
     }
 
+    public void playMenuMusic() {
+        musicAssets.getMainMenu().play();
+        musicAssets.getMainMenu().setLooping(true);
+        musicAssets.getMainMenu().setVolume(1f);
+    }
+
     public void playGamePlayMusic() {
         musicAssets.getDeath().setVolume(0f);
         musicAssets.getVictory().setVolume(0f);

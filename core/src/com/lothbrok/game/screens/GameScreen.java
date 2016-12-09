@@ -179,7 +179,7 @@ public class GameScreen extends AbstractScreen {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if(pauseController.isPaused()) {
-            gameRenderer.render(deltaTime);
+            gameRenderer.renderWithoutUpdate(deltaTime);
             pauseRenderer.render(deltaTime);
         } else if(isGameFinished) {
             updateAfterGameFinished(deltaTime);
