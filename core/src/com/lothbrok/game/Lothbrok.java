@@ -15,4 +15,10 @@ public class Lothbrok extends Game {
 		Assets.instance.init(new AssetManager());
 		setScreen(new EssentialsLoadingScreen());
 	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		screen.dispose();
+	}
 }

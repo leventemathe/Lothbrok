@@ -4,25 +4,25 @@ size: 2048,1024
 format: RGBA8888
 filter: MipMapLinearNearest,MipMapLinearNearest
 repeat: none
-blue_hills
-  rotate: false
-  xy: 5, 477
-  size: 1280, 152
-  orig: 1280, 152
-  offset: 0, 0
-  index: -1
-clouds
+background
   rotate: false
   xy: 5, 361
-  size: 1280, 111
-  orig: 1280, 111
+  size: 1280, 535
+  orig: 1280, 535
   offset: 0, 0
   index: -1
-green_hills
+btn_default
   rotate: false
-  xy: 5, 634
-  size: 1280, 254
-  orig: 1280, 254
+  xy: 1290, 803
+  size: 360, 93
+  orig: 360, 93
+  offset: 0, 0
+  index: -1
+btn_pressed
+  rotate: false
+  xy: 5, 5
+  size: 360, 93
+  orig: 360, 93
   offset: 0, 0
   index: -1
 logo
@@ -30,19 +30,5 @@ logo
   xy: 5, 103
   size: 780, 253
   orig: 780, 253
-  offset: 0, 0
-  index: -1
-main_menu_btn_default
-  rotate: false
-  xy: 1290, 795
-  size: 360, 93
-  orig: 360, 93
-  offset: 0, 0
-  index: -1
-main_menu_btn_pressed
-  rotate: false
-  xy: 5, 5
-  size: 360, 93
-  orig: 360, 93
   offset: 0, 0
   index: -1

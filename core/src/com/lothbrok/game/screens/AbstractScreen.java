@@ -1,5 +1,6 @@
 package com.lothbrok.game.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -8,6 +9,7 @@ import com.lothbrok.game.renderers.DebugRenderer;
 
 public abstract class AbstractScreen implements Screen {
 
+    private static final String TAG = AbstractScreen.class.getSimpleName();
     protected SpriteBatch spriteBatch;
     protected ShapeRenderer shapeRenderer;
 
@@ -48,6 +50,7 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void dispose() {
+        Gdx.app.debug(TAG, "dispose");
         spriteBatch.dispose();
         shapeRenderer.dispose();
         Assets.instance.dispose();

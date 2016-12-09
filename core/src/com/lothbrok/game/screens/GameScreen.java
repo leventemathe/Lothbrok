@@ -330,8 +330,15 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void dispose() {
+        Gdx.app.debug(TAG, "dispose");
         gameRenderer.dispose();
+        hudRenderer.dispose();
+        box2DDebugRenderer.dispose();
         mobileInputInterface.dispose();
+        pauseRenderer.dispose();
+        if(endOfGameRenderer != null) {
+            endOfGameRenderer.dispose();
+        }
         super.dispose();
     }
 
