@@ -22,6 +22,8 @@ import com.lothbrok.game.constants.ScreensConstants;
 
 public class EndOfGameRenderer implements Disposable {
 
+    protected Assets assets;
+
     protected Stage stage;
     protected Skin skin;
 
@@ -32,10 +34,11 @@ public class EndOfGameRenderer implements Disposable {
 
     public EndOfGameRenderer() {}
 
-    public EndOfGameRenderer(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
+    public EndOfGameRenderer(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, Assets assets) {
+        this.assets = assets;
         stage = new Stage(new FitViewport(ScreensConstants.VIEWPORT_MENU_WIDTH,
                 ScreensConstants.VIEWPORT_MENU_HEIGHT), spriteBatch);
-        skin = Assets.instance.getUI();
+        skin = assets.getUI();
         Gdx.input.setInputProcessor(stage);
         rebuildStage(shapeRenderer);
     }
@@ -57,13 +60,13 @@ public class EndOfGameRenderer implements Disposable {
 
     protected void buildBtnMainMenu() {
         TextButton.TextButtonStyle style = skin.get(UIConstants.UI_TEXT_BUTTON_STYLE, TextButton.TextButtonStyle.class);
-        style.font = Assets.instance.getPrVikingFont().getFont64();
+        style.font = assets.getPrVikingFont().getFont64();
         style.fontColor = skin.get("white", Color.class);
         btnMainMenu = new TextButton("MAIN MENU", style);
         btnMainMenu.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(assets));
             }
         });
 

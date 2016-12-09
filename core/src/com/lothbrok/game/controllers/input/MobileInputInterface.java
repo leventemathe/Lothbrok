@@ -22,6 +22,8 @@ public class MobileInputInterface implements Disposable{
 
     private static final String TAG = MobileInputInterface.class.getSimpleName();
 
+    private Assets assets;
+
     private Stage stage;
     private Skin skin;
 
@@ -33,10 +35,11 @@ public class MobileInputInterface implements Disposable{
     private PlayerController playerController;
     private PauseController pauseController;
 
-    public MobileInputInterface(PlayerController playerController, PauseController pauseController, SpriteBatch batch) {
+    public MobileInputInterface(PlayerController playerController, PauseController pauseController, SpriteBatch batch, Assets assets) {
+        this.assets = assets;
         stage = new Stage(new FitViewport(ScreensConstants.VIEWPORT_MENU_WIDTH,
                                           ScreensConstants.VIEWPORT_MENU_HEIGHT), batch);
-        skin = Assets.instance.getMobileControlsSkin();
+        skin = assets.getMobileControlsSkin();
         this.playerController = playerController;
         this.pauseController = pauseController;
         rebuildStage();

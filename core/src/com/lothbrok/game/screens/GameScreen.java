@@ -16,7 +16,6 @@ import com.lothbrok.game.controllers.EnemyController;
 import com.lothbrok.game.controllers.PauseController;
 import com.lothbrok.game.controllers.PauseListener;
 import com.lothbrok.game.controllers.PlayerController;
-import com.lothbrok.game.controllers.input.MobileInputInterface;
 import com.lothbrok.game.controllers.input.PCInput;
 import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.model.entities.ActionListener;
@@ -52,20 +51,22 @@ public class GameScreen extends AbstractScreen {
     private GameRenderer gameRenderer;
     private HUDRenderer hudRenderer;
     //TODO polimorphism instead of if statements
-    private MobileInputInterface mobileInputInterface;
     private Box2DDebugRenderer box2DDebugRenderer;
     private EndOfGameRenderer endOfGameRenderer;
     private PauseRenderer pauseRenderer;
     private Audio audio;
 
     //C
-    private InputProcessor inputProcessor;
-    private PlayerController playerController;
+    protected InputProcessor inputProcessor;
+    protected PlayerController playerController;
     private CameraController cameraController;
     private EnemyController enemyController;
-    private PauseController pauseController;
+    protected PauseController pauseController;
 
 
+    public GameScreen(Assets assets) {
+        super(assets);
+    }
 
     @Override
     public void show() {
@@ -75,30 +76,31 @@ public class GameScreen extends AbstractScreen {
         setUpRenderers();
         setupAnimationListeners();
         setupAudio();
+        setInputProcessor();
         setupInputProcessing();
     }
 
-    private void setupModel() {
-        TiledMap map = Assets.instance.getMap(1);
+    protected void setupModel() {
+        TiledMap map = assets.getMap(1);
         gameModel = new GameModel(map);
     }
 
-    private void setupControllers() {
+    protected void setupControllers() {
         playerController = new PlayerController();
         cameraController = new CameraController();
         pauseController = new PauseController();
         enemyController = new EnemyController();
     }
 
-    private void setUpRenderers() {
-        gameRenderer = new GameRenderer(gameModel, spriteBatch, shapeRenderer);
-        hudRenderer = new HUDRenderer(spriteBatch, gameModel.getPlayer().getHealth(), gameModel.getPlayer().getTreasure());
+    protected void setUpRenderers() {
+        gameRenderer = new GameRenderer(gameModel, spriteBatch, shapeRenderer, assets);
+        hudRenderer = new HUDRenderer(spriteBatch, gameModel.getPlayer().getHealth(), gameModel.getPlayer().getTreasure(), assets);
         box2DDebugRenderer = new Box2DDebugRenderer();
         gameRenderer.getExtendedCamera().snapTo(gameModel.getPlayer().position);
-        pauseRenderer = new PauseRenderer(spriteBatch, shapeRenderer, pauseController);
+        pauseRenderer = new PauseRenderer(spriteBatch, shapeRenderer, pauseController, assets);
     }
 
-    private void setupAnimationListeners() {
+    protected void setupAnimationListeners() {
         gameRenderer.getPlayerAnimation().setStopAttackingListener(gameModel.getPlayer().getAttackingComponent());
 
         ObjectMap<Enemy, EnemyAnimation> enemyAnimations = gameRenderer.getEnemyAnimations();
@@ -107,8 +109,8 @@ public class GameScreen extends AbstractScreen {
         }
     }
 
-    private void setupAudio() {
-        audio = new Audio(Assets.instance.getMusicAssets(), Assets.instance.getSoundAssets());
+    protected void setupAudio() {
+        audio = new Audio(assets.getMusicAssets(), assets.getSoundAssets());
         audio.playGamePlayMusic();
 
         AttackingComponent playerAttackingComponent = gameModel.getPlayer().getAttackingComponent();
@@ -151,9 +153,11 @@ public class GameScreen extends AbstractScreen {
         }
     }
 
-    private void setupInputProcessing() {
-        mobileInputInterface = new MobileInputInterface(playerController, pauseController, spriteBatch);
+    protected void setInputProcessor() {
         inputProcessor = new PCInput(playerController, cameraController, pauseController);
+    }
+
+    protected void setupInputProcessing() {
         //inputProcessor = mobileInputInterface.getStage();
         Gdx.input.setInputProcessor(inputProcessor);
         pauseController.setPauseListener(new PauseListener() {
@@ -271,7 +275,7 @@ public class GameScreen extends AbstractScreen {
     private void isGameFinished(float deltaTime) {
         if(gameModel.getPlayer() == null) {
             if(endOfGameRenderer == null) {
-                endOfGameRenderer = new GameOverRenderer(spriteBatch, shapeRenderer);
+                endOfGameRenderer = new GameOverRenderer(spriteBatch, shapeRenderer, assets);
             }
             //isGameFinished = true;
             gameFinishedTimer += deltaTime;
@@ -280,7 +284,7 @@ public class GameScreen extends AbstractScreen {
             }
         } else if(gameModel.getPlayer().isVictoryAchieved()) {
             if(endOfGameRenderer == null) {
-                endOfGameRenderer = new YouWonRenderer(spriteBatch, shapeRenderer);
+                endOfGameRenderer = new YouWonRenderer(spriteBatch, shapeRenderer, assets);
             }
             isGameFinished = true;
         }
@@ -290,9 +294,7 @@ public class GameScreen extends AbstractScreen {
 
     private void renderRegular(float deltaTime) {
         gameRenderer.render(deltaTime);
-
         hudRenderer.render(deltaTime);
-        mobileInputInterface.render(deltaTime);
         box2DDebugRenderer.render(gameModel.getWorld(), gameRenderer.getExtendedCamera().getCamera().combined);
         renderSound();
     }
@@ -321,7 +323,6 @@ public class GameScreen extends AbstractScreen {
         super.resize(width, height);
         gameRenderer.resize(width, height);
         hudRenderer.resize(width, height);
-        mobileInputInterface.resize(width, height);
         if(endOfGameRenderer != null) {
             endOfGameRenderer.resize(width, height);
         }
@@ -334,7 +335,6 @@ public class GameScreen extends AbstractScreen {
         gameRenderer.dispose();
         hudRenderer.dispose();
         box2DDebugRenderer.dispose();
-        mobileInputInterface.dispose();
         pauseRenderer.dispose();
         if(endOfGameRenderer != null) {
             endOfGameRenderer.dispose();

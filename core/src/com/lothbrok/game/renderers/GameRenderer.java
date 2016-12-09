@@ -27,6 +27,8 @@ import com.lothbrok.game.model.entities.Treasure;
 
 public class GameRenderer implements Disposable {
 
+    private Assets assets;
+
     private ExtendedCamera extendedCamera;
     private Viewport viewport;
 
@@ -43,7 +45,9 @@ public class GameRenderer implements Disposable {
 
     int counter = 0;
 
-    public GameRenderer(GameModel gameModel, SpriteBatch batch, ShapeRenderer shapeRenderer) {
+    public GameRenderer(GameModel gameModel, SpriteBatch batch, ShapeRenderer shapeRenderer, Assets assets) {
+        this.assets = assets;
+
         this.player = gameModel.getPlayer();
 
         setupViewPort(gameModel);
@@ -62,14 +66,14 @@ public class GameRenderer implements Disposable {
     }
 
     private void setupAnimation(GameModel gameModel) {
-        playerAnimation = new PlayerAnimation(new SpriterAnimation(Assets.instance.getPlayerAnimationAssets()));
+        playerAnimation = new PlayerAnimation(new SpriterAnimation(assets.getPlayerAnimationAssets()));
         //TODO get scale from m l xl etc
         playerAnimation.getAnimation().setScale(1f/540f); //xl
 
         Array<Enemy> enemies = gameModel.getEnemies();
         enemyAnimations = new ObjectMap<>();
         for(int i = 0; i < enemies.size; i++) {
-            EnemyAnimation animation = new EnemyAnimation(new SpriterAnimation(Assets.instance.getEnemyAnimationAssets()));
+            EnemyAnimation animation = new EnemyAnimation(new SpriterAnimation(assets.getEnemyAnimationAssets()));
             animation.getAnimation().setScale(1f/540f); //xl
             enemyAnimations.put(enemies.get(i), animation);
         }
@@ -83,7 +87,7 @@ public class GameRenderer implements Disposable {
     }
 
     public void addLostTreasure(Treasure treasure) {
-        Sprite sprite = new Sprite(Assets.instance.getCoin());
+        Sprite sprite = new Sprite(assets.getCoin());
         treasureTextures.put(treasure, sprite);
     }
 

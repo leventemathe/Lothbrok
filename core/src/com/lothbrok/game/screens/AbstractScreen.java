@@ -10,16 +10,23 @@ import com.lothbrok.game.renderers.DebugRenderer;
 public abstract class AbstractScreen implements Screen {
 
     private static final String TAG = AbstractScreen.class.getSimpleName();
+
+    protected Assets assets;
+
     protected SpriteBatch spriteBatch;
     protected ShapeRenderer shapeRenderer;
 
     private DebugRenderer debugRenderer;
 
+    public AbstractScreen(Assets assets) {
+        this.assets = assets;
+    }
+
     @Override
     public void show() {
         this.spriteBatch = new SpriteBatch();
         this.shapeRenderer = new ShapeRenderer();
-        debugRenderer = new DebugRenderer(spriteBatch);
+        debugRenderer = new DebugRenderer(spriteBatch, assets);
     }
 
     @Override
@@ -53,6 +60,5 @@ public abstract class AbstractScreen implements Screen {
         Gdx.app.debug(TAG, "dispose");
         spriteBatch.dispose();
         shapeRenderer.dispose();
-        Assets.instance.dispose();
     }
 }

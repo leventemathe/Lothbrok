@@ -1,5 +1,6 @@
 package com.lothbrok.game.screens;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -27,12 +28,16 @@ public class MainMenuScreen extends AbstractScreen {
 
     private Color colorSky;
 
+    public MainMenuScreen(Assets assets) {
+        super(assets);
+    }
+
     @Override
     public void show() {
         super.show();
         Gdx.app.debug(TAG, "show");
         stage = new Stage(new FitViewport(ScreensConstants.VIEWPORT_MENU_WIDTH, ScreensConstants.VIEWPORT_MENU_HEIGHT));
-        skin = Assets.instance.getMainMenuSkin();
+        skin = assets.getMainMenuSkin();
         colorSky = skin.getColor(MainMenuConstants.MAIN_MENU_COLOR_SKY);
         Gdx.input.setInputProcessor(stage);
         rebuildStage();
@@ -58,7 +63,12 @@ public class MainMenuScreen extends AbstractScreen {
         btnStart.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+                if(Gdx.app.getType() == Application.ApplicationType.Android ||
+                        Gdx.app.getType() == Application.ApplicationType.iOS) {
+                    ((Game) Gdx.app.getApplicationListener()).setScreen(new MobileGameScreen(assets));
+                } else {
+                    ((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen(assets));
+                }
             }
         });
         rootTable.add(btnStart).expand().center().row();
@@ -77,7 +87,7 @@ public class MainMenuScreen extends AbstractScreen {
 
     private TextButton buildButton(String text) {
         TextButton.TextButtonStyle style = skin.get(MainMenuConstants.MAIN_MENU_TEXT_BUTTON_STYLE, TextButton.TextButtonStyle.class);
-        style.font = Assets.instance.getPrVikingFont().getFont96();
+        style.font = assets.getPrVikingFont().getFont96();
         style.fontColor = skin.getColor(MainMenuConstants.MAIN_MENU_COLOR_WHITE);
         TextButton btn = new TextButton(text, style);
         return btn;

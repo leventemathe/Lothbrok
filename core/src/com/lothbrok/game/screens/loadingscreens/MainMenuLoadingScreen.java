@@ -17,41 +17,36 @@ public class MainMenuLoadingScreen extends AbstractScreen {
 
     public static final String TAG = MainMenuLoadingScreen.class.getSimpleName();
 
-
     private Camera camera;
     private Viewport viewport;
 
     private SpriterAnimation loadingAnimation;
+
+    public MainMenuLoadingScreen(Assets assets) {
+        super(assets);
+    }
 
     @Override
     public void show() {
         super.show();
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(2f, 2f, camera);
-        loadingAnimation = new SpriterAnimation(Assets.instance.getLoadingAnimationAssets());
+        loadingAnimation = new SpriterAnimation(assets.getLoadingAnimationAssets());
         loadingAnimation.setCurrentEntity(AnimationConstants.LOADING_ANIMATION_ENTITY_LOADING);
         loadingAnimation.setPlayAlways(AnimationConstants.LOADING_ANIMATION_LOADING);
         //TODO scale accoridng to size here to
         loadingAnimation.setScale(1f/540f);
         loadingAnimation.setPosition(0f, 0f);
 
-        Assets.instance.loadPRVikingFont();
-        Assets.instance.loadMainMenuSkin();
-        Assets.instance.loadPlayerAnimationAssets();
-        Assets.instance.loadEnemyAnimationAssets();
-        Assets.instance.loadMap(1);
-        Assets.instance.loadMobileControlsSkin();
-        Assets.instance.loadUI();
-        Assets.instance.loadMusicAssets();
-        Assets.instance.loadSoundAssets();
+        assets.loadAll();
     }
 
     @Override
     public void render(float deltaTime) {
-        Gdx.app.debug(TAG, "loading: " + Assets.instance.getProgess());
+        Gdx.app.debug(TAG, "loading: " + assets.getProgess());
 
-        if(Assets.instance.isDoneLoading()) {
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+        if(assets.isDoneLoading()) {
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(assets));
         }
 
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

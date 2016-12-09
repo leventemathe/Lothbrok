@@ -23,8 +23,8 @@ public class PauseRenderer extends EndOfGameRenderer {
 
     private InputMultiplexer inputMultiplexer;
 
-    public PauseRenderer(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, PauseController pauseController) {
-        super(spriteBatch, shapeRenderer);
+    public PauseRenderer(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, PauseController pauseController, Assets assets) {
+        super(spriteBatch, shapeRenderer, assets);
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
         inputMultiplexer.addProcessor(new PauseKeyProcessor());
@@ -38,7 +38,7 @@ public class PauseRenderer extends EndOfGameRenderer {
 
     private void buildBtnResume() {
         TextButton.TextButtonStyle style = skin.get(UIConstants.UI_TEXT_BUTTON_STYLE, TextButton.TextButtonStyle.class);
-        style.font = Assets.instance.getPrVikingFont().getFont64();
+        style.font = assets.getPrVikingFont().getFont64();
         style.fontColor = skin.get("white", Color.class);
         btnResume = new TextButton("RESUME", style);
         btnResume.addListener(new ChangeListener() {

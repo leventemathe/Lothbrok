@@ -31,20 +31,18 @@ public class Assets implements Disposable {
 
     public static final String TAG = Assets.class.getSimpleName();
 
-    public static final Assets instance = new Assets();
-
-    //TODO implement scale: 1080p 1x, 4k 2x etc -> changel file paths and viewport sizes accordingly
-
     private AssetManager assetManager;
-
-    private Assets() {}
 
     private TextureRegion coin;
     private MusicAssets musicAssets;
     private SoundAssets soundAssets;
 
-    public void init(AssetManager assetManager) {
-        this.assetManager = assetManager;
+    public Assets() {
+        init();
+    }
+
+    private void init() {
+        assetManager = new AssetManager();
         //TODO this error handling sucks, implement something better with exception throwing, catching
         assetManager.setErrorListener(new AssetsErrorListenerImplementation());
 
@@ -56,6 +54,23 @@ public class Assets implements Disposable {
         assetManager.setLoader(Font.class, new FontLoader(fileHandleResolver));
         assetManager.setLoader(Music.class, new MusicLoader(fileHandleResolver));
         assetManager.setLoader(Sound.class, new SoundLoader(fileHandleResolver));
+    }
+
+    public void loadEssentials() {
+        loadRalewayLightFont();
+        loadLoadingAnimationAssets();
+    }
+
+    public void loadAll() {
+        loadPRVikingFont();
+        loadMainMenuSkin();
+        loadPlayerAnimationAssets();
+        loadEnemyAnimationAssets();
+        loadMap(1);
+        loadMobileControlsSkin();
+        loadUI();
+        loadMusicAssets();
+        loadSoundAssets();
     }
 
     public boolean isDoneLoading() {

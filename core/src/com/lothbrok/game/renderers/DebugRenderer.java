@@ -11,6 +11,8 @@ import com.lothbrok.game.assets.Assets;
 
 public class DebugRenderer {
 
+    private Assets assets;
+
     private Camera camera;
     private Viewport viewport;
 
@@ -18,13 +20,14 @@ public class DebugRenderer {
 
     private BitmapFont font;
 
-    public DebugRenderer(SpriteBatch batch) {
+    public DebugRenderer(SpriteBatch batch, Assets assets) {
+        this.assets = assets;
         camera = new OrthographicCamera();
         //TODO move size to constants
         viewport = new ExtendViewport(1920, 1080, camera);
         this.spriteBatch = batch;
         //TODO get size dependent font
-        font = Assets.instance.getRalewayLightFont().getFont32();
+        font = assets.getRalewayLightFont().getFont32();
     }
 
     public void render(float delta) {
