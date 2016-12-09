@@ -2,6 +2,9 @@ package com.lothbrok.game.constants;
 
 public class AnimationConstants {
 
+    public static final String LOADING_ANIMATION_ENTITY_LOADING = "loading";
+    public static final String LOADING_ANIMATION_LOADING = "loading";
+
     public static final String PLAYER_ANIMATION_ENTITY_PLAYER = "player";
     public static final String PLAYER_ANIMATION_BONE_ATTACK = "swordarm_bone";
     public static final String PLAYER_ANIMATION_SPRITE_BODY = "body";

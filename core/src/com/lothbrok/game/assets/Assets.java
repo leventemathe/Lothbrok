@@ -28,8 +28,8 @@ import com.lothbrok.game.assets.entities.RalewayLightFont;
 import com.lothbrok.game.assets.entities.SoundAssets;
 import com.lothbrok.game.assets.spriter.SpriterAnimationAssets;
 import com.lothbrok.game.assets.spriter.SpriterAnimationAssetsLoader;
-import com.lothbrok.game.constants.AssetsConstants;
 import com.lothbrok.game.assets.utils.AssetsErrorListenerImplementation;
+import com.lothbrok.game.constants.AssetsConstants;
 import com.lothbrok.game.constants.UIConstants;
 
 public class Assets implements Disposable {
@@ -110,6 +110,15 @@ public class Assets implements Disposable {
     public SpriterAnimationAssets getEnemyAnimationAssets() {
         return assetManager.get(AssetsConstants.ENEMY_ANIMATION_PATH);
     }
+
+    public void loadLoadingAnimationAssets() {
+        assetManager.load(AssetsConstants.LOADING_ANIMATION_PATH, SpriterAnimationAssets.class);
+    }
+
+    public SpriterAnimationAssets getLoadingAnimationAssets() {
+        return assetManager.get(AssetsConstants.LOADING_ANIMATION_PATH);
+    }
+
     public void loadMainMenuAssets() {
         assetManager.load(AssetsConstants.MAIN_MENU_SKIN_PATH, Skin.class, new SkinLoader.SkinParameter(AssetsConstants.MAIN_MENU_ATLAS_PATH));
         //assetManager.load(AssetsConstants.PR_VIKING_FONT_PATH, BitmapFont.class);

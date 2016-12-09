@@ -6,6 +6,7 @@ public class AssetsConstants {
     public static final String RALEWAY_LIGHT_FONT_PATH = "fonts/raleway_light.otf";
     public static final String PR_VIKING_FONT_PATH = "fonts/pr_viking.ttf";
 
+    public static final String LOADING_ANIMATION_PATH = "xl/anim/loading/loading.scml";
     public static final String PLAYER_ANIMATION_PATH = "xl/anim/player/player.scml";
     public static final String ENEMY_ANIMATION_PATH = "xl/anim/enemy/enemy.scml";
 

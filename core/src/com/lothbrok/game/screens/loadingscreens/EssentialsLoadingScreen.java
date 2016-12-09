@@ -12,6 +12,7 @@ public class EssentialsLoadingScreen implements Screen {
     @Override
     public void show() {
         Assets.instance.loadRalewayLightFont();
+        Assets.instance.loadLoadingAnimationAssets();
     }
 
     @Override
