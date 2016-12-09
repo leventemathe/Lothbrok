@@ -28,8 +28,9 @@ import com.lothbrok.game.assets.entities.RalewayLightFont;
 import com.lothbrok.game.assets.entities.SoundAssets;
 import com.lothbrok.game.assets.spriter.SpriterAnimationAssets;
 import com.lothbrok.game.assets.spriter.SpriterAnimationAssetsLoader;
-import com.lothbrok.game.assets.utils.AssetsConstants;
+import com.lothbrok.game.constants.AssetsConstants;
 import com.lothbrok.game.assets.utils.AssetsErrorListenerImplementation;
+import com.lothbrok.game.constants.UIConstants;
 
 public class Assets implements Disposable {
 
@@ -73,7 +74,7 @@ public class Assets implements Disposable {
     }
 
     public void loadRalewayLightFont() {
-        assetManager.load(com.lothbrok.game.assets.utils.AssetsConstants.RALEWAY_LIGHT_FONT_PATH, FreeTypeFontGenerator.class);
+        assetManager.load(AssetsConstants.RALEWAY_LIGHT_FONT_PATH, FreeTypeFontGenerator.class);
     }
 
     //TODO move the generation to loading somehow, same for menu
@@ -110,16 +111,16 @@ public class Assets implements Disposable {
         return assetManager.get(AssetsConstants.ENEMY_ANIMATION_PATH);
     }
     public void loadMainMenuAssets() {
-        assetManager.load(AssetsConstants.MENU_SKIN_PATH, Skin.class, new SkinLoader.SkinParameter(AssetsConstants.MENU_ATLAS_PATH));
-        //assetManager.load(AssetsConstants.MENU_FONT_PATH, BitmapFont.class);
-        assetManager.load(AssetsConstants.MENU_FONT_PATH, FreeTypeFontGenerator.class);
+        assetManager.load(AssetsConstants.MAIN_MENU_SKIN_PATH, Skin.class, new SkinLoader.SkinParameter(AssetsConstants.MAIN_MENU_ATLAS_PATH));
+        //assetManager.load(AssetsConstants.PR_VIKING_FONT_PATH, BitmapFont.class);
+        assetManager.load(AssetsConstants.PR_VIKING_FONT_PATH, FreeTypeFontGenerator.class);
     }
 
     public MainMenuAssets getMainMenuAssets() {
         if(mainMenuAssets == null) {
-            Skin skin = assetManager.get(AssetsConstants.MENU_SKIN_PATH);
+            Skin skin = assetManager.get(AssetsConstants.MAIN_MENU_SKIN_PATH);
 
-            FreeTypeFontGenerator fontGenerator = assetManager.get(AssetsConstants.MENU_FONT_PATH);
+            FreeTypeFontGenerator fontGenerator = assetManager.get(AssetsConstants.PR_VIKING_FONT_PATH);
 
             FreeTypeFontParameter parameter = new FreeTypeFontParameter();
             parameter.size = 48;
@@ -146,9 +147,9 @@ public class Assets implements Disposable {
     }
 
     public String buildMapFilePath(int index) {
-        StringBuilder path = new StringBuilder(AssetsConstants.MAP_PREFIX);
+        StringBuilder path = new StringBuilder(AssetsConstants.MAP_PREFIX_PATH);
         path.append(String.valueOf(index));
-        path.append(com.lothbrok.game.assets.utils.AssetsConstants.MAP_POSTFIX);
+        path.append(AssetsConstants.MAP_POSTFIX_PATH);
         return  path.toString();
     }
 
@@ -178,7 +179,7 @@ public class Assets implements Disposable {
 
     public TextureRegion getCoin() {
         if(coin == null) {
-            coin = getUI().getRegion(AssetsConstants.UI_COIN);
+            coin = getUI().getRegion(UIConstants.UI_COIN);
         }
         return coin;
     }

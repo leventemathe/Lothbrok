@@ -18,7 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.screens.utils.ColorRectangleActor;
-import com.lothbrok.game.screens.utils.ScreensConstants;
+import com.lothbrok.game.constants.ScreensConstants;
 
 public class MainMenuScreen extends AbstractScreen {
 
@@ -33,7 +33,7 @@ public class MainMenuScreen extends AbstractScreen {
     private Image greenHills;
     private Image blueHills;
     private Image clouds;
-    private float cloudsSpeed = com.lothbrok.game.screens.utils.ScreensConstants.SPEED_MENU_CLOUDS;
+    private float cloudsSpeed = ScreensConstants.SPEED_MENU_CLOUDS;
 
     private TextButton btnStart;
     private TextButton btnOptions;
@@ -79,9 +79,9 @@ public class MainMenuScreen extends AbstractScreen {
 
     private void cloudLogic(float delta) {
         if(clouds.getX() >= 0.0f) {
-            cloudsSpeed = -1 * com.lothbrok.game.screens.utils.ScreensConstants.SPEED_MENU_CLOUDS;
+            cloudsSpeed = -1 * ScreensConstants.SPEED_MENU_CLOUDS;
         } else if(clouds.getX() + clouds.getPrefWidth() <= stage.getViewport().getWorldWidth()) {
-            cloudsSpeed = com.lothbrok.game.screens.utils.ScreensConstants.SPEED_MENU_CLOUDS;
+            cloudsSpeed = ScreensConstants.SPEED_MENU_CLOUDS;
         }
         clouds.setPosition(clouds.getX() + cloudsSpeed * delta, clouds.getY());
     }

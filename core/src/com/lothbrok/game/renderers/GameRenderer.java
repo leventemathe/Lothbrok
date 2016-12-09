@@ -18,7 +18,7 @@ import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.assets.entities.EnemyAnimation;
 import com.lothbrok.game.assets.entities.PlayerAnimation;
 import com.lothbrok.game.assets.spriter.SpriterAnimation;
-import com.lothbrok.game.assets.utils.AssetsConstants;
+import com.lothbrok.game.constants.AnimationConstants;
 import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.model.entities.Enemy;
 import com.lothbrok.game.model.entities.Entity;
@@ -146,25 +146,25 @@ public class GameRenderer implements Disposable {
         //TODO move all animationchanging to playerAnimation from animation
         if(actionState == Entity.ActionState.ATTACKING) {
             if(movementState == Entity.MovementState.STANDING) {
-                animation.setPlayOnce(AssetsConstants.PLAYER_ANIMATION_ATTACKING);
+                animation.setPlayOnce(AnimationConstants.PLAYER_ANIMATION_ATTACKING);
             }
             else if(movementState == Entity.MovementState.MOVING){
                 playerAnimation.attackWhileMoving();
             }
         } else if(actionState == Entity.ActionState.FALLING) {
-            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_FALLING);
+            animation.setPlayAlways(AnimationConstants.PLAYER_ANIMATION_FALLING);
         } else if(actionState == Entity.ActionState.JUMPING) {
-            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_JUMPING);
+            animation.setPlayAlways(AnimationConstants.PLAYER_ANIMATION_JUMPING);
         } else if(movementState == Entity.MovementState.MOVING) {
-            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_WALKING);
+            animation.setPlayAlways(AnimationConstants.PLAYER_ANIMATION_WALKING);
         } else {
-            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_IDLE);
+            animation.setPlayAlways(AnimationConstants.PLAYER_ANIMATION_IDLE);
         }
 
         if(lifeState == Entity.LifeState.DYING) {
-            animation.setPlayOnce(AssetsConstants.PLAYER_ANIMATION_DEATH);
+            animation.setPlayOnce(AnimationConstants.PLAYER_ANIMATION_DEATH);
         } else if(lifeState == Entity.LifeState.DEAD) {
-            animation.setPlayAlways(AssetsConstants.PLAYER_ANIMATION_DEAD);
+            animation.setPlayAlways(AnimationConstants.PLAYER_ANIMATION_DEAD);
         }
 
         if(direction == Entity.Direction.RIGHT) {
@@ -187,16 +187,16 @@ public class GameRenderer implements Disposable {
             Entity.Direction direction = entry.key.direction;
 
             if(lifeState == Entity.LifeState.DYING) {
-                animation.setPlayOnce(AssetsConstants.ENEMY_ANIMATION_DEATH);
+                animation.setPlayOnce(AnimationConstants.ENEMY_ANIMATION_DEATH);
             } else if(lifeState == Entity.LifeState.DEAD) {
-                animation.setPlayAlways(AssetsConstants.ENEMY_ANIMATION_DEAD);
+                animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_DEAD);
             } else {
                 if (actionState == Entity.ActionState.ATTACKING) {
-                    animation.setPlayOnce(AssetsConstants.ENEMY_ANIMATION_ATTACKING);
+                    animation.setPlayOnce(AnimationConstants.ENEMY_ANIMATION_ATTACKING);
                 } else if (movementState == Entity.MovementState.MOVING) {
-                    animation.setPlayAlways(AssetsConstants.ENEMY_ANIMATION_WALKING);
+                    animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_WALKING);
                 } else {
-                    animation.setPlayAlways(AssetsConstants.ENEMY_ANIMATION_IDLE);
+                    animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_IDLE);
                 }
                 if(direction == Entity.Direction.RIGHT) {
                     animation.faceRight();

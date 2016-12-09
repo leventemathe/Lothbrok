@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.lothbrok.game.assets.Assets;
-import com.lothbrok.game.assets.utils.AssetsConstants;
+import com.lothbrok.game.constants.UIConstants;
 import com.lothbrok.game.controllers.PauseController;
 
 public class PauseRenderer extends EndOfGameRenderer {
@@ -30,14 +30,14 @@ public class PauseRenderer extends EndOfGameRenderer {
         inputMultiplexer.addProcessor(new PauseKeyProcessor());
 
         this.pauseController = pauseController;
-        pausedLogo = skin.get(AssetsConstants.UI_PAUSED_LOGO, Image.class);
+        pausedLogo = skin.get(UIConstants.UI_PAUSED_LOGO, Image.class);
         rootTable.add(pausedLogo).expand().center().padTop(0f).row();
         buildBtnResume();
         buildBtnMainMenu();
     }
 
     private void buildBtnResume() {
-        TextButton.TextButtonStyle style = skin.get(AssetsConstants.UI_TEXT_BUTTON_STYLE, TextButton.TextButtonStyle.class);
+        TextButton.TextButtonStyle style = skin.get(UIConstants.UI_TEXT_BUTTON_STYLE, TextButton.TextButtonStyle.class);
         style.font = Assets.instance.getMainMenuAssets().getFont48();
         style.fontColor = skin.get("white", Color.class);
         btnResume = new TextButton("RESUME", style);

@@ -226,41 +226,42 @@ task packMobileControls << {
 
 
 
-
-
-
-//TODO Old tasks, fix them
-
-//TODO safe  max atalas size?
-task packMenu << {
-    if (project.ext.has('menuL') && project.ext.has('menuXL')) {
-        logger.info "Calling TexturePacker: "+ platform
-        TexturePacker.process(settings, menuL[0], menuL[1], menuL[2])
-        TexturePacker.process(settings, menuXL[0], menuXL[1], menuXL[2])
-    }
+// MAIN MENU
+task clearMainMenu << {
+    project.delete fileTree("../android/assets") { include  '**/img/main_menu/*.pack*.atlas',
+            '**/img/main_menu/*.pack*.png',
+            '**/img/main_menu/*.json'}
 }
 
-project.ext.menuM = ["core/assets_raw/img/menu/540", "android/assets/m/img/menu", "menu.pack"]
-project.ext.menuSettingsM = new com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings();
-project.ext.menuSettingsM.maxWidth = 2048
-project.ext.menuSettingsM.maxHeight = 2048
-project.ext.menuSettingsM.paddingX = 10
-project.ext.menuSettingsM.paddingY = 10
-project.ext.menuSettingsM.filterMin = Texture.TextureFilter.MipMapLinearNearest;
-project.ext.menuSettingsM.filterMag = Texture.TextureFilter.MipMapLinearNearest;
+task packMainMenu << {
+    clearMainMenu.execute()
 
-task packMenuM << {
-    if (project.ext.has('menuM')) {
-        logger.info "Calling TexturePacker: "+ platform
-        TexturePacker.process(menuSettingsM, menuM[0], menuM[1], menuM[2])
+    // generete texture packs
+    String packName     = "main_menu.pack";
+    String source       = "core/assets_raw/img/main_menu";
+    String[] destinations = ["android/assets/xl/img/main_menu",
+                             "android/assets/l/img/main_menu",
+                             "android/assets/m/img/main_menu",
+                             "android/assets/s/img/main_menu"];
+
+    TexturePacker.process(settingsXL, source, destinations[0], packName);
+    TexturePacker.process(settingsL, source, destinations[1], packName);
+    TexturePacker.process(settingsM, source, destinations[2], packName);
+    TexturePacker.process(settingsS, source, destinations[3], packName);
+
+    // pack skin json
+    String skinSource       = "assets_raw/img/main_menu";
+    String[] skinDestination = ["../android/assets/xl/img/main_menu",
+                                "../android/assets/l/img/main_menu",
+                                "../android/assets/m/img/main_menu",
+                                "../android/assets/s/img/main_menu"];
+
+    for(String dest : skinDestination) {
+        println("packing skin json")
+        project.copy {
+            from skinSource
+            into dest
+            include "main_menu_skin.json"
+        }
     }
 }
-
-project.ext.mobileControls = ["core/assets_raw/xl/img/mobile_controls", "android/assets/xl/img/mobile_controls", "mobile_controls.pack"]
-project.ext.mobileControlsSettings = new com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings();
-project.ext.mobileControlsSettings.maxWidth = 2048
-project.ext.mobileControlsSettings.maxHeight = 2048
-project.ext.mobileControlsSettings.paddingX = 10
-project.ext.mobileControlsSettings.paddingY = 10
-project.ext.mobileControlsSettings.filterMin = Texture.TextureFilter.MipMapLinearNearest;
-project.ext.mobileControlsSettings.filterMag = Texture.TextureFilter.MipMapLinearNearest;

@@ -3,7 +3,7 @@ package com.lothbrok.game.renderers;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.lothbrok.game.assets.utils.AssetsConstants;
+import com.lothbrok.game.constants.UIConstants;
 
 public class GameOverRenderer extends EndOfGameRenderer {
 
@@ -11,7 +11,7 @@ public class GameOverRenderer extends EndOfGameRenderer {
 
     public GameOverRenderer(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
         super(spriteBatch, shapeRenderer);
-        gameOverLogo = skin.get(AssetsConstants.UI_GAME_OVER_LOGO, Image.class);
+        gameOverLogo = skin.get(UIConstants.UI_GAME_OVER_LOGO, Image.class);
         rootTable.add(gameOverLogo).expand().center().padTop(50f).row();
         buildBtnMainMenu();
     }

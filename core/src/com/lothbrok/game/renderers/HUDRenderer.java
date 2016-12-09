@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lothbrok.game.assets.Assets;
-import com.lothbrok.game.screens.utils.ScreensConstants;
+import com.lothbrok.game.constants.ScreensConstants;
 
 public class HUDRenderer implements Disposable {
 

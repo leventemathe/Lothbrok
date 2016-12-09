@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.controllers.PauseController;
 import com.lothbrok.game.controllers.PlayerController;
-import com.lothbrok.game.screens.utils.ScreensConstants;
+import com.lothbrok.game.constants.ScreensConstants;
 
 public class MobileInputInterface implements Disposable{
 
