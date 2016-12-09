@@ -7,10 +7,14 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.MusicLoader;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.assets.loaders.SoundLoader;
+import com.badlogic.gdx.assets.loaders.TextureAtlasLoader;
+import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.AtlasTmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -21,11 +25,15 @@ import com.lothbrok.game.assets.entities.audio.MusicAssets;
 import com.lothbrok.game.assets.entities.audio.SoundAssets;
 import com.lothbrok.game.assets.entities.fonts.Font;
 import com.lothbrok.game.assets.entities.fonts.FontLoader;
+import com.lothbrok.game.assets.resolvers.LFileHandleResolver;
+import com.lothbrok.game.assets.resolvers.MFileHandleResolver;
+import com.lothbrok.game.assets.resolvers.SFileHandleResolver;
+import com.lothbrok.game.assets.resolvers.XLFileHandleResolver;
 import com.lothbrok.game.assets.spriter.SpriterAnimationAssets;
 import com.lothbrok.game.assets.spriter.SpriterAnimationAssetsLoader;
-import com.lothbrok.game.assets.utils.AssetsErrorListenerImplementation;
 import com.lothbrok.game.constants.AssetsConstants;
 import com.lothbrok.game.constants.UIConstants;
+import com.lothbrok.game.screens.loadingscreens.EssentialsLoadingScreen;
 
 public class Assets implements Disposable {
 
@@ -37,23 +45,37 @@ public class Assets implements Disposable {
     private MusicAssets musicAssets;
     private SoundAssets soundAssets;
 
+    //TODO error handling
     public Assets() {
         init();
     }
 
     private void init() {
-        assetManager = new AssetManager();
-        //TODO this error handling sucks, implement something better with exception throwing, catching
-        assetManager.setErrorListener(new AssetsErrorListenerImplementation());
+        FileHandleResolver internalFileHandleResolver = new InternalFileHandleResolver();
+        FileHandleResolver sizeFileHandleResolver = buildSizeFileHandleResolver();
+        assetManager = new AssetManager(internalFileHandleResolver, false);
 
-        FileHandleResolver fileHandleResolver = new InternalFileHandleResolver();
-        assetManager.setLoader(SpriterAnimationAssets.class, new SpriterAnimationAssetsLoader(fileHandleResolver));
-        assetManager.setLoader(TiledMap.class, new AtlasTmxMapLoader(fileHandleResolver));
-        assetManager.setLoader(Skin.class, new SkinLoader(fileHandleResolver));
-        assetManager.setLoader(BitmapFont.class, new BitmapFontLoader(fileHandleResolver));
-        assetManager.setLoader(Font.class, new FontLoader(fileHandleResolver));
-        assetManager.setLoader(Music.class, new MusicLoader(fileHandleResolver));
-        assetManager.setLoader(Sound.class, new SoundLoader(fileHandleResolver));
+        assetManager.setLoader(SpriterAnimationAssets.class, new SpriterAnimationAssetsLoader(sizeFileHandleResolver));
+        assetManager.setLoader(TiledMap.class, new AtlasTmxMapLoader(sizeFileHandleResolver));
+        assetManager.setLoader(TextureAtlas.class, new TextureAtlasLoader(sizeFileHandleResolver));
+        assetManager.setLoader(Texture.class, new TextureLoader(sizeFileHandleResolver));
+        assetManager.setLoader(Skin.class, new SkinLoader(sizeFileHandleResolver));
+        assetManager.setLoader(BitmapFont.class, new BitmapFontLoader(internalFileHandleResolver));
+        assetManager.setLoader(Font.class, new FontLoader(internalFileHandleResolver));
+        assetManager.setLoader(Music.class, new MusicLoader(internalFileHandleResolver));
+        assetManager.setLoader(Sound.class, new SoundLoader(internalFileHandleResolver));
+    }
+
+    private FileHandleResolver buildSizeFileHandleResolver() {
+        if(EssentialsLoadingScreen.size == EssentialsLoadingScreen.Size.XL) {
+            return new XLFileHandleResolver();
+        } else if(EssentialsLoadingScreen.size == EssentialsLoadingScreen.Size.L) {
+            return new LFileHandleResolver();
+        } else if(EssentialsLoadingScreen.size == EssentialsLoadingScreen.Size.M) {
+            return new MFileHandleResolver();
+        } else {
+            return new SFileHandleResolver();
+        }
     }
 
     public void loadEssentials() {
@@ -203,6 +225,11 @@ public class Assets implements Disposable {
             soundAssets.setEhh((Sound) assetManager.get(AssetsConstants.SOUND_EHH));
         }
         return soundAssets;
+    }
+
+    public void clear() {
+        Gdx.app.debug(TAG, "dispose");
+        assetManager.clear();
     }
 
     @Override

@@ -27,7 +27,7 @@ public class SpriterAnimationAssetsLoader extends AsynchronousAssetLoader<Sprite
         animationAssets = null;
         animationAssets = new SpriterAnimationAssets();
 
-        animationAssets.loadScml(fileName);
+        animationAssets.loadScml(resolve(fileName).toString());
     }
 
     @Override
