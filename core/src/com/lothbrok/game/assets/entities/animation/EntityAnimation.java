@@ -11,7 +11,6 @@ import com.lothbrok.game.model.entities.components.AttackingComponent;
 public abstract class EntityAnimation {
 
     protected SpriterAnimation animation;
-    //TODO make this a list of generic listeners
     protected AttackComponentListener attackComponentListener;
 
     public EntityAnimation(SpriterAnimation animation, String animationEntity, String idleAnimation) {

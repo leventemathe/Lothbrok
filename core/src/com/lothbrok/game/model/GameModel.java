@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.lothbrok.game.assets.entities.animation.EnemyAnimation;
 import com.lothbrok.game.assets.entities.animation.PlayerAnimation;
+import com.lothbrok.game.constants.TiledConstants;
 import com.lothbrok.game.model.box2d.Box2DCollisionFromTiled;
 import com.lothbrok.game.model.entities.Enemy;
 import com.lothbrok.game.model.entities.Entity;
@@ -48,20 +49,20 @@ public class GameModel {
         this.world = new World(new Vector2(0f, -9.8f), true);
         this.map = map;
         Box2DCollisionFromTiled.build(map, world);
-        this.parallaxBackground = new com.lothbrok.game.model.tiled.ParallaxBackground(map);
+        this.parallaxBackground = new ParallaxBackground(map);
         treasures = new Array<>();
     }
 
     private void setupPlayer(TiledMap map) {
         Vector2 pos = new Vector2();
-        pos.x = TiledUtils.toWorld((float)map.getLayers().get("player_spawn").getObjects().get(0).getProperties().get("x"));
-        pos.y = TiledUtils.toWorld((float)map.getLayers().get("player_spawn").getObjects().get(0).getProperties().get("y"));
+        pos.x = TiledUtils.toWorld((float)map.getLayers().get(TiledConstants.LAYER_PLAYER_SPAWN).getObjects().get(0).getProperties().get("x"));
+        pos.y = TiledUtils.toWorld((float)map.getLayers().get(TiledConstants.LAYER_PLAYER_SPAWN).getObjects().get(0).getProperties().get("y"));
         this.player = new Player(pos, map);
     }
 
     private void setupEnemies() {
         enemies = new Array<>();
-        MapObjects mapObjects = map.getLayers().get("enemies_spawn").getObjects();
+        MapObjects mapObjects = map.getLayers().get(TiledConstants.LAYER_ENEMIES_SPAWN).getObjects();
         for(int i = 0; i < mapObjects.getCount(); i++) {
             Vector2 pos = new Vector2();
             pos.x = TiledUtils.toWorld((float)mapObjects.get(i).getProperties().get("x"));
@@ -71,9 +72,7 @@ public class GameModel {
         }
     }
 
-    //TODO get the renderer out of here
     public void update(float deltaTime, GameRenderer gameRenderer) {
-        //TODO do fix timestep
         world.step(deltaTime, 6, 2);
         updateParallax(deltaTime);
         updatePlayer(deltaTime, gameRenderer.getPlayerAnimation());

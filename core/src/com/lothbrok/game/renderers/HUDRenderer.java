@@ -8,9 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.constants.Resolution;
+import com.lothbrok.game.constants.UIConstants;
 
 public class HUDRenderer implements Disposable {
 
@@ -30,15 +31,13 @@ public class HUDRenderer implements Disposable {
 
     public HUDRenderer(SpriteBatch batch, int health, int treasure, Assets assets) {
         this.assets = assets;
-        stage = new Stage(new FitViewport(Resolution.instance.getMenuWidth(),
-                Resolution.instance.getMenuHeight()), batch);
+        stage = new Stage(new ExtendViewport(Resolution.instance.getMenuWidth(), Resolution.instance.getMenuHeight()), batch);
         skin = assets.getUI();
         this.health = health;
         this.treasure = treasure;
         rebuildStage();
     }
 
-    //TODO a padding erteket kiszervezni
     private void rebuildStage() {
         stage.clear();
 
@@ -47,18 +46,18 @@ public class HUDRenderer implements Disposable {
         stage.addActor(rootTable);
 
         HorizontalGroup trasureGroup = buildTreasure();
-        rootTable.add(trasureGroup).expand().top().left().padLeft(50f).padTop(50f);
+        rootTable.add(trasureGroup).expand().top().left().padLeft(Resolution.instance.getPaddingMedium()).padTop(Resolution.instance.getPaddingMedium());
 
         healthImages = buildHealth();
-        rootTable.add(healthImages).expand().top().right().padRight(50f).padTop(50f);
+        rootTable.add(healthImages).expand().top().right().padRight(Resolution.instance.getPaddingMedium()).padTop(Resolution.instance.getPaddingMedium());
     }
 
     private HorizontalGroup buildHealth() {
         HorizontalGroup result = new HorizontalGroup();
-        result.space(50f);
+        result.space(Resolution.instance.getPaddingSmall());
         for(int i = 0; i < health; i++) {
             Image healthImage = new Image();
-            healthImage.setDrawable(skin.get("health", Image.class).getDrawable());
+            healthImage.setDrawable(skin.get(UIConstants.UI_HEALTH, Image.class).getDrawable());
             result.addActor(healthImage);
         }
         return result;
@@ -66,12 +65,11 @@ public class HUDRenderer implements Disposable {
 
     private HorizontalGroup buildTreasure() {
         HorizontalGroup result = new HorizontalGroup();
-        result.space(50f);
+        result.space(Resolution.instance.getPaddingSmall());
 
-        treasureImage = skin.get("treasure", Image.class);
+        treasureImage = skin.get(UIConstants.UI_TREASURE, Image.class);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        //TODO fix the font system
         labelStyle.font = assets.getPrVikingFont().getLargeFont();
         treasureLabel = new Label(Integer.toString(treasure), labelStyle);
 
@@ -92,7 +90,7 @@ public class HUDRenderer implements Disposable {
             this.health = health;
             rootTable.removeActor(healthImages);
             healthImages = buildHealth();
-            rootTable.add(healthImages).expand().top().right().padRight(50f).padTop(50f);
+            rootTable.add(healthImages).expand().top().right().padRight(Resolution.instance.getPaddingMedium()).padTop(Resolution.instance.getPaddingMedium());
         }
     }
 

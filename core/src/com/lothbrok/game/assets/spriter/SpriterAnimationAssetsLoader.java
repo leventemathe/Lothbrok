@@ -31,7 +31,6 @@ public class SpriterAnimationAssetsLoader extends AsynchronousAssetLoader<Sprite
     }
 
     @Override
-    //TODO move the pixmap loading parts of LibGdxLoader to loadAsync, load only Texture(Region) here
     public SpriterAnimationAssets loadSync(AssetManager manager, String fileName, FileHandle file, SpriterAnimationAssetsParameter parameter) {
         //TODO move pixmap parts of loader to async, call texture parts here
         this.animationAssets.loadImages();

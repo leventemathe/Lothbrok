@@ -1,6 +1,5 @@
 package com.lothbrok.game.renderers;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -10,6 +9,8 @@ import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.lothbrok.game.constants.Colors;
+import com.lothbrok.game.constants.TiledConstants;
 
 public class MyOrthogonalTiledMapRenderer extends OrthogonalTiledMapRenderer {
 
@@ -31,7 +32,6 @@ public class MyOrthogonalTiledMapRenderer extends OrthogonalTiledMapRenderer {
 
     @Override
     //TODO optimize, so only visible is drawn
-    //TODO move colors and tile types to a Constants file
     public void renderObject(MapObject object) {
         if (object instanceof TextureMapObject) {
             TextureMapObject textureObject = (TextureMapObject) object;
@@ -59,8 +59,7 @@ public class MyOrthogonalTiledMapRenderer extends OrthogonalTiledMapRenderer {
         } else if (object instanceof RectangleMapObject) {
             RectangleMapObject rectObject = (RectangleMapObject) object;
 
-            final String typeString = "type";
-            Object typeProperty = rectObject.getProperties().get(typeString);
+            Object typeProperty = rectObject.getProperties().get(TiledConstants.TYPE);
             if (typeProperty == null) {
                 return;
             }
@@ -69,17 +68,16 @@ public class MyOrthogonalTiledMapRenderer extends OrthogonalTiledMapRenderer {
             Rectangle rectangle = rectObject.getRectangle();
             batch.end();
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            //TODO get Color from somewhere
-            if (type.equals("hill")) {
-                shapeRenderer.setColor(new Color(47f/255f, 173f/255f, 33f/255f, 1f));
+            if (type.equals(TiledConstants.TYPE_HILL)) {
+                shapeRenderer.setColor(Colors.HILL_GREEN);
                 shapeRenderer.rect(rectangle.x * unitScale, rectangle.y * unitScale,
                         rectangle.width * unitScale, rectangle.height * unitScale);
-            } else if (type.equals("mountain")) {
-                shapeRenderer.setColor(new Color(213f/255f, 237f/255f, 247f/255f, 1f));
+            } else if (type.equals(TiledConstants.TYPE_MOUNTAIN)) {
+                shapeRenderer.setColor(Colors.MOUNTAIN_BLUE);
                 shapeRenderer.rect(rectangle.x * unitScale, rectangle.y * unitScale,
                         rectangle.width * unitScale, rectangle.height * unitScale);
-            } else if (type.equals("cloud")) {
-                shapeRenderer.setColor(new Color(230f/255f, 244f/255f, 250f/255f, 1f));
+            } else if (type.equals(TiledConstants.TYPE_CLOUD)) {
+                shapeRenderer.setColor(Colors.CLOUD_BLUE);
                 shapeRenderer.rect(rectangle.x * unitScale, rectangle.y * unitScale,
                         rectangle.width * unitScale, rectangle.height * unitScale);
             }

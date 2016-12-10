@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
-//TODO written by trixt0r, should I comment it?
 public class LibGdxLoader extends Loader<Sprite> implements Disposable{
 
 	public static int standardAtlasWidth = 2048, standardAtlasHeight = 2048;
@@ -65,9 +64,9 @@ public class LibGdxLoader extends Loader<Sprite> implements Disposable{
 		}
 		
 		if(!f.exists()) throw new GdxRuntimeException("Could not find file handle "+ path + "! Please check your paths.");
-		if(this.packer == null && this.pack)
-            //TODO set padding according to the size (m, l, xl etc.)
+		if(this.packer == null && this.pack) {
 			this.packer = new PixmapPacker(this.atlasWidth, this.atlasHeight, Pixmap.Format.RGBA8888, 2, true);
+		}
 		final Pixmap pix = new Pixmap(f);
 		this.pixmaps.put(ref, pix);
 		return null;
@@ -78,7 +77,6 @@ public class LibGdxLoader extends Loader<Sprite> implements Disposable{
 	 */
 	protected void generatePackedSprites(){
 		if(this.packer == null) return;
-        //TODO set filtering from options
 		TextureAtlas tex = this.packer.generateTextureAtlas(TextureFilter.Linear, TextureFilter.Linear, true);
 		Set<FileReference> keys = this.resources.keySet();
 		this.disposeNonPackedTextures();

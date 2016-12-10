@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lothbrok.game.assets.Assets;
+import com.lothbrok.game.constants.MobileInterfaceConstants;
 import com.lothbrok.game.constants.Resolution;
 import com.lothbrok.game.controllers.PauseController;
 import com.lothbrok.game.controllers.PlayerController;
@@ -45,7 +46,6 @@ public class MobileInputInterface implements Disposable{
         rebuildStage();
     }
 
-    //TODO a padding erteket kiszervezni
     private void rebuildStage() {
         stage.clear();
         //stage.setDebugAll(true);
@@ -59,16 +59,18 @@ public class MobileInputInterface implements Disposable{
         buildAttackButton();
         buildPauseButton();
 
-        rootTable.add(touchPad).expand().bottom().left().padBottom(50f).padLeft(50f);
+        float padding = Resolution.instance.getPaddingMedium();
 
-        rootTable.add(btnPause).expand().center().bottom().padBottom(50f);
+        rootTable.add(touchPad).expand().bottom().left().padBottom(padding).padLeft(padding);
+
+        rootTable.add(btnPause).expand().center().bottom().padBottom(padding);
 
         HorizontalGroup btnGroup = buildButtonsLayer();
-        rootTable.add(btnGroup).expand().bottom().right().padBottom(50f).padRight(50f);
+        rootTable.add(btnGroup).expand().bottom().right().padBottom(padding).padRight(padding);
     }
 
     private void buildTouchPad() {
-        Touchpad.TouchpadStyle style = skin.get("default", Touchpad.TouchpadStyle.class);
+        Touchpad.TouchpadStyle style = skin.get(MobileInterfaceConstants.SKIN_TOUCHPAD, Touchpad.TouchpadStyle.class);
         touchPad = new Touchpad(10f, style);
         touchPad.addListener(new ChangeListener() {
             @Override
@@ -85,7 +87,7 @@ public class MobileInputInterface implements Disposable{
     }
 
     private void buildJumpButton() {
-        ImageButton.ImageButtonStyle style = skin.get("jump", ImageButton.ImageButtonStyle.class);
+        ImageButton.ImageButtonStyle style = skin.get(MobileInterfaceConstants.SKIN_BTN_JUMP, ImageButton.ImageButtonStyle.class);
         btnJump = new ImageButton(style);
         btnJump.addListener(new InputListener() {
             @Override
@@ -102,7 +104,7 @@ public class MobileInputInterface implements Disposable{
     }
 
     private void buildAttackButton() {
-        ImageButton.ImageButtonStyle style = skin.get("attack", ImageButton.ImageButtonStyle.class);
+        ImageButton.ImageButtonStyle style = skin.get(MobileInterfaceConstants.SKIN_BTN_ATTACK, ImageButton.ImageButtonStyle.class);
         btnAttack = new ImageButton(style);
         btnAttack.addListener(new InputListener() {
             @Override
@@ -114,7 +116,7 @@ public class MobileInputInterface implements Disposable{
     }
 
     private void buildPauseButton() {
-        ImageButton.ImageButtonStyle style = skin.get("pause", ImageButton.ImageButtonStyle.class);
+        ImageButton.ImageButtonStyle style = skin.get(MobileInterfaceConstants.SKIN_BTN_PAUSE, ImageButton.ImageButtonStyle.class);
         btnPause = new ImageButton(style);
         btnPause.addListener(new InputListener() {
             @Override
@@ -127,7 +129,7 @@ public class MobileInputInterface implements Disposable{
 
     private HorizontalGroup buildButtonsLayer() {
         HorizontalGroup result = new HorizontalGroup();
-        result.space(50f);
+        result.space(Resolution.instance.getPaddingMedium());
         result.addActor(btnJump);
         result.addActor(btnAttack);
         return result;

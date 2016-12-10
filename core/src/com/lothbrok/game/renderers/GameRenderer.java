@@ -18,6 +18,7 @@ import com.lothbrok.game.assets.entities.animation.EnemyAnimation;
 import com.lothbrok.game.assets.entities.animation.PlayerAnimation;
 import com.lothbrok.game.assets.spriter.SpriterAnimation;
 import com.lothbrok.game.constants.AnimationConstants;
+import com.lothbrok.game.constants.Colors;
 import com.lothbrok.game.constants.Resolution;
 import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.model.entities.Enemy;
@@ -58,8 +59,7 @@ public class GameRenderer implements Disposable {
 
     private void setupViewPort(GameModel gameModel) {
         extendedCamera = new ExtendedCamera(new OrthographicCamera(), gameModel.getMap());
-        //TODO custom viewport (or maybe extended), now it sets it to the size of the desktop launcher/android screen size
-        float aspect = (float) Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight();
+        float aspect = (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight();
         float height = 4;
         float width = height * aspect;
         viewport = new ExtendViewport(width, height, extendedCamera.getCamera());
@@ -130,8 +130,7 @@ public class GameRenderer implements Disposable {
         Camera camera = this.extendedCamera.getCamera();
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        //TODO get sky color from somewhere (also change in menu?)
-        shapeRenderer.setColor(0f, 0f, 0.5f, 1f);
+        shapeRenderer.setColor(Colors.SKY_BLUE);
         shapeRenderer.rect(camera.position.x - camera.viewportWidth/2,
                            camera.position.y - camera.viewportHeight/2,
                            camera.viewportWidth,

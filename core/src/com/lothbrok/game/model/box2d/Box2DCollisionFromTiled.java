@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.lothbrok.game.constants.TiledConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class Box2DCollisionFromTiled {
     }
 
     public static List<Body> build(Map map, World world) {
-        MapObjects objects = map.getLayers().get("collision").getObjects();
+        MapObjects objects = map.getLayers().get(TiledConstants.LAYER_COLLISION).getObjects();
 
         List<Body> bodies = new ArrayList<>();
 

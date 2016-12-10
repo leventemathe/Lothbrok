@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lothbrok.game.assets.Assets;
+import com.lothbrok.game.constants.Resolution;
 
 public class DebugRenderer {
 
@@ -23,14 +24,12 @@ public class DebugRenderer {
     public DebugRenderer(SpriteBatch batch, Assets assets) {
         this.assets = assets;
         camera = new OrthographicCamera();
-        //TODO move size to constants
-        viewport = new ExtendViewport(1920, 1080, camera);
+        viewport = new ExtendViewport(Resolution.instance.getMenuWidth(), Resolution.instance.getMenuHeight(), camera);
         this.spriteBatch = batch;
-        //TODO get size dependent font
         font = assets.getRalewayLightFont().getLargeFont();
     }
 
-    public void render(float delta) {
+    public void render(float deltaTime) {
         viewport.apply();
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
@@ -39,8 +38,8 @@ public class DebugRenderer {
     }
 
     private void renderFpsCounter (SpriteBatch batch) {
-        float x = -viewport.getWorldWidth()/2 + 50;
-        float y = -viewport.getWorldHeight()/2 + 50;
+        float x = -viewport.getWorldWidth()/2f + 2*Resolution.instance.getPaddingMedium();
+        float y = -viewport.getWorldHeight()/2f + 3*Resolution.instance.getPaddingMedium();
         int fps = Gdx.graphics.getFramesPerSecond();
         font.draw(batch, "FPS: " + fps, x, y);
     }

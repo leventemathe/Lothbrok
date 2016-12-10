@@ -12,7 +12,7 @@ import com.lothbrok.game.assets.spriter.SpriterAnimation;
 import com.lothbrok.game.constants.AnimationConstants;
 import com.lothbrok.game.constants.Resolution;
 import com.lothbrok.game.screens.AbstractScreen;
-import com.lothbrok.game.screens.MainMenuScreen;
+import com.lothbrok.game.screens.GameScreen;
 
 public class MainMenuLoadingScreen extends AbstractScreen {
 
@@ -47,7 +47,7 @@ public class MainMenuLoadingScreen extends AbstractScreen {
         Gdx.app.debug(TAG, "loading: " + assets.getProgess());
 
         if(assets.isDoneLoading()) {
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(assets));
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen(assets));
         }
 
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

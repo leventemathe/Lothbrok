@@ -36,7 +36,6 @@ public class SpriterAnimationAssets implements Disposable {
         return scmlData;
     }
 
-    //TODO call this somewhere
     @Override
     public void dispose() {
         spriteLoader.dispose();

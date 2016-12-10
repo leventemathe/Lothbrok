@@ -5,7 +5,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
+import com.lothbrok.game.constants.TiledConstants;
 import com.lothbrok.game.model.entities.Entity;
+import com.lothbrok.game.model.tiled.TiledUtils;
 
 public class TiledCollisionComponent extends AbstractComponent {
 
@@ -18,8 +20,8 @@ public class TiledCollisionComponent extends AbstractComponent {
 
     public TiledCollisionComponent(Entity entity, TiledMap map, BodyBoxComponent bodyBoxComponent) {
         super(entity);
-        this.map = (TiledMapTileLayer)map.getLayers().get("tiles");
-        victoryRect = ((RectangleMapObject)map.getLayers().get("collision").getObjects().get("victory")).getRectangle();
+        this.map = (TiledMapTileLayer)map.getLayers().get(TiledConstants.LAYER_TILES);
+        victoryRect = TiledUtils.toWorld(((RectangleMapObject)map.getLayers().get(TiledConstants.LAYER_COLLISION).getObjects().get(TiledConstants.OBJECT_VICTORY)).getRectangle());
         this.mapBorder = new Rectangle(0f, 0f, (int)map.getProperties().get("width"), (int)map.getProperties().get("height"));
         this.bodyBoxComponent = bodyBoxComponent;
     }
@@ -88,13 +90,13 @@ public class TiledCollisionComponent extends AbstractComponent {
         }
 
         if(tile1 != null) {
-            Object blocked = tile1.getProperties().get("blocked");
+            Object blocked = tile1.getProperties().get(TiledConstants.PROPERTY_BLOCKED);
             if(blocked != null && blocked.equals(true)) {
                 return true;
             }
         }
         if(tile2 != null) {
-            Object blocked = tile2.getProperties().get("blocked");
+            Object blocked = tile2.getProperties().get(TiledConstants.PROPERTY_BLOCKED);
             if(blocked != null && blocked.equals(true)) {
                 return true;
             }
@@ -127,7 +129,7 @@ public class TiledCollisionComponent extends AbstractComponent {
             return false;
         }
 
-        Object blocked = tile.getProperties().get("blocked");
+        Object blocked = tile.getProperties().get(TiledConstants.PROPERTY_BLOCKED);
         if(blocked == null || blocked.equals(false)) {
             return false;
         }

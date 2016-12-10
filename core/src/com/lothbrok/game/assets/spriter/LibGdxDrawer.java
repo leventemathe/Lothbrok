@@ -7,7 +7,6 @@ import com.brashmonkey.spriter.Drawer;
 import com.brashmonkey.spriter.Loader;
 import com.brashmonkey.spriter.Timeline;
 
-//TODO this was written by trixt0r, but I wrote ScalingDrawer, and I changed some of it, should I comment it here?
 public class LibGdxDrawer extends Drawer<Sprite> {
 
     private SpriteBatch spriteBatch;

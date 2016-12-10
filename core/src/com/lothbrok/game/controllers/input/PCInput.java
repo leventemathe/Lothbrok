@@ -20,7 +20,6 @@ public class PCInput implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        //TODO mappable keyBools
         if(keycode == Input.Keys.H) {
             playerController.attack(true);
         }

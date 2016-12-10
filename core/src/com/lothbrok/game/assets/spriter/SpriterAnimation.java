@@ -93,7 +93,7 @@ public class SpriterAnimation {
 
     //Players
     private Player cacheAndSetPlayer(String animation) {
-        Player setMe = null;
+        Player setMe;
         Map<String, Player> players = cachedPlayers.get(currentEntity);
         if(players != null) {
             Player player = players.get(animation);
@@ -213,9 +213,7 @@ public class SpriterAnimation {
 
     //Update & render
     public void update(float deltaTime) {
-        //TODO default is 15 in trixt0r, 60fps is assumed as default -> 15*60
         int framesToPlayPerSecond = 15 * 60;
-        //TODO >4000 fps esetén ez 1 és nem mozog az animáció, ez baj? úgyis limitálni kéne az fps-t...
         int speed = Math.round(framesToPlayPerSecond * deltaTime);
 
         if(playerTweener != null) {
