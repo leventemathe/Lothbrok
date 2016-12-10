@@ -1,0 +1,41 @@
+
+mobile_controls.pack.png
+size: 512,128
+format: RGBA8888
+filter: MipMapLinearNearest,MipMapLinearNearest
+repeat: none
+attack_btn
+  rotate: false
+  xy: 110, 22
+  size: 83, 83
+  orig: 83, 83
+  offset: 0, 0
+  index: -1
+joystick_background
+  rotate: false
+  xy: 5, 5
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+joystick_knob
+  rotate: false
+  xy: 374, 65
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+jump_btn
+  rotate: false
+  xy: 198, 22
+  size: 83, 83
+  orig: 83, 83
+  offset: 0, 0
+  index: -1
+pause_btn
+  rotate: false
+  xy: 286, 22
+  size: 83, 83
+  orig: 83, 83
+  offset: 0, 0
+  index: -1

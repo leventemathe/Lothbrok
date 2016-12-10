@@ -1,0 +1,62 @@
+
+ui.pack.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMapLinearNearest,MipMapLinearNearest
+repeat: none
+coin
+  rotate: false
+  xy: 10, 48
+  size: 45, 49
+  orig: 45, 49
+  offset: 0, 0
+  index: -1
+game_over_logo
+  rotate: false
+  xy: 10, 402
+  size: 1591, 727
+  orig: 1591, 727
+  offset: 0, 0
+  index: -1
+health
+  rotate: false
+  xy: 1611, 990
+  size: 160, 139
+  orig: 160, 139
+  offset: 0, 0
+  index: -1
+main_menu_btn_default
+  rotate: false
+  xy: 993, 206
+  size: 720, 186
+  orig: 720, 186
+  offset: 0, 0
+  index: -1
+main_menu_btn_pressed
+  rotate: false
+  xy: 993, 10
+  size: 720, 186
+  orig: 720, 186
+  offset: 0, 0
+  index: -1
+paused_logo
+  rotate: false
+  xy: 10, 107
+  size: 973, 285
+  orig: 973, 285
+  offset: 0, 0
+  index: -1
+treasure
+  rotate: false
+  xy: 1853, 1813
+  size: 180, 141
+  orig: 180, 141
+  offset: 0, 0
+  index: -1
+you_won_logo
+  rotate: false
+  xy: 10, 1139
+  size: 1833, 815
+  orig: 1833, 815
+  offset: 0, 0
+  index: -1
