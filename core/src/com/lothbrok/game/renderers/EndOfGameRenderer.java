@@ -15,10 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lothbrok.game.assets.Assets;
+import com.lothbrok.game.constants.Resolution;
 import com.lothbrok.game.constants.UIConstants;
 import com.lothbrok.game.screens.MainMenuScreen;
 import com.lothbrok.game.screens.utils.ColorRectangleActor;
-import com.lothbrok.game.constants.ScreensConstants;
 
 public class EndOfGameRenderer implements Disposable {
 
@@ -36,8 +36,8 @@ public class EndOfGameRenderer implements Disposable {
 
     public EndOfGameRenderer(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, Assets assets) {
         this.assets = assets;
-        stage = new Stage(new FitViewport(ScreensConstants.VIEWPORT_MENU_WIDTH,
-                ScreensConstants.VIEWPORT_MENU_HEIGHT), spriteBatch);
+        stage = new Stage(new FitViewport(Resolution.instance.getMenuWidth(),
+                Resolution.instance.getMenuHeight()), spriteBatch);
         skin = assets.getUI();
         Gdx.input.setInputProcessor(stage);
         rebuildStage(shapeRenderer);
@@ -60,7 +60,7 @@ public class EndOfGameRenderer implements Disposable {
 
     protected void buildBtnMainMenu() {
         TextButton.TextButtonStyle style = skin.get(UIConstants.UI_TEXT_BUTTON_STYLE, TextButton.TextButtonStyle.class);
-        style.font = assets.getPrVikingFont().getFont64();
+        style.font = assets.getPrVikingFont().getLargeFont();
         style.fontColor = skin.get("white", Color.class);
         btnMainMenu = new TextButton("MAIN MENU", style);
         btnMainMenu.addListener(new ChangeListener() {

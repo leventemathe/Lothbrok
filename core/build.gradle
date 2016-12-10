@@ -72,10 +72,10 @@ task packMapAtlas << {
 
     String packName     = "map.pack";
     String source       = "core/assets_raw/map";
-    String[] destinations = ["android/assets/xl/map",
-                           "android/assets/l/map",
-                           "android/assets/m/map",
-                           "android/assets/s/map"];
+    String[] destinations = ["android/assets/_xl/map",
+                           "android/assets/_l/map",
+                           "android/assets/_m/map",
+                           "android/assets/_s/map"];
 
     // generete texture packs
     TexturePacker.process(settingsXL, source, destinations[0], packName);
@@ -100,28 +100,28 @@ task packMapTmx(type:Exec) {
         doLast {
             project.copy {
                 from dir
-                into "../android/assets/xl/map"
+                into "../android/assets/_xl/map"
                 include "xl.tmx"
                 rename "xl.tmx", file
             }
             project.delete dir+"/xl.tmx"
             project.copy {
                 from dir
-                into "../android/assets/l/map"
+                into "../android/assets/_l/map"
                 include "l.tmx"
                 rename "l.tmx", file
             }
             project.delete dir+"/l.tmx"
             project.copy {
                 from dir
-                into "../android/assets/m/map"
+                into "../android/assets/_m/map"
                 include "m.tmx"
                 rename "m.tmx", file
             }
             project.delete dir+"/m.tmx"
             project.copy {
                 from dir
-                into "../android/assets/s/map"
+                into "../android/assets/_s/map"
                 include "s.tmx"
                 rename "s.tmx", file
             }
@@ -155,10 +155,10 @@ task packGameUI << {
     // generete texture packs
     String packName     = "ui.pack";
     String source       = "core/assets_raw/img/ui";
-    String[] destinations = ["android/assets/xl/img/ui",
-                             "android/assets/l/img/ui",
-                             "android/assets/m/img/ui",
-                             "android/assets/s/img/ui"];
+    String[] destinations = ["android/assets/_xl/img/ui",
+                             "android/assets/_l/img/ui",
+                             "android/assets/_m/img/ui",
+                             "android/assets/_s/img/ui"];
 
     TexturePacker.process(settingsXL, source, destinations[0], packName);
     TexturePacker.process(settingsL, source, destinations[1], packName);
@@ -167,10 +167,10 @@ task packGameUI << {
 
     // pack skin json
     String skinSource       = "assets_raw/img/ui";
-    String[] skinDestination = ["../android/assets/xl/img/ui",
-                             "../android/assets/l/img/ui",
-                             "../android/assets/m/img/ui",
-                             "../android/assets/s/img/ui"];
+    String[] skinDestination = ["../android/assets/_xl/img/ui",
+                             "../android/assets/_l/img/ui",
+                             "../android/assets/_m/img/ui",
+                             "../android/assets/_s/img/ui"];
 
     for(String dest : skinDestination) {
         println("packing skin json")
@@ -197,10 +197,10 @@ task packMobileControls << {
     // generete texture packs
     String packName     = "mobile_controls.pack";
     String source       = "core/assets_raw/img/mobile_controls";
-    String[] destinations = ["android/assets/xl/img/mobile_controls",
-                             "android/assets/l/img/mobile_controls",
-                             "android/assets/m/img/mobile_controls",
-                             "android/assets/s/img/mobile_controls"];
+    String[] destinations = ["android/assets/_xl/img/mobile_controls",
+                             "android/assets/_l/img/mobile_controls",
+                             "android/assets/_m/img/mobile_controls",
+                             "android/assets/_s/img/mobile_controls"];
 
     TexturePacker.process(settingsXL, source, destinations[0], packName);
     TexturePacker.process(settingsL, source, destinations[1], packName);
@@ -209,10 +209,10 @@ task packMobileControls << {
 
     // pack skin json
     String skinSource       = "assets_raw/img/mobile_controls";
-    String[] skinDestination = ["../android/assets/xl/img/mobile_controls",
-                                "../android/assets/l/img/mobile_controls",
-                                "../android/assets/m/img/mobile_controls",
-                                "../android/assets/s/img/mobile_controls"];
+    String[] skinDestination = ["../android/assets/_xl/img/mobile_controls",
+                                "../android/assets/_l/img/mobile_controls",
+                                "../android/assets/_m/img/mobile_controls",
+                                "../android/assets/_s/img/mobile_controls"];
 
     for(String dest : skinDestination) {
         println("packing skin json")
@@ -239,10 +239,10 @@ task packMainMenu << {
     // generete texture packs
     String packName     = "main_menu.pack";
     String source       = "core/assets_raw/img/main_menu";
-    String[] destinations = ["android/assets/xl/img/main_menu",
-                             "android/assets/l/img/main_menu",
-                             "android/assets/m/img/main_menu",
-                             "android/assets/s/img/main_menu"];
+    String[] destinations = ["android/assets/_xl/img/main_menu",
+                             "android/assets/_l/img/main_menu",
+                             "android/assets/_m/img/main_menu",
+                             "android/assets/_s/img/main_menu"];
 
     TexturePacker.process(settingsXL, source, destinations[0], packName);
     TexturePacker.process(settingsL, source, destinations[1], packName);
@@ -251,10 +251,10 @@ task packMainMenu << {
 
     // pack skin json
     String skinSource       = "assets_raw/img/main_menu";
-    String[] skinDestination = ["../android/assets/xl/img/main_menu",
-                                "../android/assets/l/img/main_menu",
-                                "../android/assets/m/img/main_menu",
-                                "../android/assets/s/img/main_menu"];
+    String[] skinDestination = ["../android/assets/_xl/img/main_menu",
+                                "../android/assets/_l/img/main_menu",
+                                "../android/assets/_m/img/main_menu",
+                                "../android/assets/_s/img/main_menu"];
 
     for(String dest : skinDestination) {
         println("packing skin json")

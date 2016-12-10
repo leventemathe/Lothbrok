@@ -4,19 +4,22 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.lothbrok.game.assets.Assets;
+import com.lothbrok.game.constants.Resolution;
 
 public class EssentialsLoadingScreen implements Screen {
 
     public enum Size {
-        XL(3840),
-        L(2560),
-        M(1920),
-        S(1280);
+        XL(3840, 2160),
+        L(2560, 1440),
+        M(1920, 1080),
+        S(1280, 720);
 
-        private int value;
+        public final int width;
+        public final int height;
 
-        Size(int value){
-            this.value = value;
+        Size(int width, int height) {
+            this.width = width;
+            this.height = height;
         }
     }
 
@@ -28,27 +31,29 @@ public class EssentialsLoadingScreen implements Screen {
 
     public EssentialsLoadingScreen(Assets assets) {
         this.assets = assets;
-        this.assets.clear();
     }
 
     @Override
     public void show() {
-        assets.loadEssentials();
         setSize();
+        Resolution.instance.init(size);
+        this.assets.init();
+        assets.loadEssentials();
     }
 
     private void setSize() {
         int width = Gdx.graphics.getWidth();
 
-        if(width > Size.XL.value) {
+        if(width > Size.XL.width) {
             size = Size.XL;
-        } else if(width > Size.L.value) {
+        } else if(width > Size.L.width) {
             size = Size.L;
-        } else if(width > Size.M.value) {
+        } else if(width > Size.M.width) {
             size = Size.M;
         } else {
             size = Size.S;
         }
+        size = Size.S;
     }
 
     @Override

@@ -8,9 +8,9 @@ public class LFileHandleResolver implements FileHandleResolver {
 
     @Override
     public FileHandle resolve(String fileName) {
-        if(fileName.substring(0,1).equals("l")) {
+        if(fileName.substring(0,2).equals("_l")) {
             return Gdx.files.internal(fileName);
         }
-        return Gdx.files.internal("l/" + fileName);
+        return Gdx.files.internal("_l/" + fileName);
     }
 }

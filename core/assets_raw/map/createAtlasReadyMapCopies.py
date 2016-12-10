@@ -16,15 +16,42 @@ def create(parseMe, multiplier):
 	prettify(properties, 1)
 	root.insert(0, properties)
 	
-	# change width and height in root element
-	tilewidth = int(math.ceil(float(root.get('tilewidth')) * multiplier));
-	tileheight = int(math.ceil(float(root.get('tileheight')) * multiplier));
+	# change tile width and height in root element
+	tilewidth = int(round(float(root.get('tilewidth')) * multiplier))
+	tileheight = int(round(float(root.get('tileheight')) * multiplier))
 	root.set('tilewidth', str(tilewidth))
 	root.set('tileheight', str(tileheight))
+	
 	# change width and height for all image elements in the tileset
 	for image in root.iter('image'):
 		image.set('width', str(tilewidth))
 		image.set('height', str(tileheight))
+		
+	# scale objects in the object layers
+	for object in root.iter('object'):
+		x = int(round(float(object.get('x')) * multiplier))
+		y = int(round(float(object.get('y')) * multiplier))
+		object.set('x', str(x))
+		object.set('y', str(y))
+		if object.get('width') != None:
+			width = int(round(float(object.get('width')) * multiplier))
+			object.set('width', str(width))
+		if object.get('height') != None:
+			height = int(round(float(object.get('height')) * multiplier))
+			object.set('height', str(height))
+			
+	# scale polyline points
+	for polyline in root.iter('polyline'):
+		points = polyline.get('points')
+		newPoints = ""
+		pointsList = points.split(' ')
+		for point in pointsList:
+			coords = point.split(',')
+			x = int(round(float(coords[0]) * multiplier))
+			y = int(round(float(coords[1]) * multiplier))
+			newPoints += str(x) + ',' + str(y) + ' '
+		polyline.set('points', newPoints)
+			
 
 	tree.write(parseMe, encoding='utf-8', xml_declaration=True)
 
@@ -43,6 +70,9 @@ def prettify(elem, level=0):
     if level and (not elem.tail or not elem.tail.strip()):
       elem.tail = i
 	
+	
+	
+## ENTRY POINT
 if len(sys.argv) < 2:
 	print "Provide the name of the file please!"
 	sys.exit(0)

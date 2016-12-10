@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.assets.spriter.SpriterAnimation;
 import com.lothbrok.game.constants.AnimationConstants;
+import com.lothbrok.game.constants.Resolution;
 import com.lothbrok.game.screens.AbstractScreen;
 import com.lothbrok.game.screens.MainMenuScreen;
 
@@ -35,7 +36,7 @@ public class MainMenuLoadingScreen extends AbstractScreen {
         loadingAnimation.setCurrentEntity(AnimationConstants.LOADING_ANIMATION_ENTITY_LOADING);
         loadingAnimation.setPlayAlways(AnimationConstants.LOADING_ANIMATION_LOADING);
         //TODO scale accoridng to size here to
-        loadingAnimation.setScale(1f/540f);
+        loadingAnimation.setScale(Resolution.instance.getWorldScale());
         loadingAnimation.setPosition(0f, 0f);
 
         assets.loadAll();

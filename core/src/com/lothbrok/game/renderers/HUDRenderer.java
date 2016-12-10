@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lothbrok.game.assets.Assets;
-import com.lothbrok.game.constants.ScreensConstants;
+import com.lothbrok.game.constants.Resolution;
 
 public class HUDRenderer implements Disposable {
 
@@ -30,8 +30,8 @@ public class HUDRenderer implements Disposable {
 
     public HUDRenderer(SpriteBatch batch, int health, int treasure, Assets assets) {
         this.assets = assets;
-        stage = new Stage(new FitViewport(ScreensConstants.VIEWPORT_MENU_WIDTH,
-                ScreensConstants.VIEWPORT_MENU_HEIGHT), batch);
+        stage = new Stage(new FitViewport(Resolution.instance.getMenuWidth(),
+                Resolution.instance.getMenuHeight()), batch);
         skin = assets.getUI();
         this.health = health;
         this.treasure = treasure;
@@ -72,7 +72,7 @@ public class HUDRenderer implements Disposable {
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         //TODO fix the font system
-        labelStyle.font = assets.getPrVikingFont().getFont64();
+        labelStyle.font = assets.getPrVikingFont().getLargeFont();
         treasureLabel = new Label(Integer.toString(treasure), labelStyle);
 
         result.addActor(treasureImage);

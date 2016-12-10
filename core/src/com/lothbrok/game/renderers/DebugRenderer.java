@@ -27,7 +27,7 @@ public class DebugRenderer {
         viewport = new ExtendViewport(1920, 1080, camera);
         this.spriteBatch = batch;
         //TODO get size dependent font
-        font = assets.getRalewayLightFont().getFont32();
+        font = assets.getRalewayLightFont().getLargeFont();
     }
 
     public void render(float delta) {

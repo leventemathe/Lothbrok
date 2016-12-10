@@ -8,9 +8,9 @@ public class SFileHandleResolver implements FileHandleResolver {
 
     @Override
     public FileHandle resolve(String fileName) {
-        if(fileName.substring(0,1).equals("s")) {
+        if(fileName.substring(0,2).equals("_s")) {
             return Gdx.files.internal(fileName);
         }
-        return Gdx.files.internal("s/" + fileName);
+        return Gdx.files.internal("_s/" + fileName);
     }
 }

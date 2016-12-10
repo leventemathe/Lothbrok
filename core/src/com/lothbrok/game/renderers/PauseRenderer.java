@@ -38,7 +38,7 @@ public class PauseRenderer extends EndOfGameRenderer {
 
     private void buildBtnResume() {
         TextButton.TextButtonStyle style = skin.get(UIConstants.UI_TEXT_BUTTON_STYLE, TextButton.TextButtonStyle.class);
-        style.font = assets.getPrVikingFont().getFont64();
+        style.font = assets.getPrVikingFont().getLargeFont();
         style.fontColor = skin.get("white", Color.class);
         btnResume = new TextButton("RESUME", style);
         btnResume.addListener(new ChangeListener() {

@@ -18,6 +18,7 @@ import com.lothbrok.game.assets.entities.animation.EnemyAnimation;
 import com.lothbrok.game.assets.entities.animation.PlayerAnimation;
 import com.lothbrok.game.assets.spriter.SpriterAnimation;
 import com.lothbrok.game.constants.AnimationConstants;
+import com.lothbrok.game.constants.Resolution;
 import com.lothbrok.game.model.GameModel;
 import com.lothbrok.game.model.entities.Enemy;
 import com.lothbrok.game.model.entities.Entity;
@@ -66,14 +67,13 @@ public class GameRenderer implements Disposable {
 
     private void setupAnimation(GameModel gameModel) {
         playerAnimation = new PlayerAnimation(new SpriterAnimation(assets.getPlayerAnimationAssets()));
-        //TODO get scale from m l xl etc
-        playerAnimation.getAnimation().setScale(1f/540f); //xl
+        playerAnimation.getAnimation().setScale(Resolution.instance.getWorldScale());
 
         Array<Enemy> enemies = gameModel.getEnemies();
         enemyAnimations = new ObjectMap<>();
         for(int i = 0; i < enemies.size; i++) {
             EnemyAnimation animation = new EnemyAnimation(new SpriterAnimation(assets.getEnemyAnimationAssets()));
-            animation.getAnimation().setScale(1f/540f); //xl
+            animation.getAnimation().setScale(Resolution.instance.getWorldScale());
             enemyAnimations.put(enemies.get(i), animation);
         }
     }
@@ -81,8 +81,7 @@ public class GameRenderer implements Disposable {
     private void setupRendering(SpriteBatch batch, ShapeRenderer shapeRenderer, GameModel gameModel) {
         this.spriteBatch = batch;
         this.shapeRenderer = shapeRenderer;
-        //TODO get scale from m l xl etc
-        mapRenderer = new MyOrthogonalTiledMapRenderer(gameModel.getMap(), 1f/540f, spriteBatch, shapeRenderer); //xl
+        mapRenderer = new MyOrthogonalTiledMapRenderer(gameModel.getMap(), Resolution.instance.getWorldScale(), spriteBatch, shapeRenderer);
     }
 
     public void addLostTreasure(Treasure treasure) {

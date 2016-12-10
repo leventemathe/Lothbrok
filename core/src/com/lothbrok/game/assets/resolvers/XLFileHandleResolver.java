@@ -8,9 +8,9 @@ public class XLFileHandleResolver implements FileHandleResolver {
 
     @Override
     public FileHandle resolve(String fileName) {
-        if(fileName.substring(0,2).equals("xl")) {
+        if(fileName.substring(0,3).equals("_xl")) {
             return Gdx.files.internal(fileName);
         }
-        return Gdx.files.internal("xl/" + fileName);
+        return Gdx.files.internal("_xl/" + fileName);
     }
 }

@@ -2,15 +2,16 @@ package com.lothbrok.game.model.tiled;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.lothbrok.game.constants.Resolution;
 
 public class TiledUtils {
 
-    private static float pixelsPerUnit = 540f;//xl
+    private static float scale = Resolution.instance.getWorldScale();
 
     private TiledUtils() {}
 
     public static float toWorld(float unit) {
-        return unit / pixelsPerUnit;
+        return unit * scale;
     }
 
     public static Vector2 toWorld(Vector2 units) {
@@ -19,15 +20,15 @@ public class TiledUtils {
 
     public static Rectangle toWorld(Rectangle rectangle) {
         Rectangle result = new Rectangle();
-        result.x = rectangle.x / pixelsPerUnit;
-        result.y = rectangle.y / pixelsPerUnit;
-        result.width = rectangle.width / pixelsPerUnit;
-        result.height = rectangle.height / pixelsPerUnit;
+        result.x = rectangle.x * scale;
+        result.y = rectangle.y * scale;
+        result.width = rectangle.width * scale;
+        result.height = rectangle.height * scale;
         return result;
     }
 
     public static float toPixels(float unit) {
-        return unit * pixelsPerUnit;
+        return unit / scale;
     }
 
     public static Vector2 toPixels(Vector2 units) {

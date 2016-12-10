@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.audio.Audio;
 import com.lothbrok.game.constants.MainMenuConstants;
-import com.lothbrok.game.constants.ScreensConstants;
+import com.lothbrok.game.constants.Resolution;
 
 public class MainMenuScreen extends AbstractScreen {
 
@@ -39,7 +39,7 @@ public class MainMenuScreen extends AbstractScreen {
     public void show() {
         super.show();
         Gdx.app.debug(TAG, "show");
-        stage = new Stage(new FitViewport(ScreensConstants.VIEWPORT_MENU_WIDTH, ScreensConstants.VIEWPORT_MENU_HEIGHT));
+        stage = new Stage(new FitViewport(Resolution.instance.getMenuWidth(), Resolution.instance.getMenuHeight()));
         skin = assets.getMainMenuSkin();
         colorSky = skin.getColor(MainMenuConstants.MAIN_MENU_COLOR_SKY);
         Gdx.input.setInputProcessor(stage);
@@ -92,7 +92,7 @@ public class MainMenuScreen extends AbstractScreen {
 
     private TextButton buildButton(String text) {
         TextButton.TextButtonStyle style = skin.get(MainMenuConstants.MAIN_MENU_TEXT_BUTTON_STYLE, TextButton.TextButtonStyle.class);
-        style.font = assets.getPrVikingFont().getFont96();
+        style.font = assets.getPrVikingFont().getLargeFont();
         style.fontColor = skin.getColor(MainMenuConstants.MAIN_MENU_COLOR_WHITE);
         TextButton btn = new TextButton(text, style);
         return btn;

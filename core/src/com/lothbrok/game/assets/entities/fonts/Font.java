@@ -3,6 +3,7 @@ package com.lothbrok.game.assets.entities.fonts;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.lothbrok.game.screens.loadingscreens.EssentialsLoadingScreen;
 
 public class Font {
 
@@ -30,19 +31,15 @@ public class Font {
         font32 = generator.generateFont(parameter);
     }
 
-    public BitmapFont getFont96() {
-        return font96;
-    }
-
-    public BitmapFont getFont64() {
-        return font64;
-    }
-
-    public BitmapFont getFont48() {
-        return font48;
-    }
-
-    public BitmapFont getFont32() {
-        return font32;
+    public BitmapFont getLargeFont() {
+        if(EssentialsLoadingScreen.size == EssentialsLoadingScreen.Size.XL) {
+            return font96;
+        } else if(EssentialsLoadingScreen.size == EssentialsLoadingScreen.Size.L) {
+            return font64;
+        } else if(EssentialsLoadingScreen.size == EssentialsLoadingScreen.Size.M) {
+            return font48;
+        } else {
+            return font32;
+        }
     }
 }

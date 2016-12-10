@@ -46,13 +46,14 @@ public class Assets implements Disposable {
     private SoundAssets soundAssets;
 
     //TODO error handling
-    public Assets() {
-        init();
-    }
 
-    private void init() {
+    public void init() {
         FileHandleResolver internalFileHandleResolver = new InternalFileHandleResolver();
         FileHandleResolver sizeFileHandleResolver = buildSizeFileHandleResolver();
+
+        if(assetManager != null) {
+            assetManager.dispose();
+        }
         assetManager = new AssetManager(internalFileHandleResolver, false);
 
         assetManager.setLoader(SpriterAnimationAssets.class, new SpriterAnimationAssetsLoader(sizeFileHandleResolver));
@@ -225,11 +226,6 @@ public class Assets implements Disposable {
             soundAssets.setEhh((Sound) assetManager.get(AssetsConstants.SOUND_EHH));
         }
         return soundAssets;
-    }
-
-    public void clear() {
-        Gdx.app.debug(TAG, "dispose");
-        assetManager.clear();
     }
 
     @Override
