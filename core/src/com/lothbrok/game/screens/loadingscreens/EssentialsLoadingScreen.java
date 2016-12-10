@@ -44,16 +44,17 @@ public class EssentialsLoadingScreen implements Screen {
     private void setSize() {
         int width = Gdx.graphics.getWidth();
 
-        if(width > Size.XL.width) {
+        if(width > Size.L.width) {
             size = Size.XL;
-        } else if(width > Size.L.width) {
-            size = Size.L;
         } else if(width > Size.M.width) {
+            size = Size.L;
+        } else if(width > Size.S.width) {
             size = Size.M;
         } else {
             size = Size.S;
         }
-        size = Size.S;
+        //size = Size.XL;
+        Gdx.app.debug(TAG, size.toString());
     }
 
     @Override
