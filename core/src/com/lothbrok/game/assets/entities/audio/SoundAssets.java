@@ -4,18 +4,9 @@ import com.badlogic.gdx.audio.Sound;
 
 public class SoundAssets {
 
-    private Sound footStep;
     private Sound swing;
     private Sound slice;
     private Sound ehh;
-
-    public Sound getFootStep() {
-        return footStep;
-    }
-
-    public void setFootStep(Sound footStep) {
-        this.footStep = footStep;
-    }
 
     public Sound getSwing() {
         return swing;

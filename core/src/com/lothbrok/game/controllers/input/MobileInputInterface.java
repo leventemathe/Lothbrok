@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.constants.MobileInterfaceConstants;
 import com.lothbrok.game.constants.Resolution;
@@ -38,7 +38,7 @@ public class MobileInputInterface implements Disposable{
 
     public MobileInputInterface(PlayerController playerController, PauseController pauseController, SpriteBatch batch, Assets assets) {
         this.assets = assets;
-        stage = new Stage(new FitViewport(Resolution.instance.getMenuWidth(),
+        stage = new Stage(new ExtendViewport(Resolution.instance.getMenuWidth(),
                                           Resolution.instance.getMenuHeight()), batch);
         skin = assets.getMobileControlsSkin();
         this.playerController = playerController;

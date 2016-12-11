@@ -12,11 +12,6 @@ public class MobileGameScreen extends GameScreen {
     }
 
     @Override
-    public void show() {
-        super.show();
-    }
-
-    @Override
     protected void setInputProcessor() {
         mobileInputInterface = new MobileInputInterface(playerController, pauseController, spriteBatch, assets);
         inputProcessor = mobileInputInterface.getStage();

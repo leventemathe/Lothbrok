@@ -197,6 +197,7 @@ public class Assets implements Disposable {
         assetManager.load(AssetsConstants.MUSIC_GAMEPLAY, Music.class);
         assetManager.load(AssetsConstants.MUSIC_DEATH, Music.class);
         assetManager.load(AssetsConstants.MUSIC_VICTORY, Music.class);
+        assetManager.load(AssetsConstants.SOUND_FOOTSTEP, Music.class);
     }
 
     public MusicAssets getMusicAssets() {
@@ -206,12 +207,12 @@ public class Assets implements Disposable {
             musicAssets.setGamePlay((Music) assetManager.get(AssetsConstants.MUSIC_GAMEPLAY));
             musicAssets.setDeath((Music) assetManager.get(AssetsConstants.MUSIC_DEATH));
             musicAssets.setVictory((Music) assetManager.get(AssetsConstants.MUSIC_VICTORY));
+            musicAssets.setFootsteps((Music) assetManager.get(AssetsConstants.SOUND_FOOTSTEP));
         }
         return musicAssets;
     }
 
     public void loadSoundAssets() {
-        assetManager.load(AssetsConstants.SOUND_FOOTSTEP, Sound.class);
         assetManager.load(AssetsConstants.SOUND_SLICE, Sound.class);
         assetManager.load(AssetsConstants.SOUND_SWING, Sound.class);
         assetManager.load(AssetsConstants.SOUND_EHH, Sound.class);
@@ -220,7 +221,6 @@ public class Assets implements Disposable {
     public SoundAssets getSoundAssets() {
         if(soundAssets == null) {
             soundAssets = new SoundAssets();
-            soundAssets.setFootStep((Sound) assetManager.get(AssetsConstants.SOUND_FOOTSTEP));
             soundAssets.setSwing((Sound) assetManager.get(AssetsConstants.SOUND_SWING));
             soundAssets.setSlice((Sound) assetManager.get(AssetsConstants.SOUND_SLICE));
             soundAssets.setEhh((Sound) assetManager.get(AssetsConstants.SOUND_EHH));

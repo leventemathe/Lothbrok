@@ -9,15 +9,16 @@ public class Audio {
     private MusicAssets musicAssets;
     private SoundAssets soundAssets;
 
-    private final long EXTREMAL_ID = -1;
-    private long playerFootStepID = 0;
-
     public Audio(MusicAssets musicAssets, SoundAssets soundAssets) {
         this.musicAssets = musicAssets;
         this.soundAssets = soundAssets;
     }
 
     public void playMenuMusic() {
+        musicAssets.getGamePlay().stop();
+        musicAssets.getDeath().stop();
+        musicAssets.getVictory().stop();
+
         musicAssets.getMainMenu().play();
         musicAssets.getMainMenu().setLooping(true);
         musicAssets.getMainMenu().setVolume(1f);
@@ -49,7 +50,6 @@ public class Audio {
     }
 
     private void fadeIn(float deltaTime, Music music) {
-        music.play();
         if(music.getVolume() >= 1f) {
             return;
         } else {
@@ -69,18 +69,12 @@ public class Audio {
     }
 
     public void playFootsteps() {
-        if(playerFootStepID != EXTREMAL_ID) {
-            return;
-        } else {
-            playerFootStepID = soundAssets.getFootStep().loop();
-        }
+        musicAssets.getFootsteps().play();
+        musicAssets.getFootsteps().setLooping(true);
     }
 
     public void stopFootsteps() {
-        if(playerFootStepID != EXTREMAL_ID) {
-            soundAssets.getFootStep().stop(playerFootStepID);
-            playerFootStepID = EXTREMAL_ID;
-        }
+        musicAssets.getFootsteps().stop();
     }
 
     public void playSwing() {

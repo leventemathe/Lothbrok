@@ -9,6 +9,8 @@ public class MusicAssets {
     private Music death;
     private Music victory;
 
+    private Music footsteps;
+
     public Music getMainMenu() {
         return mainMenu;
     }
@@ -39,5 +41,13 @@ public class MusicAssets {
 
     public void setVictory(Music victory) {
         this.victory = victory;
+    }
+
+    public Music getFootsteps() {
+        return footsteps;
+    }
+
+    public void setFootsteps(Music footsteps) {
+        this.footsteps = footsteps;
     }
 }
