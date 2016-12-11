@@ -1,5 +1,6 @@
 package com.lothbrok.game.screens.loadingscreens;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -42,7 +43,8 @@ public class EssentialsLoadingScreen implements Screen {
     }
 
     private void setSize() {
-        int width = Gdx.graphics.getWidth();
+        int width = Gdx.graphics.getDisplayMode().width;
+        int height =  Gdx.graphics.getDisplayMode().height;
 
         if(width > Size.L.width) {
             size = Size.XL;
@@ -54,12 +56,18 @@ public class EssentialsLoadingScreen implements Screen {
             size = Size.S;
         }
         //size = Size.XL;
+
+        if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
+            Gdx.graphics.setWindowedMode(width, height);
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        }
+
         Gdx.app.debug(TAG, size.toString());
+        Gdx.app.debug(TAG, "width: " + width + ", height: " + height);
     }
 
     @Override
     public void render(float delta) {
-        Gdx.app.debug(TAG, "loading: " + assets.getProgess());
         if(assets.isDoneLoading()) {
             ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuLoadingScreen(assets));
         }

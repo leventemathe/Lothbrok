@@ -43,8 +43,6 @@ public class MainMenuLoadingScreen extends AbstractScreen {
 
     @Override
     public void render(float deltaTime) {
-        Gdx.app.debug(TAG, "loading: " + assets.getProgess());
-
         if(assets.isDoneLoading()) {
             ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(assets));
         }

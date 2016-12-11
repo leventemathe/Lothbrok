@@ -7,8 +7,7 @@ import com.lothbrok.game.Lothbrok;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 1280;
-		config.height = 720;
+		config.resizable = false;
         //TODO enable vsync, or maybe add a setting
         config.vSyncEnabled = false;
         //TODO unlimied fps (0) -> animation doesnt play, fix it

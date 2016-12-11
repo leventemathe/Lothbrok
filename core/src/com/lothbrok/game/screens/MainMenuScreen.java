@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.lothbrok.game.assets.Assets;
 import com.lothbrok.game.audio.Audio;
 import com.lothbrok.game.constants.MainMenuConstants;
@@ -39,7 +39,7 @@ public class MainMenuScreen extends AbstractScreen {
     public void show() {
         super.show();
         Gdx.app.debug(TAG, "show");
-        stage = new Stage(new FitViewport(Resolution.instance.getMenuWidth(), Resolution.instance.getMenuHeight()));
+        stage = new Stage(new ExtendViewport(Resolution.instance.getMenuWidth(), Resolution.instance.getMenuHeight()));
         skin = assets.getMainMenuSkin();
         colorSky = skin.getColor(MainMenuConstants.MAIN_MENU_COLOR_SKY);
         Gdx.input.setInputProcessor(stage);
