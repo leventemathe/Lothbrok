@@ -40,7 +40,7 @@ public class GameScreen extends AbstractScreen {
     public static final String TAG = GameScreen.class.getSimpleName();
     public static boolean debugCamera = false;
 
-    private boolean isGameFinished = false;
+    protected boolean isGameFinished = false;
     private float gameFinishedTimer = 0f;
     private float GAME_FINISHED_TIME = 3f;
 
@@ -48,13 +48,13 @@ public class GameScreen extends AbstractScreen {
     private GameModel gameModel;
 
     //V
-    private GameRenderer gameRenderer;
-    private HUDRenderer hudRenderer;
+    protected GameRenderer gameRenderer;
+    protected HUDRenderer hudRenderer;
     //TODO polimorphism instead of if statements
-    private Box2DDebugRenderer box2DDebugRenderer;
-    private EndOfGameRenderer endOfGameRenderer;
-    private PauseRenderer pauseRenderer;
-    private Audio audio;
+    protected Box2DDebugRenderer box2DDebugRenderer;
+    protected EndOfGameRenderer endOfGameRenderer;
+    protected PauseRenderer pauseRenderer;
+    protected Audio audio;
 
     //C
     protected InputProcessor inputProcessor;
@@ -226,7 +226,7 @@ public class GameScreen extends AbstractScreen {
         }
     }
 
-    private void updateTreasure(float deltaTime) {
+    protected void updateTreasure(float deltaTime) {
         if(gameModel.getPlayer() == null) {
             return;
         }
@@ -250,7 +250,7 @@ public class GameScreen extends AbstractScreen {
         }
     }
 
-    private void updateCamera(float deltaTime) {
+    protected void updateCamera(float deltaTime) {
         Player player = gameModel.getPlayer();
         if(player == null) {
             return;
@@ -272,7 +272,7 @@ public class GameScreen extends AbstractScreen {
         camera.snapToY(targetPos.y);
     }
 
-    private void isGameFinished(float deltaTime) {
+    protected void isGameFinished(float deltaTime) {
         if(gameModel.getPlayer() == null) {
             if(endOfGameRenderer == null) {
                 endOfGameRenderer = new GameOverRenderer(spriteBatch, shapeRenderer, assets);
@@ -292,19 +292,19 @@ public class GameScreen extends AbstractScreen {
 
 
 
-    private void renderRegular(float deltaTime) {
+    protected void renderRegular(float deltaTime) {
         gameRenderer.render(deltaTime);
         hudRenderer.render(deltaTime);
         box2DDebugRenderer.render(gameModel.getWorld(), gameRenderer.getExtendedCamera().getCamera().combined);
         renderSound();
     }
 
-    private void renderAfterGameFinished(float deltaTime) {
+    protected void renderAfterGameFinished(float deltaTime) {
         gameRenderer.render(deltaTime);
         endOfGameRenderer.render(deltaTime);
     }
 
-    private void renderSound() {
+    protected void renderSound() {
         Player player = gameModel.getPlayer();
         if(player != null &&
                 (player.movementState == Entity.MovementState.MOVING || player.movementState == Entity.MovementState.MIDMOVING) &&

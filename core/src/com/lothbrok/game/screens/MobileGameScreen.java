@@ -25,7 +25,9 @@ public class MobileGameScreen extends GameScreen {
     @Override
     public void render(float deltaTime) {
         super.render(deltaTime);
-        mobileInputInterface.render(deltaTime);
+        if(!isGameFinished && !pauseController.isPaused()) {
+            mobileInputInterface.render(deltaTime);
+        }
     }
 
     @Override
