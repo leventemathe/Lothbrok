@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<map height="8" nextobjectid="251" orientation="orthogonal" renderorder="right-down" tileheight="270" tilewidth="270" version="1.0" width="32">
+<map height="8" nextobjectid="258" orientation="orthogonal" renderorder="right-down" tileheight="270" tilewidth="270" version="1.0" width="32">
  <properties>
   <property name="atlas" value="map.pack.atlas" />
  </properties>
@@ -178,8 +178,20 @@
   <object id="231" x="0" y="2160">
    <polyline points="0,0 0,-540 1080,-540 1080,-270 810,-270 810,0 " />
   </object>
-  <object id="249" x="1890" y="2160">
-   <polyline points="0,0 0,-540 -270,-540 -270,-810 270,-810 270,-1080 540,-1080 540,-1350 810,-1350 810,-1620 2430,-1620 2430,-1350 2700,-1350 2700,-1080 2970,-1080 2970,-810 540,-810 540,-540 270,-540 270,-270 5130,-270 5130,0 " />
+  <object id="253" x="1890" y="2160">
+   <polyline points="0,0 0,-540 -270,-540 -270,-810 270,-810 270,-1080 540,-1080 540,-1350 810,-1350 810,-1620 2430,-1620 2430,-1350 2700,-1350 2700,-1080 2970,-1080 2970,-810 540,-810 540,-540 270,-540 270,-270 " />
+  </object>
+  <object id="254" x="2160" y="1890">
+   <polyline points="0,0 1620,0 1620,270 " />
+  </object>
+  <object id="255" x="4050" y="2160">
+   <polyline points="0,0 0,-270 540,-270 540,0 " />
+  </object>
+  <object id="256" x="4860" y="2160">
+   <polyline points="0,0 0,-270 270,-270 270,-810 540,-810 540,-540 810,-540 810,-270 1080,-270 1080,0 " />
+  </object>
+  <object id="257" x="6210" y="2160">
+   <polyline points="0,0 0,-270 810,-270 810,0 " />
   </object>
  </objectgroup>
 </map>
