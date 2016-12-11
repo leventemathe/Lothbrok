@@ -74,44 +74,30 @@ pine_tree_09
   orig: 472, 1080
   offset: 0, 0
   index: -1
-slide_04
-  rotate: false
-  xy: 1632, 14
-  size: 540, 540
-  orig: 540, 540
-  offset: 0, 0
-  index: -1
-slide_connector_05
-  rotate: false
-  xy: 2188, 699
-  size: 540, 540
-  orig: 540, 540
-  offset: 0, 0
-  index: -1
 star_15
   rotate: false
-  xy: 2186, 244
+  xy: 2742, 798
   size: 469, 441
   orig: 469, 441
   offset: 0, 0
   index: -1
 top_edge_06
   rotate: false
-  xy: 2742, 699
+  xy: 1632, 14
   size: 540, 540
   orig: 540, 540
   offset: 0, 0
   index: -1
 top_mid_07
   rotate: false
-  xy: 3296, 699
+  xy: 2188, 699
   size: 540, 540
   orig: 540, 540
   offset: 0, 0
   index: -1
 water_08
   rotate: false
-  xy: 2669, 338
+  xy: 3225, 892
   size: 540, 347
   orig: 540, 347
   offset: 0, 0

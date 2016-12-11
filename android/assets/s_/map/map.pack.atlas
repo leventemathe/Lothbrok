@@ -74,20 +74,6 @@ pine_tree_09
   orig: 157, 360
   offset: 0, 0
   index: -1
-slide_04
-  rotate: false
-  xy: 1285, 258
-  size: 180, 180
-  orig: 180, 180
-  offset: 0, 0
-  index: -1
-slide_connector_05
-  rotate: false
-  xy: 1285, 73
-  size: 180, 180
-  orig: 180, 180
-  offset: 0, 0
-  index: -1
 star_15
   rotate: false
   xy: 5, 5
@@ -97,14 +83,14 @@ star_15
   index: -1
 top_edge_06
   rotate: false
-  xy: 1470, 322
+  xy: 1285, 258
   size: 180, 180
   orig: 180, 180
   offset: 0, 0
   index: -1
 top_mid_07
   rotate: false
-  xy: 1470, 137
+  xy: 1285, 73
   size: 180, 180
   orig: 180, 180
   offset: 0, 0
