@@ -8,11 +8,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.resizable = false;
-        //TODO enable vsync, or maybe add a setting
-        config.vSyncEnabled = false;
-        //TODO unlimied fps (0) -> animation doesnt play, fix it
-        config.foregroundFPS = 120; // Setting to 0 disables foreground fps throttling
-        config.backgroundFPS = 120; // Setting to 0 disables background fps throttling
+        config.vSyncEnabled = true;
 		new LwjglApplication(new Lothbrok(), config);
 	}
 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -86,6 +87,10 @@ public class MainMenuScreen extends AbstractScreen {
             }
         });
         rootTable.add(btnQuit).expand().center().row();
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle(assets.getPrVikingFont().getLargeFont(), skin.getColor(MainMenuConstants.MAIN_MENU_COLOR_WHITE));
+        Label soungGuyLabel = new Label(MainMenuConstants.MAIN_MENU_TEXT_SOUND_GUY, labelStyle);
+        rootTable.add(soungGuyLabel).expand().center();
 
         rootStack.addActor(rootTable);
     }

@@ -9,6 +9,8 @@ public class MainMenuConstants {
     public static final String MAIN_MENU_BTN_START = "START";
     public static final String MAIN_MENU_BTN_QUIT = "QUIT";
 
+    public static final String MAIN_MENU_TEXT_SOUND_GUY = "Music by Eric Matyas www.soundimage.org";
+
     public static final String MAIN_MENU_COLOR_SKY = "sky";
     public static final String MAIN_MENU_COLOR_WHITE = "white";
 }
