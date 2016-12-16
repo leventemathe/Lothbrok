@@ -153,9 +153,10 @@ public class Player extends Entity {
         attackingComponent.stopAttacking();
     }
 
-    public void updateBoundingBoxes(Rectangle body, Rectangle foot, Rectangle weapon) {
+    public void updateBoundingBoxes(Rectangle body, Rectangle foot, Rectangle head, Rectangle weapon) {
         bodyBoxComponent.setBodyBox(body);
         tiledCollisionComponent.setFootSensor(foot);
+        tiledCollisionComponent.setHeadSensor(head);
         weaponBoxComponent.setWeaponBox(weapon);
     }
 
@@ -187,6 +188,11 @@ public class Player extends Entity {
     public Rectangle getFootSensor() {
         return tiledCollisionComponent.getFootSensor();
     }
+
+    public Rectangle getHeadSensor() {
+        return tiledCollisionComponent.getHeadSensor();
+    }
+
 
     public Rectangle getWeaponBox() {
         return weaponBoxComponent.getWeaponBox();

@@ -22,6 +22,7 @@ public abstract class EntityAnimation {
     public abstract Rectangle getBodyBoundingBox();
     public abstract Rectangle getWeaponBoundingBox();
     public abstract Rectangle getFootSensor();
+    public abstract Rectangle getHeadSensor();
 
     protected Rectangle getBodyBoundingBox(String body, String leg, float bottomDelta, float topDelta) {
         Rectangle bodyRect = animation.getBoundingBox(body);
@@ -49,6 +50,17 @@ public abstract class EntityAnimation {
                     rightLegRect.y,
                     leftLegRect.x + leftLegRect.width - rightLegRect.x,
                     bottomDelta);
+        }
+        return null;
+    }
+
+    protected Rectangle getHeadSensor(String head, float delta) {
+        Rectangle headRect = animation.getBoundingBox(head);
+        if(headRect != null)  {
+            return new Rectangle(headRect.x + delta/2f,
+                    headRect.y,
+                    headRect.width - delta,
+                    headRect.height + delta/2f);
         }
         return null;
     }

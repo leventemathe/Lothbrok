@@ -275,10 +275,12 @@ public class GameRenderer implements Disposable {
         Rectangle body = player.getBodyBox();
         Rectangle weapon = player.getWeaponBox();
         Rectangle footSensor = player.getFootSensor();
+        Rectangle headSensor = player.getHeadSensor();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.rect(body.x, body.y, body.width, body.height);
         shapeRenderer.rect(weapon.x, weapon.y, weapon.width, weapon.height);
         shapeRenderer.rect(footSensor.x, footSensor.y, footSensor.width, footSensor.height);
+        shapeRenderer.rect(headSensor.x, headSensor.y, headSensor.width, headSensor.height);
         shapeRenderer.end();
     }
 

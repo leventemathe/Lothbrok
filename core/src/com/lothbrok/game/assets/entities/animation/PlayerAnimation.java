@@ -36,6 +36,12 @@ public class PlayerAnimation extends EntityAnimation {
                 AnimationConstants.PLAYER_ANIMATION_BOTTOM_DELTA);
     }
 
+    @Override
+    public Rectangle getHeadSensor() {
+        return getHeadSensor(AnimationConstants.PLAYER_ANIMATION_SPRITE_HELMET,
+                AnimationConstants.PLAYER_ANIMATION_HEAD_DELTA);
+    }
+
     public Vector2 getTreasurePosition() {
         Rectangle rect = animation.getBoundingBox(AnimationConstants.PLAYER_ANIMATION_SPRITE_CHEST_TOP);
         treasurePosition.x = rect.x + rect.width/2f;

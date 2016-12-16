@@ -17,6 +17,7 @@ public class TiledCollisionComponent extends AbstractComponent {
 
     private BodyBoxComponent bodyBoxComponent;
     private Rectangle footSensor;
+    private Rectangle headSensor;
 
     public TiledCollisionComponent(Entity entity, TiledMap map, BodyBoxComponent bodyBoxComponent) {
         super(entity);
@@ -38,9 +39,9 @@ public class TiledCollisionComponent extends AbstractComponent {
     }
 
     public boolean isTopColliding() {
-        int x1 = (int)Math.floor(bodyBoxComponent.getBodyBox().x);
-        int x2 = (int)Math.floor(bodyBoxComponent.getBodyBox().x + bodyBoxComponent.getBodyBox().width);
-        int y = (int)Math.ceil(bodyBoxComponent.getBodyBox().y);
+        int x1 = (int)Math.floor(headSensor.x);
+        int x2 = (int)Math.floor(headSensor.x + headSensor.width);
+        int y = (int)Math.floor(headSensor.y + headSensor.height);
 
         TiledMapTileLayer.Cell leftCell = map.getCell(x1, y);
         TiledMapTileLayer.Cell rightCell = map.getCell(x2, y);
@@ -154,5 +155,13 @@ public class TiledCollisionComponent extends AbstractComponent {
 
     public void setFootSensor(Rectangle footSensor) {
         this.footSensor = footSensor;
+    }
+
+    public Rectangle getHeadSensor() {
+        return headSensor;
+    }
+
+    public void setHeadSensor(Rectangle headSensor) {
+        this.headSensor = headSensor;
     }
 }

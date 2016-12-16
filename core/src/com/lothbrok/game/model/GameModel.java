@@ -98,8 +98,9 @@ public class GameModel {
         if(player.lifeState != Entity.LifeState.DYING) {
             Rectangle body = anim.getBodyBoundingBox();
             Rectangle foot = anim.getFootSensor();
+            Rectangle head = anim.getHeadSensor();
             Rectangle weapon = anim.getWeaponBoundingBox();
-            player.updateBoundingBoxes(body, foot, weapon);
+            player.updateBoundingBoxes(body, foot, head, weapon);
         }
         player.update(deltaTime);
     }

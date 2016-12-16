@@ -258,6 +258,9 @@ public class SpriterAnimation {
     // Getting a Box or Spriter Rectangle from a Player references and recalculates the same box and rect
     // Have to get a math Rectangle before recalculation
     private Rectangle createBoundingRect(Player player, String object) {
+        if(player == null) {
+            return null;
+        }
         Timeline.Key.Object obj = player.getObject(object);
         if(obj == null) {
             return null;

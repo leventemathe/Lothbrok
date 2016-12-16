@@ -29,4 +29,9 @@ public class EnemyAnimation extends EntityAnimation {
                 AnimationConstants.ENEMY_ANIMATION_SPRITE_RIGHT_LEG,
                 AnimationConstants.ENEMY_ANIMATION_BOTTOM_DELTA);
     }
+
+    @Override
+    public Rectangle getHeadSensor() {
+        return null;
+    }
 }
