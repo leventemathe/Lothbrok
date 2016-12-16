@@ -44,8 +44,6 @@ public class GameRenderer implements Disposable {
 
     private ObjectMap<Treasure, TextureRegion> treasureTextures;
 
-    int counter = 0;
-
     public GameRenderer(GameModel gameModel, SpriteBatch batch, ShapeRenderer shapeRenderer, Assets assets) {
         this.assets = assets;
 
