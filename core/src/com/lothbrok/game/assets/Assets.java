@@ -169,6 +169,10 @@ public class Assets implements Disposable {
         return assetManager.get(buildMapFilePath(index));
     }
 
+    public void unloadMap(int index) {
+        assetManager.unload(buildMapFilePath(index));
+    }
+
     public void loadMobileControlsSkin() {
         assetManager.load(AssetsConstants.MOBILE_CONTROLS_SKIN_PATH, Skin.class, new SkinLoader.SkinParameter(AssetsConstants.MOBILE_CONTROLS_ATLAS_PATH));
     }

@@ -17,6 +17,20 @@ public class ParallaxBackground {
         maplayers[0]= map.getLayers().get(TiledConstants.LAYER_BACKGROUND1);
         maplayers[1]= map.getLayers().get(TiledConstants.LAYER_BACKGROUND2);
         maplayers[2]= map.getLayers().get(TiledConstants.LAYER_BACKGROUND3);
+
+        resetMap();
+    }
+
+    private void resetMap() {
+        for(int i = 0; i < maplayers.length; i++) {
+            for (int j = 0; j < maplayers[i].getObjects().getCount(); j++) {
+                MapObject mapObject = maplayers[i].getObjects().get(j);
+                if (mapObject instanceof TextureMapObject) {
+                    TextureMapObject obj = (TextureMapObject) mapObject;
+                    obj.setX((j-1f)*((float)obj.getProperties().get("width")));
+                }
+            }
+        }
     }
 
     public void update(float speed, float deltaTime) {
