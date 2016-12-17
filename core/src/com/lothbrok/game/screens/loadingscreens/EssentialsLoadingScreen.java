@@ -55,11 +55,11 @@ public class EssentialsLoadingScreen implements Screen {
         } else {
             size = Size.S;
         }
-        //size = Size.XL;
+        size = Size.S;
 
         if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
-            Gdx.graphics.setWindowedMode(width, height);
-            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+            Gdx.graphics.setWindowedMode(1280, 720);
+            //Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         }
 
         Gdx.app.debug(TAG, size.toString());
