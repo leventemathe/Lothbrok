@@ -33,7 +33,6 @@ public class AttackingComponent<OpponentType> extends AbstractComponent {
     public void stopAttacking() {
         if(entity.actionState.equals(Entity.ActionState.ATTACKING)) {
             entity.actionState = Entity.ActionState.STANDING;
-            //Gdx.app.debug(TAG, "stopped attacking");
             if(stopAttackingListener != null) {
                 stopAttackingListener.listen();
             }

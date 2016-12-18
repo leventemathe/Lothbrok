@@ -102,13 +102,6 @@ public class GameRenderer implements Disposable {
         renderAnimation(deltaTime);
         spriteBatch.end();
         renderPlayerRectangles();
-//
-//        byte[] pixels = ScreenUtils.getFrameBufferPixels(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
-//        Pixmap pixmap = new Pixmap(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), Pixmap.Format.RGBA8888);
-//        BufferUtils.copy(pixels, 0, pixmap.getPixels(), pixels.length);
-//        PixmapIO.writePNG(Gdx.files.external("screenshots/mypixmap" + Integer.toString(counter) + ".png"), pixmap);
-//        pixmap.dispose();
-//        counter++;
     }
 
     public void renderWithoutUpdate(float deltaTime) {
@@ -169,7 +162,6 @@ public class GameRenderer implements Disposable {
         Entity.LifeState lifeState = player.lifeState;
         Entity.Direction direction = player.direction;
 
-        //TODO move all animationchanging to playerAnimation from animation
         if(actionState == Entity.ActionState.ATTACKING) {
             if(movementState == Entity.MovementState.STANDING) {
                 animation.setPlayOnce(AnimationConstants.PLAYER_ANIMATION_ATTACKING);

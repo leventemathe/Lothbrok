@@ -32,7 +32,6 @@ public class SpriterAnimationAssetsLoader extends AsynchronousAssetLoader<Sprite
 
     @Override
     public SpriterAnimationAssets loadSync(AssetManager manager, String fileName, FileHandle file, SpriterAnimationAssetsParameter parameter) {
-        //TODO move pixmap parts of loader to async, call texture parts here
         this.animationAssets.loadImages();
 
         SpriterAnimationAssets animationAssets = this.animationAssets;

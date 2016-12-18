@@ -77,7 +77,6 @@ public class Enemy extends Entity {
             direction = Direction.RIGHT;
             movementComponent.resetAcceleration();
         }
-        //Gdx.app.debug(TAG, "speed: " + movementComponent.getSpeed());
     }
 
     public void moveTo(Vector2 position, float deltaTime) {
@@ -92,7 +91,6 @@ public class Enemy extends Entity {
                 movementComponent.moveTo(position, deltaTime);
             }
         }
-        //Gdx.app.debug(TAG, "speed: " + movementComponent.getSpeed());
     }
 
     public void startAttacking() {

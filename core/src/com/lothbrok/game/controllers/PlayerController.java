@@ -5,8 +5,6 @@ import com.lothbrok.game.model.entities.Player;
 import java.util.EnumMap;
 import java.util.Map;
 
-//TODO common superclass with AI
-//TODO or at lease do separate camera and player controller
 public class PlayerController {
 
     private enum Commands {

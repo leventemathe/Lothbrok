@@ -158,7 +158,6 @@ public class GameScreen extends AbstractScreen {
     }
 
     protected void setupInputProcessing() {
-        //inputProcessor = mobileInputInterface.getStage();
         Gdx.input.setInputProcessor(inputProcessor);
         pauseController.setPauseListener(new PauseListener() {
             @Override
@@ -193,7 +192,6 @@ public class GameScreen extends AbstractScreen {
 
 
 
-    // TODO move bounding box setting to a playerController?
     public void updateRegular(float deltaTime) {
         gameModel.update(deltaTime, gameRenderer);
 
@@ -268,7 +266,6 @@ public class GameScreen extends AbstractScreen {
         targetPos.y = player.position.y;
 
         camera.moveToX(targetPos.x, deltaTime);
-        //camera.snapToX(targetPos.x);
         camera.snapToY(targetPos.y);
     }
 
@@ -277,7 +274,6 @@ public class GameScreen extends AbstractScreen {
             if(endOfGameRenderer == null) {
                 endOfGameRenderer = new GameOverRenderer(spriteBatch, shapeRenderer, assets);
             }
-            //isGameFinished = true;
             gameFinishedTimer += deltaTime;
             if(gameFinishedTimer >= GAME_FINISHED_TIME) {
                 isGameFinished = true;
@@ -331,7 +327,6 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void dispose() {
-        Gdx.app.debug(TAG, "dispose");
         gameRenderer.dispose();
         hudRenderer.dispose();
         box2DDebugRenderer.dispose();

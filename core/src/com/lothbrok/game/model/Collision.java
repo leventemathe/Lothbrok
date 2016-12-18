@@ -27,14 +27,12 @@ public class Collision {
                     intersect(player.getBodyBox(), enemy.getWeaponBox()) &&
                     enemy.hit(player)) {
 
-                //Gdx.app.debug(TAG, "player hit");
                 player.getHit();
             }
             if(player.actionState == Entity.ActionState.ATTACKING &&
                     intersect(enemy.getBodyBox(), player.getWeaponBox()) &&
                     player.hit(enemy)) {
 
-                //Gdx.app.debug(TAG, "enemy hit");
                 enemy.getHit();
             }
         }

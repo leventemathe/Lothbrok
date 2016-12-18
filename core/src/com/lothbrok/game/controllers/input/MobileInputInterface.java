@@ -48,7 +48,6 @@ public class MobileInputInterface implements Disposable{
 
     private void rebuildStage() {
         stage.clear();
-        //stage.setDebugAll(true);
 
         Table rootTable = new Table();
         rootTable.setFillParent(true);

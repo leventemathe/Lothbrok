@@ -72,9 +72,6 @@ public class LibGdxLoader extends Loader<Sprite> implements Disposable{
 		return null;
 	}
 
-	/**
-	 * Packs all loaded sprites into an atlas. Has to called after loading all sprites.
-	 */
 	protected void generatePackedSprites(){
 		if(this.packer == null) return;
 		TextureAtlas tex = this.packer.generateTextureAtlas(TextureFilter.Linear, TextureFilter.Linear, true);

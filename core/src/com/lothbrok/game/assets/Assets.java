@@ -1,6 +1,5 @@
 package com.lothbrok.game.assets;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.BitmapFontLoader;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
@@ -44,8 +43,6 @@ public class Assets implements Disposable {
     private TextureRegion coin;
     private MusicAssets musicAssets;
     private SoundAssets soundAssets;
-
-    //TODO error handling
 
     public void init() {
         FileHandleResolver internalFileHandleResolver = new InternalFileHandleResolver();
@@ -234,7 +231,6 @@ public class Assets implements Disposable {
 
     @Override
     public void dispose() {
-        Gdx.app.debug(TAG, "dispose");
         assetManager.dispose();
     }
 }

@@ -111,7 +111,6 @@ public class Player extends Entity {
         if(getHealth() <= 0 && lifeState != LifeState.DEAD) {
             lifeState = LifeState.DYING;
         }
-        //Gdx.app.debug("life: ", lifeState.toString());
     }
 
     private void updateVictory() {
@@ -165,7 +164,6 @@ public class Player extends Entity {
     }
 
     public void getHit() {
-        //lifeState = LifeState.HIT;
         healthComponent.loseHealth(1);
     }
 

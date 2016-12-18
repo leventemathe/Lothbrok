@@ -14,8 +14,6 @@ import com.brashmonkey.spriter.Timeline;
 import java.util.HashMap;
 import java.util.Map;
 
-
-//TODO add error handling
 public class SpriterAnimation {
 
     private static final String TAG = SpriterAnimation.class.getSimpleName();
@@ -39,7 +37,6 @@ public class SpriterAnimation {
     private Player playAlways;
     private PlayerTweener playerTweener;
 
-    //TODO lots of iterators are created for maps -> could cause GC stutter
     private Map<Entity, Map<String, Player>> cachedPlayers;
     private PlayerTweener cachedPlayerTweener;
     private PlayerFinishedListener cachedPlayerFinishedListener;
@@ -242,7 +239,6 @@ public class SpriterAnimation {
         }
     }
 
-    // TODO cache rectangles
     public Rectangle getBoundingBox(String object) {
         Rectangle rect = null;
         if(playerTweener != null) {

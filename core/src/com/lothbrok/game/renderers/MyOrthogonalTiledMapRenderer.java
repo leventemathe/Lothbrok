@@ -31,7 +31,6 @@ public class MyOrthogonalTiledMapRenderer extends OrthogonalTiledMapRenderer {
     }
 
     @Override
-    //TODO optimize, so only visible is drawn
     public void renderObject(MapObject object) {
         if (object instanceof TextureMapObject) {
             TextureMapObject textureObject = (TextureMapObject) object;
@@ -43,7 +42,6 @@ public class MyOrthogonalTiledMapRenderer extends OrthogonalTiledMapRenderer {
             float height = textureObject.getTextureRegion().getRegionHeight() * unitScale;
             float scaleX = textureObject.getScaleX();
             float scaleY = textureObject.getScaleY();
-            //Gdx.app.debug(TAG, "object: " + x + ", " + y + ", " + width + ", " + height);
             batch.draw(
                     textureObject.getTextureRegion(),
                     x,
