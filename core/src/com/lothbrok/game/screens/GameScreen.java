@@ -305,7 +305,8 @@ public class GameScreen extends AbstractScreen {
         if(player != null &&
                 (player.movementState == Entity.MovementState.MOVING || player.movementState == Entity.MovementState.MIDMOVING) &&
                 player.actionState != Entity.ActionState.FALLING &&
-                player.actionState != Entity.ActionState.JUMPING) {
+                player.actionState != Entity.ActionState.JUMPING &&
+                !player.isVictoryAchieved()) {
             audio.playFootsteps();
         } else {
             audio.stopFootsteps();
