@@ -12,6 +12,9 @@ public class Audio {
     public Audio(MusicAssets musicAssets, SoundAssets soundAssets) {
         this.musicAssets = musicAssets;
         this.soundAssets = soundAssets;
+        this.musicAssets.getFootsteps().setVolume(0.3f);
+        this.musicAssets.getGamePlay().setVolume(0.8f);
+        this.musicAssets.getMainMenu().setVolume(0.8f);
     }
 
     public void playMenuMusic() {
