@@ -39,17 +39,20 @@ public abstract class EntityAnimation {
     protected Rectangle getFootSensor(String leftLeg, String rightLeg, float bottomDelta) {
         Rectangle leftLegRect = animation.getBoundingBox(leftLeg);
         Rectangle rightLegRect = animation.getBoundingBox(rightLeg);
+        Rectangle bodyRect =getBodyBoundingBox();
+        float facingRightWidth = Math.min(bodyRect.width - 0.05f, rightLegRect.x + rightLegRect.width - leftLegRect.x);
+        float facingLeftX = Math.max(bodyRect.x + 0.05f, rightLegRect.x);
         if(leftLegRect != null && rightLegRect != null) {
             if(animation.facingRight()) {
                 return new Rectangle(leftLegRect.x,
                         leftLegRect.y,
-                        rightLegRect.x + rightLegRect.width - leftLegRect.x,
-                        bottomDelta);
+                        facingRightWidth,
+                        rightLegRect.height + bottomDelta);
             }
-            return new Rectangle(rightLegRect.x,
+            return new Rectangle(facingLeftX,
                     rightLegRect.y,
                     leftLegRect.x + leftLegRect.width - rightLegRect.x,
-                    bottomDelta);
+                    rightLegRect.height + bottomDelta);
         }
         return null;
     }

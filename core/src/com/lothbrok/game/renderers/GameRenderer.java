@@ -162,6 +162,8 @@ public class GameRenderer implements Disposable {
         Entity.LifeState lifeState = player.lifeState;
         Entity.Direction direction = player.direction;
 
+        animation.setPosition(player.position.x, player.position.y);
+
         if(actionState == Entity.ActionState.ATTACKING) {
             if(movementState == Entity.MovementState.STANDING) {
                 animation.setPlayOnce(AnimationConstants.PLAYER_ANIMATION_ATTACKING);
@@ -190,8 +192,6 @@ public class GameRenderer implements Disposable {
         } else if(direction == Entity.Direction.LEFT) {
             animation.faceLeft();
         }
-
-        animation.setPosition(player.position.x, player.position.y);
     }
 
     private void renderEnemyAnimationsWithUpdate(float deltaTime) {
@@ -262,6 +262,9 @@ public class GameRenderer implements Disposable {
     }
 
     public void renderPlayerRectangles() {
+        if(player == null) {
+            return;
+        }
         Rectangle body = player.getBodyBox();
         Rectangle weapon = player.getWeaponBox();
         Rectangle footSensor = player.getFootSensor();

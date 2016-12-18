@@ -25,6 +25,8 @@ public class TiledCollisionComponent extends AbstractComponent {
         victoryRect = TiledUtils.toWorld(((RectangleMapObject)map.getLayers().get(TiledConstants.LAYER_COLLISION).getObjects().get(TiledConstants.OBJECT_VICTORY)).getRectangle());
         this.mapBorder = new Rectangle(0f, 0f, (int)map.getProperties().get("width"), (int)map.getProperties().get("height"));
         this.bodyBoxComponent = bodyBoxComponent;
+        this.footSensor = new Rectangle(entity.position.x, entity.position.y, 0f, 0f);
+        this.headSensor = new Rectangle(entity.position.x, entity.position.y, 0f, 0f);
     }
 
     public boolean isBottomColliding() {
