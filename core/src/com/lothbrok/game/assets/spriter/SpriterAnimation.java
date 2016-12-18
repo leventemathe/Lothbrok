@@ -248,17 +248,22 @@ public class SpriterAnimation {
         } else if(playAlways != null) {
             rect = createBoundingRect(playAlways, object);
         }
+        if(rect == null) {
+            return new Rectangle(0f, 0f, 0f, 0f);
+        }
         return rect;
     }
 
     // Getting a Box or Spriter Rectangle from a Player references and recalculates the same box and rect
     // Have to get a math Rectangle before recalculation
     private Rectangle createBoundingRect(Player player, String object) {
-        if(player == null) {
+        if(player == null || object == null) {
             return null;
         }
-        Timeline.Key.Object obj = player.getObject(object);
-        if(obj == null) {
+        Timeline.Key.Object obj;
+        try {
+            obj = player.getObject(object);
+        } catch (NullPointerException e) {
             return null;
         }
         Box box = player.getBox(obj);
