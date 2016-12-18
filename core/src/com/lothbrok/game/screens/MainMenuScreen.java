@@ -39,7 +39,6 @@ public class MainMenuScreen extends AbstractScreen {
     @Override
     public void show() {
         super.show();
-        Gdx.app.debug(TAG, "show");
         stage = new Stage(new ExtendViewport(Resolution.instance.getMenuWidth(), Resolution.instance.getMenuHeight()));
         skin = assets.getMainMenuSkin();
         colorSky = skin.getColor(MainMenuConstants.MAIN_MENU_COLOR_SKY);
@@ -121,7 +120,6 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void dispose() {
-        Gdx.app.debug(TAG, "dispose");
         stage.dispose();
         super.dispose();
     }

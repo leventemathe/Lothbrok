@@ -3,9 +3,7 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 sourceSets.main.java.srcDirs = ["src/"]
-eclipse.project {
-    name = appName + "-core"
-}
+
 dependencies {
     compile project(':trixt0r')
 }
@@ -14,8 +12,6 @@ dependencies {
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.tools.texturepacker.TexturePacker
 
-//TODO clean up the pack tasks
-//TODO load this data from config file
 //TexturePacker settings
 //*** XL 3840 x 2160
 project.ext.settingsXL = new TexturePacker.Settings();
