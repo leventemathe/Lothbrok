@@ -144,8 +144,10 @@ public class Player extends Entity {
     }
 
     public void startAttacking() {
-        attackingComponent.startAttacking();
-        treasureComponent.loseTreasure(1);
+        if(actionState != ActionState.ATTACKING) {
+            attackingComponent.startAttacking();
+            treasureComponent.loseTreasure(1);
+        }
     }
 
     public void stopAttacking() {
