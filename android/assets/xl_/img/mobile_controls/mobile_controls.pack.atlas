@@ -6,35 +6,35 @@ filter: MipMapLinearNearest,MipMapLinearNearest
 repeat: none
 attack_btn
   rotate: false
-  xy: 628, 503
+  xy: 621, 496
   size: 500, 500
   orig: 500, 500
   offset: 0, 0
   index: -1
 joystick_background
   rotate: false
-  xy: 14, 403
+  xy: 7, 396
   size: 600, 600
   orig: 600, 600
   offset: 0, 0
   index: -1
 joystick_knob
   rotate: false
-  xy: 1656, 763
+  xy: 1649, 756
   size: 240, 240
   orig: 240, 240
   offset: 0, 0
   index: -1
 jump_btn
   rotate: false
-  xy: 1142, 503
+  xy: 1135, 496
   size: 500, 500
   orig: 500, 500
   offset: 0, 0
   index: -1
 pause_btn
   rotate: false
-  xy: 14, 14
+  xy: 7, 7
   size: 375, 375
   orig: 375, 375
   offset: 0, 0

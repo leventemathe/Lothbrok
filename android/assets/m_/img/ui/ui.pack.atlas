@@ -6,56 +6,56 @@ filter: MipMapLinearNearest,MipMapLinearNearest
 repeat: none
 coin
   rotate: false
-  xy: 1389, 1355
+  xy: 1385, 1351
   size: 34, 37
   orig: 34, 37
   offset: 0, 0
   index: -1
 game_over_logo
   rotate: false
-  xy: 7, 375
+  xy: 3, 371
   size: 1193, 546
   orig: 1193, 546
   offset: 0, 0
   index: -1
 health
   rotate: false
-  xy: 744, 264
+  xy: 740, 260
   size: 120, 104
   orig: 120, 104
   offset: 0, 0
   index: -1
 main_menu_btn_default
   rotate: false
-  xy: 1389, 1399
+  xy: 1385, 1395
   size: 540, 140
   orig: 540, 140
   offset: 0, 0
   index: -1
 main_menu_btn_pressed
   rotate: false
-  xy: 7, 7
+  xy: 3, 3
   size: 540, 140
   orig: 540, 140
   offset: 0, 0
   index: -1
 paused_logo
   rotate: false
-  xy: 7, 154
+  xy: 3, 150
   size: 730, 214
   orig: 730, 214
   offset: 0, 0
   index: -1
 treasure
   rotate: false
-  xy: 1207, 815
+  xy: 1203, 811
   size: 135, 106
   orig: 135, 106
   offset: 0, 0
   index: -1
 you_won_logo
   rotate: false
-  xy: 7, 928
+  xy: 3, 924
   size: 1375, 611
   orig: 1375, 611
   offset: 0, 0

@@ -6,28 +6,28 @@ filter: MipMapLinearNearest,MipMapLinearNearest
 repeat: none
 background
   rotate: false
-  xy: 5, 361
+  xy: 2, 358
   size: 1280, 535
   orig: 1280, 535
   offset: 0, 0
   index: -1
 btn_default
   rotate: false
-  xy: 1290, 803
+  xy: 1287, 800
   size: 360, 93
   orig: 360, 93
   offset: 0, 0
   index: -1
 btn_pressed
   rotate: false
-  xy: 5, 5
+  xy: 2, 2
   size: 360, 93
   orig: 360, 93
   offset: 0, 0
   index: -1
 logo
   rotate: false
-  xy: 5, 103
+  xy: 2, 100
   size: 780, 253
   orig: 780, 253
   offset: 0, 0

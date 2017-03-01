@@ -6,98 +6,98 @@ filter: MipMapLinearNearest,MipMapLinearNearest
 repeat: none
 buxus_tree_10
   rotate: false
-  xy: 7, 14
+  xy: 3, 10
   size: 300, 540
   orig: 300, 540
   offset: 0, 0
   index: -1
 cliff_00
   rotate: false
-  xy: 1094, 627
+  xy: 1090, 623
   size: 270, 270
   orig: 270, 270
   offset: 0, 0
   index: -1
 clouds_14
   rotate: false
-  xy: 7, 770
+  xy: 3, 766
   size: 1080, 127
   orig: 1080, 127
   offset: 0, 0
   index: -1
 dead_tree_11
   rotate: false
-  xy: 314, 14
+  xy: 310, 10
   size: 252, 540
   orig: 252, 540
   offset: 0, 0
   index: -1
 hills_13
   rotate: false
-  xy: 7, 561
+  xy: 3, 557
   size: 1080, 89
   orig: 1080, 89
   offset: 0, 0
   index: -1
 lonely_01
   rotate: false
-  xy: 816, 284
+  xy: 812, 280
   size: 270, 270
   orig: 270, 270
   offset: 0, 0
   index: -1
 lonely_edge_02
   rotate: false
-  xy: 1371, 627
+  xy: 1367, 623
   size: 270, 270
   orig: 270, 270
   offset: 0, 0
   index: -1
 mid_03
   rotate: false
-  xy: 1648, 627
+  xy: 1644, 623
   size: 270, 270
   orig: 270, 270
   offset: 0, 0
   index: -1
 mountains_15
   rotate: false
-  xy: 7, 657
+  xy: 3, 653
   size: 1080, 106
   orig: 1080, 106
   offset: 0, 0
   index: -1
 pine_tree_09
   rotate: false
-  xy: 573, 14
+  xy: 569, 10
   size: 236, 540
   orig: 236, 540
   offset: 0, 0
   index: -1
 star_15
   rotate: false
-  xy: 1371, 399
+  xy: 1367, 395
   size: 235, 221
   orig: 235, 221
   offset: 0, 0
   index: -1
 top_edge_06
   rotate: false
-  xy: 816, 7
+  xy: 812, 3
   size: 270, 270
   orig: 270, 270
   offset: 0, 0
   index: -1
 top_mid_07
   rotate: false
-  xy: 1094, 350
+  xy: 1090, 346
   size: 270, 270
   orig: 270, 270
   offset: 0, 0
   index: -1
 water_08
   rotate: false
-  xy: 1613, 446
+  xy: 1609, 442
   size: 270, 174
   orig: 270, 174
   offset: 0, 0
