@@ -184,7 +184,7 @@ public class GameRenderer implements Disposable {
         if(lifeState == Entity.LifeState.DYING) {
             animation.setPlayOnce(AnimationConstants.PLAYER_ANIMATION_DEATH);
         } else if(lifeState == Entity.LifeState.DEAD) {
-            animation.setPlayAlways(AnimationConstants.PLAYER_ANIMATION_DEAD);
+            animation.disable();
         }
 
         if(direction == Entity.Direction.RIGHT) {

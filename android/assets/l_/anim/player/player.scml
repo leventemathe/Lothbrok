@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r9">
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r10">
     <folder id="0">
         <file id="0" name="body.png" width="174" height="290" pivot_x="0.5" pivot_y="0.5"/>
         <file id="1" name="helmet.png" width="194" height="224" pivot_x="0.5" pivot_y="0.5"/>
@@ -12,6 +12,7 @@
         <file id="8" name="chest_bottom.png" width="183" height="117" pivot_x="0" pivot_y="1"/>
         <file id="9" name="chest_top.png" width="172" height="59" pivot_x="0" pivot_y="1"/>
         <file id="10" name="coin.png" width="45" height="49" pivot_x="0" pivot_y="1"/>
+        <file id="11" name="ghost.png" width="481" height="476" pivot_x="0" pivot_y="1"/>
     </folder>
     <entity id="0" name="player">
         <obj_info name="body_bone" type="bone" w="289.193" h="13.3333"/>
@@ -22,7 +23,25 @@
         <obj_info name="rightleg_bone" type="bone" w="59.0689" h="13.3333"/>
         <obj_info name="chest_bottom_bone" type="bone" w="137.422" h="6.66666"/>
         <obj_info name="chest_top_bone" type="bone" w="157.101" h="6.66666"/>
-        <animation id="0" name="idle" length="1600" interval="100">
+        <animation id="0" name="death" length="1000" interval="100" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="1000">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="ghost">
+                <key id="0" spin="0">
+                    <object folder="0" file="11" x="-206.351923" y="476.240414"/>
+                </key>
+                <key id="1" time="1000" spin="0">
+                    <object folder="0" file="11" x="-206.351923" y="1004.310061" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="idle" length="1600" interval="100">
             <mainline>
                 <key id="0">
                     <bone_ref id="0" timeline="0" key="0"/>
@@ -196,79 +215,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="1" name="death" length="1000" interval="100">
-            <mainline>
-                <key id="0">
-                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
-                </key>
-                <key id="1" time="232">
-                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
-                </key>
-                <key id="2" time="308">
-                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
-                </key>
-                <key id="3" time="372">
-                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
-                </key>
-                <key id="4" time="450">
-                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
-                </key>
-                <key id="5" time="526">
-                    <object_ref id="0" timeline="0" key="5" z_index="0"/>
-                </key>
-                <key id="6" time="608">
-                    <object_ref id="0" timeline="0" key="6" z_index="0"/>
-                </key>
-                <key id="7" time="806">
-                    <object_ref id="0" timeline="0" key="7" z_index="0"/>
-                </key>
-                <key id="8" time="1000">
-                    <object_ref id="0" timeline="0" key="8" z_index="0"/>
-                </key>
-            </mainline>
-            <timeline id="0" name="helmet">
-                <key id="0" spin="0">
-                    <object folder="0" file="1" x="-1.360543" y="232.652829" angle="0"/>
-                </key>
-                <key id="1" time="232">
-                    <object folder="0" file="1" x="0.491308" y="110.430729" angle="0"/>
-                </key>
-                <key id="2" time="308" spin="-1">
-                    <object folder="0" file="1" x="-77.555465" y="83.745096" angle="42.098129"/>
-                </key>
-                <key id="3" time="372">
-                    <object folder="0" file="1" x="-74.761651" y="89.205045" angle="36.435562"/>
-                </key>
-                <key id="4" time="450" spin="-1">
-                    <object folder="0" file="1" x="-71.459871" y="95.657714" angle="45.409113"/>
-                </key>
-                <key id="5" time="526">
-                    <object folder="0" file="1" x="-67.904108" y="102.606741" angle="32.03854"/>
-                </key>
-                <key id="6" time="608" spin="-1">
-                    <object folder="0" file="1" x="-62.31648" y="113.526642" angle="46.703941"/>
-                </key>
-                <key id="7" time="806" spin="0">
-                    <object folder="0" file="1" x="-34.146624" y="82.388338" angle="39.30915"/>
-                </key>
-                <key id="8" time="1000" spin="-1">
-                    <object folder="0" file="1" x="-34.146624" y="82.388338" angle="39.30915"/>
-                </key>
-            </timeline>
-        </animation>
-        <animation id="2" name="dead" length="1000" interval="100">
-            <mainline>
-                <key id="0">
-                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
-                </key>
-            </mainline>
-            <timeline id="0" name="helmet">
-                <key id="0" spin="0">
-                    <object folder="0" file="1" x="-34.146624" y="82.388338" angle="39.30915"/>
-                </key>
-            </timeline>
-        </animation>
-        <animation id="3" name="walking" length="400" interval="100">
+        <animation id="2" name="walking" length="400" interval="100">
             <mainline>
                 <key id="0">
                     <bone_ref id="0" timeline="0" key="0"/>
@@ -559,7 +506,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="4" name="falling" length="400" interval="100">
+        <animation id="3" name="falling" length="400" interval="100">
             <mainline>
                 <key id="0">
                     <bone_ref id="0" timeline="0" key="0"/>
@@ -766,7 +713,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="5" name="jumping" length="1000" interval="100">
+        <animation id="4" name="jumping" length="1000" interval="100">
             <mainline>
                 <key id="0">
                     <bone_ref id="0" timeline="0" key="0"/>
@@ -904,7 +851,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="6" name="attacking" length="400" interval="100">
+        <animation id="5" name="attacking" length="400" interval="100">
             <mainline>
                 <key id="0">
                     <bone_ref id="0" timeline="0" key="0"/>

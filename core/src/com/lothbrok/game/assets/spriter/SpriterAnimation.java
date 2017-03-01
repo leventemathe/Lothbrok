@@ -37,6 +37,8 @@ public class SpriterAnimation {
     private Player playAlways;
     private PlayerTweener playerTweener;
 
+    private boolean enabled = true;
+
     private Map<Entity, Map<String, Player>> cachedPlayers;
     private PlayerTweener cachedPlayerTweener;
     private PlayerFinishedListener cachedPlayerFinishedListener;
@@ -208,8 +210,20 @@ public class SpriterAnimation {
         direction = Direction.RIGHT;
     }
 
+    public void enable() {
+        enabled = true;
+    }
+
+    public void disable() {
+        enabled = false;
+    }
+
     //Update & render
     public void update(float deltaTime) {
+        if(!enabled && playOnce == null && playerTweener == null) {
+            return;
+        }
+
         int framesToPlayPerSecond = 15 * 60;
         int speed = Math.round(framesToPlayPerSecond * deltaTime);
 
@@ -227,6 +241,10 @@ public class SpriterAnimation {
     }
 
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
+        if(!enabled && playOnce == null && playerTweener == null) {
+            return;
+        }
+
         spriteDrawer.setSpriteBatch(spriteBatch);
         spriteDrawer.setShapeRenderer(shapeRenderer);
 

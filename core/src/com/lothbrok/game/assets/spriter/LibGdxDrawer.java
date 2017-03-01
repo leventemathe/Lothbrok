@@ -67,6 +67,8 @@ public class LibGdxDrawer extends Drawer<Sprite> {
 		sprite.setOrigin(newPivotX, newPivotY);
 		sprite.setRotation(object.angle);
 
+        sprite.setAlpha(object.alpha);
+
 		sprite.draw(spriteBatch);;
 	}
 

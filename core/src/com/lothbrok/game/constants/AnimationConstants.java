@@ -18,7 +18,6 @@ public class AnimationConstants {
     public static final float PLAYER_ANIMATION_HEAD_DELTA = 0.2f;
     public static final String PLAYER_ANIMATION_IDLE = "idle";
     public static final String PLAYER_ANIMATION_DEATH = "death";
-    public static final String PLAYER_ANIMATION_DEAD = "dead";
     public static final String PLAYER_ANIMATION_WALKING = "walking";
     public static final String PLAYER_ANIMATION_JUMPING = "jumping";
     public static final String PLAYER_ANIMATION_FALLING = "falling";
