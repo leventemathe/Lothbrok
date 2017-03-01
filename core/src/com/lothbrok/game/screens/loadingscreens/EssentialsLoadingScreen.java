@@ -36,10 +36,18 @@ public class EssentialsLoadingScreen implements Screen {
 
     @Override
     public void show() {
-        setSize();
+        //setSize();
+        setSizeDebug();
         Resolution.instance.init(size);
         this.assets.init();
         assets.loadEssentials();
+    }
+
+    private void setSizeDebug() {
+        size = Size.S;
+        int width = 1280;
+        int height =  720;
+        Gdx.graphics.setWindowedMode(width, height);
     }
 
     private void setSize() {
