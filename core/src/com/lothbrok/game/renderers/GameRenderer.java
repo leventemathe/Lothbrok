@@ -231,10 +231,8 @@ public class GameRenderer implements Disposable {
         } else {
             if (actionState == Entity.ActionState.ATTACKING) {
                 animation.setPlayOnce(AnimationConstants.ENEMY_ANIMATION_ATTACKING);
-            } else if (movementState == Entity.MovementState.MOVING) {
-                animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_WALKING);
             } else {
-                animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_IDLE);
+                animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_WALKING);
             }
             if(direction == Entity.Direction.RIGHT) {
                 animation.faceRight();
