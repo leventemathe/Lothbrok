@@ -2,6 +2,7 @@ package com.lothbrok.game.renderers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -144,6 +145,15 @@ public class GameRenderer implements Disposable {
         renderPlayerAnimationWithoutUpdate(deltaTime);
     }
 
+    private void renderPlayerDebug(float deltaTime) {
+        spriteBatch.end();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.rect(player.position.x, player.position.y, 1.0f, 1.0f);
+        shapeRenderer.end();
+        spriteBatch.begin();
+    }
+
     private void renderPlayerAnimationWithoutUpdate(float deltaTime) {
         preparePlayerAnimation(deltaTime);
         playerAnimation.getAnimation().render(spriteBatch, shapeRenderer);
@@ -163,15 +173,13 @@ public class GameRenderer implements Disposable {
         Entity.Direction direction = player.direction;
 
         animation.setPosition(player.position.x, player.position.y);
-        //animation.setPosition(1, 2);
 
         if(actionState == Entity.ActionState.ATTACKING) {
             if(movementState == Entity.MovementState.STANDING) {
                 animation.setPlayOnce(AnimationConstants.PLAYER_ANIMATION_ATTACKING);
             }
             else if(movementState == Entity.MovementState.MOVING){
-                //playerAnimation.attackWhileMoving();
-                animation.setPlayOnce(AnimationConstants.PLAYER_ANIMATION_ATTACKING);
+                playerAnimation.attackWhileMoving();
             }
         } else if(actionState == Entity.ActionState.FALLING) {
             animation.setPlayAlways(AnimationConstants.PLAYER_ANIMATION_FALLING);

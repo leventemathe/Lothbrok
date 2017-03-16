@@ -1,8 +1,13 @@
 package com.lothbrok.game.assets.spriter;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.BufferUtils;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.brashmonkey.spriter.Animation;
 import com.brashmonkey.spriter.Box;
 import com.brashmonkey.spriter.Entity;
@@ -144,6 +149,9 @@ public class SpriterAnimation {
     }
 
     public void setPlayOnce(String animation) {
+        if(playOnce != null) {
+            //return;
+        }
         playOnce = cacheAndSetPlayer(animation);
         playOnce.removeListener(cachedPlayerFinishedListener);
         playOnce.addListener(cachedPlayerFinishedListener);
@@ -156,7 +164,9 @@ public class SpriterAnimation {
     public void setPlayerTweener(String doThis, String whileDoingThis, String baseBone) {
         setPlayOnce(doThis);
         Player doPlayer = playOnce;
-        Player whilePlayer = cacheAndSetPlayer(whileDoingThis);
+
+        setPlayAlways(whileDoingThis);
+        Player whilePlayer = playAlways;
 
         if(playerTweener == null) {
             playerTweener = cacheAndSetPlayerTweener();
@@ -231,9 +241,17 @@ public class SpriterAnimation {
             playerTweener.getFirstPlayer().speed = speed;
             playerTweener.getSecondPlayer().speed = speed;
             playerTweener.update();
+            if(playerTweener == null) {
+                playAlways.speed = speed;
+                playAlways.update();
+            }
         } else if(playOnce != null) {
             playOnce.speed = speed;
             playOnce.update();
+            if(playOnce == null) {
+                playAlways.speed = speed;
+                playAlways.update();
+            }
         } else if(playAlways != null) {
             playAlways.speed = speed;
             playAlways.update();
@@ -255,6 +273,17 @@ public class SpriterAnimation {
         } else if(playAlways != null) {
             spriteDrawer.draw(playAlways);
         }
+    }
+
+    private static int screenShotCounterDebug = 0;
+
+    public static void takeScreenShotDebug() {
+        byte[] pixels = ScreenUtils.getFrameBufferPixels(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
+
+        Pixmap pixmap = new Pixmap(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), Pixmap.Format.RGBA8888);
+        BufferUtils.copy(pixels, 0, pixmap.getPixels(), pixels.length);
+        PixmapIO.writePNG(Gdx.files.external("Desktop/lothbrookscreens/" + screenShotCounterDebug++ + ".png"), pixmap);
+        pixmap.dispose();
     }
 
     public Rectangle getBoundingBox(String object) {
@@ -351,6 +380,7 @@ public class SpriterAnimation {
         @Override
         public void animationFinished(Animation animation) {
             playerTweener = null;
+            playOnce = null;
         }
 
         @Override
