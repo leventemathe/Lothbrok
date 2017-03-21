@@ -9,7 +9,7 @@ public class WeaponBoxComponent extends AbstractComponent {
 
     public WeaponBoxComponent(Entity entity) {
         super(entity);
-        weaponBox = new Rectangle(entity.position.x, entity.position.y, 0f, 0f);
+        weaponBox = new Rectangle(entity.getPositionX(), entity.getPositionY(), 0f, 0f);
     }
 
     public Rectangle getWeaponBox() {

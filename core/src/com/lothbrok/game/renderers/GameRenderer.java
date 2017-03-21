@@ -149,7 +149,7 @@ public class GameRenderer implements Disposable {
         spriteBatch.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.RED);
-        shapeRenderer.rect(player.position.x, player.position.y, 1.0f, 1.0f);
+        shapeRenderer.rect(player.getPositionX(), player.getPositionY(), 1.0f, 1.0f);
         shapeRenderer.end();
         spriteBatch.begin();
     }
@@ -172,7 +172,7 @@ public class GameRenderer implements Disposable {
         Entity.LifeState lifeState = player.lifeState;
         Entity.Direction direction = player.direction;
 
-        animation.setPosition(player.position.x, player.position.y);
+        animation.setPosition(player.getPositionX(), player.getPositionY());
 
         if(actionState == Entity.ActionState.ATTACKING) {
             if(movementState == Entity.MovementState.STANDING) {
@@ -251,7 +251,7 @@ public class GameRenderer implements Disposable {
             }
         }
 
-        animation.setPosition(entry.key.position.x, entry.key.position.y);
+        animation.setPosition(entry.key.getPositionX(), entry.key.getPositionY());
     }
 
     private void renderLostTreasure() {

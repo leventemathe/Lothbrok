@@ -66,7 +66,7 @@ public class Enemy extends Entity {
             }
         }
 
-        distanceFromOrigin = position.x - origin;
+        distanceFromOrigin = getPositionX() - origin;
         if (distanceFromOrigin >= RADIUS) {
             direction = Direction.LEFT;
             movementComponent.resetAcceleration();
@@ -78,7 +78,7 @@ public class Enemy extends Entity {
 
     public void moveTo(Vector2 position, float deltaTime) {
         isActive = true;
-        float direction = position.x - this.position.x;
+        float direction = position.x - this.getPositionX();
         if(direction < 0f) {
             if(tiledCollisionComponent.doesLeftPlatformExist() && !tiledCollisionComponent.isLeftColliding()) {
                 movementComponent.moveTo(position, deltaTime);

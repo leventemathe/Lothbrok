@@ -24,9 +24,9 @@ public class TiledCollisionComponent extends AbstractComponent {
         this.map = (TiledMapTileLayer)map.getLayers().get(TiledConstants.LAYER_TILES);
         victoryRect = TiledUtils.toWorld(((RectangleMapObject)map.getLayers().get(TiledConstants.LAYER_COLLISION).getObjects().get(TiledConstants.OBJECT_VICTORY)).getRectangle());
         this.mapBorder = new Rectangle(0f, 0f, (int)map.getProperties().get("width"), (int)map.getProperties().get("height"));
-        this.bodyBox = new Rectangle(entity.position.x, entity.position.y, 0f, 0f);
-        this.footSensor = new Rectangle(entity.position.x, entity.position.y, 0f, 0f);
-        this.headSensor = new Rectangle(entity.position.x, entity.position.y, 0f, 0f);
+        this.bodyBox = new Rectangle(entity.getPositionX(), entity.getPositionY(), 0f, 0f);
+        this.footSensor = new Rectangle(entity.getPositionX(), entity.getPositionY(), 0f, 0f);
+        this.headSensor = new Rectangle(entity.getPositionX(), entity.getPositionY(), 0f, 0f);
     }
 
     public boolean isBottomColliding() {
@@ -144,7 +144,7 @@ public class TiledCollisionComponent extends AbstractComponent {
     }
 
     public boolean victoryReached() {
-        return victoryRect.contains(entity.position);
+        return victoryRect.contains(entity.getPosition());
     }
 
     public void updateBoundingBoxesPosition(float newX, float newY) {

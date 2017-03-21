@@ -103,17 +103,6 @@ public class GameModel {
             Rectangle weapon = anim.getWeaponBoundingBox();
             player.updateBoundingBoxes(body, foot, head, weapon);
         }
-        //updatePlayerBoundingBoxesDebug();
-    }
-
-    private void updatePlayerBoundingBoxesDebug() {
-        float width = 0.6f;
-        float height = 1.0f;
-        Rectangle body = new Rectangle(player.position.x - width / 2.0f, player.position.y - 0.1f, width, height);
-        Rectangle foot = new Rectangle(player.position.x + 0.1f - width / 2.0f, player.position.y - 0.2f, width - 0.2f, 0.2f);
-        Rectangle head = new Rectangle(player.position.x + 0.1f - width / 2.0f, player.position.y + height - 0.1f, width -0.2f, 0.2f);
-        Rectangle weapon = new Rectangle(player.position.x, player.position.y, 0.0f, 0.0f);
-        player.updateBoundingBoxes(body, foot, head, weapon);
     }
 
     private void updateEnemies(float deltaTime, ObjectMap<Enemy, EnemyAnimation> anims) {

@@ -18,12 +18,12 @@ public class EnemyController {
             enemy.move(deltaTime);
             return;
         }
-        float distance = Math.abs(enemy.position.x - player.position.x);
-        boolean isOnSameLevel = Math.round(player.position.y) == Math.round(enemy.position.y);
+        float distance = Math.abs(enemy.getPosition().x - player.getPosition().x);
+        boolean isOnSameLevel = Math.round(player.getPosition().y) == Math.round(enemy.getPosition().y);
         if(distance < enemy.ATTACK_RADIUS && isOnSameLevel && player.lifeState != Entity.LifeState.DEAD) {
             enemy.startAttacking();
         } else if(distance < enemy.RADIUS && isOnSameLevel && player.lifeState != Entity.LifeState.DEAD) {
-            enemy.moveTo(player.position, deltaTime);
+            enemy.moveTo(player.getPosition(), deltaTime);
         } else {
             enemy.move(deltaTime);
         }

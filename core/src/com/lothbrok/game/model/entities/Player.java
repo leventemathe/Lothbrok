@@ -51,8 +51,8 @@ public class Player extends Entity {
 
     // Update
     public void update(float deltaTime) {
-        prevPosition.x = position.x;
-        prevPosition.y = position.y;
+        setPrevPositionX(getPositionX());
+        setPrevPositionY(getPositionY());
         updateActionState(deltaTime);
         updateMovingState();
         updateHealth();
@@ -71,7 +71,7 @@ public class Player extends Entity {
         gravityComponent.applyGravity(deltaTime);
         if(tiledCollisionComponent.isBottomColliding() && actionState == ActionState.FALLING) {
             actionState = Entity.ActionState.STANDING;
-            position.y = prevPosition.y;
+            setPositionY(getPrevPositionY());
         }
     }
 
@@ -122,14 +122,14 @@ public class Player extends Entity {
     public void moveLeft(float deltaTime) {
         movementComponent.moveLeft(deltaTime);
         if(tiledCollisionComponent.isLeftColliding()) {
-            position.x = prevPosition.x;
+            setPositionX(getPrevPositionX());
         }
     }
 
     public void moveRight(float deltaTime) {
         movementComponent.moveRight(deltaTime);
         if(tiledCollisionComponent.isRightColliding()) {
-            position.x = prevPosition.x;
+            setPositionX(getPrevPositionX());
         }
     }
 
@@ -167,7 +167,7 @@ public class Player extends Entity {
     }
 
     public boolean isActuallyMoving() {
-        return position.x != prevPosition.x;
+        return getPositionX() != getPrevPositionX();
     }
 
     public boolean isVictoryAchieved() {

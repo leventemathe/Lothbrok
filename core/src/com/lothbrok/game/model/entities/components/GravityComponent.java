@@ -24,9 +24,9 @@ public class GravityComponent extends AbstractComponent {
             weight = baseWeight;
         }
         if(entity.actionState == Entity.ActionState.FALLING) {
-            float backupY = entity.position.y;
-            entity.prevPosition.y = backupY;
-            entity.position.y -= weight * deltaTime;
+            float backupY = entity.getPositionY();
+            entity.setPrevPositionY(backupY);
+            entity.setPositionY(entity.getPositionY() - weight * deltaTime);
         }
     }
 }

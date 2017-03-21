@@ -96,7 +96,7 @@ public class GameScreen extends AbstractScreen {
         gameRenderer = new GameRenderer(gameModel, spriteBatch, shapeRenderer, assets);
         hudRenderer = new HUDRenderer(spriteBatch, gameModel.getPlayer().getHealth(), gameModel.getPlayer().getTreasure(), assets);
         box2DDebugRenderer = new Box2DDebugRenderer();
-        gameRenderer.getExtendedCamera().snapTo(gameModel.getPlayer().position);
+        gameRenderer.getExtendedCamera().snapTo(gameModel.getPlayer().getPosition());
         pauseRenderer = new PauseRenderer(spriteBatch, shapeRenderer, pauseController, assets);
     }
 
@@ -191,8 +191,8 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void setPlayerAnimationPositionDebug() {
-        float x = gameModel.getPlayer().position.x;
-        float y = gameModel.getPlayer().position.y;
+        float x = gameModel.getPlayer().getPositionX();
+        float y = gameModel.getPlayer().getPositionY();
         gameRenderer.getPlayerAnimation().getAnimation().setPosition(x, y);
     }
 
@@ -264,11 +264,11 @@ public class GameScreen extends AbstractScreen {
         float offsetX = 0.7f;
 
         if(player.direction == Entity.Direction.RIGHT) {
-            targetPos.x = player.position.x + offsetX;
+            targetPos.x = player.getPositionX() + offsetX;
         } else if(player.direction == Entity.Direction.LEFT){
-            targetPos.x = player.position.x - offsetX;
+            targetPos.x = player.getPositionX() - offsetX;
         }
-        targetPos.y = player.position.y;
+        targetPos.y = player.getPositionY();
 
         camera.moveToX(targetPos.x, deltaTime);
         camera.snapToY(targetPos.y);

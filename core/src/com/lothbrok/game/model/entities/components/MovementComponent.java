@@ -20,27 +20,27 @@ public class MovementComponent extends AbstractComponent {
 
     public void moveLeft(float deltaTime) {
         accelerate();
-        float backupX = entity.position.x;
-        entity.prevPosition.x = backupX;
-        entity.position.x -= speed * deltaTime;
+        float backupX = entity.getPositionX();
+        entity.setPrevPositionX(backupX);
+        entity.setPositionX(entity.getPositionX() - speed * deltaTime);
         entity.movementState = Entity.MovementState.MOVING;
         entity.direction = Entity.Direction.LEFT;
     }
 
     public void moveRight(float deltaTime) {
         accelerate();
-        float backupX = entity.position.x;
-        entity.prevPosition.x = backupX;
-        entity.position.x += speed * deltaTime;
+        float backupX = entity.getPositionX();
+        entity.setPrevPositionX(backupX);
+        entity.setPositionX(entity.getPositionX() + speed * deltaTime);
         entity.movementState = Entity.MovementState.MOVING;
         entity.direction = Entity.Direction.RIGHT;
     }
 
     public void moveTo(Vector2 position, float deltaTime) {
         accelerate();
-        float distanceX = position.x - entity.position.x;
+        float distanceX = position.x - entity.getPositionX();
         float directionX = distanceX / Math.abs(distanceX);
-        entity.position.x += directionX * speed * deltaTime;
+        entity.setPositionX(entity.getPositionX() + directionX * speed * deltaTime);
         if(directionX < 0f) {
             if(entity.direction == Entity.Direction.RIGHT) {
                 resetAcceleration();

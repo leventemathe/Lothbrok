@@ -34,9 +34,9 @@ public class JumpingComponent extends AbstractComponent {
                 entity.actionState == Entity.ActionState.MIDJUMP) {
             if (jumpHeight < maxJumpHeight) {
                 decelerateJumping();
-                float backupY = entity.position.y;
-                entity.prevPosition.y = backupY;
-                entity.position.y += jumpSpeed * delta;
+                float backupY = entity.getPositionY();
+                entity.setPrevPositionY(backupY);
+                entity.setPositionY(entity.getPositionY() + jumpSpeed * delta);
                 jumpHeight += jumpSpeed * delta;
                 entity.actionState = Entity.ActionState.JUMPING;
             }
