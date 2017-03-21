@@ -71,7 +71,12 @@ public class Player extends Entity {
         gravityComponent.applyGravity(deltaTime);
         if(tiledCollisionComponent.isBottomColliding() && actionState == ActionState.FALLING) {
             actionState = Entity.ActionState.STANDING;
-            setPositionY(getPrevPositionY());
+            float delta = getPrevPositionY() - (float)Math.floor(getPrevPositionY());
+            if(delta > 0.01f && delta < 0.5f) {
+                setPositionY((float)Math.floor(getPrevPositionY()));
+            } else {
+                setPositionY(getPrevPositionY());
+            }
         }
     }
 
