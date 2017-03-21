@@ -190,6 +190,11 @@ public class GameScreen extends AbstractScreen {
         super.render(deltaTime);
     }
 
+    private void setPlayerAnimationPositionDebug() {
+        float x = gameModel.getPlayer().position.x;
+        float y = gameModel.getPlayer().position.y;
+        gameRenderer.getPlayerAnimation().getAnimation().setPosition(x, y);
+    }
 
 
     public void updateRegular(float deltaTime) {

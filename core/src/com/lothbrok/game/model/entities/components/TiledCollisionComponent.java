@@ -15,16 +15,16 @@ public class TiledCollisionComponent extends AbstractComponent {
     private Rectangle mapBorder;
     private Rectangle victoryRect;
 
-    private BodyBoxComponent bodyBoxComponent;
+    private Rectangle bodyBox;
     private Rectangle footSensor;
     private Rectangle headSensor;
 
-    public TiledCollisionComponent(Entity entity, TiledMap map, BodyBoxComponent bodyBoxComponent) {
+    public TiledCollisionComponent(Entity entity, TiledMap map) {
         super(entity);
         this.map = (TiledMapTileLayer)map.getLayers().get(TiledConstants.LAYER_TILES);
         victoryRect = TiledUtils.toWorld(((RectangleMapObject)map.getLayers().get(TiledConstants.LAYER_COLLISION).getObjects().get(TiledConstants.OBJECT_VICTORY)).getRectangle());
         this.mapBorder = new Rectangle(0f, 0f, (int)map.getProperties().get("width"), (int)map.getProperties().get("height"));
-        this.bodyBoxComponent = bodyBoxComponent;
+        this.bodyBox = new Rectangle(entity.position.x, entity.position.y, 0f, 0f);
         this.footSensor = new Rectangle(entity.position.x, entity.position.y, 0f, 0f);
         this.headSensor = new Rectangle(entity.position.x, entity.position.y, 0f, 0f);
     }
@@ -52,11 +52,11 @@ public class TiledCollisionComponent extends AbstractComponent {
     }
 
     public boolean isRightColliding() {
-        int x = (int)Math.floor(bodyBoxComponent.getBodyBox().x + bodyBoxComponent.getBodyBox().width);
-        int y1 = (int)Math.floor(bodyBoxComponent.getBodyBox().y);
-        int y2 = (int)Math.floor(bodyBoxComponent.getBodyBox().y + bodyBoxComponent.getBodyBox().height);
+        int x = (int)Math.floor(bodyBox.x + bodyBox.width);
+        int y1 = (int)Math.floor(bodyBox.y);
+        int y2 = (int)Math.floor(bodyBox.y + bodyBox.height);
 
-        if(bodyBoxComponent.getBodyBox().x + bodyBoxComponent.getBodyBox().width > mapBorder.width) {
+        if(bodyBox.x + bodyBox.width > mapBorder.width) {
             return true;
         }
 
@@ -67,11 +67,11 @@ public class TiledCollisionComponent extends AbstractComponent {
     }
 
     public boolean isLeftColliding() {
-        int x = (int)Math.floor(bodyBoxComponent.getBodyBox().x);
-        int y1 = (int)Math.floor(bodyBoxComponent.getBodyBox().y);
-        int y2 = (int)Math.floor(bodyBoxComponent.getBodyBox().y + bodyBoxComponent.getBodyBox().height);
+        int x = (int)Math.floor(bodyBox.x);
+        int y1 = (int)Math.floor(bodyBox.y);
+        int y2 = (int)Math.floor(bodyBox.y + bodyBox.height);
 
-        if(bodyBoxComponent.getBodyBox().x < mapBorder.x) {
+        if(bodyBox.x < mapBorder.x) {
             return true;
         }
 
@@ -108,15 +108,15 @@ public class TiledCollisionComponent extends AbstractComponent {
     }
 
     public boolean doesLeftPlatformExist() {
-        int x = (int)Math.floor(bodyBoxComponent.getBodyBox().x);
-        int y = (int)Math.floor(bodyBoxComponent.getBodyBox().y - 1f);
+        int x = (int)Math.floor(bodyBox.x);
+        int y = (int)Math.floor(bodyBox.y - 1f);
 
         return doesPlatformExist(x, y);
     }
 
     public boolean doesRightPlatformExist() {
-        int x = (int)Math.ceil(bodyBoxComponent.getBodyBox().x + bodyBoxComponent.getBodyBox().width - 1f);
-        int y = (int)Math.floor(bodyBoxComponent.getBodyBox().y - 1f);
+        int x = (int)Math.ceil(bodyBox.x + bodyBox.width - 1f);
+        int y = (int)Math.floor(bodyBox.y - 1f);
 
         return doesPlatformExist(x, y);
     }
@@ -140,7 +140,7 @@ public class TiledCollisionComponent extends AbstractComponent {
     }
 
     public boolean fallenOutOfMap() {
-        return bodyBoxComponent.getBodyBox().y + bodyBoxComponent.getBodyBox().height < mapBorder.y;
+        return bodyBox.y + bodyBox.height < mapBorder.y;
     }
 
     public boolean victoryReached() {
@@ -148,7 +148,11 @@ public class TiledCollisionComponent extends AbstractComponent {
     }
 
     public Rectangle getBodyBox() {
-        return bodyBoxComponent.getBodyBox();
+        return bodyBox;
+    }
+
+    public void setBodyBox(Rectangle bodyBox) {
+        this.bodyBox = bodyBox;
     }
 
     public Rectangle getFootSensor() {

@@ -5,7 +5,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.lothbrok.game.model.entities.components.AttackingComponent;
-import com.lothbrok.game.model.entities.components.BodyBoxComponent;
 import com.lothbrok.game.model.entities.components.GravityComponent;
 import com.lothbrok.game.model.entities.components.HealthComponent;
 import com.lothbrok.game.model.entities.components.JumpingComponent;
@@ -20,7 +19,6 @@ public class Player extends Entity {
     private GravityComponent gravityComponent;
     private MovementComponent movementComponent;
     private JumpingComponent jumpingComponent;
-    private BodyBoxComponent bodyBoxComponent;
     private WeaponBoxComponent weaponBoxComponent;
     private TiledCollisionComponent tiledCollisionComponent;
     private AttackingComponent<Enemy> attackingComponent;
@@ -42,9 +40,8 @@ public class Player extends Entity {
         gravityComponent = new GravityComponent(this, 1.008f, 3f, 0.8f);
         movementComponent = new MovementComponent(this, 1.01f, 2f, 1f);
         jumpingComponent = new JumpingComponent(this, 1.6f, 0.992f, 1.4f, 2.4f);
-        bodyBoxComponent = new BodyBoxComponent(this);
         weaponBoxComponent = new WeaponBoxComponent(this);
-        tiledCollisionComponent = new TiledCollisionComponent(this, (TiledMap)map, bodyBoxComponent);
+        tiledCollisionComponent = new TiledCollisionComponent(this, (TiledMap)map);
         attackingComponent = new AttackingComponent<>(this);
         healthComponent = new HealthComponent(this, 3);
         treasureComponent = new TreasureComponent(this, 100);
@@ -155,7 +152,7 @@ public class Player extends Entity {
     }
 
     public void updateBoundingBoxes(Rectangle body, Rectangle foot, Rectangle head, Rectangle weapon) {
-        bodyBoxComponent.setBodyBox(body);
+        tiledCollisionComponent.setBodyBox(body);
         tiledCollisionComponent.setFootSensor(foot);
         tiledCollisionComponent.setHeadSensor(head);
         weaponBoxComponent.setWeaponBox(weapon);
@@ -182,7 +179,7 @@ public class Player extends Entity {
     }
 
     public Rectangle getBodyBox() {
-        return bodyBoxComponent.getBodyBox();
+        return tiledCollisionComponent.getBodyBox();
     }
 
     public Rectangle getFootSensor() {

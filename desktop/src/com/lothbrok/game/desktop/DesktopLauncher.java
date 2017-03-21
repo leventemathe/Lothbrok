@@ -8,7 +8,8 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.resizable = false;
-        config.vSyncEnabled = true;
+        //config.vSyncEnabled = true;
+		config.foregroundFPS = 60;
 		new LwjglApplication(new Lothbrok(), config);
 	}
 }

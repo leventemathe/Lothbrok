@@ -107,9 +107,11 @@ public class GameModel {
     }
 
     private void updatePlayerBoundingBoxesDebug() {
-        Rectangle body = new Rectangle(player.position.x - 0.1f, player.position.y - 0.1f, 1.2f, 1.2f);
-        Rectangle foot = new Rectangle(player.position.x + 0.2f, player.position.y - 0.2f, 0.6f, 0.4f);
-        Rectangle head = new Rectangle(player.position.x + 0.2f, player.position.y + 1.0f - 0.2f, 0.6f, 0.4f);
+        float width = 0.6f;
+        float height = 1.0f;
+        Rectangle body = new Rectangle(player.position.x - width / 2.0f, player.position.y - 0.1f, width, height);
+        Rectangle foot = new Rectangle(player.position.x + 0.1f - width / 2.0f, player.position.y - 0.2f, width - 0.2f, 0.2f);
+        Rectangle head = new Rectangle(player.position.x + 0.1f - width / 2.0f, player.position.y + height - 0.1f, width -0.2f, 0.2f);
         Rectangle weapon = new Rectangle(player.position.x, player.position.y, 0.0f, 0.0f);
         player.updateBoundingBoxes(body, foot, head, weapon);
     }

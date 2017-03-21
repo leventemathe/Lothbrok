@@ -5,7 +5,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.lothbrok.game.model.entities.components.AttackingComponent;
-import com.lothbrok.game.model.entities.components.BodyBoxComponent;
 import com.lothbrok.game.model.entities.components.MovementComponent;
 import com.lothbrok.game.model.entities.components.TiledCollisionComponent;
 import com.lothbrok.game.model.entities.components.WeaponBoxComponent;
@@ -14,7 +13,6 @@ public class Enemy extends Entity {
 
     private static final String TAG = Enemy.class.getSimpleName();
     private MovementComponent movementComponent;
-    private BodyBoxComponent bodyBoxComponent;
     private WeaponBoxComponent weaponBoxComponent;
     private TiledCollisionComponent tiledCollisionComponent;
     private AttackingComponent<Player> attackingComponent;
@@ -37,9 +35,8 @@ public class Enemy extends Entity {
 
     private void setupComponents(Map map) {
         movementComponent = new MovementComponent(this, 1.01f, 2f, 1f);
-        bodyBoxComponent = new BodyBoxComponent(this);
         weaponBoxComponent = new WeaponBoxComponent(this);
-        tiledCollisionComponent = new TiledCollisionComponent(this, (TiledMap)map, bodyBoxComponent);
+        tiledCollisionComponent = new TiledCollisionComponent(this, (TiledMap)map);
         attackingComponent = new AttackingComponent<>(this);
     }
 
@@ -110,7 +107,7 @@ public class Enemy extends Entity {
     }
 
     public void updateBoundingBox(Rectangle body, Rectangle foot, Rectangle weapon) {
-        bodyBoxComponent.setBodyBox(body);
+        tiledCollisionComponent.setBodyBox(body);
         tiledCollisionComponent.setFootSensor(foot);
         weaponBoxComponent.setWeaponBox(weapon);
     }
@@ -124,7 +121,7 @@ public class Enemy extends Entity {
     }
 
     public Rectangle getBodyBox() {
-        return bodyBoxComponent.getBodyBox();
+        return tiledCollisionComponent.getBodyBox();
     }
 
     public boolean isActive() {
