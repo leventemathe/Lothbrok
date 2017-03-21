@@ -172,24 +172,24 @@ public class Player extends Entity {
 
     @Override
     public void setPosition(Vector2 position) {
-        super.setPosition(position);
         float deltaX = position.x - getPositionX();
         float deltaY = position.y - getPositionY();
         tiledCollisionComponent.updateBoundingBoxesPosition(deltaX, deltaY);
+        super.setPosition(position);
     }
 
     @Override
     public void setPositionX(float x) {
-        super.setPositionX(x);
         float deltaX = x - getPrevPositionX();
         tiledCollisionComponent.updateBoundingBoxesPosition(deltaX, 0.0f);
+        super.setPositionX(x);
     }
 
     @Override
     public void setPositionY(float y) {
-        super.setPositionY(y);
         float deltaY = y - getPositionY();
         tiledCollisionComponent.updateBoundingBoxesPosition(0.0f, deltaY);
+        super.setPositionY(y);
     }
 
     public boolean isVictoryAchieved() {
