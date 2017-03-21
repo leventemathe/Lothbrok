@@ -147,10 +147,10 @@ public class TiledCollisionComponent extends AbstractComponent {
         return victoryRect.contains(entity.getPosition());
     }
 
-    public void updateBoundingBoxesPosition(float newX, float newY) {
-        bodyBox.setPosition(newX, newY);
-        footSensor.setPosition(newX, newY);
-        headSensor.setPosition(newX, newY);
+    public void updateBoundingBoxesPosition(float deltaX, float deltaY) {
+        bodyBox.setPosition(bodyBox.getX() + deltaX, bodyBox.getY() + deltaY);
+        footSensor.setPosition(footSensor.getX() + deltaX, footSensor.getY() + deltaY);
+        headSensor.setPosition(headSensor.getX() + deltaX, headSensor.getY() + deltaY);
     }
 
     public Rectangle getBodyBox() {
