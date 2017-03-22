@@ -86,10 +86,16 @@ public class Enemy extends Entity {
         if(direction < 0f) {
             if(tiledCollisionComponent.doesLeftPlatformExist() && !tiledCollisionComponent.isLeftColliding()) {
                 movementComponent.moveTo(position, deltaTime);
+                if(getPositionX() == getPrevPositionX()) {
+                    movementState = MovementState.STANDING;
+                }
             }
         } else if(direction > 0f) {
             if(tiledCollisionComponent.doesRightPlatformExist() && !tiledCollisionComponent.isRightColliding()) {
                 movementComponent.moveTo(position, deltaTime);
+                if(getPositionX() == getPrevPositionX()) {
+                    movementState = MovementState.STANDING;
+                }
             }
         }
     }
