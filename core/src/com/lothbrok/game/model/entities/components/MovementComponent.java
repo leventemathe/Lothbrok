@@ -41,6 +41,7 @@ public class MovementComponent extends AbstractComponent {
         float distanceX = position.x - entity.getPositionX();
         float directionX = distanceX / Math.abs(distanceX);
         entity.setPositionX(entity.getPositionX() + directionX * speed * deltaTime);
+        entity.movementState = Entity.MovementState.MOVING;
         if(directionX < 0f) {
             if(entity.direction == Entity.Direction.RIGHT) {
                 resetAcceleration();

@@ -239,10 +239,13 @@ public class GameRenderer implements Disposable {
         } else if(lifeState == Entity.LifeState.DEAD) {
             animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_DEAD);
         } else {
-            if (actionState == Entity.ActionState.ATTACKING) {
+            if(actionState == Entity.ActionState.ATTACKING) {
                 animation.setPlayOnce(AnimationConstants.ENEMY_ANIMATION_ATTACKING);
-            } else {
+                animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_IDLE);
+            } else if(movementState == Entity.MovementState.MOVING){
                 animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_WALKING);
+            } else {
+                animation.setPlayAlways(AnimationConstants.ENEMY_ANIMATION_IDLE);
             }
             if(direction == Entity.Direction.RIGHT) {
                 animation.faceRight();

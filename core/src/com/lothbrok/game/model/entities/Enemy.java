@@ -42,7 +42,11 @@ public class Enemy extends Entity {
 
     public void update(float deltaTime) {
         attackTimer += deltaTime;
-        movementState = MovementState.STANDING;
+        if(movementState == MovementState.MOVING) {
+            movementState = Entity.MovementState.MIDMOVING;
+        } else {
+            movementState = Entity.MovementState.STANDING;
+        }
         if(lifeState == LifeState.DYING) {
             lifeState = LifeState.DEAD;
         }
