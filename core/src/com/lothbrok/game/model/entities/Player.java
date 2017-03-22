@@ -145,7 +145,7 @@ public class Player extends Entity {
     }
 
     public void startAttacking() {
-        if(actionState != ActionState.ATTACKING) {
+        if(actionState == ActionState.STANDING) {
             attackingComponent.startAttacking();
             treasureComponent.loseTreasure(1);
         }
