@@ -50,7 +50,6 @@ public class GameScreen extends AbstractScreen {
     //V
     protected GameRenderer gameRenderer;
     protected HUDRenderer hudRenderer;
-    //TODO polimorphism instead of if statements
     protected Box2DDebugRenderer box2DDebugRenderer;
     protected EndOfGameRenderer endOfGameRenderer;
     protected PauseRenderer pauseRenderer;

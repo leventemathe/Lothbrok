@@ -9,7 +9,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.resizable = false;
         //config.vSyncEnabled = true;
-		config.foregroundFPS = 60;
+		//config.foregroundFPS = 60;
 		new LwjglApplication(new Lothbrok(), config);
 	}
 }
