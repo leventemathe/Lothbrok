@@ -36,8 +36,8 @@ public class EssentialsLoadingScreen implements Screen {
 
     @Override
     public void show() {
-        setSize();
-        //setSizeDebug();
+        //setSize();
+        setSizeDebug();
         Resolution.instance.init(size);
         this.assets.init();
         assets.loadEssentials();

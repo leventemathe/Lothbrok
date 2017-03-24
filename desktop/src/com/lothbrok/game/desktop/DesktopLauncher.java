@@ -1,5 +1,6 @@
 package com.lothbrok.game.desktop;
 
+import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.lothbrok.game.Lothbrok;
@@ -10,6 +11,9 @@ public class DesktopLauncher {
 		config.resizable = false;
         //config.vSyncEnabled = true;
 		//config.foregroundFPS = 60;
+		config.addIcon("icon/icon_128.png", FileType.Internal);
+		config.addIcon("icon/icon_32.png", FileType.Internal);
+		config.addIcon("icon/icon_16.png", FileType.Internal);
 		new LwjglApplication(new Lothbrok(), config);
 	}
 }
