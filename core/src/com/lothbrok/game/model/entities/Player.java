@@ -37,9 +37,9 @@ public class Player extends Entity {
     }
 
     private void setupComponents(Map map) {
-        gravityComponent = new GravityComponent(this, 1.008f, 3f, 0.8f);
-        movementComponent = new MovementComponent(this, 1.01f, 2f, 1f);
-        jumpingComponent = new JumpingComponent(this, 1.6f, 0.992f, 1.4f, 2.4f);
+        gravityComponent = new GravityComponent(this, 1.008f, 4.2f, 2.2f);
+        movementComponent = new MovementComponent(this, 1.01f, 2.2f, 1.2f);
+        jumpingComponent = new JumpingComponent(this, 2.0f, 0.992f, 3.8f, 4.2f);
         weaponBoxComponent = new WeaponBoxComponent(this);
         tiledCollisionComponent = new TiledCollisionComponent(this, (TiledMap)map);
         attackingComponent = new AttackingComponent<>(this);

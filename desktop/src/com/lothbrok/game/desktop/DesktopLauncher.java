@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.resizable = false;
         config.vSyncEnabled = true;
+		config.foregroundFPS = 30;
 		config.addIcon("icon/icon_128.png", FileType.Internal);
 		config.addIcon("icon/icon_32.png", FileType.Internal);
 		config.addIcon("icon/icon_16.png", FileType.Internal);
