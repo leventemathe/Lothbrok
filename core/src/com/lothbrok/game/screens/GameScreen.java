@@ -259,18 +259,18 @@ public class GameScreen extends AbstractScreen {
         }
         ExtendedCamera camera = gameRenderer.getExtendedCamera();
 
-        Vector2 targetPos = new Vector2();
+        float x, y;
         float offsetX = 0.7f;
 
         if(player.direction == Entity.Direction.RIGHT) {
-            targetPos.x = player.getPositionX() + offsetX;
-        } else if(player.direction == Entity.Direction.LEFT){
-            targetPos.x = player.getPositionX() - offsetX;
+            x = player.getPositionX() + offsetX;
+        } else {
+            x = player.getPositionX() - offsetX;
         }
-        targetPos.y = player.getPositionY();
+        y = player.getPositionY();
 
-        camera.moveToX(targetPos.x, deltaTime);
-        camera.snapToY(targetPos.y);
+        camera.moveToX(x, deltaTime);
+        camera.snapToY(y);
     }
 
     protected void isGameFinished(float deltaTime) {

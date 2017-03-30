@@ -275,17 +275,6 @@ public class SpriterAnimation {
         }
     }
 
-    private static int screenShotCounterDebug = 0;
-
-    public static void takeScreenShotDebug() {
-        byte[] pixels = ScreenUtils.getFrameBufferPixels(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
-
-        Pixmap pixmap = new Pixmap(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), Pixmap.Format.RGBA8888);
-        BufferUtils.copy(pixels, 0, pixmap.getPixels(), pixels.length);
-        PixmapIO.writePNG(Gdx.files.external("Desktop/lothbrookscreens/" + screenShotCounterDebug++ + ".png"), pixmap);
-        pixmap.dispose();
-    }
-
     public Rectangle getBoundingBox(String object) {
         Rectangle rect = null;
         if(playerTweener != null) {
@@ -296,13 +285,16 @@ public class SpriterAnimation {
             rect = createBoundingRect(playAlways, object);
         }
         if(rect == null) {
-            return new Rectangle(0f, 0f, 0f, 0f);
+            cachedBoundingRect.set(0.0f, 0.0f, 0.0f, 0.0f);
+            return cachedBoundingRect;
         }
         return rect;
     }
 
     // Getting a Box or Spriter Rectangle from a Player references and recalculates the same box and rect
     // Have to get a math Rectangle before recalculation
+    private Rectangle cachedBoundingRect = new Rectangle();
+
     private Rectangle createBoundingRect(Player player, String object) {
         if(player == null || object == null) {
             return null;
@@ -315,10 +307,12 @@ public class SpriterAnimation {
         }
         Box box = player.getBox(obj);
         com.brashmonkey.spriter.Rectangle spriterRect = box.getBoundingRect();
-        return new Rectangle(spriterRect.left,
-                spriterRect.bottom,
-                spriterRect.right - spriterRect.left,
-                spriterRect.top -spriterRect.bottom);
+
+        cachedBoundingRect.x = spriterRect.left;
+        cachedBoundingRect.y = spriterRect.bottom;
+        cachedBoundingRect.width = spriterRect.right - spriterRect.left;
+        cachedBoundingRect.height = spriterRect.top -spriterRect.bottom;
+        return cachedBoundingRect;
     }
 
     public Player getPlayOnce() {

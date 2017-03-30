@@ -42,10 +42,12 @@ public class PlayerAnimation extends EntityAnimation {
                 AnimationConstants.PLAYER_ANIMATION_HEAD_DELTA);
     }
 
+    private Rectangle treasureRect = new Rectangle();
+
     public Vector2 getTreasurePosition() {
-        Rectangle rect = animation.getBoundingBox(AnimationConstants.PLAYER_ANIMATION_SPRITE_CHEST_TOP);
-        treasurePosition.x = rect.x + rect.width/2f;
-        treasurePosition.y = rect.y;
+        copyRect(treasureRect, AnimationConstants.PLAYER_ANIMATION_SPRITE_CHEST_TOP);
+        treasurePosition.x = treasureRect.x + treasureRect.width/2f;
+        treasurePosition.y = treasureRect.y;
         return treasurePosition;
     }
 
