@@ -30,6 +30,9 @@ public class Player extends Entity {
 
     private boolean victory = false;
 
+    private float speedWhileJumping;
+    private float speedWhileNotJumping;
+
     // Setup
     public Player(Vector2 position, Map map) {
         super(position);
@@ -37,9 +40,11 @@ public class Player extends Entity {
     }
 
     private void setupComponents(Map map) {
-        gravityComponent = new GravityComponent(this, 1.008f, 4.2f, 2.2f);
+        gravityComponent = new GravityComponent(this, 1.008f, 3.6f, 2.2f);
         movementComponent = new MovementComponent(this, 1.01f, 2.2f, 1.2f);
-        jumpingComponent = new JumpingComponent(this, 2.0f, 0.992f, 3.8f, 4.2f);
+        speedWhileJumping = movementComponent.getSpeed() * 1.8f;
+        speedWhileNotJumping = movementComponent.getSpeed();
+        jumpingComponent = new JumpingComponent(this, 2.0f, 0.992f, 3.4f, 3.8f);
         weaponBoxComponent = new WeaponBoxComponent(this);
         tiledCollisionComponent = new TiledCollisionComponent(this, (TiledMap)map);
         attackingComponent = new AttackingComponent<>(this);
@@ -126,15 +131,25 @@ public class Player extends Entity {
     // Control methods
     public void moveLeft(float deltaTime) {
         movementComponent.moveLeft(deltaTime);
+        speedWhileNotJumping = movementComponent.getSpeed();
         if(tiledCollisionComponent.isLeftColliding()) {
             setPositionX(getPrevPositionX());
+        } else if(actionState == ActionState.FALLING || actionState == ActionState.JUMPING || actionState == ActionState.MIDJUMP) {
+            movementComponent.setSpeed(speedWhileJumping);
+        } else {
+            movementComponent.setSpeed(speedWhileNotJumping);
         }
     }
 
     public void moveRight(float deltaTime) {
         movementComponent.moveRight(deltaTime);
+        speedWhileNotJumping = movementComponent.getSpeed();
         if(tiledCollisionComponent.isRightColliding()) {
             setPositionX(getPrevPositionX());
+        } else if(actionState == ActionState.FALLING || actionState == ActionState.JUMPING || actionState == ActionState.MIDJUMP) {
+            movementComponent.setSpeed(speedWhileJumping);
+        } else {
+            movementComponent.setSpeed(speedWhileNotJumping);
         }
     }
 

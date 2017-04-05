@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<map height="8" nextobjectid="258" orientation="orthogonal" renderorder="right-down" tileheight="360" tilewidth="360" version="1.0" width="32">
+<map height="8" nextobjectid="259" orientation="orthogonal" renderorder="right-down" tileheight="360" tilewidth="360" version="1.0" width="32">
  <properties>
   <property name="atlas" value="map.pack.atlas" />
  </properties>
@@ -148,11 +148,11 @@
   <object gid="11" height="470" id="244" width="261" x="11250" y="2520" />
   <object gid="11" height="324" id="245" width="180" x="8730" y="2520" />
   <object gid="11" height="470" id="246" width="261" x="9000" y="2520" />
-  <object gid="13" height="386" id="250" width="180" x="7276" y="1804" />
+  <object gid="13" height="386" id="250" width="180" x="6924" y="1809" />
  </objectgroup>
  <layer height="8" name="tiles" width="32">
   <data compression="zlib" encoding="base64">
-   eJzdUtEKABAQQwp/7dN5cLXWkXm0Wl1hO7cL4T/URQUR3s267zSZnkZe3GkVsUfUZKr/VHHyVnpIoi/O8hYvfWCWnJXibffVPHCOjWh6HptTYx54Pvets7bt4ADt2wQP
+   eJzNUkkKACEMUxG0v/bperAQQmcwngwEemjTJU3pXZTLur6pIEPdiseXJjPSqJus5fs0cUbUZKp7qvjrrcygeom3PMXNHOgl+6709nzVD7yjEV0vogUx+mFBPtJ/cALtZwOU
   </data>
  </layer>
  <objectgroup name="collision">
