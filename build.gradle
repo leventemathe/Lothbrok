@@ -6,8 +6,8 @@ buildscript {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'com.badlogicgames.gdx:gdx-tools:1.9.3'
+        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.badlogicgames.gdx:gdx-tools:1.9.6'
     }
 }
 
@@ -15,8 +15,7 @@ allprojects {
     version = '1.0'
     ext {
         appName = "Lothbrok"
-        gdxVersion = '1.9.4'
-        gdxVersion = '1.9.4'
+        gdxVersion = '1.9.6'
     }
 
     repositories {
