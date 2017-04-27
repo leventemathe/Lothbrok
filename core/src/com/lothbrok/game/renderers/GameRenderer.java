@@ -2,13 +2,11 @@ package com.lothbrok.game.renderers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -102,7 +100,6 @@ public class GameRenderer implements Disposable {
         renderLostTreasure();
         renderAnimation(deltaTime);
         spriteBatch.end();
-        renderPlayerRectangles();
     }
 
     public void renderWithoutUpdate(float deltaTime) {
@@ -115,7 +112,6 @@ public class GameRenderer implements Disposable {
         renderLostTreasure();
         renderAnimationWithoutUpdate(deltaTime);
         spriteBatch.end();
-        renderPlayerRectangles();
     }
 
     private void renderSky() {
@@ -143,15 +139,6 @@ public class GameRenderer implements Disposable {
     private void renderAnimationWithoutUpdate(float deltaTime) {
         renderEnemyAnimationsWithoutUpdate(deltaTime);
         renderPlayerAnimationWithoutUpdate(deltaTime);
-    }
-
-    private void renderPlayerDebug(float deltaTime) {
-        spriteBatch.end();
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.rect(player.getPositionX(), player.getPositionY(), 1.0f, 1.0f);
-        shapeRenderer.end();
-        spriteBatch.begin();
     }
 
     private void renderPlayerAnimationWithoutUpdate(float deltaTime) {
@@ -270,22 +257,6 @@ public class GameRenderer implements Disposable {
             float rotation = treasure.getBody().getAngle();
             spriteBatch.draw(texture, x, y, originX, originY, width, height, 1f, 1f, (float)Math.toDegrees(rotation));
         }
-    }
-
-    public void renderPlayerRectangles() {
-        if(player == null) {
-            return;
-        }
-        Rectangle body = player.getBodyBox();
-        Rectangle weapon = player.getWeaponBox();
-        Rectangle footSensor = player.getFootSensor();
-        Rectangle headSensor = player.getHeadSensor();
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.rect(body.x, body.y, body.width, body.height);
-        shapeRenderer.rect(weapon.x, weapon.y, weapon.width, weapon.height);
-        shapeRenderer.rect(footSensor.x, footSensor.y, footSensor.width, footSensor.height);
-        shapeRenderer.rect(headSensor.x, headSensor.y, headSensor.width, headSensor.height);
-        shapeRenderer.end();
     }
 
     public void resize(int width, int height) {

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.lothbrok.game.assets.Assets;
-import com.lothbrok.game.renderers.DebugRenderer;
 
 public abstract class AbstractScreen implements Screen {
 
@@ -15,8 +14,6 @@ public abstract class AbstractScreen implements Screen {
     protected SpriteBatch spriteBatch;
     protected ShapeRenderer shapeRenderer;
 
-    private DebugRenderer debugRenderer;
-
     public AbstractScreen(Assets assets) {
         this.assets = assets;
     }
@@ -25,17 +22,15 @@ public abstract class AbstractScreen implements Screen {
     public void show() {
         this.spriteBatch = new SpriteBatch();
         this.shapeRenderer = new ShapeRenderer();
-        debugRenderer = new DebugRenderer(spriteBatch, assets);
     }
 
     @Override
     public void render(float delta) {
-        debugRenderer.render(delta);
+
     }
 
     @Override
     public void resize(int width, int height) {
-        debugRenderer.resize(width, height);
 
     }
 

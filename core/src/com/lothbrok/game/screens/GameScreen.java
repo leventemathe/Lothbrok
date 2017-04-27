@@ -4,8 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.lothbrok.game.assets.Assets;
@@ -38,7 +36,6 @@ import java.util.Iterator;
 public class GameScreen extends AbstractScreen {
 
     public static final String TAG = GameScreen.class.getSimpleName();
-    public static boolean debugCamera = false;
 
     protected boolean isGameFinished = false;
     private float gameFinishedTimer = 0f;
@@ -50,7 +47,6 @@ public class GameScreen extends AbstractScreen {
     //V
     protected GameRenderer gameRenderer;
     protected HUDRenderer hudRenderer;
-    protected Box2DDebugRenderer box2DDebugRenderer;
     protected EndOfGameRenderer endOfGameRenderer;
     protected PauseRenderer pauseRenderer;
     protected Audio audio;
@@ -94,7 +90,6 @@ public class GameScreen extends AbstractScreen {
     protected void setUpRenderers() {
         gameRenderer = new GameRenderer(gameModel, spriteBatch, shapeRenderer, assets);
         hudRenderer = new HUDRenderer(spriteBatch, gameModel.getPlayer().getHealth(), gameModel.getPlayer().getTreasure(), assets);
-        box2DDebugRenderer = new Box2DDebugRenderer();
         gameRenderer.getExtendedCamera().snapTo(gameModel.getPlayer().getPosition());
         pauseRenderer = new PauseRenderer(spriteBatch, shapeRenderer, pauseController, assets);
     }
@@ -189,23 +184,13 @@ public class GameScreen extends AbstractScreen {
         super.render(deltaTime);
     }
 
-    private void setPlayerAnimationPositionDebug() {
-        float x = gameModel.getPlayer().getPositionX();
-        float y = gameModel.getPlayer().getPositionY();
-        gameRenderer.getPlayerAnimation().getAnimation().setPosition(x, y);
-    }
-
-
     public void updateRegular(float deltaTime) {
         gameModel.update(deltaTime, gameRenderer);
 
-        cameraController.control(deltaTime, gameRenderer.getExtendedCamera());
         playerController.control(deltaTime, gameModel.getPlayer());
         enemyController.control(deltaTime, gameModel.getEnemies(), gameModel.getPlayer());
 
-        if(!debugCamera) {
-            updateCamera(deltaTime);
-        }
+        updateCamera(deltaTime);
 
         updateTreasure(deltaTime);
 
@@ -295,7 +280,6 @@ public class GameScreen extends AbstractScreen {
     protected void renderRegular(float deltaTime) {
         gameRenderer.render(deltaTime);
         hudRenderer.render(deltaTime);
-        box2DDebugRenderer.render(gameModel.getWorld(), gameRenderer.getExtendedCamera().getCamera().combined);
         renderSound();
     }
 
@@ -334,7 +318,6 @@ public class GameScreen extends AbstractScreen {
     public void dispose() {
         gameRenderer.dispose();
         hudRenderer.dispose();
-        box2DDebugRenderer.dispose();
         pauseRenderer.dispose();
         if(endOfGameRenderer != null) {
             endOfGameRenderer.dispose();
