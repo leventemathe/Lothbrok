@@ -1,6 +1,5 @@
 package com.lothbrok.game.constants;
 
-//TODO implement FileHandleResolvers to remove folder names
 public class AssetsConstants {
 
     public static final String RALEWAY_LIGHT_FONT_PATH = "fonts/raleway_light.otf";

@@ -7,7 +7,6 @@ import com.brashmonkey.spriter.Player;
 import com.lothbrok.game.assets.spriter.SpriterAnimation;
 import com.lothbrok.game.model.entities.components.AttackingComponent;
 
-//TODO this should consist of components too
 public abstract class EntityAnimation {
 
     protected SpriterAnimation animation;
